@@ -1,0 +1,225 @@
+html, body {
+    background-color: #F2F2F2;
+    font-family: "Lucida Grande",Verdana;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0;
+}
+html body.ui-layout-container div.ui-layout-north div#banner.thumbnail {
+    text-align: center;
+}
+h4 {
+    color: #23A4FF;
+    font-size: 1.1em;
+    font-weight: normal;
+    text-decoration: none;
+}
+#container {
+    height: 600px;
+    margin: 0 auto;
+    position: relative;
+    width: 1000px;
+}
+#left-container, #right-container, #center-container {
+    height: 600px;
+    position: absolute;
+    top: 0;
+}
+#left-container, #right-container {
+    background-color: #FFFFFF;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #DDDDDD;
+    color: #686C70;
+    overflow: auto;
+    text-align: left;
+    width: 200px;
+}
+#left-container {
+    background-image: url("col2.png");
+    background-position: right center;
+    border-left: 1px solid #DDDDDD;
+    left: 0;
+}
+#right-container {
+    background-image: url("col1.png");
+    background-position: left center;
+    border-right: 1px solid #DDDDDD;
+    right: 0;
+}
+#right-container h4 {
+    text-indent: 8px;
+}
+#center-container {
+    background-color: #1A1A1A;
+    color: #CCCCCC;
+    left: 200px;
+    width: 600px;
+}
+.text {
+    margin: 7px;
+}
+#inner-details {
+    font-size: 0.8em;
+    list-style: none outside none;
+    margin: 7px;
+}
+#log {
+    height: auto !important;
+}
+#infovis {
+    height: auto;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    width: auto;
+}
+.tip {
+    background-color: white;
+    border: 1px solid #CCCCCC;
+    box-shadow: 2px 2px 8px #555555;
+    color: #111111;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    opacity: 0.9;
+    padding: 7px;
+    width: auto;
+}
+#tip-edge {
+    background-color: grey;
+    border: 1px solid #CCCCCC;
+    box-shadow: 2px 2px 8px #555555;
+    color: #111111;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    opacity: 0.9;
+    padding: 7px;
+    width: 139px;
+}
+.node {
+    font-size: 0.8em;
+    font-family: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+.network-degree sup {
+    font-weight: normal !important;
+    vertical-align: bottom !important;
+}
+.network-degree {
+    color: #3399CC;
+    font-size: 11px !important;
+    font-style: normal !important;
+    font-weight: bold !important;
+    line-height: 12px !important;
+    text-align: center !important;
+}
+html body.ui-layout-container div.ui-layout-east div#accordion.ui-accordion h3.ui-accordion-header {
+    font-size: 0.9em;
+    text-align: left;
+}
+#profileminimized {
+    display: none;
+}
+#profiletargetminimized {
+    display: none;
+}
+.imagemin {
+    width: 80px;
+}
+#picture {
+    float: left;
+    width: 40px;
+}
+span#headermin.header4 {
+    font-size: small !important;
+}
+#ulmin {
+    font-size: smaller;
+    text-align: left;
+}
+#profiletarget {
+}
+#profiletargettwice {
+    padding-top: 2em;
+}
+#logcontent {
+    padding-top: 0.5em;
+}
+.otherminimized {
+    padding-left: 70px;
+}
+#footer-south {
+    text-align: center;
+}
+#loader {
+    width: 100%;
+}
+.profile {
+    border: 1px dotted;
+}
+#profileTitle {
+    color: #3399CC;
+    font-size: 11px !important;
+    font-style: normal !important;
+    font-weight: bold !important;
+    line-height: 12px !important;
+    text-align: center !important;
+}
+.footerdiv {
+    margin: 5px;
+    min-width: 900px;
+}
+.smallfont {
+    font-size: xx-small;
+}
+
+.icon-activate {
+    background-image: url("../image/businessman_add.png") !important;
+}
+.icon-deactivate {
+    background-image: url("../image/businessman_delete.png") !important;
+}
+.icon-graphlayoutcustom {
+    background-image: url("../image/custom_rgraph.png") !important;
+}
+.icon-graphlayoutdefault {
+    background-image: url("../image/default_rgraph.png") !important;
+}
+span.icon-network, .icon-activate, .icon-deactivate, .icon-graphlayoutcustom, .icon-graphlayoutdefault {
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.titleradio {
+    font-size: small;
+}
+
+.transparent {
+	position: absolute;
+	padding-left: 90%;	
+	z-index: 3000;
+	font-size: 0.3em;
+}
+
+#sliderleveldistance {
+    margin-left: 5px;
+    margin-top: -5px;
+    position: relative;
+    z-index: 4;
+}
+
+.slider-zoom {
+	position: absolute;
+	z-index: 5000;	
+}
+
+.checkspan {
+	font-size: small;	
+	cursor: pointer;
+}
+
+#target-rp { border-left-width: 0px; }
+.target-separator { color: #cf3118; text-align: center; padding: 10px; font-weight: bold; }
+
+
+#target-common { font-size: .8em; }
+#target-common > ul { list-type-style: none; padding: 2px; margin: 0px; cursor: pointer; }
+
+#loadingprofile { padding: 1em; }

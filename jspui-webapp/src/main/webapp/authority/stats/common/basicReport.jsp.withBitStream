@@ -1,0 +1,251 @@
+<%@include file="../enclosures/jstlInclude.jsp"%>
+
+
+		Drill down div
+		<br>
+		<!-- Target div for drill down -->
+        <div id="drillDownDiv" style="width: 800px; height: 400px; margin: 1 auto;position:relative;top:0; left:0; font-size:50px; z-index:2;border-style:solid;border-width:5px;"></div>
+        <c:set var="itemId" scope="page">${data.id}</c:set>
+
+
+		<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['continent'].key1}</c:set>
+
+        <br>
+		<h1><fmt:message key="view.${data.jspKey}.page.title" /></h1>
+		<br><br>
+		<h2><fmt:message key="view.${data.jspKey}.${key1}.page.title" /></h2>
+		<br><br><br> 						
+        		<!-- CONTINENT GRAPH -->
+			
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['continent'].key1}</c:set>
+				<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['continent'].key2}</c:set>
+				<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['continent'].key3}</c:set>
+				
+				<c:set var="pieType" >continent</c:set>
+				<c:set var="targetDiv" scope="page">div_${data.jspKey}_${key1}_${key2}_${key3}_${objectName}</c:set>
+
+        		<table class="statsTable" border="1">
+	        		<tr>
+	    	    		<td>
+		    	    		<div id="${targetDiv}"></div>
+		    	    			<%@include file="modules/graph/pie/pie.jsp"%> 
+		        		</td>
+	    	    		<td>
+	    	    			    <%@include file="modules/graph/pie/table.jsp"%> 
+	        			</td>
+	        		</tr>
+	        		<tr><td colspan="2"><span><fmt:message key="view.${data.jspKey}.data.${key1}.${key2}.description" /></span></td></tr>
+				</table>
+			
+       			
+       			<br>
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['countryCode'].key1}</c:set>
+				<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['countryCode'].key2}</c:set>
+				<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['countryCode'].key3}</c:set>
+				
+				<c:set var="pieType" scope="page">country</c:set>
+				<c:set var="targetDiv" scope="page">div_${data.jspKey}_${key1}_${key2}_${key3}_${objectName}</c:set>				
+        		<table class="statsTable" border="1">
+	        		<tr>
+	    	    		<td>
+		    	    		<div id="${targetDiv}"></div>
+		    	    			<%@include file="modules/graph/pie/pie.jsp"%> 
+		        		</td>
+	    	    		<td>
+	    	    			    <%@include file="modules/graph/pie/table.jsp"%> 
+	        			</td>
+	
+	        		</tr>
+	        		<tr><td colspan="2"><span><fmt:message key="view.${data.jspKey}.data.${key1}.${key2}.description" /></span></td></tr>
+				</table>
+
+<br>
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['id'].key1}</c:set>
+				<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['id'].key2}</c:set>
+				<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['id'].key3}</c:set>
+				
+				<c:set var="pieType" scope="page">id</c:set>
+				<c:set var="targetDiv" scope="page">div_${data.jspKey}_${key1}_${key2}_${key3}_${objectName}</c:set>				
+        		<table class="statsTable" border="1">
+	        		<tr>
+	    	    		<td>
+		    	    		<div id="${targetDiv}"></div>
+		    	    			<%@include file="modules/graph/pie/pie.jsp"%> 
+		        		</td>
+	    	    		<td>
+	    	    			    <%@include file="modules/graph/pie/table.jsp"%> 
+	        			</td>
+	
+	        		</tr>
+	        		<tr><td colspan="2"><span><fmt:message key="view.${data.jspKey}.data.${key1}.${key2}.description" /></span></td></tr>
+				</table>
+						
+			
+				<br>
+				
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['city'].key1}</c:set>
+				<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['city'].key2}</c:set>
+				<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['geo']['city'].key3}</c:set>
+				
+				<c:set var="pieType" scope="page">city</c:set>
+				<c:set var="targetDiv" scope="page">div_${data.jspKey}_${key1}_${key2}_${key3}_${objectName}</c:set>
+        		<table class="statsTable" border="1">
+	        		<tr>
+	    	    		<td>
+		    	    		<div id="${targetDiv}"></div>
+		    	    			<%@include file="modules/graph/pie/pie.jsp"%> 
+		        		</td>
+	    	    		<td>
+	    	    			    <%@include file="modules/graph/pie/table.jsp"%> 
+	        			</td>        		
+	        		</tr>
+	        	<tr><td colspan="2"><span><fmt:message key="view.${data.jspKey}.data.${key1}.${key2}.description" /></span></td></tr>	
+				</table>
+			
+			
+			<table  width="80%">
+					<tr>						
+						<th><fmt:message key="view.${data.jspKey}.${key1}.data.label.title" /></th>
+					</tr>
+			
+				<tr>
+					<td>
+					
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['total'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['total'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['total'].key3}</c:set>
+						<%@include file="modules/table/singleValue.jsp"%>							
+
+						<br>			
+						
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['lastMonth'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['lastMonth'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['lastMonth'].key3}</c:set>						
+						<%@include file="modules/table/singleValue.jsp"%>	
+						
+						<br>
+									
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['lastYear'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['lastYear'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['lastYear'].key3}</c:set>
+						<%@include file="modules/table/singleValue.jsp"%>
+			
+						<br>	
+												
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['allMonths'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['allMonths'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['selectedObject']['time']['allMonths'].key3}</c:set>
+						<%@include file="modules/graph/monthsGraph.jsp"%>
+					</td>
+				</tr>	
+			</table>							
+
+
+<br><br><br><br>
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['continent'].key1}</c:set>
+				<fmt:message key="view.${data.jspKey}.${key1}.page.title" />
+       			<br><br><br>       			
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['continent'].key1}</c:set>
+				<c:set var="key2" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['continent'].key2}</c:set>
+				<c:set var="key3" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['continent'].key3}</c:set>
+				
+				<c:set var="pieType" >continent</c:set>
+				<c:set var="targetDiv" scope="page">div_${data.jspKey}_${key1}_${key2}_${key3}_${objectName}</c:set>
+				
+        		<table class="statsTable" border="1">
+	        		<tr>
+	    	    		<td>
+		    	    		<div id="${targetDiv}"></div>
+		    	    			<%@include file="modules/graph/pie/pie.jsp"%> 
+		        		</td>
+	    	    		<td>
+	    	    			    <%@include file="modules/graph/pie/table.jsp"%> 
+	        			</td>
+	        		</tr>
+	        		<tr><td colspan="2"><span><fmt:message key="view.${data.jspKey}.data.${key1}.${key2}.description" /></span></td></tr>
+				</table>
+				
+				<br>       			
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['countryCode'].key1}</c:set>
+				<c:set var="key2" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['countryCode'].key2}</c:set>
+				<c:set var="key3" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['countryCode'].key3}</c:set>
+				
+				<c:set var="pieType" >country</c:set>
+				<c:set var="targetDiv" scope="page">div_${data.jspKey}_${key1}_${key2}_${key3}_${objectName}</c:set>
+        		<table class="statsTable" border="1">
+	        		<tr>
+	    	    		<td>
+		    	    		<div id="${targetDiv}"></div>
+		    	    			<%@include file="modules/graph/pie/pie.jsp"%> 
+		        		</td>
+	    	    		<td>
+	    	    			    <%@include file="modules/graph/pie/table.jsp"%> 
+	        			</td>
+	        		</tr>
+	        		<tr><td colspan="2"><span><fmt:message key="view.${data.jspKey}.data.${key1}.${key2}.description" /></span></td></tr>
+				</table>
+							
+				<br>       			
+				<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['city'].key1}</c:set>
+				<c:set var="key2" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['city'].key2}</c:set>
+				<c:set var="key3" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['city'].key3}</c:set>
+
+				<c:set var="pieType" >city</c:set>
+				<c:set var="targetDiv" scope="page">div_${data.jspKey}_${key1}_${key2}_${key3}_${objectName}</c:set>
+        		<table class="statsTable" border="1">
+	        		<tr>
+	    	    		<td>
+		    	    		<div id="${targetDiv}"></div>
+		    	    			<%@include file="modules/graph/pie/pie.jsp"%> 
+		        		</td>
+	    	    		<td>
+	    	    			    <%@include file="modules/graph/pie/table.jsp"%> 
+	        			</td>
+	        		</tr>
+	        		<tr><td colspan="2"><span><fmt:message key="view.${data.jspKey}.data.${key1}.${key2}.description" /></span></td></tr>
+				</table>
+						
+
+			<table  width="80%">
+					<tr>
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['geo']['continent'].key1}</c:set>						
+						<th><fmt:message key="view.${data.jspKey}.${key1}.data.label.title" /></th>
+					</tr>
+			
+				<tr>
+					<td>
+					
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['time']['total'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['bitstream']['time']['total'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['bitstream']['time']['total'].key3}</c:set>
+						<%@include file="modules/table/singleValue.jsp"%>							
+
+						<br>			
+						
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['time']['lastMonth'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['bitstream']['time']['lastMonth'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['bitstream']['time']['lastMonth'].key3}</c:set>						
+						<%@include file="modules/table/singleValue.jsp"%>	
+						
+						<br>
+									
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['time']['lastYear'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['bitstream']['time']['lastYear'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['bitstream']['time']['lastYear'].key3}</c:set>
+						<%@include file="modules/table/singleValue.jsp"%>
+			
+						<br>	
+												
+						<c:set var="key1" scope="page">${data.resultBean.dataBeans['bitstream']['time']['allMonths'].key1}</c:set>
+						<c:set var="key2" scope="page">${data.resultBean.dataBeans['bitstream']['time']['allMonths'].key2}</c:set>
+						<c:set var="key3" scope="page">${data.resultBean.dataBeans['bitstream']['time']['allMonths'].key3}</c:set>
+						<%@include file="modules/graph/monthsGraph.jsp"%>
+					</td>
+				</tr>	
+			</table>
+
+<!--  
+VISUALLIZZAZIONE MESI ULTIMO ANNO FISCALE
+<BR>
+http://localhost:8983/solr/statistics/select/?q=type%3A2+id%3A25433&rows=20&facet=true&facet.date=time&facet.date.start=2008-07-01T00:00:00.000Z&facet.date.end=2009-06-31T00:00:00.000Z&facet.date.gap=%2B1MONTHS
+-->						

@@ -1,0 +1,77 @@
+/**
+ * <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+ * <html><head>
+ * <title>301 Moved Permanently</title>
+ * </head><body>
+ * <h1>Moved Permanently</h1>
+ * <p>The document has moved <a href="https://svn.duraspace.org/dspace/licenses/LICENSE_HEADER">here</a>.</p>
+ * </body></html>
+ */
+package it.cilea.hku.authority.webui.controller;
+
+import it.cilea.hku.authority.model.ResearcherPage;
+import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.dspace.app.webui.util.UIUtil;
+import org.dspace.authorize.AuthorizeManager;
+import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.ParameterizableViewController;
+
+/**
+ * Redirect the user to his "home page" on a role basis
+ * @author cilea
+ *
+ */
+public class MyRPController extends
+		ParameterizableViewController {
+    /**
+     * the applicationService for query the RP db, injected by Spring IoC
+     */   
+    private ApplicationService applicationService;
+    
+    public void setApplicationService(ApplicationService applicationService)
+    {
+        this.applicationService = applicationService;
+    }
+	
+	@Override
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+	    Context context = UIUtil.obtainContext(request);
+	    EPerson currUser = context.getCurrentUser();
+        if (currUser == null || currUser.getNetid() == null)
+        {
+            throw new ServletException("Wrong data or configuration: access to the my rp servlet without a valid user: there is no user logged in or the user's netid is null");
+        }
+        
+        if (AuthorizeManager.isAdmin(context))
+        {
+            response.sendRedirect(request.getContextPath()+ "/dspace-admin/");
+        }
+        else
+        {
+            String staffNo = currUser.getNetid();
+            ResearcherPage rp = applicationService.getResearcherPageByStaffNo(staffNo);
+            if (rp != null && rp.getStatus() != null && rp.getStatus().booleanValue())
+            {
+                response.sendRedirect(request.getContextPath() + "/rp/" + ResearcherPageUtils.getPersistentIdentifier(rp));
+            }
+            else
+            {
+                // the researcher page is not active so redirect the user to the
+                // HUB home page
+                response.sendRedirect(request.getContextPath() + "/");
+            }
+        }
+        // nothing to save so abort the context to release resources
+        context.abort();
+        return null;        
+	}
+}

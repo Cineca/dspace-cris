@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>jar</packaging>
+	<groupId>org.dspace</groupId>
+	<artifactId>dspace-cris-api</artifactId>
+	<version>1.8.2</version>
+	<name>Researcher Page :: API</name>
+	<parent>
+		<groupId>org.dspace</groupId>
+		<artifactId>dspace-cris</artifactId>
+		<version>1.8.2</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.dspace</groupId>
+			<artifactId>dspace-api</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>			
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>			
+			<version>3.4.0.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>displaytag</groupId>
+			<artifactId>displaytag</artifactId>
+			<version>1.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.lowagie</groupId>
+					<artifactId>itext</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl104-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>3.6.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search</artifactId>
+			<version>3.1.0.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<dependency>
+			<artifactId>spring-core</artifactId>
+			<groupId>org.springframework</groupId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+				<groupId>javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>3.4.GA</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>jdyna-core</groupId>
+			<artifactId>jdyna-core</artifactId>
+			<version>0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jdyna-date</groupId>
+			<artifactId>jdyna-date</artifactId>
+			<version>0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jdyna-web-api</groupId>
+			<artifactId>jdyna-web-api</artifactId>
+			<version>0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-cilea-genericdao</groupId>
+			<artifactId>commons-cilea-genericdao</artifactId>
+			<version>0.1</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- <plugin> <artifactId>maven-compiler-plugin</artifactId> <configuration> 
+				<source>1.6</source> <target>1.6</target> </configuration> </plugin> <plugin> 
+				<artifactId>maven-eclipse-plugin</artifactId> <version>2.5</version> </plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<classpathScope>test</classpathScope>
+					<longClasspath>true</longClasspath>
+					<executable>java</executable>
+					<arguments>
+						<argument>-Ddspace.configuration=E:/data/apphome/dspace/config/dspace.cfg</argument>
+						<argument>-Xdebug</argument>
+						<argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000</argument>
+						<argument>-classpath</argument>
+						<!-- automatically creates the classpath using all project dependencies, 
+							also adding the project build directory -->
+						<classpath />
+						<argument>org.dspace.app.launcher.ScriptLauncher</argument>
+						<argument>dsrun</argument>
+						<argument>it.cilea.pmc.script.RetrieveCitationInPMC</argument>
+						<argument>-x 10</argument>
+					</arguments>
+					<!-- <mainClass>org.dspace.app.launcher.ScriptLauncher</mainClass> <systemProperties> 
+						<systemProperty> <key>dspace.configuration</key> <value>E:/data/apphome/dspace/config/dspace.cfg</value> 
+						</systemProperty> </systemProperties> <arguments> <argument>dsrun</argument> 
+						<argument>it.cilea.pmc.script.RetrieveCitationInPMC</argument> </arguments> -->
+				</configuration>
+			</plugin>
+
+			<!--This plugin's configuration is used to store Eclipse m2e settings 
+				only. It has no influence on the Maven build itself. -->
+			<!-- <plugin> <groupId>org.eclipse.m2e</groupId> <artifactId>lifecycle-mapping</artifactId> 
+				<version>1.0.0</version> <configuration> <lifecycleMappingMetadata> <pluginExecutions> 
+				<pluginExecution> <pluginExecutionFilter> <groupId>org.codehaus.mojo</groupId> 
+				<artifactId>aspectj-maven-plugin</artifactId> <versionRange>[1.0,)</versionRange> 
+				<goals> <goal>test-compile</goal> <goal>compile</goal> </goals> </pluginExecutionFilter> 
+				<action> <execute /> </action> </pluginExecution> </pluginExecutions> </lifecycleMappingMetadata> 
+				</configuration> </plugin> -->
+			<plugin>
+
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<!-- To use this plugin set <phase> on process classes, after create 
+						an eclipse configuration with goal process-classes and run it - problem with 
+						update ddl (perhaps next version of hbtool fix it?) -->
+					<!-- with m2e 1.0 or newest you need to add process classes phase and 
+						to get in plugin at line 200 <groupId>org.eclipse.m2e</groupId> see http://stackoverflow.com/questions/7391201/maven-plugin-error-execution-not-covered-by-lifecycle-configuration?lq=1 -->
+					<!-- <execution> <id>create-tables-and-GEN-DDL</id> <goals> <goal>run</goal> 
+						</goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
+						inheritRefs="true"> <target name="create-tables-and-GEN-DDL" /> </ant> </tasks> 
+						</configuration> </execution> -->
+					<execution>
+						<id>generate-ddl</id>
+
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<ant antfile="${basedir}/src/main/resources/build.xml"
+									inheritRefs="true">
+									<target name="generate-ddl" />
+								</ant>
+							</tasks>
+						</configuration>
+					</execution>
+					<!-- <execution> <id>generate-drop-ddl</id> <phase>process-classes</phase> 
+						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
+						inheritRefs="true"> <target name="generate-drop-ddl" /> </ant> </tasks> </configuration> 
+						</execution> <execution> <id>generate-update-ddl</id> <phase>process-classes</phase> 
+						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
+						inheritRefs="true"> <target name="generate-update-ddl" /> </ant> </tasks> 
+						</configuration> </execution> <execution> <id>refresh-database</id> <phase>process-classes</phase> 
+						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
+						inheritRefs="true"> <target name="refresh-database" /> </ant> </tasks> </configuration> 
+						</execution> -->
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>8.1-404.jdbc3</version>
+					</dependency>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-core</artifactId>
+						<version>3.3.1.GA</version>
+					</dependency>
+
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-annotations</artifactId>
+						<version>3.4.0.GA</version>
+					</dependency>
+
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-tools</artifactId>
+						<version>3.2.3.GA</version>
+					</dependency>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-entitymanager</artifactId>
+						<version>3.3.1.ga</version>
+					</dependency>
+					<dependency>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+						<version>1.2.16</version>
+					</dependency>
+
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+						<version>1.6.1</version>
+					</dependency>
+
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-nop</artifactId>
+						<version>1.6.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>maven.dspace.org-snapshot</id>
+			<name>DSpace Maven Snapshot Repository</name>
+			<url>http://maven.dspace.org/snapshot</url>
+			<releases>
+				<enabled>false</enabled>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+</project>

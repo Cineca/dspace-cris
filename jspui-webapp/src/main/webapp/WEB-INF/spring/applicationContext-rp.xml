@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">	
+	<!-- Acquires the DSpace Utility Class with initialized Service Manager -->
+    <bean id="researcher" class="it.cilea.hku.authority.util.Researcher"/>
+    
+    <bean id="sessionFactory" factory-bean="researcher" factory-method="getSessionFactory" />
+    
+    <!-- Acquires reference to RP applicationService --> 
+    <bean id="applicationService" factory-bean="researcher" factory-method="getApplicationService" />
+      
+    <!-- Acquires reference to RP searchService --> 
+    <bean id="searchService" factory-bean="researcher" factory-method="getSearchService" />
+
+    <!-- Acquires reference to RG searchService --> 
+    <bean id="grantSearchService" factory-bean="researcher" factory-method="getGrantSearchService" />
+    
+    <!-- Acquires reference to Discovery searchService -->    
+    <bean id="discoverySearchService" factory-bean="researcher" factory-method="getDiscoverySearchService" />
+           
+    <bean id="statSubscribeService" factory-bean="researcher" factory-method="getStatSubscribeService" />
+	
+	<bean id="RPSubscribeService" class="it.cilea.hku.authority.service.RPSubscribeService">
+		<constructor-arg ref="applicationService" />
+	</bean>	
+	
+	<bean id="researcherTagLibraryService" class="it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions">
+		<property name="applicationService" ref="applicationService"/>
+	</bean>
+
+	<bean id="validatorService" class="it.cilea.hku.authority.webui.validator.ExtendedValidatorService">
+		<constructor-arg ref="applicationService" />
+	</bean>
+</beans>
