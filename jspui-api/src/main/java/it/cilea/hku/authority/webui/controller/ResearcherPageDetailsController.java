@@ -1,11 +1,12 @@
 /**
- * <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
- * <html><head>
- * <title>301 Moved Permanently</title>
- * </head><body>
- * <h1>Moved Permanently</h1>
- * <p>The document has moved <a href="https://svn.duraspace.org/dspace/licenses/LICENSE_HEADER">here</a>.</p>
- * </body></html>
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ * 
+ * http://www.dspace.org/license/
+ * 
+ * The document has moved 
+ * <a href="https://svn.duraspace.org/dspace/licenses/LICENSE_HEADER">here</a>
  */
 package it.cilea.hku.authority.webui.controller;
 
@@ -187,11 +188,12 @@ public class ResearcherPageDetailsController
                 model.put("pendingItems", new Long(pendingItems));
             }
         }
-
-        boolean subscribed = rpSubscribeService.isSubscribed(currUser,
-                researcher);
-        model.put("subscribed", subscribed);
-
+        if (rpSubscribeService != null)
+        {
+            boolean subscribed = rpSubscribeService.isSubscribed(currUser,
+                    researcher);
+            model.put("subscribed", subscribed);
+        }
         ModelAndView mvc = null;
         try
         {
@@ -222,10 +224,13 @@ public class ResearcherPageDetailsController
                             temp);
             pDInTab.addAll(temp);
             mapBoxToContainables.get(boxShortName).addAll(temp);
-            IRPComponent comp = components.get(boxShortName);
-            if (comp != null)
+            if (components != null)
             {
-                comp.evalute(request, response);
+                IRPComponent comp = components.get(boxShortName);
+                if (comp != null)
+                {
+                    comp.evalute(request, response);
+                }
             }
         }
 
@@ -241,8 +246,10 @@ public class ResearcherPageDetailsController
 
             for (BoxRPAdditionalFieldStorage box : tab.getMask())
             {
-
-                IRPComponent comp = components.get(box.getShortName());
+                IRPComponent comp = null;
+                if(components!=null) {
+                    comp = components.get(box.getShortName());
+                }                
                 if (comp != null)
                 {
                     List<String[]> compSubLinks = comp.sublinks(request,

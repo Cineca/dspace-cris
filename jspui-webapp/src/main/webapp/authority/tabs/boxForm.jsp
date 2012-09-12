@@ -12,6 +12,12 @@
 <%@page import="java.net.URL"%>
 <%@page import="it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant"%>
 
+<c:set var="dspace.layout.head" scope="request">
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>
+	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+</c:set>
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.researchers-list">
 	<table width="95%">
@@ -250,7 +256,7 @@
 		</c:forEach>
 		
 		<c:if test="${fn:length(allContainablesList) > count}"> 
-		<a class="show" id="show" href="#" onclick="Effect.toggle('othermetadata', 'appear'); return false;" title="Show other"><img alt="Show/Hide other fields" src="<%= request.getContextPath() %>/images/showotherfields.png"></a>
+		<a class="show" id="show" href="#" onclick="Effect.toggle('othermetadata', 'appear'); return false;" title="Show other"><img alt="Show/Hide other fields" src="<%= request.getContextPath() %>/images/cris/showotherfields.png"></a>
 		
 		<div id="othermetadata" style="display: none">
 		<c:forEach

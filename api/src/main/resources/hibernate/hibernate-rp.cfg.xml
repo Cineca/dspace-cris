@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+		
+		<!-- SEE HERE -> connection parameters in hibernate.properties -->
+		
+		<!--<property name="hbm2ddl.auto">create</property>-->		
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.default_batch_fetch_size">20</property>		
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.bytecode.use_reflection_optimizer">true</property>	
+		<property name="hibernate.generate_statistics">false</property>
+				
+		<!-- In alternativa al C3P0 -->
+		<property name="hibernate.connection.pool_size">30</property>	
+
+		<property name="hibernate.search.autoregister_listeners">false</property>
+
+		<!-- Added by Allen -->
+		<property name="hibernate.c3p0.idle_test_period">300</property>
+		<property name="connection.autoReconnect">true</property>
+		<property name="connection.autoReconnetForPools">true</property>
+		<property name="c3p0.timeout">100000</property>
+				
+		<mapping class="it.cilea.osd.common.core.TimeStampInfo" />
+		<mapping class="it.cilea.osd.common.core.SingleTimeStampInfo" />
+		
+		<mapping class="it.cilea.hku.authority.model.ResearcherPage" />
+		<mapping class="it.cilea.hku.authority.model.ResearcherGrant" />		
+		<mapping class="it.cilea.hku.authority.model.RestrictedField" />
+		<mapping class="it.cilea.hku.authority.model.RestrictedFieldFile" />
+		<mapping class="it.cilea.hku.authority.model.RestrictedFieldLocalOrRemoteFile" />
+		<mapping class="it.cilea.hku.authority.model.RPSubscription" />
+		
+		<mapping class="it.cilea.hku.authority.model.StatSubscription" />
+		
+		<mapping
+			class="it.cilea.hku.authority.model.UserWS" />
+		<mapping
+			class="it.cilea.hku.authority.model.ws.CriteriaWS" />
+		<!-- Dynamic field -->
+
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPProperty" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.GrantProperty" />
+		
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition" />
+			
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboRPAdditional" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboResearcherGrant" />
+		
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant" />
+		<!--<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField" />
+		-->
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition" />
+
+		<!-- JDynA mapping -->
+		<mapping class="it.cilea.osd.jdyna.model.Property" />
+		<mapping class="it.cilea.osd.jdyna.model.PropertiesDefinition" />
+		<mapping class="it.cilea.osd.jdyna.model.AValue" />
+		<mapping class="it.cilea.osd.jdyna.value.DateValue" />
+		<mapping class="it.cilea.osd.jdyna.value.TextValue" />
+		<mapping class="it.cilea.osd.jdyna.value.LinkValue" />
+		<mapping class="it.cilea.osd.jdyna.value.FileValue" />
+		<mapping class="it.cilea.osd.jdyna.value.MultiValue" />
+		<mapping class="it.cilea.osd.jdyna.model.AWidget" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetTesto" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetLink" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetDate" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetFile" />		
+		<mapping class="it.cilea.osd.jdyna.widget.Size" />		
+		<mapping class="it.cilea.osd.jdyna.web.Box" />
+		<mapping class="it.cilea.osd.jdyna.web.Tab" />
+		<mapping class="it.cilea.osd.jdyna.web.ADecoratorPropertiesDefinition" />
+		<mapping class="it.cilea.osd.jdyna.web.Containable" />
+
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP" />
+
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRG" />
+			
+			
+	</session-factory>
+
+</hibernate-configuration>
+

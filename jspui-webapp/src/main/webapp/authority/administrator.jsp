@@ -84,19 +84,6 @@
 			key="jsp.dspace-admin.hku.see-researchers" /></a></div>
 		<div>&nbsp;</div>
 		</li>
-		<li>
-		<div style="padding: 0; margin: 0 10px;"><a
-			href="<%=request.getContextPath()%>/rp/administrator/export.htm"><fmt:message
-			key="jsp.layout.navbar-hku.export.researcher" /></a></div>
-		<div>&nbsp;</div>
-		</li>
-	<%-- 
-		<li>
-		<div style="padding: 0; margin: 0 10px;"><a
-			href="<%=request.getContextPath()%>/rp/administrator/import.htm"><fmt:message
-			key="jsp.layout.navbar-hku.import.researcher" /></a></div>
-		<div>&nbsp;</div> 
-		</li>
-	--%>
+	
 	</ul>
 </dspace:layout>

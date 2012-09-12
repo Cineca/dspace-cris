@@ -1,11 +1,12 @@
 /**
- * <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
- * <html><head>
- * <title>301 Moved Permanently</title>
- * </head><body>
- * <h1>Moved Permanently</h1>
- * <p>The document has moved <a href="https://svn.duraspace.org/dspace/licenses/LICENSE_HEADER">here</a>.</p>
- * </body></html>
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ * 
+ * http://www.dspace.org/license/
+ * 
+ * The document has moved 
+ * <a href="https://svn.duraspace.org/dspace/licenses/LICENSE_HEADER">here</a>
  */
 package it.cilea.hku.authority.model;
 
@@ -47,10 +48,6 @@ import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Fields;
-import org.hibernate.search.annotations.Index;
 
 /**
  * This class models the HKU Researcher Page concept. Almost all the field of
@@ -132,8 +129,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     /** DB Primary key */
     @Id
     @GeneratedValue(generator = "RESEARCHERPAGE_SEQ")
-    @SequenceGenerator(name = "RESEARCHERPAGE_SEQ", sequenceName = "RESEARCHERPAGE_SEQ")
-    @DocumentId
+    @SequenceGenerator(name = "RESEARCHERPAGE_SEQ", sequenceName = "RESEARCHERPAGE_SEQ")    
     private Integer id;
     
     @Column(nullable = false, unique = true)
@@ -143,14 +139,11 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     private Boolean status;
 
     /** HKU internal unique identifier of the ResearcherPage, must be not null */
-    @Column(nullable = false, unique = true)
-    @Fields(value = { @Field(index = Index.TOKENIZED, name = "default") })
+    @Column(nullable = false, unique = true)    
     private String staffNo;
 
     /** the full name of the researcher, must be not null */
     @Column(nullable = false)
-    @Fields(value = { @Field(index = Index.TOKENIZED, name = "default"),
-            @Field(index = Index.TOKENIZED, name = "names") })
     private String fullName;
     
     @Transient

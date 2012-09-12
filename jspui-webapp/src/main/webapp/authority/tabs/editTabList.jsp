@@ -7,6 +7,12 @@
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 
+<c:set var="dspace.layout.head" scope="request">
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>
+	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+</c:set>
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.hku.jdyna-configuration.listedittabs">
 
@@ -53,7 +59,7 @@
 				key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
 				href="<%=request.getContextPath()%>/${specificPartPath}/administrator/editEditTabs.htm?id=${tab.id}">
 			<img
-				src="<%=request.getContextPath()%>/image//authority/jdynaeditbutton.jpg"
+				src="<%=request.getContextPath()%>/image/authority/jdynaeditbutton.jpg"
 				border="0"
 				alt="<fmt:message
 					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"

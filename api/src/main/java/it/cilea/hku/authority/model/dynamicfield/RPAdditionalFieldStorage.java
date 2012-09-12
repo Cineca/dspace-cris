@@ -1,17 +1,17 @@
 /**
- * <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
- * <html><head>
- * <title>301 Moved Permanently</title>
- * </head><body>
- * <h1>Moved Permanently</h1>
- * <p>The document has moved <a href="https://svn.duraspace.org/dspace/licenses/LICENSE_HEADER">here</a>.</p>
- * </body></html>
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ * 
+ * http://www.dspace.org/license/
+ * 
+ * The document has moved 
+ * <a href="https://svn.duraspace.org/dspace/licenses/LICENSE_HEADER">here</a>
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
 
 import it.cilea.osd.jdyna.model.AnagraficaObject;
-import it.cilea.osd.jdyna.search.AnagraficaBridge;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,20 +28,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Index;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
-import org.hibernate.search.annotations.ClassBridge;
-import org.hibernate.search.annotations.DocumentId;
-import org.hibernate.search.annotations.Indexed;
 
 @Entity
 @Table(name="model_rp_jdyna")
-@Indexed(index="rpadditional")
-@ClassBridge(impl=AnagraficaBridge.class)
 @NamedQueries( {
         @NamedQuery(name = "RPAdditionalFieldStorage.findAll", query = "from RPAdditionalFieldStorage order by id"),
         @NamedQuery(name = "RPAdditionalFieldStorage.paginate.id.asc", query = "from RPAdditionalFieldStorage order by id asc"),
@@ -59,7 +49,6 @@ public class RPAdditionalFieldStorage extends AnagraficaObject<RPProperty, RPPro
 	@Id
 	@GeneratedValue(generator = "RPDYNAADDITIONAL_SEQ")
 	@SequenceGenerator(name = "RPDYNAADDITIONAL_SEQ", sequenceName = "RPDYNAADDITIONAL_SEQ")
-	@DocumentId
 	private Integer id;
 	
 	

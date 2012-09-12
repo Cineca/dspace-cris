@@ -38,8 +38,8 @@
 
 <div id="${holder.shortName}" class="showMoreLessBox box">
 	<h2 class="showMoreLessControlElement control expanded">
-		<img src="<%=request.getContextPath() %>/images/btn_lite_expand.gif" class="hide" />
-		<img src="<%=request.getContextPath() %>/images/btn_lite_collapse.gif" />
+		<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif" class="hide" />
+		<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" />
 			<fmt:message key="jsp.layout.hku.detail.fieldset-legend.itemhub.${type}">
 				<fmt:param>${researcher.academicName.value}</fmt:param>
 			</fmt:message>

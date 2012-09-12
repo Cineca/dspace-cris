@@ -8,6 +8,12 @@
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 <%@page import="java.net.URL"%>
 
+<c:set var="dspace.layout.head" scope="request">
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>
+	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+</c:set>
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.additional-fields">
 
@@ -89,7 +95,7 @@
 				key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
 				href="<%=request.getContextPath()%>/${specificPartPath}/administrator/editBox.htm?id=${box.id}">
 			<img
-				src="<%=request.getContextPath()%>/image//authority/jdynaeditbutton.jpg"
+				src="<%=request.getContextPath()%>/image/authority/jdynaeditbutton.jpg"
 				border="0"
 				alt="<fmt:message
 					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
@@ -100,7 +106,7 @@
 			<c:if test="${hasCustomDisplayJSP eq true}">
 			
 			<img
-				src="<%=request.getContextPath()%>/image//authority/jdynahavecustomdisplayjsp.jpg"
+				src="<%=request.getContextPath()%>/image/authority/jdynahavecustomdisplayjsp.jpg"
 				border="0"
 				alt="<fmt:message
 					key="jsp.dspace-admin.hku.jdyna-configuration.havecustomdisplayjsp" />"
@@ -111,7 +117,7 @@
 			<c:if test="${hasCustomEditJSP eq true}">
 			
 			<img
-				src="<%=request.getContextPath()%>/image//authority/jdynahavecustomeditjsp.jpg"
+				src="<%=request.getContextPath()%>/image/authority/jdynahavecustomeditjsp.jpg"
 				border="0"
 				alt="<fmt:message
 					key="jsp.dspace-admin.hku.jdyna-configuration.havecustomeditjsp" />"

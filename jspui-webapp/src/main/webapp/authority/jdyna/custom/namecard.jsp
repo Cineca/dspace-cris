@@ -4,8 +4,8 @@
 
 <div id="${holder.shortName}" class="showMoreLessBox-dark box">
 		<h2 class="showMoreLessControlElement control ${holder.collapsed?"":"expanded"}">
-		<img src="<%=request.getContextPath() %>/images/btn_lite_expand.gif"  ${holder.collapsed?"":"class=\"hide\""}/>
-		<img src="<%=request.getContextPath() %>/images/btn_lite_collapse.gif" ${holder.collapsed?"class=\"hide\"":""} />
+		<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif"  ${holder.collapsed?"":"class=\"hide\""}/>
+		<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" ${holder.collapsed?"class=\"hide\"":""} />
 		${holder.title}</h2>
    		<div class="collapsable expanded-content" ${holder.collapsed?"style=\"display: none;\"":""}>
 

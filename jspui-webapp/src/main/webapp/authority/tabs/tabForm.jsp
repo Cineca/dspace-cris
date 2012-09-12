@@ -13,6 +13,12 @@
 <%@page import="it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant"%>
 
 
+<c:set var="dspace.layout.head" scope="request">
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>    
+	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+</c:set>
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.edit-tab">
 
