@@ -24,8 +24,8 @@ import it.cilea.hku.authority.service.RPSubscribeService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.components.IRPComponent;
 import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
+import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.web.Box;
-import it.cilea.osd.jdyna.web.IContainable;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.sql.SQLException;

@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 
 import it.cilea.osd.jdyna.controller.FormBoxController;
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
-import it.cilea.osd.jdyna.web.Containable;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 

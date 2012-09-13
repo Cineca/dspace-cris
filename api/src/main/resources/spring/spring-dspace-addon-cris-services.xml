@@ -65,7 +65,7 @@
 					<ref bean="rpDecoratorRestrictedFieldDao" />
 				</entry>
 				--><entry
-					key="it.cilea.osd.jdyna.web.Containable">
+					key="it.cilea.osd.jdyna.model.Containable">
 					<ref bean="containableDao" />
 				</entry>
 				<entry key="it.cilea.osd.jdyna.model.Property">
@@ -623,7 +623,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.osd.jdyna.web.Containable
+						it.cilea.osd.jdyna.model.Containable
 					</value>
 				</constructor-arg>
 			</bean>

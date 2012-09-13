@@ -10,9 +10,9 @@
  */
 package it.cilea.hku.authority.webui.comparator;
 
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
-import it.cilea.osd.jdyna.web.Containable;
 
 import java.util.Comparator;
 

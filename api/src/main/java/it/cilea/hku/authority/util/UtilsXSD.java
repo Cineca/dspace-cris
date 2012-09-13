@@ -14,11 +14,11 @@ import it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinit
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
+import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
-import it.cilea.osd.jdyna.web.ADecoratorPropertiesDefinition;
-import it.cilea.osd.jdyna.web.IContainable;
 import it.cilea.osd.jdyna.widget.WidgetCombo;
 import it.cilea.osd.jdyna.widget.WidgetDate;
 import it.cilea.osd.jdyna.widget.WidgetFile;

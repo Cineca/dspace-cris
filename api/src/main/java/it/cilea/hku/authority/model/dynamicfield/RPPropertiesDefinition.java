@@ -28,23 +28,11 @@ import javax.persistence.Transient;
     @NamedQuery(name = "RPPropertiesDefinition.findAdvancedSearch", query = "from RPPropertiesDefinition where advancedSearch=true"),
     @NamedQuery(name = "RPPropertiesDefinition.uniqueIdByShortName", query = "select id from RPPropertiesDefinition where shortName = ?"),
     @NamedQuery(name = "RPPropertiesDefinition.uniqueByShortName", query = "from RPPropertiesDefinition where shortName = ?"),
-    @NamedQuery(name = "RPPropertiesDefinition.findValoriDaMostrare", query = "from RPPropertiesDefinition where showInList = true and topLevel = true"),
-    @NamedQuery(name = "RPPropertiesDefinition.findAllWithWidgetCombo", query = "from RPPropertiesDefinition tipologiaProprietaOpera where tipologiaProprietaOpera.rendering in (from WidgetComboRPAdditional)"),
-//  @NamedQuery(name = "RPPropertiesDefinition.findAllWithWidgetFormula", query = "from RPPropertiesDefinition tipologiaProprietaOpera where tipologiaProprietaOpera.rendering in (from WidgetFormula)"),
-    @NamedQuery(name = "RPPropertiesDefinition.uniqueTipologiaProprietaCombo", query = "select tipologiaProprietaOpera from RPPropertiesDefinition tipologiaProprietaOpera left join tipologiaProprietaOpera.rendering rendering where rendering.id in (select widgetCombo.id from WidgetComboRPAdditional widgetCombo inner join widgetCombo.sottoTipologie m where m = ?)")
+    @NamedQuery(name = "RPPropertiesDefinition.findValoriDaMostrare", query = "from RPPropertiesDefinition where showInList = true and topLevel = true")
 })
 public class RPPropertiesDefinition extends PropertiesDefinition {
 	
 		
-	/**
-	 * Level access of metadata value {@see AccessLevelConstants}
-	 */
-	private Integer accessLevel;
-	
-	public RPPropertiesDefinition() {
-		this.accessLevel = AccessLevelConstants.ADMIN_ACCESS;
-	}
-	
 	@Transient
 	public Class<RPAdditionalFieldStorage> getAnagraficaHolderClass() {
 		return RPAdditionalFieldStorage.class;
@@ -58,14 +46,6 @@ public class RPPropertiesDefinition extends PropertiesDefinition {
 	@Override
 	public Class<DecoratorRPPropertiesDefinition> getDecoratorClass() {
 		return DecoratorRPPropertiesDefinition.class;
-	}
-
-	public void setAccessLevel(Integer accessLevel) {
-		this.accessLevel = accessLevel;
-	}
-
-	public Integer getAccessLevel() {
-		return accessLevel;
 	}
 
 }

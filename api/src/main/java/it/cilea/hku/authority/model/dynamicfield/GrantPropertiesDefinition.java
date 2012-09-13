@@ -11,6 +11,7 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.osd.jdyna.model.AccessLevelConstants;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 
 import javax.persistence.Entity;

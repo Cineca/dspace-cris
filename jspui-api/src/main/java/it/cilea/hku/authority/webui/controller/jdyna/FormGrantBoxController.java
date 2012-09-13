@@ -14,7 +14,7 @@ import it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant;
 import it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant;
 import it.cilea.hku.authority.service.ExtendedTabService;
-import it.cilea.osd.jdyna.web.IContainable;
+import it.cilea.osd.jdyna.model.IContainable;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -14,7 +14,7 @@ import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
 import it.cilea.hku.authority.service.ExtendedTabService;
-import it.cilea.osd.jdyna.web.IContainable;
+import it.cilea.osd.jdyna.model.IContainable;
 
 import java.util.LinkedList;
 import java.util.List;

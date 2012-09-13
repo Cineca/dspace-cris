@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import it.cilea.osd.jdyna.controller.TabsController;
-import it.cilea.osd.jdyna.web.Containable;
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 

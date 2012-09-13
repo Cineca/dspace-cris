@@ -11,7 +11,7 @@
 package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.osd.jdyna.controller.BoxsController;
-import it.cilea.osd.jdyna.web.Containable;
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 

@@ -13,10 +13,10 @@ package it.cilea.hku.authority.webui.controller.jdyna;
 import java.util.Map;
 
 import it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController;
+import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
-import it.cilea.osd.jdyna.web.ADecoratorPropertiesDefinition;
-import it.cilea.osd.jdyna.web.Containable;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 

@@ -10,10 +10,10 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
+import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.model.IPropertiesDefinition;
-import it.cilea.osd.jdyna.web.ADecoratorPropertiesDefinition;
-import it.cilea.osd.jdyna.web.IContainable;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

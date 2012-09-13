@@ -11,8 +11,8 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.hku.authority.model.IRestrictedField;
-import it.cilea.osd.jdyna.web.Containable;
-import it.cilea.osd.jdyna.web.IContainable;
+import it.cilea.osd.jdyna.model.Containable;
+import it.cilea.osd.jdyna.model.IContainable;
 
 import javax.persistence.Transient;
 

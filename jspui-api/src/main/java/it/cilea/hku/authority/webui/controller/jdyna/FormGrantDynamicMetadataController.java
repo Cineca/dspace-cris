@@ -23,8 +23,8 @@ import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.GrantAnagraficaObjectDTO;
 import it.cilea.osd.jdyna.dto.AnagraficaObjectAreaDTO;
 import it.cilea.osd.jdyna.model.AnagraficaObject;
+import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.util.AnagraficaUtils;
-import it.cilea.osd.jdyna.web.IContainable;
 
 import java.util.Collections;
 import java.util.HashMap;

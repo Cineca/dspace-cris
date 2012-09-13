@@ -13,8 +13,8 @@ package it.cilea.hku.authority.dao;
 import it.cilea.hku.authority.model.dynamicfield.AbstractEditTab;
 import it.cilea.hku.authority.model.dynamicfield.AbstractTab;
 import it.cilea.osd.jdyna.dao.TabDao;
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.web.Box;
-import it.cilea.osd.jdyna.web.Containable;
 
 
 

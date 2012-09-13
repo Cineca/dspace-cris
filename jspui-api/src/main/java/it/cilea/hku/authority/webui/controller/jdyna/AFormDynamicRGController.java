@@ -12,9 +12,9 @@ package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.model.ResearcherGrant;
 import it.cilea.osd.jdyna.model.AnagraficaObject;
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
-import it.cilea.osd.jdyna.web.Containable;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 import it.cilea.osd.jdyna.web.controller.FormAnagraficaController;

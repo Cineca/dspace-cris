@@ -20,7 +20,7 @@ import it.cilea.hku.authority.model.UserWS;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.common.controller.BaseAbstractController;
-import it.cilea.osd.jdyna.web.IContainable;
+import it.cilea.osd.jdyna.model.IContainable;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

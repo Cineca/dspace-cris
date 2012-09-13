@@ -18,7 +18,7 @@ import it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
-import it.cilea.osd.jdyna.web.IContainable;
+import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.sql.SQLException;

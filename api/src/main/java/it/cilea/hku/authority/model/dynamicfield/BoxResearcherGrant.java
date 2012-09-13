@@ -10,8 +10,8 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.web.Box;
-import it.cilea.osd.jdyna.web.Containable;
 
 import java.util.Collections;
 import java.util.LinkedList;
