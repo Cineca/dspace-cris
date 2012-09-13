@@ -19,8 +19,8 @@ import it.cilea.osd.jdyna.model.NestedPropertiesDefinition;
 @Entity
 @Table(name = "model_rp_jdyna_nestedobject_typo")
 @NamedQueries ({
-    @NamedQuery(name="TypeNestedObject.findAll", query = "from TypeNestedObject order by id" ),
-    @NamedQuery(name="TypeNestedObject.uniqueByNome", query = "from TypeNestedObject where nome = ?" )
+    @NamedQuery(name="RPTypeNestedObject.findAll", query = "from RPTypeNestedObject order by id" ),
+    @NamedQuery(name="RPTypeNestedObject.uniqueByNome", query = "from RPTypeNestedObject where nome = ?" )
 })
 public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefinition>
 {

@@ -12,9 +12,9 @@
 -->
 
 <project name="researcherpage" basedir="${basedir}">
-        <property name="hibernate_properties" value="/data/apphome/dspace/config/hibernate-rp.properties" />
-        <property name="hibernate_configuration" value="/data/apphome/dspace/config/hibernate-rp.cfg.xml" />
-        <property name="log4j_properties" value="/data/apphome/dspace/config/log4j.properties" />
+        <property name="hibernate_properties" value="${basedir}/src/main/resources/hibernate/hibernate-rp.properties" />
+        <property name="hibernate_configuration" value="${basedir}/src/main/resources/hibernate/hibernate-rp.cfg.xml" />
+        <property name="log4j_properties" value="E:/data/apphome/dspace/config/log4j.properties" />
         <property file="${hibernate_properties}" />
         <property file="${log4j_properties}" />
 
@@ -32,11 +32,8 @@
 
         <!-- Generate the schema for UPDATE all mapping files in our class tree -->
         <target name="generate-update-ddl" description="Generate UPDATE DDL from the O/R mapping files">        	
-                <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" />
-                <hibernatetool destdir="${basedir}">
-                        <classpath refid="maven.compile.classpath" />
-                        <annotationconfiguration configurationfile="${hibernate_configuration}" />
-                        <hbm2ddl export="false" console="true" drop="false" create="false" update="false" outputfilename="schema-update.ddl" delimiter=";" haltonerror="false"/>                    
+                <taskdef name="hibernatetool" classname="it.cilea.hku.authority.util.UpdateSchemaTool" classpath="${maven_compile_classpath}"/>
+                <hibernatetool properties="${hibernate_properties}"  config="${hibernate_configuration}" outputFile="${basedir}/schema-update.ddl" delimiter=";">                    
                 </hibernatetool>
         </target>
 	
