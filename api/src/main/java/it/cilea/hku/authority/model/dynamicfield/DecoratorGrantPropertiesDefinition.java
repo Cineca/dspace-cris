@@ -33,7 +33,6 @@ import org.hibernate.annotations.CascadeType;
 	@NamedQuery(name = "DecoratorGrantPropertiesDefinition.uniqueContainableByShortName", query = "from DecoratorGrantPropertiesDefinition where real.shortName = ?")
 	
 })
-@DiscriminatorValue(value="propertiesdefinitiongrant")
 public class DecoratorGrantPropertiesDefinition extends ADecoratorPropertiesDefinition<GrantPropertiesDefinition>  {
 	
 	@OneToOne(optional=true)

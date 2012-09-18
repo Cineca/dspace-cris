@@ -20,20 +20,26 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CacheModeType;
+
 @Entity
 @Table(name="model_jdyna_tab")
-@NamedQueries( {
-        @NamedQuery(name = "TabRPAdditionalFieldStorage.findAll", query = "from TabRPAdditionalFieldStorage order by priority asc"),
-        @NamedQuery(name = "TabRPAdditionalFieldStorage.findPropertyHolderInTab", query = "from BoxRPAdditionalFieldStorage box where box in (select m from TabRPAdditionalFieldStorage tab join tab.mask m where tab.id = ?) order by priority"),
-        @NamedQuery(name = "TabRPAdditionalFieldStorage.findTabsByHolder", query = "from TabRPAdditionalFieldStorage tab where :par0 in elements(tab.mask)"),
-        @NamedQuery(name = "TabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from TabRPAdditionalFieldStorage tab where shortName = ?"),
-		@NamedQuery(name = "TabRPAdditionalFieldStorage.findByAccessLevel", query = "from TabRPAdditionalFieldStorage tab where visibility = ? order by priority")
+@org.hibernate.annotations.NamedQueries( {
+        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findAll", query = "from TabRPAdditionalFieldStorage order by priority asc", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findPropertyHolderInTab", query = "from BoxRPAdditionalFieldStorage box where box in (select m from TabRPAdditionalFieldStorage tab join tab.mask m where tab.id = ?) order by priority", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findTabsByHolder", query = "from TabRPAdditionalFieldStorage tab where :par0 in elements(tab.mask)"),
+        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from TabRPAdditionalFieldStorage tab where shortName = ?"),
+		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAccessLevel", query = "from TabRPAdditionalFieldStorage tab where visibility = ? order by priority")
 })
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class TabRPAdditionalFieldStorage extends AbstractTab<BoxRPAdditionalFieldStorage> {
 
 	/** Showed holder in this tab */
 	@ManyToMany
-	@JoinTable(name = "model_jdyna_tab2box")	
+	@JoinTable(name = "model_jdyna_tab2box")
+	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxRPAdditionalFieldStorage> mask;
 
 	

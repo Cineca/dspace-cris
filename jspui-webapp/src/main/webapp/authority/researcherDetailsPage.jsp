@@ -32,6 +32,25 @@
 <c:set var="dspace.layout.head" scope="request">
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
     <link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript"><!--
+
+		var j = jQuery.noConflict();
+		j(document).ready(function()
+				{
+				  j(".control").click(function()
+				  {
+					  j(this).toggleClass("expanded");
+					  j(this).children("img").toggleClass("hide");
+				      j(this).next(".collapsable").slideToggle(300);
+				  });
+		<% 
+			if (showSubMsg) {%>alert('Email Alert Now On');<%}
+			if (showUnSubMsg) {%>alert('Email Alert Now Off');<%}
+		%>
+				});
+		-->
+	</script>
+    
 </c:set>
 
 <dspace:layout titlekey="jsp.researcher-page.details">
@@ -238,22 +257,4 @@
 </td>
 </tr>
 </table>
-<script type="text/javascript"><!--
-
-var j = jQuery.noConflict();
-j(document).ready(function()
-		{
-		  j(".control").click(function()
-		  {
-			  j(this).toggleClass("expanded");
-			  j(this).children("img").toggleClass("hide");
-		      j(this).next(".collapsable").slideToggle(300);
-		  });
-<% 
-	if (showSubMsg) {%>alert('Email Alert Now On');<%}
-	if (showUnSubMsg) {%>alert('Email Alert Now Off');<%}
-%>
-		});
--->
-</script>
 </dspace:layout>

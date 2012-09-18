@@ -30,6 +30,7 @@ import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -107,7 +108,9 @@ public class ResearcherPageDetailsController
     public ModelAndView handleRequest(HttpServletRequest request,
             HttpServletResponse response) throws Exception
     {
-    	log.debug("Start handleRequest");
+    	
+        System.out.println("start" + new Date());
+        log.debug("Start handleRequest");
         Map<String, Object> model = new HashMap<String, Object>();
 
         Integer objectId = extractResearcherId(request);
@@ -140,7 +143,9 @@ public class ResearcherPageDetailsController
         String tabName = extractTabName(request);
         if (tabName == null)
         {
+            System.out.println("PART 2: find tab with visibility " +new Date());
             tabName = findTabsWithVisibility(request).get(0).getShortName();
+            System.out.println("END PART 2 " +new Date());
         }
 
         model.put("researcher", researcher);
@@ -194,7 +199,10 @@ public class ResearcherPageDetailsController
                     researcher);
             model.put("subscribed", subscribed);
         }
+        System.out.println("END ADMIN " +new Date());
         ModelAndView mvc = null;
+        
+        
         try
         {
         	
@@ -212,6 +220,8 @@ public class ResearcherPageDetailsController
             return null;
         }
 
+        System.out.println("END super.handleDetail " + new Date());
+                
         List<IContainable> pDInTab = (List<IContainable>) mvc.getModel().get(
                 "propertiesDefinitionsInTab");
         Map<String, List<IContainable>> mapBoxToContainables = (Map<String, List<IContainable>>) mvc
@@ -279,6 +289,8 @@ public class ResearcherPageDetailsController
             navigation.put(tab.getShortName(), sublinks);
         }
         model.put("navigation", navigation);
+               
+        System.out.println("END navigation " + new Date());
         String openbox = extractAnchorId(request);
         for(Box box : (List<Box>)mvc.getModel().get("propertiesHolders")) {
             if(box.getShortName().equals(openbox)) {
@@ -288,6 +300,8 @@ public class ResearcherPageDetailsController
                 }
             }            
         }
+        
+        System.out.println("END box collapsed " + new Date());
         model.put("sublinktoexport", sublinkstoexport);
         model.put("exportscitations",
                 ConfigurationManager.getProperty("exportcitation.options"));
@@ -305,9 +319,12 @@ public class ResearcherPageDetailsController
                         ConfigurationManager
                                 .getBooleanProperty("statistics.item.authorization.admin"));
         mvc.getModel().putAll(model);
-
+        System.out.println("END edit tab" + new Date());
         log.debug("end servlet handleRequest");
+        
+        System.out.println("END TEST" + new Date());
         return mvc;
+        
     }
 
     @Override

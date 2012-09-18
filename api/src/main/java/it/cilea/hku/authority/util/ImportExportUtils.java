@@ -22,12 +22,15 @@ import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedProperty;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.osd.common.util.Utils;
 import it.cilea.osd.common.utils.XMLUtils;
 import it.cilea.osd.jdyna.dto.AnagraficaObjectDTO;
+import it.cilea.osd.jdyna.dto.AnagraficaObjectWithTypeDTO;
 import it.cilea.osd.jdyna.dto.ValoreDTO;
 import it.cilea.osd.jdyna.model.AnagraficaObject;
 import it.cilea.osd.jdyna.model.IContainable;
@@ -35,8 +38,6 @@ import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.util.AnagraficaUtils;
 import it.cilea.osd.jdyna.value.EmbeddedLinkValue;
-import it.cilea.osd.jdyna.value.MultiValue;
-import it.cilea.osd.jdyna.widget.WidgetCombo;
 import it.cilea.osd.jdyna.widget.WidgetDate;
 import it.cilea.osd.jdyna.widget.WidgetLink;
 import it.cilea.osd.jdyna.widget.WidgetTesto;
@@ -57,7 +58,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -456,17 +456,19 @@ public class ImportExportUtils
                         }
                     }
                 }
-
-                AnagraficaUtils.fillDTO(dto, researcher.getDynamicField(),
-                        realFillTPS);
+                
+                                 
+                AnagraficaUtils.fillDTO(dto, researcher.getDynamicField(), realFillTPS);
 
                 // one-shot fill and reverse to well-format clonedto and clean
                 // empty
-                // data
-                AnagraficaUtils.fillDTO(clonedto, clone.getDynamicField(),
-                        realFillTPS);
+                // data                
+                AnagraficaUtils.fillDTO(clonedto, clone.getDynamicField(), realFillTPS);
+
+                
                 AnagraficaUtils.reverseDTO(clonedto, clone.getDynamicField(),
                         realFillTPS);
+                
                 AnagraficaUtils.fillDTO(clonedto, clone.getDynamicField(),
                         realFillTPS);
                 importDynAXML(applicationService, realFillTPS, node, dto,
@@ -981,69 +983,7 @@ public class ImportExportUtils
                                 oldValues);
                     }
                 }
-            }
-            if (rpPD.getRendering() instanceof WidgetCombo)
-            {
-                if (rpPD.isRepeatable())
-                {
-                    // NodeList nodeslist = (NodeList) xpath.evaluate(
-                    // xpathExpression, node,
-                    // XPathConstants.NODESET);
-                    List<Element> nodeslist = XMLUtils.getElementList(node,
-                            shortName);
-
-                    for (int y = 0; y < nodeslist.size(); y++)
-                    {
-                        if (update == true && y == 0)
-                        {
-                            dto.getAnagraficaProperties().get(shortName)
-                                    .clear();
-                        }
-                        Element nodecombo = nodeslist.get(y);
-                        String control_value = nodecombo.getTextContent();
-                        if (control_value != null && !control_value.isEmpty())
-                        {
-                            workOnCombo(applicationService, nodecombo, rpPD,
-                                    values, oldValues);
-                        }
-                        // else {
-                        // if (update == true
-                        // && nodeslist.getLength() == 1) {
-                        // dto.getAnagraficaProperties()
-                        // .get(shortName).clear();
-                        // }
-                        // }
-
-                    }
-                }
-                else
-                {
-                    // Node nodecombo = (Node) xpath.evaluate(
-                    // xpathExpression, node, XPathConstants.NODE);
-                    Element nodecombo = XMLUtils.getSingleElement(node,
-                            shortName);
-                    String control_value = null;
-                    try
-                    {
-                        control_value = nodecombo.getTextContent();
-                    }
-                    catch (NullPointerException exc)
-                    {
-                        // nothing
-                    }
-                    if (control_value != null)
-                    {
-                        if (update == true)
-                        {
-                            dto.getAnagraficaProperties().get(shortName)
-                                    .clear();
-                        }
-                        workOnCombo(applicationService, nodecombo, rpPD,
-                                values, oldValues);
-
-                    }
-                }
-            }
+            }            
             if (rpPD.getRendering() instanceof WidgetDate)
             {
                 if (rpPD.isRepeatable())
@@ -1424,233 +1364,7 @@ public class ImportExportUtils
                 : VisibilityConstants.PUBLIC;
     }
 
-    private static <P extends Property<TP>, TP extends PropertiesDefinition> String workOnCombo(
-            ApplicationService applicationService, Element nodecombo, TP rpPD,
-            List<ValoreDTO> values, List<ValoreDTO> old)
-            throws XPathExpressionException
-    {
-
-        AnagraficaObjectDTO subOldDTO = new AnagraficaObjectDTO();
-        for (ValoreDTO o : old)
-        {
-            for (RPPropertiesDefinition rpd : ((WidgetCombo<RPProperty, RPPropertiesDefinition>) (rpPD
-                    .getRendering())).getSottoTipologie())
-            {
-                List<ValoreDTO> t = subOldDTO.getAnagraficaProperties().get(
-                        rpd.getShortName());
-                if (t != null && !t.isEmpty())
-                {
-                    t.addAll(((AnagraficaObjectDTO) o.getObject())
-                            .getAnagraficaProperties().get(rpd.getShortName()));
-                    subOldDTO.getAnagraficaProperties().put(rpd.getShortName(),
-                            t);
-                }
-                else
-                {
-                    subOldDTO.getAnagraficaProperties().put(
-                            rpd.getShortName(),
-                            ((AnagraficaObjectDTO) o.getObject())
-                                    .getAnagraficaProperties().get(
-                                            rpd.getShortName()));
-                }
-            }
-        }
-        if (nodecombo != null)
-        {
-            AnagraficaObjectDTO subDTO = new AnagraficaObjectDTO();
-
-            for (RPPropertiesDefinition rpd : ((WidgetCombo<RPProperty, RPPropertiesDefinition>) (rpPD
-                    .getRendering())).getSottoTipologie())
-            {
-                String xpathExpression = rpd.getShortName();
-                List<ValoreDTO> valuescombo = subDTO.getAnagraficaProperties()
-                        .get(xpathExpression);
-                List<ValoreDTO> valuesoldcombo = subOldDTO
-                        .getAnagraficaProperties().get(xpathExpression);
-
-                if (valuescombo == null)
-                {
-                    valuescombo = new LinkedList<ValoreDTO>();
-                    subDTO.getAnagraficaProperties().put(xpathExpression,
-                            valuescombo);
-                }
-
-                // if (rpPD.isRepeatable()) {
-
-                // NodeList nodeslist = (NodeList) xpath.evaluate(
-                // xpathExpression, nodecombo, XPathConstants.NODESET);
-                List<Element> nodeslist = XMLUtils.getElementList(nodecombo,
-                        rpd.getShortName());
-                for (int y = 0; y < nodeslist.size(); y++)
-                {
-                    Element nodelistelement = nodeslist.get(y);
-                    if (nodelistelement != null)
-                    {
-                        if (rpd.getRendering() instanceof WidgetTesto)
-                        {
-                            // if (rpd.isRepeatable()) {
-                            // // NodeList nodeslistelement = nodelistelement
-                            // // .getChildNodes();
-                            // List<Element> nodeslistelement =
-                            // for (int x = 0; x < nodeslistelement
-                            // .getLength(); x++) {
-                            // Element nodetext = nodeslistelement
-                            // .get(x);
-                            // workOnText(applicationService, xpath,
-                            // xpathExpression, nodetext, rpd,
-                            // valuescombo, valuesoldcombo);
-                            // }
-                            // } else {
-                            workOnText(applicationService, nodelistelement,
-                                    rpd, valuescombo, valuesoldcombo);
-                            // }
-
-                        }
-                        if (rpd.getRendering() instanceof WidgetDate)
-                        {
-                            // if (rpd.isRepeatable()) {
-                            // NodeList nodeslistelement = nodelistelement
-                            // .getChildNodes();
-                            // for (int x = 0; x < nodeslistelement
-                            // .getLength(); x++) {
-                            // Node nodeDate = nodeslistelement
-                            // .item(x);
-                            // workOnDate(applicationService, xpath,
-                            // xpathExpression,
-                            // nodelistelement, rpd,
-                            // valuescombo, valuesoldcombo,
-                            // nodeDate);
-                            // }
-                            // } else {
-
-                            workOnDate(applicationService, nodelistelement,
-                                    rpd, valuescombo, valuesoldcombo,
-                                    nodelistelement);
-                            // }
-                        }
-                        if (rpd.getRendering() instanceof WidgetLink)
-                        {
-
-                            // if (rpd.isRepeatable()) {
-                            // NodeList nodeslistelement = nodelistelement
-                            // .getChildNodes();
-                            // for (int x = 0; x < nodeslistelement
-                            // .getLength(); x++) {
-                            // Node nodeLink = nodeslistelement
-                            // .item(x);
-                            // workOnLink(applicationService, xpath,
-                            // nodelistelement, rpd,
-                            // valuescombo, valuesoldcombo,
-                            // nodeLink);
-                            // }
-                            // } else {
-
-                            workOnLink(applicationService, rpd, valuescombo,
-                                    valuesoldcombo, nodelistelement);
-                            // }
-                        }
-                    }
-
-                    // else {
-                    // List<ValoreDTO> combovalues = subDTO
-                    // .getAnagraficaProperties().get(
-                    // xpathExpression);
-                    // if (combovalues == null || combovalues.isEmpty()) {
-                    // combovalues = new LinkedList<ValoreDTO>();
-                    // }
-                    // subDTO.getAnagraficaProperties().put(
-                    // xpathExpression, combovalues);
-                    // }
-
-                }
-                // } else {
-                // Node nsubcombo = (Node) xpath.evaluate(xpathExpression,
-                // nodecombo, XPathConstants.NODE);
-                //
-                // if (nsubcombo != null) {
-                //
-                // if (rpd.getRendering() instanceof WidgetTesto) {
-                // if (rpd.isRepeatable()) {
-                // NodeList nodeslistelement = (NodeList) xpath
-                // .evaluate(xpathExpression, nsubcombo,
-                // XPathConstants.NODESET);
-                // for (int x = 0; x < nodeslistelement
-                // .getLength(); x++) {
-                // Node nodetext = nodeslistelement.item(x);
-                // workOnText(applicationService, xpath,
-                // xpathExpression, nodetext, rpd,
-                // valuescombo, valuesoldcombo);
-                // }
-                // } else {
-                // workOnText(applicationService, xpath,
-                // xpathExpression, nsubcombo, rpd,
-                // valuescombo, valuesoldcombo);
-                // }
-                //
-                // }
-                // if (rpd.getRendering() instanceof WidgetDate) {
-                // if (rpd.isRepeatable()) {
-                // NodeList nodeslistelement = (NodeList) xpath
-                // .evaluate(xpathExpression, nsubcombo,
-                // XPathConstants.NODESET);
-                // for (int x = 0; x < nodeslistelement
-                // .getLength(); x++) {
-                // Node nodeDate = nodeslistelement.item(x);
-                // workOnDate(applicationService, xpath,
-                // xpathExpression, nsubcombo, rpd,
-                // valuescombo, valuesoldcombo, nodeDate);
-                // }
-                // } else {
-                // Node nodeDate = (Node) xpath.evaluate(
-                // xpathExpression, nsubcombo,
-                // XPathConstants.NODE);
-                // workOnDate(applicationService, xpath,
-                // xpathExpression, nsubcombo, rpd,
-                // valuescombo, valuesoldcombo, nodeDate);
-                // }
-                // }
-                // if (rpd.getRendering() instanceof WidgetLink) {
-                //
-                // if (rpd.isRepeatable()) {
-                // NodeList nodeslistelement = (NodeList) xpath
-                // .evaluate(xpathExpression, nsubcombo,
-                // XPathConstants.NODESET);
-                // for (int x = 0; x < nodeslistelement
-                // .getLength(); x++) {
-                // Node nodeLink = nodeslistelement.item(x);
-                // workOnLink(applicationService, xpath,
-                // nsubcombo, rpd, valuescombo, valuesoldcombo,
-                // nodeLink);
-                // }
-                // } else {
-                // Node nodeLink = (Node) xpath.evaluate(
-                // xpathExpression, nsubcombo,
-                // XPathConstants.NODE);
-                //
-                // workOnLink(applicationService, xpath,
-                // nsubcombo, rpd, valuescombo, valuesoldcombo,
-                // nodeLink);
-                // }
-                // }
-                //
-                // }
-                // else {
-                // List<ValoreDTO> combovalues = subDTO
-                // .getAnagraficaProperties().get(xpathExpression);
-                // if (combovalues == null || combovalues.isEmpty()) {
-                // combovalues = new LinkedList<ValoreDTO>();
-                // }
-                // subDTO.getAnagraficaProperties().put(xpathExpression,
-                // combovalues);
-                // }
-                // }
-            }
-            values.add(new ValoreDTO(subDTO));
-            log.debug("Write complex field: " + rpPD.getShortName());
-        }
-        return rpPD.getShortName();
-    }
-
+   
     /**
      * Export xml, it don't close or flush writer, format with
      * {@link XMLOutputter}, use use jdom for it.
@@ -1749,24 +1463,22 @@ public class ImportExportUtils
                 + status + "/" + active + "/" + newly);
         for (ResearcherPage rp : rps)
         {
-            List<RPProperty> rpProperties = rp.getDynamicField()
-                    .getAnagrafica4view().get(UtilsXML.GRANT_TAG_PROJECTS);
+            Integer dynaId = rp.getDynamicField().getId();
+            RPNestedObject nestedObject = applicationService.<RPNestedObject,RPNestedProperty,RPNestedPropertiesDefinition>getNestedObjectByParentIDAndShortnameTypo(dynaId, UtilsXML.GRANT_TAG_PROJECTS, RPNestedObject.class);
+   
 
-            if (rpProperties != null && !rpProperties.isEmpty())
+            if (nestedObject != null)
             {
-                for (RPProperty rpp : rpProperties)
-                {
-                    MultiValue mvrp = (MultiValue) (rpp.getValue());
-                    Map<String, ValoreDTO> map = AnagraficaUtils
-                            .getFirstSingleValue(
-                                    mvrp,
-                                    new String[] { UtilsXML.GRANT_TAG_PROJECTSCODE });
-                    String projectcode = (String) map.get(
-                            UtilsXML.GRANT_TAG_PROJECTSCODE).getObject();
-
+                List<RPNestedProperty> rpProperties = nestedObject.getAnagrafica4view().get(UtilsXML.GRANT_TAG_PROJECTS);
+                for (RPNestedProperty rpp : rpProperties)
+                {                    
+                 
+                    String projectcode = (String)(rpp.getValue().getObject());
+                     
                     ResearcherGrant rg = null;
                     // use dto to fill dynamic metadata
                     AnagraficaObjectDTO dtoRG = new AnagraficaObjectDTO();
+                    AnagraficaObjectWithTypeDTO dtoNested = new AnagraficaObjectWithTypeDTO();
                     if (projectcode != null && !projectcode.isEmpty())
                     {
                         rg = applicationService
@@ -1803,17 +1515,17 @@ public class ImportExportUtils
                         editImported++;
                     }
 
-                    List<RPPropertiesDefinition> subTps = ((WidgetCombo<RPProperty, RPPropertiesDefinition>) (rpp
-                            .getTypo().getRendering())).getSottoTipologie();
+                    List<RPNestedPropertiesDefinition> subTps = applicationService.findTipologieProprietaAssegnabili(nestedObject);
+                    AnagraficaUtils.fillDTO(dtoNested, nestedObject, subTps);
+                    
                     List<GrantPropertiesDefinition> rgTps = applicationService
                             .getListTipologieProprietaFirstLevel(GrantPropertiesDefinition.class);
 
-                    for (String key : mvrp.getObject()
-                            .getAnagraficaProperties().keySet())
+                    for (String key : dtoNested.getAnagraficaProperties().keySet())
                     {
                         dtoRG.getAnagraficaProperties().put(
                                 key,
-                                mvrp.getObject().getAnagraficaProperties()
+                                dtoNested.getAnagraficaProperties()
                                         .get(key));
                     }
 

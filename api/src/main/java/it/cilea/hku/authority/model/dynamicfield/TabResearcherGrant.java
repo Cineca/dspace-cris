@@ -20,6 +20,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name="model_jdyna_tab_grant")
 @NamedQueries( {
@@ -34,6 +37,7 @@ public class TabResearcherGrant extends AbstractTab<BoxResearcherGrant> {
 	/** Showed holder in this tab */
 	@ManyToMany
 	@JoinTable(name = "model_jdyna_tabgrant2boxgrant")	
+	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxResearcherGrant> mask;
 
 	

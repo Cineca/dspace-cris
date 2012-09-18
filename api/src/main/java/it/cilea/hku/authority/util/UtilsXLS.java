@@ -21,7 +21,6 @@ import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.osd.jdyna.model.AWidget;
-import it.cilea.osd.jdyna.widget.WidgetCombo;
 
 import java.beans.PropertyEditor;
 import java.io.IOException;
@@ -61,53 +60,14 @@ public class UtilsXLS {
 			int y, int i, RPPropertiesDefinition real, AWidget rendering,
 			ResearcherPage researcher, WritableSheet sheet) throws IOException,
 			RowsExceededException, WriteException {
-		if (rendering instanceof WidgetCombo) {
-			return createElement(applicationService, y, i, real,
-					(WidgetCombo) rendering, researcher, sheet);
-		} else {
+		
 			return createSimpleElement(applicationService, y, i,
 					real.getShortName(), researcher.getDynamicField()
 							.getProprietaDellaTipologia(real), sheet);
-		}
-	}
-
-	private static int createElement(ApplicationService applicationService,
-			int y, int i, RPPropertiesDefinition tp,
-			WidgetCombo<RPProperty, RPPropertiesDefinition> rendering,
-			ResearcherPage rp, WritableSheet sheet) throws RowsExceededException, WriteException {
 		
-		String field_value = "";
-		String field_visibility = "";
-		boolean first = true;
-		for (RPProperty rr : rp.getDynamicField().getProprietaDellaTipologia(tp)) {
-
-			if (!first) {
-				field_value += STOPFIELDS_EXCEL;
-			}
-			field_value += rendering.toString(rr.getObject());
-			if (!first) {
-				field_visibility += STOPFIELDS_EXCEL;
-			}
-			field_visibility += VisibilityConstants.getDescription(rr
-					.getVisibility());
-			first = false;
-		}
-
-		y = y + 1;
-		Label label_v = new Label(y, i, field_value);
-		sheet.addCell(label_v);
-		Label labelCaption = new Label(y, 0, tp.getShortName());
-		sheet.addCell(labelCaption);
-		y = y + 1;
-		Label label_vv = new Label(y, i, field_visibility);
-		sheet.addCell(label_vv);
-		labelCaption = new Label(y, 0, tp.getShortName()
-				+ ImportExportUtils.LABELCAPTION_VISIBILITY_SUFFIX);
-		sheet.addCell(labelCaption);
-
-		return y;
 	}
 
+	
 	private static int createSimpleElement(
 			ApplicationService applicationService, int y, int i,
 			String shortName, List<RPProperty> proprietaDellaTipologia,

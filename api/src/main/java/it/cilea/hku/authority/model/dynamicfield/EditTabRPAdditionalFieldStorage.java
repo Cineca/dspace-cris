@@ -10,8 +10,6 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
-import it.cilea.osd.jdyna.web.Tab;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +21,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name = "model_jdyna_edittab")
 @NamedQueries({
@@ -33,12 +34,14 @@ import javax.persistence.Table;
 		@NamedQuery(name = "EditTabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from EditTabRPAdditionalFieldStorage tab where shortName = ?"), 
 		@NamedQuery(name = "EditTabRPAdditionalFieldStorage.findByAccessLevel", query = "from EditTabRPAdditionalFieldStorage tab where visibility = ? order by priority")
 })
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class EditTabRPAdditionalFieldStorage extends
 		AbstractEditTab<BoxRPAdditionalFieldStorage,TabRPAdditionalFieldStorage> {
 
 	/** Showed holder in this tab */
 	@ManyToMany
 	@JoinTable(name = "model_jdyna_edittab2box")
+	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxRPAdditionalFieldStorage> mask;
 
 	@OneToOne

@@ -13,7 +13,6 @@ package it.cilea.hku.authority.util;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.RestrictedField;
 import it.cilea.hku.authority.model.VisibilityConstants;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.osd.jdyna.web.Tab;
 

@@ -13,7 +13,6 @@ package it.cilea.hku.authority.model.dynamicfield;
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
 import it.cilea.osd.jdyna.model.IContainable;
-import it.cilea.osd.jdyna.model.IPropertiesDefinition;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -23,6 +22,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 

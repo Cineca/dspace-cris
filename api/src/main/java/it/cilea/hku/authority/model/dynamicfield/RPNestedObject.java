@@ -1,13 +1,11 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
-import it.cilea.osd.jdyna.model.ANestedObject;
-import it.cilea.osd.jdyna.model.TypeSupport;
+import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,17 +22,18 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "RPNestedObject.paginate.id.asc", query = "from RPNestedObject order by id asc"),
         @NamedQuery(name = "RPNestedObject.paginate.id.desc", query = "from RPNestedObject order by id desc")
         })
-public class RPNestedObject extends ANestedObject<RPNestedProperty, RPNestedPropertiesDefinition> implements TypeSupport<RPNestedProperty, RPNestedPropertiesDefinition>
+public class RPNestedObject extends ANestedObjectWithTypeSupport<RPNestedProperty, RPNestedPropertiesDefinition> 
 {
 
-    @OneToMany(mappedBy = "parent", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "parent")
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
     @OrderBy(clause="position asc")
     private List<RPNestedProperty> anagrafica;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne
     private RPTypeNestedObject typo;
     
+    @ManyToOne
     private RPAdditionalFieldStorage parent;
     
     @Override

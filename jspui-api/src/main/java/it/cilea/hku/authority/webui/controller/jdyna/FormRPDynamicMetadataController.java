@@ -16,6 +16,9 @@ import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedProperty;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
@@ -26,11 +29,6 @@ import it.cilea.osd.jdyna.model.AnagraficaObject;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.util.AnagraficaUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -40,15 +38,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.WildcardFilter;
 import org.apache.commons.lang.StringUtils;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
-import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
-import org.dspace.core.Utils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,7 +50,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class FormRPDynamicMetadataController
 		extends
-		AFormDynamicRPController<RPProperty, RPPropertiesDefinition, BoxRPAdditionalFieldStorage, EditTabRPAdditionalFieldStorage, AnagraficaObject<RPProperty, RPPropertiesDefinition>> {
+		AFormDynamicRPController<RPProperty, RPPropertiesDefinition, BoxRPAdditionalFieldStorage, EditTabRPAdditionalFieldStorage, AnagraficaObject<RPProperty, RPPropertiesDefinition>, RPNestedObject, RPNestedProperty, RPNestedPropertiesDefinition> {
 
 
 	@Override

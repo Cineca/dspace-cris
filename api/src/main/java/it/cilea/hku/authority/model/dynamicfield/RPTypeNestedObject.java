@@ -1,5 +1,7 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,8 +11,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import it.cilea.osd.jdyna.model.ATypeNestedObject;
-import it.cilea.osd.jdyna.model.NestedPropertiesDefinition;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
 *
 * @author pascarelli
@@ -26,6 +28,7 @@ public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefi
 {
     @ManyToMany
     @JoinTable(name = "model_rp_jdyna_nestedobject_typo2mask")
+    @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<RPNestedPropertiesDefinition> mask;
 
     @Override
@@ -37,4 +40,5 @@ public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefi
     public void setMaschera(List<RPNestedPropertiesDefinition> mask) {
         this.mask = mask;
     }
+
 }

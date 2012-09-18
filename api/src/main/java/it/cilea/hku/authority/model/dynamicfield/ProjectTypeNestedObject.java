@@ -1,5 +1,7 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,7 +11,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import it.cilea.osd.jdyna.model.ATypeNestedObject;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
 *
 * @author pascarelli
@@ -25,6 +28,7 @@ public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedProp
 {
     @ManyToMany
     @JoinTable(name = "model_project_jdyna_nestedobject_typo2mask")
+    @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<ProjectNestedPropertiesDefinition> mask;
 
     @Override
@@ -36,4 +40,5 @@ public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedProp
     public void setMaschera(List<ProjectNestedPropertiesDefinition> mask) {
         this.mask = mask;
     }
+
 }

@@ -10,11 +10,11 @@
  */
 package it.cilea.hku.authority.dao;
 
-import java.util.List;
-
 import it.cilea.hku.authority.model.RPSubscription;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.osd.common.dao.PaginableObjectDao;
+
+import java.util.List;
 
 /**
  * This interface define the methods available to retrieve RPSubscription

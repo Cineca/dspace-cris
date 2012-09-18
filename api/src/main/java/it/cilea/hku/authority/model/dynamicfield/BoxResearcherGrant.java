@@ -17,13 +17,15 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "model_jdyna_box_grant")
@@ -37,6 +39,7 @@ public class BoxResearcherGrant extends Box<Containable> {
 	
 	@ManyToMany
 	@JoinTable(name = "model_jdyna_boxgrant2containablegrant")	
+	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Containable> mask;
 
 	public BoxResearcherGrant() {

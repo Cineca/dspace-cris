@@ -12,6 +12,9 @@ package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
+import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
 import it.cilea.osd.jdyna.model.AnagraficaObject;
 import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
@@ -42,7 +45,7 @@ import org.dspace.eperson.EPerson;
  * @author cilea
  * 
  */
-public abstract class AFormDynamicRPController<P extends Property<TP>, TP extends PropertiesDefinition, H extends IPropertyHolder<Containable>, T extends Tab<H>, AO extends AnagraficaObject<P, TP>> extends FormAnagraficaController<P, TP, H, T, AO> {
+public abstract class AFormDynamicRPController<P extends Property<TP>, TP extends PropertiesDefinition, H extends IPropertyHolder<Containable>, T extends Tab<H>, AO extends AnagraficaObject<P, TP>, ANO extends ANestedObjectWithTypeSupport<AP, ATP>, AP extends ANestedProperty<ATP>, ATP extends ANestedPropertiesDefinition> extends FormAnagraficaController<P, TP, H, T, AO, ANO, AP, ATP> {
 
     /**
      * The log4j category

@@ -10,10 +10,6 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
-import it.cilea.osd.jdyna.model.Containable;
-import it.cilea.osd.jdyna.web.Box;
-import it.cilea.osd.jdyna.web.Tab;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +20,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "model_jdyna_edittabgrant")
@@ -41,6 +40,7 @@ public class EditTabResearcherGrant extends
 	/** Showed holder in this tab */
 	@ManyToMany
 	@JoinTable(name = "model_jdyna_edittabgrant2boxgrant")
+	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxResearcherGrant> mask;
 
 	@OneToOne

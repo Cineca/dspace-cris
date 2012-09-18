@@ -18,6 +18,9 @@ import it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinit
 import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant;
 import it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.GrantProperty;
+import it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject;
+import it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.GrantAnagraficaObjectDTO;
@@ -45,7 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class FormGrantDynamicMetadataController
 		extends
-		AFormDynamicRGController<GrantProperty, GrantPropertiesDefinition, BoxResearcherGrant, EditTabResearcherGrant, AnagraficaObject<GrantProperty, GrantPropertiesDefinition>> {
+		AFormDynamicRGController<GrantProperty, GrantPropertiesDefinition, BoxResearcherGrant, EditTabResearcherGrant, AnagraficaObject<GrantProperty, GrantPropertiesDefinition>, ProjectNestedObject, ProjectNestedProperty, ProjectNestedPropertiesDefinition> {
 
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)

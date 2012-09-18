@@ -1,5 +1,9 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
+import it.cilea.osd.jdyna.model.Property;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -10,13 +14,6 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
-import it.cilea.osd.jdyna.model.ANestedProperty;
-import it.cilea.osd.jdyna.model.AnagraficaSupport;
-import it.cilea.osd.jdyna.model.NestedObject;
-import it.cilea.osd.jdyna.model.NestedPropertiesDefinition;
-import it.cilea.osd.jdyna.model.PropertiesDefinition;
-import it.cilea.osd.jdyna.model.Property;
 
 /**
  * @author pascarelli

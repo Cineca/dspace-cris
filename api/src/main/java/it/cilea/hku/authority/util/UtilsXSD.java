@@ -15,13 +15,12 @@ import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AWidget;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
-import it.cilea.osd.jdyna.widget.WidgetCombo;
 import it.cilea.osd.jdyna.widget.WidgetDate;
-import it.cilea.osd.jdyna.widget.WidgetFile;
 import it.cilea.osd.jdyna.widget.WidgetLink;
 import it.cilea.osd.jdyna.widget.WidgetTesto;
 
@@ -72,6 +71,19 @@ public class UtilsXSD
         this.writer = writer;
     }
 
+    
+    /**TODO
+     * @param <I>
+     * @param metadata
+     * @param elements
+     * @param attributeStringMainRows
+     * @param attributeStringMainRowsRequired
+     * @throws IOException
+     * @throws SecurityException
+     * @throws NoSuchFieldException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public <I extends IContainable> void createGrantXSD(List<I> metadata,
             String[] elements, String[] attributeStringMainRows, boolean[] attributeStringMainRowsRequired) throws IOException, SecurityException,
             NoSuchFieldException, InstantiationException,
@@ -148,17 +160,7 @@ public class UtilsXSD
         writer.write("	</xs:choice>\n");
         writer.write("</xs:group>\n");
 
-        for (I containable : metadata)
-        {
-            if (containable instanceof DecoratorGrantPropertiesDefinition)
-            {
-                this.createComplexElement(
-                        ((DecoratorGrantPropertiesDefinition) containable)
-                                .getReal(),
-                        ((DecoratorGrantPropertiesDefinition) containable)
-                                .getRendering(), namespace);
-            }
-        }
+        //TODO add nested manage
 
         writer.write("<xs:complexType name=\"" + TYPE_STRUCTURALMETADATA
                 + "\">\n");
@@ -256,6 +258,24 @@ public class UtilsXSD
                 "staffNo" }, new boolean[] { false, true });
     }
 
+    
+    /**
+     * TODO 
+     * 
+     * @param <I>
+     * @param metadata
+     * @param elements
+     * @param namespace
+     * @param namespaceValue
+     * @param targetNamespace
+     * @param attributeStringMainRows
+     * @param attributeStringMainRowsRequired
+     * @throws IOException
+     * @throws SecurityException
+     * @throws NoSuchFieldException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     public <I extends IContainable> void createXSD(List<I> metadata,
             String[] elements, String namespace, String namespaceValue,
             String targetNamespace, String[] attributeStringMainRows,
@@ -334,17 +354,7 @@ public class UtilsXSD
         writer.write("	</xs:choice>\n");
         writer.write("</xs:group>\n");
 
-        for (I containable : metadata)
-        {
-            if (containable instanceof DecoratorRPPropertiesDefinition)
-            {
-                this.createComplexElement(
-                        ((DecoratorRPPropertiesDefinition) containable)
-                                .getReal(),
-                        ((DecoratorRPPropertiesDefinition) containable)
-                                .getRendering(), namespace);
-            }
-        }
+        //TODO add nested manage
 
         writer.write("<xs:complexType name=\"" + TYPE_STRUCTURALMETADATA
                 + "\">\n");
@@ -408,29 +418,7 @@ public class UtilsXSD
 
     }
 
-    private <TP extends PropertiesDefinition, A extends AWidget> void createComplexElement(
-            TP real, A rendering, String namespace) throws IOException,
-            InstantiationException, IllegalAccessException
-    {
-        if (rendering instanceof WidgetCombo)
-        {
-            createComplexType(real, (WidgetCombo) rendering, namespace);
-        }
-    }
 
-    private <P extends Property<TP>, TP extends PropertiesDefinition, D extends ADecoratorPropertiesDefinition<TP>> void createComplexType(
-            TP tp, WidgetCombo<P, TP> rendering, String namespace)
-            throws IOException, InstantiationException, IllegalAccessException
-    {
-        List<IContainable> subsTypoRenderingCombo = new LinkedList<IContainable>();
-        for (TP real : rendering.getSottoTipologie())
-        {
-            D dec = (D) real.getDecoratorClass().newInstance();
-            dec.setReal(real);
-            subsTypoRenderingCombo.add(dec);
-        }
-        createComplexType(tp.getShortName(), subsTypoRenderingCombo, namespace);
-    }
 
     private <TP extends PropertiesDefinition> void createComplexType(
             String name, List<IContainable> elements, String namespace)
@@ -495,13 +483,7 @@ public class UtilsXSD
         else if (rendering instanceof WidgetDate)
         {
             createRefElement(tp, (WidgetDate) rendering, namespace);
-        }
-        else if (rendering instanceof WidgetCombo)
-        {
-            createRefElement(tp, (WidgetCombo) rendering, namespace);
-            // } else if (rendering instanceof WidgetFile) {
-            // createRefElement(tp, (WidgetFile) rendering);
-        }
+        }     
         else
         {
             createRefSimpleElement(tp.getShortName(), TYPE_STRING,
@@ -522,15 +504,7 @@ public class UtilsXSD
         createRefSimpleElement(tp.getShortName(), TYPE_STRING,
                 !tp.isMandatory(), tp.isRepeatable(), namespace);
     }
-
-    private <P extends Property<TP>, TP extends PropertiesDefinition> void createRefElement(
-            TP tp, WidgetCombo<P, TP> rendering, String namespace)
-            throws IOException
-    {
-        createRefComplexElement(tp.getShortName(), TYPE_NESTED,
-                !tp.isMandatory(), !tp.isRepeatable(), namespace);
-    }
-
+  
     private <TP extends PropertiesDefinition> void createRefElement(TP tp,
             WidgetDate rendering, String namespace) throws IOException
     {
@@ -591,11 +565,7 @@ public class UtilsXSD
         else if (rendering instanceof WidgetDate)
         {
             createElement(tp, (WidgetDate) rendering);
-        }
-        else if (rendering instanceof WidgetCombo)
-        {
-            createElement(tp, (WidgetCombo) rendering);
-        }
+        }     
         else
         {
             createElement(tp, rendering);
@@ -612,19 +582,6 @@ public class UtilsXSD
             WidgetTesto rendering) throws IOException
     {
         createSimpleElement(tp.getShortName(), TYPE_STRING, tp.isMandatory());
-    }
-
-    private <P extends Property<TP>, TP extends PropertiesDefinition> void createElement(
-            TP tp, WidgetCombo<P, TP> rendering) throws IOException
-    {
-        List<IContainable> subsTypoRenderingCombo = new LinkedList<IContainable>();
-        for (TP real : rendering.getSottoTipologie())
-        {
-            DecoratorRPPropertiesDefinition dec = new DecoratorRPPropertiesDefinition();
-            dec.setReal((RPPropertiesDefinition) real);
-            subsTypoRenderingCombo.add(dec);
-        }
-        createComplexElement(tp.getShortName(), subsTypoRenderingCombo);
     }
 
     private <TP extends PropertiesDefinition> void createElement(TP tp,

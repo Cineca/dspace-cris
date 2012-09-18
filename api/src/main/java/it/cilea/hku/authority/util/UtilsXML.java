@@ -14,14 +14,11 @@ import it.cilea.hku.authority.model.IExportableDynamicObject;
 import it.cilea.hku.authority.model.IRestrictedField;
 import it.cilea.hku.authority.model.Investigator;
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.RestrictedField;
 import it.cilea.hku.authority.model.RestrictedFieldFile;
 import it.cilea.hku.authority.model.RestrictedFieldLocalOrRemoteFile;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.service.ApplicationService;
-import it.cilea.osd.jdyna.dto.AnagraficaObjectDTO;
-import it.cilea.osd.jdyna.dto.ValoreDTO;
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
 import it.cilea.osd.jdyna.model.AnagraficaObject;
@@ -30,8 +27,6 @@ import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.utils.ExportUtils;
 import it.cilea.osd.jdyna.value.EmbeddedLinkValue;
-import it.cilea.osd.jdyna.value.MultiValue;
-import it.cilea.osd.jdyna.widget.WidgetCombo;
 import it.cilea.osd.jdyna.widget.WidgetDate;
 import it.cilea.osd.jdyna.widget.WidgetLink;
 import it.cilea.osd.jdyna.widget.WidgetTesto;
@@ -151,11 +146,12 @@ public class UtilsXML
         {
             root = new Element(rootName);
         }
-        else if(prefixNamespace==null)
+        else if (prefixNamespace == null)
         {
             root = new Element(rootName, prefixNamespace, namespace);
         }
-        else {
+        else
+        {
             root = new Element(rootName, namespace);
         }
 
@@ -247,28 +243,36 @@ public class UtilsXML
         if (method.getReturnType().isAssignableFrom(List.class))
         {
             Element coinvestigators = null;
-            if(decorator.getShortName().equals("coInvestigators")) {
-                coinvestigators = new Element("coInvestigators", element.getNamespacePrefix(), element.getNamespaceURI());
+            if (decorator.getShortName().equals("coInvestigators"))
+            {
+                coinvestigators = new Element("coInvestigators",
+                        element.getNamespacePrefix(), element.getNamespaceURI());
                 element.addContent(coinvestigators);
             }
-            
+
             for (IRestrictedField rr : (List<IRestrictedField>) field)
             {
-                if(decorator.getShortName().equals("coInvestigators")) {
+                if (decorator.getShortName().equals("coInvestigators"))
+                {
                     List<String> attributes = new LinkedList<String>();
-                    List<String> valuesAttributes = new LinkedList<String>(); 
-                    Investigator invest = (Investigator)rr;
-                    if(invest.getIntInvestigator()!=null) {
-                        attributes.add("rpkey");                    
-                        valuesAttributes.add(invest.getIntInvestigator().getValuePublicIDAttribute());
+                    List<String> valuesAttributes = new LinkedList<String>();
+                    Investigator invest = (Investigator) rr;
+                    if (invest.getIntInvestigator() != null)
+                    {
+                        attributes.add("rpkey");
+                        valuesAttributes.add(invest.getIntInvestigator()
+                                .getValuePublicIDAttribute());
                     }
-                    ExportUtils.createCoinvestigator(coinvestigators, decorator.getReal(),
-                            ((IRestrictedField) rr).getValue(), attributes, valuesAttributes);
+                    ExportUtils.createCoinvestigator(coinvestigators,
+                            decorator.getReal(),
+                            ((IRestrictedField) rr).getValue(), attributes,
+                            valuesAttributes);
 
                 }
-                else {
-                    createSimpleElement(decorator.getReal(), (IRestrictedField) rr,
-                        element);
+                else
+                {
+                    createSimpleElement(decorator.getReal(),
+                            (IRestrictedField) rr, element);
                 }
 
             }
@@ -398,23 +402,9 @@ public class UtilsXML
             Element element) throws IOException
     {
 
-        if (rendering instanceof WidgetCombo)
-        {
-            createElement(tp, (WidgetCombo) rendering, rp, element);
-        }
-        else
-        {
-            createSimpleElement(tp.getShortName(), rp.getDynamicField()
-                    .getProprietaDellaTipologia(tp), element);
-        }
-    }
+        createSimpleElement(tp.getShortName(), rp.getDynamicField()
+                .getProprietaDellaTipologia(tp), element);
 
-    private <TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>> void createElement(
-            TP tp, WidgetCombo<P, TP> rendering,
-            IExportableDynamicObject<TP, P, AO> rp, Element element)
-            throws IOException
-    {
-        createComplexElement(tp, rendering.getSottoTipologie(), rp, element);
     }
 
     private <TP extends PropertiesDefinition, P extends Property<TP>> void createSimpleElement(
@@ -471,64 +461,7 @@ public class UtilsXML
 
     }
 
-    private <TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>> void createComplexElement(
-            TP combo, List<TP> elements,
-            IExportableDynamicObject<TP, P, AO> rp, Element element)
-            throws IOException
-    {
-
-        List<P> proprietaDellaTipologia = rp.getDynamicField()
-                .getProprietaDellaTipologia(combo);
-
-        for (P prop : proprietaDellaTipologia)
-        {
-
-            internalCreateComboElement(combo.getShortName(), element,
-                    ((MultiValue) prop.getValue()).getObject());
-
-        }
-
-    }
-
-    private void internalCreateComboElement(String combo,
-
-    Element element, AnagraficaObjectDTO prop)
-    {
-        Element comboElement = ExportUtils.createTagXML(element, combo);
-        for (String tp : prop.getAnagraficaProperties().keySet())
-        {
-            for (ValoreDTO val : prop.getAnagraficaProperties().get(tp))
-            {
-                createSimpleElement(tp, val, comboElement);
-            }
-        }
-    }
-
-    private void createSimpleElement(String shortName, ValoreDTO val,
-            Element element)
-    {
-
-        if (val.getObject() instanceof AnagraficaObjectDTO)
-        {
-            internalCreateComboElement(shortName, element,
-                    (AnagraficaObjectDTO) val.getObject());
-        }
-        else
-        {
-            if ((val.getVisibility() || (val.getVisibility() == false && isSeeHiddenValue())))
-            {
-                List<String> attributes = new LinkedList<String>();
-                List<String> valuesAttributes = new LinkedList<String>();
-                attributes.add(NAMEATTRIBUTE_VISIBILITY);
-                valuesAttributes
-                        .add("" + (val.getVisibility() == true ? 1 : 0));
-                ExportUtils.createCustomValueWithCustomAttributes(element,
-                        shortName, val.getObject().toString(), attributes,
-                        valuesAttributes);
-            }
-        }
-    }
-
+    
     public <I extends IContainable, TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>> void write(
             IExportableDynamicObject<TP, P, AO> rp, List<I> metadata,
             Element root) throws IOException, SecurityException,

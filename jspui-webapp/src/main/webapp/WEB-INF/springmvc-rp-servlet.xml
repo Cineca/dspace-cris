@@ -21,7 +21,7 @@
 			<map>				
 				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" value-ref="decoratorRPPropertiesDefinitionEditor"/>
 				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition" value-ref="decoratorGrantPropertiesDefinitionEditor"/>
-				<entry key="it.cilea.osd.jdyna.web.Containable" value-ref="containableEditor"/>
+				<entry key="it.cilea.osd.jdyna.model.Containable" value-ref="containableEditor"/>
 				<entry key="it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage" value-ref="tabEditor"/>
 				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage" value-ref="boxEditor"/>
 				<entry key="it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant" value-ref="grantTabEditor"/>
@@ -452,179 +452,7 @@
 		</property>
 		<property name="validator" ref="dynamicFieldValidator" />
 	</bean>
-	
-	<bean id="editNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboRPAdditional
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/administrator/editBox.htm</value>
-		</property>
-		<property name="addTextView">
-			<value>redirect:/rp/administrator/addTextToNestedDynamicField.htm</value>
-		</property>
-		<property name="addDateView">
-			<value>redirect:/rp/administrator/addDateToNestedDynamicField.htm</value>
-		</property>
-		<property name="addLinkView">
-			<value>redirect:/rp/administrator/addLinkToNestedDynamicField.htm</value>
-		</property>
-		<property name="addFileView">
-			<value>redirect:/rp/administrator/addFileToNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp</value>
-		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
-	</bean>
-
-	<bean id="addTextToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPAddTextToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.osd.jdyna.widget.WidgetTesto
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp</value>
-		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
-	</bean>
-
-	<bean id="addDateToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPAddDateToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.osd.jdyna.widget.WidgetDate
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp</value>
-		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
-	</bean>
-	
-	<bean id="addLinkToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPAddLinkToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.osd.jdyna.widget.WidgetLink
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp</value>
-		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
-	</bean>
-	
-		<bean id="addFileToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPAddFileToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp</value>
-		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
-	</bean>
-	
+			
 	<bean id="listEditTabController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.RPEditTabsController">
 		<constructor-arg>
@@ -1130,177 +958,7 @@
 		</property>
 		<property name="validator" ref="grantDynamicFieldValidator" />
 	</bean>
-	
-	<bean id="editGrantNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboResearcherGrant
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/grants/administrator/listPropertiesDefinitions.htm</value>
-		</property>
-		<property name="addTextView">
-			<value>redirect:/rp/grants/administrator/addTextToNestedDynamicField.htm</value>
-		</property>
-		<property name="addDateView">
-			<value>redirect:/rp/grants/administrator/addDateToNestedDynamicField.htm</value>
-		</property>
-		<property name="addLinkView">
-			<value>redirect:/rp/grants/administrator/addLinkToNestedDynamicField.htm</value>
-		</property>
-		<property name="addFileView">
-			<value>redirect:/rp/grants/administrator/addFileToNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp/grants</value>
-		</property>
-		<property name="validator" ref="grantDynamicFieldValidator" />
-	</bean>
 
-	<bean id="addGrantTextToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantAddTextToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.osd.jdyna.widget.WidgetTesto
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/grants/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp/grants</value>
-		</property>
-		<property name="validator" ref="grantDynamicFieldValidator" />
-	</bean>
-
-	<bean id="addGrantDateToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantAddDateToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.osd.jdyna.widget.WidgetDate
-			</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/grants/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp/grants</value>
-		</property>
-		<property name="validator" ref="grantDynamicFieldValidator" />
-	</bean>
-	
-	<bean id="addGrantLinkToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantAddLinkToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.osd.jdyna.widget.WidgetLink</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/grants/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp/grants</value>
-		</property>
-		<property name="validator" ref="grantDynamicFieldValidator" />
-	</bean>
-	
-	<bean id="addGrantFileToNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantAddFileToNestedPropertiesDefinitionController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
-			</value>
-		</constructor-arg>
-		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRG</value>
-		</constructor-arg>
-		<property name="successView">
-			<value>redirect:/rp/grants/administrator/editNestedDynamicField.htm</value>
-		</property>
-		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
-			</value>
-		</property>
-		<property name="commandName">
-			<value>propertiesdefinition</value>
-		</property>
-		<property name="formView">
-			<value>/tabs/propertiesDefinitionForm</value>
-		</property>
-		<property name="specificPartPath">
-			<value>rp/grants</value>
-		</property>
-		<property name="validator" ref="grantDynamicFieldValidator" />
-	</bean>
-	
 	<bean id="listGrantEditTabController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.GrantEditTabsController">
 		<constructor-arg>
@@ -1439,13 +1097,7 @@
 				<prop key="/administrator/editLinkDynamicField.htm">editLinkDynamicFieldController</prop>
 				<prop key="/administrator/createFileDynamicField.htm">editFileDynamicFieldController</prop>
 				<prop key="/administrator/editFileDynamicField.htm">editFileDynamicFieldController</prop>
-				<prop key="/administrator/createNestedDynamicField.htm">editNestedDynamicFieldController</prop>
-				<prop key="/administrator/editNestedDynamicField.htm">editNestedDynamicFieldController</prop>
 				<prop key="/administrator/deleteDynamicField.htm">deleteDynamicFieldController</prop>
-				<prop key="/administrator/addDateToNestedDynamicField.htm">addDateToNestedDynamicFieldController</prop>
-				<prop key="/administrator/addTextToNestedDynamicField.htm">addTextToNestedDynamicFieldController</prop>
-				<prop key="/administrator/addLinkToNestedDynamicField.htm">addLinkToNestedDynamicFieldController</prop>
-				<prop key="/administrator/addFileToNestedDynamicField.htm">addFileToNestedDynamicFieldController</prop>
 				<prop key="/administrator/listEditTabs.htm">listEditTabController</prop>
 				<prop key="/administrator/createEditTabs.htm">editEditTabController</prop>
 				<prop key="/administrator/editEditTabs.htm">editEditTabController</prop>
@@ -1472,13 +1124,7 @@
 				<prop key="/grants/administrator/editLinkDynamicField.htm">editGrantLinkDynamicFieldController</prop>
 				<prop key="/grants/administrator/createFileDynamicField.htm">editGrantFileDynamicFieldController</prop>
 				<prop key="/grants/administrator/editFileDynamicField.htm">editGrantFileDynamicFieldController</prop>
-				<prop key="/grants/administrator/createNestedDynamicField.htm">editGrantNestedDynamicFieldController</prop>
-				<prop key="/grants/administrator/editNestedDynamicField.htm">editGrantNestedDynamicFieldController</prop>
-				<prop key="/grants/administrator/deleteDynamicField.htm">deleteGrantDynamicFieldController</prop>
-				<prop key="/grants/administrator/addDateToNestedDynamicField.htm">addGrantDateToNestedDynamicFieldController</prop>
-				<prop key="/grants/administrator/addTextToNestedDynamicField.htm">addGrantTextToNestedDynamicFieldController</prop>
-				<prop key="/grants/administrator/addLinkToNestedDynamicField.htm">addGrantLinkToNestedDynamicFieldController</prop>
-				<prop key="/grants/administrator/addFileToNestedDynamicField.htm">addGrantFileToNestedDynamicFieldController</prop>
+				<prop key="/grants/administrator/deleteDynamicField.htm">deleteGrantDynamicFieldController</prop>				
 				<prop key="/grants/administrator/listEditTabs.htm">listGrantEditTabController</prop>
 				<prop key="/grants/administrator/createEditTabs.htm">editGrantEditTabController</prop>
 				<prop key="/grants/administrator/editEditTabs.htm">editGrantEditTabController</prop>
@@ -1519,7 +1165,7 @@
 
 	<bean id="containableEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.osd.jdyna.web.Containable</value>
+			<value>it.cilea.osd.jdyna.model.Containable</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>

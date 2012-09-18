@@ -77,6 +77,12 @@
 				<entry key="it.cilea.hku.authority.model.dynamicfield.GrantProperty">
 					<ref bean="grantPropertyDao" />
 				</entry>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.RPNestedObject">
+					<ref bean="rpNestedObjectDao" />
+				</entry>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject">
+					<ref bean="projectNestedObjectDao" />
+				</entry>
 				<entry key="it.cilea.osd.jdyna.model.PropertiesDefinition">
 					<ref bean="propertiesDefinitionDao" />
 				</entry>
@@ -103,13 +109,8 @@
 				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant">
 					<ref bean="grantEditTabDao" />
-				</entry>								
-				<entry key="it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboRPAdditional">
-					<ref bean="widgetComboRPAdditionalDao" />
-				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboResearcherGrant">
-					<ref bean="widgetComboResearcherGrant" />
-				</entry>
+				</entry>				
+				
 				<entry key="it.cilea.osd.jdyna.widget.WidgetTesto">
 					<ref bean="widgetTextDao" />
 				</entry>
@@ -151,6 +152,10 @@
 	</bean>
 		
 	<bean class="it.cilea.hku.authority.util.ResearcherPageUtils">
+		<constructor-arg ref="applicationService" />
+	</bean>	
+	
+	<bean class="it.cilea.osd.jdyna.util.AnagraficaUtils">
 		<constructor-arg ref="applicationService" />
 	</bean>	
 	
@@ -234,40 +239,7 @@
 		</property>
 	</bean>
 
-	<bean id="widgetComboRPAdditionalDao" parent="abstractDao">
-		<property name="proxyInterfaces">
-			<value>
-				it.cilea.osd.jdyna.dao.WidgetComboDao
-			</value>
-		</property>
-		<property name="target">
-			<bean parent="abstractDaoTarget">
-				<constructor-arg>
-					<value>
-						it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboRPAdditional
-					</value>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>
-	
-	<bean id="widgetComboResearcherGrant" parent="abstractDao">
-		<property name="proxyInterfaces">
-			<value>
-				it.cilea.osd.jdyna.dao.WidgetComboDao
-			</value>
-		</property>
-		<property name="target">
-			<bean parent="abstractDaoTarget">
-				<constructor-arg>
-					<value>
-						it.cilea.hku.authority.model.dynamicfield.widget.WidgetComboResearcherGrant
-					</value>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>
-	
+
 	<bean id="widgetTextDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -398,6 +370,40 @@
 				<constructor-arg>
 					<value>
 						it.cilea.hku.authority.model.dynamicfield.GrantProperty
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rpNestedObjectDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.osd.jdyna.dao.NestedObjectDAO
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.RPNestedObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="projectNestedObjectDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.osd.jdyna.dao.NestedObjectDAO
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject
 					</value>
 				</constructor-arg>
 			</bean>

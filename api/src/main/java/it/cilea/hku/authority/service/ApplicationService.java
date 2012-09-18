@@ -20,6 +20,9 @@ import it.cilea.hku.authority.model.ResearcherGrant;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.StatSubscription;
 import it.cilea.hku.authority.model.UserWS;
+import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedProperty;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.common.dao.IApplicationDao;
 import it.cilea.osd.common.model.Identifiable;
@@ -468,5 +471,6 @@ public class ApplicationService extends ExtendedTabService
     public UserWS getUserWSByToken(String token) {
         return userWSDao.uniqueByToken(token); 
     }
-    
+
+  
 }

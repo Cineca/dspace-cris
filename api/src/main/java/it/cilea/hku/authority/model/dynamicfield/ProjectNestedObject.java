@@ -2,13 +2,13 @@ package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.hku.authority.model.ResearcherGrant;
 import it.cilea.osd.jdyna.model.ANestedObject;
+import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.TypeSupport;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,17 +30,18 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "ProjectNestedObject.paginate.id.asc", query = "from ProjectNestedObject order by id asc"),
         @NamedQuery(name = "ProjectNestedObject.paginate.id.desc", query = "from ProjectNestedObject order by id desc")
         })
-public class ProjectNestedObject extends ANestedObject<ProjectNestedProperty, ProjectNestedPropertiesDefinition> implements TypeSupport<ProjectNestedProperty, ProjectNestedPropertiesDefinition>
+public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNestedProperty, ProjectNestedPropertiesDefinition> 
 {
     
-    @OneToMany(mappedBy = "parent", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "parent")
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
     @OrderBy(clause="position asc")
     private List<ProjectNestedProperty> anagrafica;
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne
     private ProjectTypeNestedObject typo;
 
+    @ManyToOne
     private ResearcherGrant parent;
     
     @Override

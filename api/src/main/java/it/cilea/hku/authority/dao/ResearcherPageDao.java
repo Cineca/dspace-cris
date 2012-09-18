@@ -10,13 +10,12 @@
  */
 package it.cilea.hku.authority.dao;
 
-import java.util.Date;
-import java.util.List;
-
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.osd.common.dao.PaginableObjectDao;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * This interface define the methods available to retrieve ResearcherPage

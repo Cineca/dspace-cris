@@ -10,8 +10,6 @@
  */
 package it.cilea.hku.authority.model.dynamicfield.widget;
 
-import it.cilea.hku.authority.model.ResearcherGrant;
-import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.jdyna.editor.FilePropertyEditor;
 import it.cilea.osd.jdyna.service.IPersistenceDynaService;
 import it.cilea.osd.jdyna.util.ValidationMessage;

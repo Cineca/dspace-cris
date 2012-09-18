@@ -279,27 +279,31 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
 
         TabDao<H, T> dao = (TabDao<H, T>) getDaoByModel(model);
         List<T> tabs = new LinkedList<T>();
-        if (isAdmin == null)
-        {
-            tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-        }
-        else
-        {
-            if (isAdmin)
-            {
-                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.ADMIN));
-                tabs.addAll(dao
-                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
-            }
-            else
-            {
-                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-                tabs.addAll(dao
-                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
-                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.LOW));
-            }
-        }
+//        if (isAdmin == null)
+//        {
+//
+//            tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
+//        }
+//        else
+//        {
+//            if (isAdmin)
+//            {
+//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
+//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.ADMIN));
+//                tabs.addAll(dao
+//                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
+//            }
+//            else
+//            {
+//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
+//                tabs.addAll(dao
+//                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
+//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.LOW));
+//            }
+//        }
+        
+        tabs = dao.findAll();
+        
         Collections.sort(tabs);
         return tabs;
 
