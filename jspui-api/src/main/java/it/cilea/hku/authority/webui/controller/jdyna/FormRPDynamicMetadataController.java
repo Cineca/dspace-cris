@@ -22,6 +22,7 @@ import it.cilea.hku.authority.model.dynamicfield.RPNestedProperty;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
+import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.RPAnagraficaObjectDTO;
 import it.cilea.osd.jdyna.dto.AnagraficaObjectAreaDTO;
@@ -49,259 +50,326 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 public class FormRPDynamicMetadataController
-		extends
-		AFormDynamicRPController<RPProperty, RPPropertiesDefinition, BoxRPAdditionalFieldStorage, EditTabRPAdditionalFieldStorage, AnagraficaObject<RPProperty, RPPropertiesDefinition>, RPNestedObject, RPNestedProperty, RPNestedPropertiesDefinition> {
+        extends
+        AFormDynamicRPController<RPProperty, RPPropertiesDefinition, BoxRPAdditionalFieldStorage, EditTabRPAdditionalFieldStorage, AnagraficaObject<RPProperty, RPPropertiesDefinition>, RPNestedObject, RPNestedProperty, RPNestedPropertiesDefinition>
+{
 
+    @Override
+    protected Map referenceData(HttpServletRequest request, Object command,
+            Errors errors) throws Exception
+    {
 
-	@Override
-	protected Map referenceData(HttpServletRequest request, Object command,
-			Errors errors) throws Exception {
+        // call super method
+        Map<String, Object> map = super.referenceData(request);
 
-		//call super method 
-		Map<String, Object> map = super.referenceData(request);
-		
-		//this map contains key-values pairs, key = box shortname and values = collection of metadata
-		Map<String, List<IContainable>> mapBoxToContainables = new HashMap<String, List<IContainable>>();
+        // this map contains key-values pairs, key = box shortname and values =
+        // collection of metadata
+        Map<String, List<IContainable>> mapBoxToContainables = new HashMap<String, List<IContainable>>();
 
-		AnagraficaObjectAreaDTO anagraficaObjectDTO = (AnagraficaObjectAreaDTO) command;
+        AnagraficaObjectAreaDTO anagraficaObjectDTO = (AnagraficaObjectAreaDTO) command;
 
-		//check admin authorization
-		boolean isAdmin = false;
-		Context context = UIUtil.obtainContext(request);
-		if (AuthorizeManager.isAdmin(context)) {
-			isAdmin = true;
-		}
+        // check admin authorization
+        boolean isAdmin = false;
+        Context context = UIUtil.obtainContext(request);
+        if (AuthorizeManager.isAdmin(context))
+        {
+            isAdmin = true;
+        }
 
-		//collection of edit tabs (all edit tabs created on system associate to visibility)
-		List<EditTabRPAdditionalFieldStorage> tabs = getApplicationService()
-				.getTabsByVisibility(EditTabRPAdditionalFieldStorage.class,
-						isAdmin);
-		
-		//check if request tab from view is active (check on collection before)  
-		EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-				EditTabRPAdditionalFieldStorage.class,
-				anagraficaObjectDTO.getTabId());
-		if (!tabs.contains(editT)) {
-			throw new AuthorizeException(
-					"You not have needed authorization level to display this tab");
-		}
-		
-		//collection of boxs
-		List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
-		
-		//if edit tab got a display tab (edit tab is hookup to display tab) then edit box will be created from display box otherwise get all boxs in edit tab  
-		if (editT.getDisplayTab() != null) {
-			for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
-					.getMask()) {				
-				propertyHolders.add(box);
-			}
-		} else {
-			propertyHolders = getApplicationService().findPropertyHolderInTab(
-					getClazzTab(), anagraficaObjectDTO.getTabId());
-		}
+        // collection of edit tabs (all edit tabs created on system associate to
+        // visibility)
+        List<EditTabRPAdditionalFieldStorage> tabs = getApplicationService()
+                .getTabsByVisibility(EditTabRPAdditionalFieldStorage.class,
+                        isAdmin);
 
-		//clean boxs list with accesslevel
-		List<BoxRPAdditionalFieldStorage> propertyHoldersCurrentAccessLevel = new LinkedList<BoxRPAdditionalFieldStorage>();
-		for(BoxRPAdditionalFieldStorage propertyHolder : propertyHolders) {
-			if(isAdmin) {				
-				if(!propertyHolder.getVisibility().equals(VisibilityTabConstant.LOW)) {
-					propertyHoldersCurrentAccessLevel.add(propertyHolder);
-				}
-			}
-			else {
-				if(!propertyHolder.getVisibility().equals(VisibilityTabConstant.ADMIN)) {
-					propertyHoldersCurrentAccessLevel.add(propertyHolder);
-				}
-			}		
-		}
-		Collections.sort(propertyHoldersCurrentAccessLevel);
-		//this piece of code get containables object from boxs and put them on map
-		List<IContainable> pDInTab = new LinkedList<IContainable>();
-		for (BoxRPAdditionalFieldStorage iph : propertyHoldersCurrentAccessLevel) {
-				List<IContainable> temp = getApplicationService()
-						.<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>>findContainableInPropertyHolder(getClazzBox(),
-								iph.getId());
-				mapBoxToContainables.put(iph.getShortName(), temp);
-				pDInTab.addAll(temp);
-		}
+        // check if request tab from view is active (check on collection before)
+        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
+                EditTabRPAdditionalFieldStorage.class,
+                anagraficaObjectDTO.getTabId());
+        if (!tabs.contains(editT))
+        {
+            throw new AuthorizeException(
+                    "You not have needed authorization level to display this tab");
+        }
 
-		map.put("propertiesHolders", propertyHoldersCurrentAccessLevel);
-		map.put("propertiesDefinitionsInTab", pDInTab);
-		map.put("propertiesDefinitionsInHolder", mapBoxToContainables);
-		map.put("tabList", tabs);
-		map.put("simpleNameAnagraficaObject", getClazzAnagraficaObject()
-				.getSimpleName());
-		return map;
-	}
+        // collection of boxs
+        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
 
-	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-		String paramTabId = request.getParameter("tabId");
-		String paramId = request.getParameter("id");
+        // if edit tab got a display tab (edit tab is hookup to display tab)
+        // then edit box will be created from display box otherwise get all boxs
+        // in edit tab
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+                    .getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), anagraficaObjectDTO.getTabId());
+        }
 
-		Integer id = null;
-		Boolean isAdmin = false;
-		if (paramId != null) {
-			id = Integer.parseInt(paramId);
-		}
-		ResearcherPage researcher = getApplicationService().get(
-				ResearcherPage.class, id);
-		Context context = UIUtil.obtainContext(request);
-		if ((context.getCurrentUser().getNetid()!=null && !context.getCurrentUser().getNetid()
-				.equalsIgnoreCase(researcher.getStaffNo()))
-				&& !AuthorizeManager.isAdmin(context)) {
-			throw new AuthorizeException(
-					"Only system admin can edit not personal researcher page");
-		}
+        // clean boxs list with accesslevel
+        List<BoxRPAdditionalFieldStorage> propertyHoldersCurrentAccessLevel = new LinkedList<BoxRPAdditionalFieldStorage>();
+        for (BoxRPAdditionalFieldStorage propertyHolder : propertyHolders)
+        {
+            if (isAdmin)
+            {
+                if (!propertyHolder.getVisibility().equals(
+                        VisibilityTabConstant.LOW))
+                {
+                    propertyHoldersCurrentAccessLevel.add(propertyHolder);
+                }
+            }
+            else
+            {
+                if (!propertyHolder.getVisibility().equals(
+                        VisibilityTabConstant.ADMIN))
+                {
+                    propertyHoldersCurrentAccessLevel.add(propertyHolder);
+                }
+            }
+        }
+        Collections.sort(propertyHoldersCurrentAccessLevel);
+        // this piece of code get containables object from boxs and put them on
+        // map
+        List<IContainable> pDInTab = new LinkedList<IContainable>();
+        for (BoxRPAdditionalFieldStorage iph : propertyHoldersCurrentAccessLevel)
+        {
+            List<IContainable> temp = getApplicationService()
+                    .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                            getClazzBox(), iph.getId());
+            mapBoxToContainables.put(iph.getShortName(), temp);
+            pDInTab.addAll(temp);
+        }
 
-		if (AuthorizeManager.isAdmin(context)) {
-			isAdmin = true;
-		}
+        map.put("propertiesHolders", propertyHoldersCurrentAccessLevel);
+        map.put("propertiesDefinitionsInTab", pDInTab);
+        map.put("propertiesDefinitionsInHolder", mapBoxToContainables);
+        map.put("tabList", tabs);
+        map.put("simpleNameAnagraficaObject", getClazzAnagraficaObject()
+                .getSimpleName());
+        return map;
+    }
 
-		List<EditTabRPAdditionalFieldStorage> tabs = getApplicationService()
-				.getTabsByVisibility(EditTabRPAdditionalFieldStorage.class,
-						isAdmin);
+    @Override
+    protected Object formBackingObject(HttpServletRequest request)
+            throws Exception
+    {
+        String paramFuzzyTabId = request.getParameter("hooktabId");
+        String paramTabId = request.getParameter("tabId");
+        String paramId = request.getParameter("id");
 
-		Integer areaId;
-		if (paramTabId == null) {
-			if (tabs.isEmpty()) {
-				throw new AuthorizeException("No tabs defined!!");
-			}
-			areaId = tabs.get(0).getId();
-		} else {
-			areaId = Integer.parseInt(paramTabId);
-		}
+        Integer id = null;
+        Boolean isAdmin = false;
+        if (paramId != null)
+        {
+            id = Integer.parseInt(paramId);
+        }
+        ResearcherPage researcher = getApplicationService().get(
+                ResearcherPage.class, id);
+        Context context = UIUtil.obtainContext(request);
+        if ((context.getCurrentUser().getNetid() != null && !context
+                .getCurrentUser().getNetid()
+                .equalsIgnoreCase(researcher.getStaffNo()))
+                && !AuthorizeManager.isAdmin(context))
+        {
+            throw new AuthorizeException(
+                    "Only system admin can edit not personal researcher page");
+        }
 
-		RPAdditionalFieldStorage dynamicObject = researcher.getDynamicField();
+        if (AuthorizeManager.isAdmin(context))
+        {
+            isAdmin = true;
+        }
 
-		EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-				EditTabRPAdditionalFieldStorage.class, areaId);
-		List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
-		if (editT.getDisplayTab() != null) {
-			for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
-					.getMask()) {
-				propertyHolders.add(box);
-			}
-		} else {
-			propertyHolders = getApplicationService().findPropertyHolderInTab(
-					getClazzTab(), areaId);
-		}
+        Integer areaId;
+        if (paramTabId == null)
+        {
+            if (paramFuzzyTabId == null)
+            {
+                List<EditTabRPAdditionalFieldStorage> tabs = getApplicationService()
+                        .getTabsByVisibility(
+                                EditTabRPAdditionalFieldStorage.class, isAdmin);
+                if (tabs.isEmpty())
+                {
+                    throw new AuthorizeException("No tabs defined!!");
+                }
+                areaId = tabs.get(0).getId();
+            }
+            else
+            {
+                EditTabRPAdditionalFieldStorage fuzzyEditTab = (EditTabRPAdditionalFieldStorage)((ApplicationService)getApplicationService()).getEditTabByDisplayTab(Integer.parseInt(paramFuzzyTabId),EditTabRPAdditionalFieldStorage.class);
+                areaId = fuzzyEditTab.getId();
+            }
+        }
+        else
+        {
+            areaId = Integer.parseInt(paramTabId);
+        }
 
-		List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
+        RPAdditionalFieldStorage dynamicObject = researcher.getDynamicField();
 
-		for (BoxRPAdditionalFieldStorage iph : propertyHolders) {
-			if (editT.getDisplayTab() != null) {
-				tipProprietaInArea.addAll(getApplicationService()
-						.<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>>findContainableInPropertyHolder(
-								BoxRPAdditionalFieldStorage.class,
-								iph.getId()));
-			} else {
-				tipProprietaInArea.addAll(getApplicationService()
-						.<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>>findContainableInPropertyHolder(getClazzBox(),
-								iph.getId()));
-			}
-		}
+        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
+                EditTabRPAdditionalFieldStorage.class, areaId);
+        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+                    .getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), areaId);
+        }
 
-		RPAnagraficaObjectDTO anagraficaObjectDTO = new RPAnagraficaObjectDTO(
-				researcher);
-		anagraficaObjectDTO.setTabId(areaId);
-		anagraficaObjectDTO.setObjectId(dynamicObject.getId());
-		anagraficaObjectDTO.setParentId(researcher.getId());
+        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-		List<RPPropertiesDefinition> realTPS = new LinkedList<RPPropertiesDefinition>();
-		List<IContainable> structuralField = new LinkedList<IContainable>();
-		for (IContainable c : tipProprietaInArea) {
-			RPPropertiesDefinition rpPd = getApplicationService()
-					.findPropertiesDefinitionByShortName(
-							RPPropertiesDefinition.class, c.getShortName());
-			if (rpPd != null) {
-				realTPS.add(((DecoratorRPPropertiesDefinition) getApplicationService()
-						.findContainableByDecorable(
-								getClazzTipologiaProprieta().newInstance()
-										.getDecoratorClass(), c.getId()))
-						.getReal());
-			} else {
-				structuralField.add(c);
-			}
-		}
-		AnagraficaUtils.fillDTO(anagraficaObjectDTO, dynamicObject, realTPS);
-		return anagraficaObjectDTO;
-	}
+        for (BoxRPAdditionalFieldStorage iph : propertyHolders)
+        {
+            if (editT.getDisplayTab() != null)
+            {
+                tipProprietaInArea
+                        .addAll(getApplicationService()
+                                .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                                        BoxRPAdditionalFieldStorage.class,
+                                        iph.getId()));
+            }
+            else
+            {
+                tipProprietaInArea
+                        .addAll(getApplicationService()
+                                .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                                        getClazzBox(), iph.getId()));
+            }
+        }
 
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request,
-			HttpServletResponse response, Object object, BindException errors)
-			throws Exception {
-		RPAnagraficaObjectDTO anagraficaObjectDTO = (RPAnagraficaObjectDTO) object;
+        RPAnagraficaObjectDTO anagraficaObjectDTO = new RPAnagraficaObjectDTO(
+                researcher);
+        anagraficaObjectDTO.setTabId(areaId);
+        anagraficaObjectDTO.setObjectId(dynamicObject.getId());
+        anagraficaObjectDTO.setParentId(researcher.getId());
 
-		String exitPage = "redirect:/rp/tools/editDynamicData.htm?id="
-				+ +anagraficaObjectDTO.getParentId();
+        List<RPPropertiesDefinition> realTPS = new LinkedList<RPPropertiesDefinition>();
+        List<IContainable> structuralField = new LinkedList<IContainable>();
+        for (IContainable c : tipProprietaInArea)
+        {
+            RPPropertiesDefinition rpPd = getApplicationService()
+                    .findPropertiesDefinitionByShortName(
+                            RPPropertiesDefinition.class, c.getShortName());
+            if (rpPd != null)
+            {
+                realTPS.add(((DecoratorRPPropertiesDefinition) getApplicationService()
+                        .findContainableByDecorable(
+                                getClazzTipologiaProprieta().newInstance()
+                                        .getDecoratorClass(), c.getId()))
+                        .getReal());
+            }
+            else
+            {
+                structuralField.add(c);
+            }
+        }
+        AnagraficaUtils.fillDTO(anagraficaObjectDTO, dynamicObject, realTPS);
+        return anagraficaObjectDTO;
+    }
 
-		
-		EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-				EditTabRPAdditionalFieldStorage.class,
-				anagraficaObjectDTO.getTabId());
-		if (anagraficaObjectDTO.getNewTabId() != null) {
-			exitPage += "&tabId=" + anagraficaObjectDTO.getNewTabId();
-		} else {
-			exitPage = "redirect:/rp/"
-				+ ResearcherPageUtils.getPersistentIdentifier(anagraficaObjectDTO.getParentId()) + "/" + editT.getShortName().substring(4) + ".html";
-		}
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object object, BindException errors)
+            throws Exception
+    {
+        RPAnagraficaObjectDTO anagraficaObjectDTO = (RPAnagraficaObjectDTO) object;
 
-		if (request.getParameter("cancel") != null) {
-			return new ModelAndView(exitPage);
-		}
-		ResearcherPage researcher = getApplicationService().get(
-				ResearcherPage.class, anagraficaObjectDTO.getParentId());
-		RPAdditionalFieldStorage myObject = researcher.getDynamicField();
+        String exitPage = "redirect:/rp/tools/editDynamicData.htm?id="
+                + +anagraficaObjectDTO.getParentId();
 
-		
-		List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
-		if (editT.getDisplayTab() != null) {
-			for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
-					.getMask()) {				
-				propertyHolders.add(box);
-			}
-		} else {
-			propertyHolders = getApplicationService().findPropertyHolderInTab(
-					getClazzTab(), anagraficaObjectDTO.getTabId());
-		}
+        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
+                EditTabRPAdditionalFieldStorage.class,
+                anagraficaObjectDTO.getTabId());
+        if (anagraficaObjectDTO.getNewTabId() != null)
+        {
+            exitPage += "&tabId=" + anagraficaObjectDTO.getNewTabId();
+        }
+        else
+        {
+            exitPage = "redirect:/rp/"
+                    + ResearcherPageUtils
+                            .getPersistentIdentifier(anagraficaObjectDTO
+                                    .getParentId()) + "/"
+                    + editT.getShortName().substring(4) + ".html";
+        }
 
-		List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
+        if (request.getParameter("cancel") != null)
+        {
+            return new ModelAndView(exitPage);
+        }
+        ResearcherPage researcher = getApplicationService().get(
+                ResearcherPage.class, anagraficaObjectDTO.getParentId());
+        RPAdditionalFieldStorage myObject = researcher.getDynamicField();
 
-		for (BoxRPAdditionalFieldStorage iph : propertyHolders) {
-			
-				tipProprietaInArea.addAll(getApplicationService()
-						.<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>>findContainableInPropertyHolder(getClazzBox(),
-								iph.getId()));
-			
-		}
+        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+                    .getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), anagraficaObjectDTO.getTabId());
+        }
 
-		List<RPPropertiesDefinition> realTPS = new LinkedList<RPPropertiesDefinition>();
-		List<IContainable> structuralField = new LinkedList<IContainable>();
-		for (IContainable c : tipProprietaInArea) {
-			RPPropertiesDefinition rpPd = getApplicationService()
-					.findPropertiesDefinitionByShortName(
-							RPPropertiesDefinition.class, c.getShortName());
-			if (rpPd != null) {
-				realTPS.add(((DecoratorRPPropertiesDefinition) getApplicationService()
-						.findContainableByDecorable(
-								getClazzTipologiaProprieta().newInstance()
-										.getDecoratorClass(), c.getId()))
-						.getReal());
-			} else {
-				structuralField.add(c);
-			}
-		}
+        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-		AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, realTPS);
+        for (BoxRPAdditionalFieldStorage iph : propertyHolders)
+        {
 
-		myObject.pulisciAnagrafica();
+            tipProprietaInArea
+                    .addAll(getApplicationService()
+                            .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                                    getClazzBox(), iph.getId()));
 
-		String rp = ResearcherPageUtils.getPersistentIdentifier(researcher);
+        }
 
-		String deleteImage_s = request.getParameter("deleteImage");		
+        List<RPPropertiesDefinition> realTPS = new LinkedList<RPPropertiesDefinition>();
+        List<IContainable> structuralField = new LinkedList<IContainable>();
+        for (IContainable c : tipProprietaInArea)
+        {
+            RPPropertiesDefinition rpPd = getApplicationService()
+                    .findPropertiesDefinitionByShortName(
+                            RPPropertiesDefinition.class, c.getShortName());
+            if (rpPd != null)
+            {
+                realTPS.add(((DecoratorRPPropertiesDefinition) getApplicationService()
+                        .findContainableByDecorable(
+                                getClazzTipologiaProprieta().newInstance()
+                                        .getDecoratorClass(), c.getId()))
+                        .getReal());
+            }
+            else
+            {
+                structuralField.add(c);
+            }
+        }
+
+        AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, realTPS);
+
+        myObject.pulisciAnagrafica();
+
+        String rp = ResearcherPageUtils.getPersistentIdentifier(researcher);
+
+        String deleteImage_s = request.getParameter("deleteImage");
 
         if (deleteImage_s != null)
         {
@@ -311,179 +379,216 @@ public class FormRPDynamicMetadataController
                 ResearcherPageUtils.removePicture(researcher);
             }
         }
-        
+
         String deleteCV_s = request.getParameter("deleteCV");
 
-		if ((deleteCV_s != null && Boolean.parseBoolean(deleteCV_s))
-				|| StringUtils
-						.isNotEmpty(researcher.getCv().getRemoteUrl()))
+        if ((deleteCV_s != null && Boolean.parseBoolean(deleteCV_s))
+                || StringUtils.isNotEmpty(researcher.getCv().getRemoteUrl()))
         {
-            ResearcherPageUtils.removeCVFiles(researcher);   
+            ResearcherPageUtils.removeCVFiles(researcher);
         }
-		
-		List<RestrictedField> list_interest = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getInterests()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of interests");
-			} else {
-				list_interest.add(rf);
-			}
-		}
 
-		List<RestrictedField> list_variants = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getVariants()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of variants");
-			} else {
-				list_variants.add(rf);
-			}
-		}
+        List<RestrictedField> list_interest = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getInterests())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of interests");
+            }
+            else
+            {
+                list_interest.add(rf);
+            }
+        }
 
-		List<RestrictedField> list_titles = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getTitle()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of title");
-			} else {
-				list_titles.add(rf);
-			}
-		}
+        List<RestrictedField> list_variants = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getVariants())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of variants");
+            }
+            else
+            {
+                list_variants.add(rf);
+            }
+        }
+
+        List<RestrictedField> list_titles = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getTitle())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of title");
+            }
+            else
+            {
+                list_titles.add(rf);
+            }
+        }
 
         MultipartFile itemImage = researcher.getPict().getFile();
         if (itemImage != null && !itemImage.getOriginalFilename().isEmpty())
         {
-        	ResearcherPageUtils.loadImg(researcher, rp, itemImage);
+            ResearcherPageUtils.loadImg(researcher, rp, itemImage);
         }
 
         MultipartFile itemCV = researcher.getCv().getFile();
-        
-        // if there is a remote url we don't upload the file 
-        if (StringUtils.isEmpty(researcher.getCv().getRemoteUrl()) && 
-        		itemCV != null && !itemCV.getOriginalFilename().isEmpty())
+
+        // if there is a remote url we don't upload the file
+        if (StringUtils.isEmpty(researcher.getCv().getRemoteUrl())
+                && itemCV != null && !itemCV.getOriginalFilename().isEmpty())
         {
-           ResearcherPageUtils.loadCv(researcher, rp, itemCV);
+            ResearcherPageUtils.loadCv(researcher, rp, itemCV);
         }
 
-		researcher.setInterests(list_interest);
-		researcher.setVariants(list_variants);
-		researcher.setTitle(list_titles);
+        researcher.setInterests(list_interest);
+        researcher.setVariants(list_variants);
+        researcher.setTitle(list_titles);
 
-		List<RestrictedField> list_media = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getMedia()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of media");
-			} else {
-				list_media.add(rf);
-			}
-		}
+        List<RestrictedField> list_media = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getMedia())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of media");
+            }
+            else
+            {
+                list_media.add(rf);
+            }
+        }
 
-		List<RestrictedField> list_spokenEN = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getSpokenLanguagesEN()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of spoken languages EN");
-			} else {
-				list_spokenEN.add(rf);
-			}
-		}
+        List<RestrictedField> list_spokenEN = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getSpokenLanguagesEN())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of spoken languages EN");
+            }
+            else
+            {
+                list_spokenEN.add(rf);
+            }
+        }
 
-		List<RestrictedField> list_spokenZH = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getSpokenLanguagesZH()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of spoken languages ZH");
-			} else {
-				list_spokenZH.add(rf);
-			}
-		}
+        List<RestrictedField> list_spokenZH = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getSpokenLanguagesZH())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of spoken languages ZH");
+            }
+            else
+            {
+                list_spokenZH.add(rf);
+            }
+        }
 
-		List<RestrictedField> list_writtenEN = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getWrittenLanguagesEN()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of written languages EN");
-			} else {
-				list_writtenEN.add(rf);
-			}
-		}
+        List<RestrictedField> list_writtenEN = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getWrittenLanguagesEN())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of written languages EN");
+            }
+            else
+            {
+                list_writtenEN.add(rf);
+            }
+        }
 
-		List<RestrictedField> list_writtenZH = new LinkedList<RestrictedField>();
-		for (RestrictedField rf : researcher.getWrittenLanguagesZH()) {
-			if (rf == null || rf.getValue() == null || rf.getValue().equals("")) {
-				log.info("Discard value from lazy list of written languages ZH");
-			} else {
-				list_writtenZH.add(rf);
-			}
-		}
-		researcher.setMedia(list_media);
-		researcher.setSpokenLanguagesEN(list_spokenEN);
-		researcher.setSpokenLanguagesZH(list_spokenZH);
-		researcher.setWrittenLanguagesEN(list_writtenEN);
-		researcher.setWrittenLanguagesZH(list_writtenZH);
-		
-		
-		researcher.setFullName(anagraficaObjectDTO.getFullName());		
-		researcher.setStaffNo(anagraficaObjectDTO.getStaffNo());	
-		researcher.setUrlPict(anagraficaObjectDTO.getUrlPict());
-				
+        List<RestrictedField> list_writtenZH = new LinkedList<RestrictedField>();
+        for (RestrictedField rf : researcher.getWrittenLanguagesZH())
+        {
+            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
+            {
+                log.info("Discard value from lazy list of written languages ZH");
+            }
+            else
+            {
+                list_writtenZH.add(rf);
+            }
+        }
+        researcher.setMedia(list_media);
+        researcher.setSpokenLanguagesEN(list_spokenEN);
+        researcher.setSpokenLanguagesZH(list_spokenZH);
+        researcher.setWrittenLanguagesEN(list_writtenEN);
+        researcher.setWrittenLanguagesZH(list_writtenZH);
 
-		getApplicationService().saveOrUpdate(ResearcherPage.class,
-				researcher);
-		EditTabRPAdditionalFieldStorage area = getApplicationService().get(
-				getClazzTab(), anagraficaObjectDTO.getTabId());
-		final String areaTitle = area.getTitle();
-		saveMessage(
-				request,
-				getText("action.anagrafica.edited", new Object[] { areaTitle },
-						request.getLocale()));
+        researcher.setFullName(anagraficaObjectDTO.getFullName());
+        researcher.setStaffNo(anagraficaObjectDTO.getStaffNo());
+        researcher.setUrlPict(anagraficaObjectDTO.getUrlPict());
 
-		return new ModelAndView(exitPage);
-	}
+        getApplicationService().saveOrUpdate(ResearcherPage.class, researcher);
+        EditTabRPAdditionalFieldStorage area = getApplicationService().get(
+                getClazzTab(), anagraficaObjectDTO.getTabId());
+        final String areaTitle = area.getTitle();
+        saveMessage(
+                request,
+                getText("action.anagrafica.edited", new Object[] { areaTitle },
+                        request.getLocale()));
 
+        return new ModelAndView(exitPage);
+    }
 
-	@Override
-	protected void onBindAndValidate(HttpServletRequest request,
-			Object command, BindException errors) throws Exception {
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request,
+            Object command, BindException errors) throws Exception
+    {
 
-		AnagraficaObjectAreaDTO dto = (AnagraficaObjectAreaDTO) command;
-		ResearcherPage researcher = getApplicationService().get(
-				ResearcherPage.class, dto.getParentId());
-		RPAdditionalFieldStorage myObject = researcher.getDynamicField();
+        AnagraficaObjectAreaDTO dto = (AnagraficaObjectAreaDTO) command;
+        ResearcherPage researcher = getApplicationService().get(
+                ResearcherPage.class, dto.getParentId());
+        RPAdditionalFieldStorage myObject = researcher.getDynamicField();
 
-		EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-				EditTabRPAdditionalFieldStorage.class, dto.getTabId());
-		List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
-		if (editT.getDisplayTab() != null) {
-			for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
-					.getMask()) {
-				propertyHolders.add(box);
-			}
-		} else {
-			propertyHolders = getApplicationService().findPropertyHolderInTab(
-					getClazzTab(), dto.getTabId());
-		}
+        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
+                EditTabRPAdditionalFieldStorage.class, dto.getTabId());
+        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+                    .getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), dto.getTabId());
+        }
 
-		List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
+        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-		for (BoxRPAdditionalFieldStorage iph : propertyHolders) {
+        for (BoxRPAdditionalFieldStorage iph : propertyHolders)
+        {
 
-				tipProprietaInArea.addAll(getApplicationService()
-						.<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>>findContainableInPropertyHolder(getClazzBox(),
-								iph.getId()));
+            tipProprietaInArea
+                    .addAll(getApplicationService()
+                            .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                                    getClazzBox(), iph.getId()));
 
-		}
+        }
 
-		List<RPPropertiesDefinition> realTPS = new LinkedList<RPPropertiesDefinition>();
-		List<IContainable> structuralField = new LinkedList<IContainable>();
-		for (IContainable c : tipProprietaInArea) {
-			RPPropertiesDefinition rpPd = getApplicationService()
-					.findPropertiesDefinitionByShortName(
-							RPPropertiesDefinition.class, c.getShortName());
-			if (rpPd != null) {
-				realTPS.add(rpPd);
-			} else {
-				structuralField.add(c);
-			}
-		}
-		AnagraficaUtils.reverseDTO(dto, myObject, realTPS);
-		AnagraficaUtils.fillDTO(dto, myObject, realTPS);
-	}
-
+        List<RPPropertiesDefinition> realTPS = new LinkedList<RPPropertiesDefinition>();
+        List<IContainable> structuralField = new LinkedList<IContainable>();
+        for (IContainable c : tipProprietaInArea)
+        {
+            RPPropertiesDefinition rpPd = getApplicationService()
+                    .findPropertiesDefinitionByShortName(
+                            RPPropertiesDefinition.class, c.getShortName());
+            if (rpPd != null)
+            {
+                realTPS.add(rpPd);
+            }
+            else
+            {
+                structuralField.add(c);
+            }
+        }
+        AnagraficaUtils.reverseDTO(dto, myObject, realTPS);
+        AnagraficaUtils.fillDTO(dto, myObject, realTPS);
+    }
 
 }

@@ -191,8 +191,7 @@ public class ResearcherTagLibraryFunctions
     public static boolean isBoxHidden(ResearcherPage anagrafica,
             BoxRPAdditionalFieldStorage box)
     {
-        return isBoxHiddenInternal(anagrafica.getDynamicField(), box)
-                && isBoxHiddenWithStructural(anagrafica, box);
+        return isBoxHiddenInternal(anagrafica.getDynamicField(), box) && isBoxHiddenWithStructural(anagrafica, box);
     }
 
     public static boolean isBoxHidden(ResearcherGrant anagrafica,
@@ -203,8 +202,7 @@ public class ResearcherTagLibraryFunctions
 
     public static <TP extends PropertiesDefinition, P extends Property<TP>, B extends Box<Containable>> boolean isBoxHiddenWithStructural(
             ResearcherPage anagrafica, B box)
-    {
-
+    {     
         boolean result = true;
 
         List<IContainable> containables = new LinkedList<IContainable>();

@@ -187,7 +187,7 @@
 			</c:if>
 			<c:if test="${!empty box.id}">			
 				<c:if
-					test="${dyna:instanceOf(boxed,'it.cilea.osd.jdyna.web.ADecoratorPropertiesDefinition')}">
+					test="${dyna:instanceOf(boxed,'it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition')}">
 					
 					<c:forEach var="ownered" items="${owneredContainables}"
 							varStatus="i">
@@ -266,7 +266,7 @@
 			<c:if test="${!empty box.id}">
 			
 				<c:if
-					test="${dyna:instanceOf(boxed,'it.cilea.osd.jdyna.web.ADecoratorPropertiesDefinition')}">
+					test="${dyna:instanceOf(boxed,'it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition')}">
 					<c:set var="checked" value="false" />
 					<c:forEach var="ownered" items="${owneredContainables}"
 							varStatus="i">

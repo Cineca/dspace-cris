@@ -17,9 +17,12 @@ import it.cilea.hku.authority.model.dynamicfield.AbstractTab;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
 import it.cilea.osd.jdyna.dao.TabDao;
+import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AccessLevelConstants;
 import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.IContainable;
+import it.cilea.osd.jdyna.model.PropertiesDefinition;
+import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.web.Box;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
@@ -27,8 +30,10 @@ import it.cilea.osd.jdyna.web.TabService;
 
 import java.lang.reflect.Method;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.dspace.core.ConfigurationManager;
@@ -44,6 +49,8 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     public final static String PREFIX_TITLE_EDIT_TAB = "Edit ";
 
     public final static String PREFIX_SHORTNAME_EDIT_TAB = "edit";
+
+    public static Map<String, List<IContainable>> cacheStructuredMetadata = new HashMap<String, List<IContainable>>();
 
     /**
      * {@inheritDoc}
@@ -62,7 +69,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     protected void findOtherContainables(List<IContainable> containables,
             String extraPrefixConfiguration)
     {
-        String dspaceProperty = extraPrefixConfiguration+".containables";
+        String dspaceProperty = extraPrefixConfiguration + ".containables";
         log.debug("Get from configuration additional containables object : "
                 + dspaceProperty);
         String confContainables = ConfigurationManager
@@ -88,12 +95,13 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     {
         extractIsMandatory(containable, drf, "researcherpage");
     }
-    
+
     private void extractIsMandatory(String containable,
             DecoratorRestrictedField drf, String extraPrefixConfiguration)
     {
         String fieldsNotNullable = ConfigurationManager
-                .getProperty(extraPrefixConfiguration+".containables.structural.mandatory");
+                .getProperty(extraPrefixConfiguration
+                        + ".containables.structural.mandatory");
         boolean notnullable = fieldsNotNullable.contains(containable);
         drf.setMandatory(notnullable);
     }
@@ -105,12 +113,12 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
         extractAccessLevel(containable, drf, "researcherpage");
     }
 
-    
     private void extractAccessLevel(String containable,
-            DecoratorRestrictedField drf,String extraPrefixConfiguration)
+            DecoratorRestrictedField drf, String extraPrefixConfiguration)
     {
         String fieldsAccessLevelHIGH = ConfigurationManager
-                .getProperty(extraPrefixConfiguration+".containables.box.staticfields.visibility.high");
+                .getProperty(extraPrefixConfiguration
+                        + ".containables.box.staticfields.visibility.high");
         boolean accessLevel = fieldsAccessLevelHIGH.contains(containable);
         if (accessLevel)
         {
@@ -118,7 +126,8 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             return;
         }
         String fieldsAccessLevelSTANDARD = ConfigurationManager
-                .getProperty(extraPrefixConfiguration+".containables.box.staticfields.visibility.standard");
+                .getProperty(extraPrefixConfiguration
+                        + ".containables.box.staticfields.visibility.standard");
         accessLevel = fieldsAccessLevelSTANDARD.contains(containable);
         if (accessLevel)
         {
@@ -126,7 +135,8 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             return;
         }
         String fieldsAccessLevelADMIN = ConfigurationManager
-                .getProperty(extraPrefixConfiguration+".containables.box.staticfields.visibility.admin");
+                .getProperty(extraPrefixConfiguration
+                        + ".containables.box.staticfields.visibility.admin");
         accessLevel = fieldsAccessLevelADMIN.contains(containable);
         if (accessLevel)
         {
@@ -134,7 +144,8 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             return;
         }
         String fieldsAccessLevelLOW = ConfigurationManager
-                .getProperty(extraPrefixConfiguration+".containables.box.staticfields.visibility.low");
+                .getProperty(extraPrefixConfiguration
+                        + ".containables.box.staticfields.visibility.low");
         accessLevel = fieldsAccessLevelLOW.contains(containable);
         if (accessLevel)
         {
@@ -143,7 +154,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
         }
         drf.setAccessLevel(AccessLevelConstants.ADMIN_ACCESS);
     }
-    
+
     private void extractIsRepeatable(String containable,
             DecoratorRestrictedField drf)
     {
@@ -159,11 +170,13 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
                 break;
             }
         }
-        if (method!=null && method.getReturnType().isAssignableFrom(List.class))
+        if (method != null
+                && method.getReturnType().isAssignableFrom(List.class))
         {
             drf.setRepeatable(true);
         }
-        else {
+        else
+        {
             drf.setRepeatable(false);
         }
     }
@@ -173,7 +186,8 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     public void findOtherContainablesInBoxByConfiguration(String holderName,
             List<IContainable> containables)
     {
-       findOtherContainablesInBoxByConfiguration(holderName, containables, "researcherpage");
+        findOtherContainablesInBoxByConfiguration(holderName, containables,
+                "researcherpage");
     }
 
     public void findOtherContainablesInBoxByConfiguration(String holderName,
@@ -181,25 +195,40 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     {
         String boxName = StringUtils.deleteWhitespace(holderName).trim()
                 .toLowerCase();
-        String dspaceProperty = extraPrefixConfiguration+".containables.box." + boxName;
-        log.debug("Get from configuration additional containables object : "
-                + dspaceProperty);
-        String confContainables = ConfigurationManager
-                .getProperty(dspaceProperty);
-        if (confContainables != null && !confContainables.isEmpty())
+
+        String dspaceProperty = extraPrefixConfiguration + ".containables.box."
+                + boxName;
+
+        if (cacheStructuredMetadata.containsKey(dspaceProperty))
         {
-            String[] listConfContainables = confContainables.split(",");
-            for (String containable : listConfContainables)
+            containables.addAll(cacheStructuredMetadata.get(dspaceProperty));
+        }
+        else
+        {            
+            log.debug("Get from configuration additional containables object : "
+                    + dspaceProperty);
+            String confContainables = ConfigurationManager
+                    .getProperty(dspaceProperty);
+            List<IContainable> tmp = new LinkedList<IContainable>();
+            if (confContainables != null && !confContainables.isEmpty())
             {
-                DecoratorRestrictedField drf = new DecoratorRestrictedField();
-                drf.setReal(containable.trim());
-                extractIsMandatory(containable, drf);
-                extractIsRepeatable(containable, drf);
-                extractAccessLevel(containable, drf);
-                containables.add(drf);
-            }
+                String[] listConfContainables = confContainables.split(",");
+                for (String containable : listConfContainables)
+                {
+                    DecoratorRestrictedField drf = new DecoratorRestrictedField();
+                    drf.setReal(containable.trim());
+                    extractIsMandatory(containable, drf);
+                    extractIsRepeatable(containable, drf);
+                    extractAccessLevel(containable, drf);
+                    tmp.add(drf);
+                    
+                }
+                containables.addAll(tmp);                
+            }            
+            cacheStructuredMetadata.put(dspaceProperty, tmp);
         }
     }
+
     /**
      * Decouple edit tab wrapper from display tab id, check persistence object
      * is alive and after unhook it.
@@ -279,31 +308,29 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
 
         TabDao<H, T> dao = (TabDao<H, T>) getDaoByModel(model);
         List<T> tabs = new LinkedList<T>();
-//        if (isAdmin == null)
-//        {
-//
-//            tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-//        }
-//        else
-//        {
-//            if (isAdmin)
-//            {
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.ADMIN));
-//                tabs.addAll(dao
-//                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
-//            }
-//            else
-//            {
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-//                tabs.addAll(dao
-//                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.LOW));
-//            }
-//        }
-        
-        tabs = dao.findAll();
-        
+        if (isAdmin == null)
+        {
+
+            tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
+        }
+        else
+        {
+            if (isAdmin)
+            {
+                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
+                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.ADMIN));
+                tabs.addAll(dao
+                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
+            }
+            else
+            {
+                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
+                tabs.addAll(dao
+                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
+                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.LOW));
+            }
+        }
+
         Collections.sort(tabs);
         return tabs;
 

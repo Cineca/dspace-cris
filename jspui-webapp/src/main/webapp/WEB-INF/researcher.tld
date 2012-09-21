@@ -74,4 +74,71 @@
 	<function-class>it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions</function-class>
 	<function-signature>Containable sortContainableByComparator(java.util.List,java.lang.String)</function-signature>
 </function>
+
+  <tag>
+    <name>itemlist</name>
+    <tagclass>it.cilea.hku.authority.webui.web.tag.EnhancedItemListTag</tagclass>
+    <info>
+      Tag for displaying a list of items.  Specify highlightrow (starting
+      from zero) if a row should be highlit.  Specify an emphcolumn of
+      "date" or "title" to emphasise the contents of a column.
+    </info>
+    <attribute>
+      <name>items</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>highlightrow</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>emphcolumn</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+      <attribute>
+        <name>sortOption</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>authorLimit</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+          <name>linkToEdit</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+          <name>disableCrossLinks</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+      </attribute>
+	  <!-- Enhanced options -->
+      <attribute>
+        <name>itemStart</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>radioButton</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>inputName</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+        <name>order</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+      </attribute>
+  </tag>
+
 </taglib>

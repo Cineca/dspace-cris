@@ -149,7 +149,7 @@ public class ResearcherGrantDetailsController
             model.put("grant_page_menu", new Boolean(true));
         }
 
-        ModelAndView mvc = super.handleDetails(request);
+        ModelAndView mvc = super.handleDetails(request, response);
 
         List<IContainable> pDInTab = (List<IContainable>) mvc.getModel().get(
                 "propertiesDefinitionsInTab");
@@ -187,7 +187,7 @@ public class ResearcherGrantDetailsController
 
     @Override
     protected List<TabResearcherGrant> findTabsWithVisibility(
-            HttpServletRequest request) throws SQLException
+            HttpServletRequest request, Map<String, Object> model, HttpServletResponse response) throws SQLException, Exception
     {
 
         // check admin authorization

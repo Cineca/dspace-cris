@@ -26,20 +26,20 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CacheModeType;
 
 @Entity
 @Table(name = "model_jdyna_box")
-@NamedQueries({
-		@NamedQuery(name = "BoxRPAdditionalFieldStorage.findAll", query = "from BoxRPAdditionalFieldStorage order by priority asc"),
-		@NamedQuery(name = "BoxRPAdditionalFieldStorage.findContainableByHolder", query = "from Containable containable where containable in (select m from BoxRPAdditionalFieldStorage box join box.mask m where box.id = ?)"),
-		@NamedQuery(name = "BoxRPAdditionalFieldStorage.findHolderByContainable", query = "from BoxRPAdditionalFieldStorage box where :par0 in elements(box.mask)"),
-		@NamedQuery(name = "BoxRPAdditionalFieldStorage.uniqueBoxByShortName", query = "from BoxRPAdditionalFieldStorage box where shortName = ?")
+@org.hibernate.annotations.NamedQueries({
+		@org.hibernate.annotations.NamedQuery(name = "BoxRPAdditionalFieldStorage.findAll", query = "from BoxRPAdditionalFieldStorage order by priority asc"),
+		@org.hibernate.annotations.NamedQuery(name = "BoxRPAdditionalFieldStorage.findContainableByHolder", query = "from Containable containable where containable in (select m from BoxRPAdditionalFieldStorage box join box.mask m where box.id = ?)", cacheable=true),
+		@org.hibernate.annotations.NamedQuery(name = "BoxRPAdditionalFieldStorage.findHolderByContainable", query = "from BoxRPAdditionalFieldStorage box where :par0 in elements(box.mask)", cacheable=true),
+		@org.hibernate.annotations.NamedQuery(name = "BoxRPAdditionalFieldStorage.uniqueBoxByShortName", query = "from BoxRPAdditionalFieldStorage box where shortName = ?")
 })
 public class BoxRPAdditionalFieldStorage extends Box<Containable> {
 	
 	@ManyToMany
-	@JoinTable(name = "model_jdyna_box2containable")
-	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@JoinTable(name = "model_jdyna_box2containable")	
 	private List<Containable> mask;
 
 	public BoxRPAdditionalFieldStorage() {

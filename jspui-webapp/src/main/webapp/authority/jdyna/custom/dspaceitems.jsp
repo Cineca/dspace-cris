@@ -13,7 +13,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
-<%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="researcher" value="${researcher}" scope="request" />
 
@@ -152,7 +151,7 @@ if (pageTotal > 1)
 		   <input type="hidden" name="open" value="<%= type %>" />
 </form>
 			
-<dspace:itemlist items="<%= items %>" sortOption="<%= so %>" order="<%= order.toUpperCase() %>" 
+<researcher:itemlist items="<%= items %>" sortOption="<%= so %>" order="<%= order.toUpperCase() %>" 
 	authorLimit="<%= etAl %>" itemStart="1"/>
 
 			

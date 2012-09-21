@@ -13,7 +13,6 @@ package it.cilea.hku.authority.webui.controller;
 import it.cilea.hku.authority.dspace.HKUAuthority;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
@@ -24,13 +23,15 @@ import it.cilea.hku.authority.service.RPSubscribeService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.components.IRPComponent;
 import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
+import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.web.Box;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -108,8 +109,6 @@ public class ResearcherPageDetailsController
     public ModelAndView handleRequest(HttpServletRequest request,
             HttpServletResponse response) throws Exception
     {
-    	
-        System.out.println("start" + new Date());
         log.debug("Start handleRequest");
         Map<String, Object> model = new HashMap<String, Object>();
 
@@ -124,10 +123,10 @@ public class ResearcherPageDetailsController
         ResearcherPage researcher = null;
         try
         {
-        	
-        	
-            researcher = ((ApplicationService)applicationService).get(ResearcherPage.class, objectId);
-            
+
+            researcher = ((ApplicationService) applicationService).get(
+                    ResearcherPage.class, objectId);
+
         }
         catch (NumberFormatException e)
         {
@@ -140,15 +139,7 @@ public class ResearcherPageDetailsController
             return null;
         }
 
-        String tabName = extractTabName(request);
-        if (tabName == null)
-        {
-            System.out.println("PART 2: find tab with visibility " +new Date());
-            tabName = findTabsWithVisibility(request).get(0).getShortName();
-            System.out.println("END PART 2 " +new Date());
-        }
-
-        model.put("researcher", researcher);
+               
         Context context = UIUtil.obtainContext(request);
         EPerson currUser = context.getCurrentUser();
 
@@ -199,15 +190,76 @@ public class ResearcherPageDetailsController
                     researcher);
             model.put("subscribed", subscribed);
         }
-        System.out.println("END ADMIN " +new Date());
-        ModelAndView mvc = null;
-        
-        
+        // this map contains key-values pairs, key = box shortname and values =
+        // collection of metadata
+        Map<String, List<Containable>> mapBoxToContainables = new HashMap<String, List<Containable>>();
+        List<IContainable> pDInTab = new LinkedList<IContainable>();
+        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        List<TabRPAdditionalFieldStorage> tabs = new LinkedList<TabRPAdditionalFieldStorage>();
+        Integer tabId = getTabId(request);
         try
         {
-        	
-            mvc = super.handleDetails(request);
-            
+
+            tabs = findTabsWithVisibility(
+                    request, model, response);
+            // collection of edit tabs (all edit tabs created on system
+            // associate to visibility)
+
+            if (tabId == null && tabs != null && tabs.size() > 0)
+            {
+                tabId = tabs.get(0).getId();
+            }
+
+            if (tabId == null)
+            {
+                throw new RuntimeException(
+                        "No tabs to display contact administrator");
+            }
+
+            TabRPAdditionalFieldStorage t = applicationService.get(tabClass,
+                    tabId);
+            if (!tabs.contains(t))
+            {
+                throw new RuntimeException(
+                        "You not have needed authorization level to display this tab");
+            }
+
+            // collection of boxs
+            propertyHolders = t.getMask();
+
+            String openbox = extractAnchorId(request);
+            // this piece of code get containables object from boxs and put them
+            // on map
+            for (BoxRPAdditionalFieldStorage box : propertyHolders)
+            {
+
+                String boxShortName = box.getShortName();
+                List<Containable> temp = box.getMask();
+                ((ExtendedTabService) applicationService)
+                        .findOtherContainablesInBoxByConfiguration(
+                                boxShortName, temp);
+                if (components != null)
+                {
+                    IRPComponent comp = components.get(boxShortName);
+                    if (comp != null)
+                    {
+                        comp.evalute(request, response);
+                    }
+                }
+
+                if (box.getShortName().equals(openbox))
+                {
+                    if (box.isCollapsed())
+                    {
+                        box.setCollapsed(false);                        
+                    }
+                }
+
+                mapBoxToContainables.put(box.getShortName(), temp);
+                pDInTab.addAll(temp);
+            }
+            researcher.getDynamicField().inizializza();
+
         }
         catch (Exception e)
         {
@@ -219,124 +271,36 @@ public class ResearcherPageDetailsController
                     + ResearcherPageUtils.getPersistentIdentifier(researcher));
             return null;
         }
-
-        System.out.println("END super.handleDetail " + new Date());
-                
-        List<IContainable> pDInTab = (List<IContainable>) mvc.getModel().get(
-                "propertiesDefinitionsInTab");
-        Map<String, List<IContainable>> mapBoxToContainables = (Map<String, List<IContainable>>) mvc
-                .getModel().get("propertiesDefinitionsInHolder");
-        for (String boxShortName : mapBoxToContainables.keySet())
-        {
-            List<IContainable> temp = new LinkedList<IContainable>();
-            ((ExtendedTabService) applicationService)
-                    .findOtherContainablesInBoxByConfiguration(boxShortName,
-                            temp);
-            pDInTab.addAll(temp);
-            mapBoxToContainables.get(boxShortName).addAll(temp);
-            if (components != null)
-            {
-                IRPComponent comp = components.get(boxShortName);
-                if (comp != null)
-                {
-                    comp.evalute(request, response);
-                }
-            }
-        }
-
-        // retrieve sub-page active links
-        List<TabRPAdditionalFieldStorage> tabs = (List<TabRPAdditionalFieldStorage>) mvc
-                .getModel().get("tabList");
-
-        Map<String, List<String[]>> navigation = new HashMap<String, List<String[]>>();
-        List<String[]> sublinkstoexport = new ArrayList<String[]>();
-        for (TabRPAdditionalFieldStorage tab : tabs)
-        {
-            List<String[]> sublinks = new ArrayList<String[]>();
-
-            for (BoxRPAdditionalFieldStorage box : tab.getMask())
-            {
-                IRPComponent comp = null;
-                if(components!=null) {
-                    comp = components.get(box.getShortName());
-                }                
-                if (comp != null)
-                {
-                    List<String[]> compSubLinks = comp.sublinks(request,
-                            response);
-                    sublinks.addAll(compSubLinks);
-                    sublinkstoexport.addAll(compSubLinks);
-                }
-                else
-                {
-                    if (!box.isUnrelevant()
-                            && !ResearcherTagLibraryFunctions.isBoxHidden(
-                                    researcher, box))
-                    {
-                        int countBoxPublicMetadata = ResearcherTagLibraryFunctions
-                                .countBoxPublicMetadata(researcher, box, true);
-                        sublinks.add(new String[] {
-                                box.getShortName(),
-                                box.getTitle()
-                                        + (countBoxPublicMetadata == 0 ? ""
-                                                : " (" + countBoxPublicMetadata
-                                                        + ")"),
-                                box.getShortName() });
-                    }
-                }
-            }
-            
-            navigation.put(tab.getShortName(), sublinks);
-        }
-        model.put("navigation", navigation);
-               
-        System.out.println("END navigation " + new Date());
-        String openbox = extractAnchorId(request);
-        for(Box box : (List<Box>)mvc.getModel().get("propertiesHolders")) {
-            if(box.getShortName().equals(openbox)) {
-                if(box.isCollapsed()) {
-                    box.setCollapsed(false);
-                    break;
-                }
-            }            
-        }
         
-        System.out.println("END box collapsed " + new Date());
-        model.put("sublinktoexport", sublinkstoexport);
+        Collections.sort(propertyHolders);
+        model.put("propertiesHolders", propertyHolders);
+        model.put("propertiesDefinitionsInHolder", mapBoxToContainables);
+        model.put("tabList", tabs);
+        model.put("tabId", tabId);
+        model.put("path", modelPath);
+        model.put("anagraficaObject", researcher.getDynamicField());
+        model.put("addModeType", "display");
+        model.put("researcher", researcher);
         model.put("exportscitations",
                 ConfigurationManager.getProperty("exportcitation.options"));
-        mvc.getModel().put("propertiesDefinitionsInTab", pDInTab);
-        mvc.getModel().put("propertiesDefinitionsInHolder",
-                mapBoxToContainables);
-        EditTabRPAdditionalFieldStorage fuzzyEditTab = applicationService
-                .getTabByShortName(EditTabRPAdditionalFieldStorage.class,
-                        "edit" + tabName);
-        mvc.getModel().put("tabIdForRedirect",
-                fuzzyEditTab != null ? fuzzyEditTab.getId() : "");
 
-        mvc.getModel()
-                .put("showStatsOnlyAdmin",
-                        ConfigurationManager
-                                .getBooleanProperty("statistics.item.authorization.admin"));
-        mvc.getModel().putAll(model);
-        System.out.println("END edit tab" + new Date());
-        log.debug("end servlet handleRequest");
-        
-        System.out.println("END TEST" + new Date());
-        return mvc;
-        
+        model.put("showStatsOnlyAdmin", ConfigurationManager
+                .getBooleanProperty("statistics.item.authorization.admin"));
+
+        return new ModelAndView(detailsView, model);
     }
 
     @Override
     protected List<TabRPAdditionalFieldStorage> findTabsWithVisibility(
-            HttpServletRequest request)
-            throws SQLException
+            HttpServletRequest request, Map<String, Object> model,
+            HttpServletResponse response) throws Exception
     {
         Integer researcherId = extractResearcherId(request);
         ResearcherPage researcher = null;
         try
         {
-            researcher = ((ApplicationService)applicationService).get(ResearcherPage.class, researcherId);
+            researcher = ((ApplicationService) applicationService).get(
+                    ResearcherPage.class, researcherId);
         }
         catch (NumberFormatException e)
         {
@@ -360,21 +324,69 @@ public class ResearcherPageDetailsController
 
         List<TabRPAdditionalFieldStorage> notEmptyTabs = new LinkedList<TabRPAdditionalFieldStorage>();
 
+        // retrieve sub-page active links
+        Map<String, List<String[]>> navigation = new HashMap<String, List<String[]>>();
+        List<String[]> sublinkstoexport = new ArrayList<String[]>();
+
         for (TabRPAdditionalFieldStorage tab : tabs)
         {
+            List<String[]> sublinks = new ArrayList<String[]>();
+            boolean justAdded = false;
             List<BoxRPAdditionalFieldStorage> boxs = tab.getMask();
             for (BoxRPAdditionalFieldStorage box : boxs)
             {
+
+                IRPComponent comp = null;
+                boolean componentsWorked = false;
+                if (components != null)
+                {
+                    comp = components.get(box.getShortName());
+
+                }
+                if (comp != null)
+                {
+                    List<String[]> compSubLinks = comp.sublinks(request,
+                            response);
+                    sublinks.addAll(compSubLinks);
+                    sublinkstoexport.addAll(compSubLinks);
+                    componentsWorked = true;
+                }
+
                 if (!box.isUnrelevant()
                         && !ResearcherTagLibraryFunctions.isBoxHidden(
                                 researcher, box))
                 {
-                    notEmptyTabs.add(tab);
-                    break;
+                    
+                    if(!justAdded) {
+                        notEmptyTabs.add(tab);
+                    }
+                    
+                    justAdded = true;
+                    
+
+                    if (!componentsWorked)
+                    {
+                        int countBoxPublicMetadata = ResearcherTagLibraryFunctions
+                                .countBoxPublicMetadata(researcher, box, true);
+                        sublinks.add(new String[] {
+                                box.getShortName(),
+                                box.getTitle()
+                                        + (countBoxPublicMetadata == 0 ? ""
+                                                : " (" + countBoxPublicMetadata
+                                                        + ")"),
+                                box.getShortName() });
+                    }
                 }
+
             }
+
+            navigation.put(tab.getShortName(), sublinks);
         }
+
+        model.put("navigation", navigation);
+        model.put("sublinktoexport", sublinkstoexport);
         return notEmptyTabs;
+
     }
 
     @Override
@@ -384,7 +396,8 @@ public class ResearcherPageDetailsController
         ResearcherPage researcher = null;
         try
         {
-            researcher = ((ApplicationService)applicationService).get(ResearcherPage.class, researcherId);
+            researcher = ((ApplicationService) applicationService).get(
+                    ResearcherPage.class, researcherId);
         }
         catch (NumberFormatException e)
         {
@@ -411,11 +424,14 @@ public class ResearcherPageDetailsController
     private String extractAnchorId(HttpServletRequest request)
     {
         String type = request.getParameter("open");
-        if(publistFilters.contains(type)) {
+        if (publistFilters.contains(type))
+        {
             return "dspaceitems";
         }
-        else {
-            if(type!=null && !type.isEmpty()) {
+        else
+        {
+            if (type != null && !type.isEmpty())
+            {
                 return type;
             }
         }

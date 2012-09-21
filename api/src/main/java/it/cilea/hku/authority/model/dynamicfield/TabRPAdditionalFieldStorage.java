@@ -27,11 +27,11 @@ import org.hibernate.annotations.CacheModeType;
 @Entity
 @Table(name="model_jdyna_tab")
 @org.hibernate.annotations.NamedQueries( {
-        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findAll", query = "from TabRPAdditionalFieldStorage order by priority asc", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findAll", query = "from TabRPAdditionalFieldStorage order by priority asc"),
         @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findPropertyHolderInTab", query = "from BoxRPAdditionalFieldStorage box where box in (select m from TabRPAdditionalFieldStorage tab join tab.mask m where tab.id = ?) order by priority", cacheable=true),
-        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findTabsByHolder", query = "from TabRPAdditionalFieldStorage tab where :par0 in elements(tab.mask)"),
-        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from TabRPAdditionalFieldStorage tab where shortName = ?"),
-		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAccessLevel", query = "from TabRPAdditionalFieldStorage tab where visibility = ? order by priority")
+        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findTabsByHolder", query = "from TabRPAdditionalFieldStorage tab where :par0 in elements(tab.mask)", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from TabRPAdditionalFieldStorage tab where shortName = ?", cacheable=true),
+		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAccessLevel", query = "from TabRPAdditionalFieldStorage tab where visibility = ? order by priority", cacheable=true)		
 })
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class TabRPAdditionalFieldStorage extends AbstractTab<BoxRPAdditionalFieldStorage> {
