@@ -57,12 +57,6 @@
 			<artifactId>log4j</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>hkul.apps.sso</groupId>
-			<artifactId>hkulsso</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-
 		<!-- JAX-RS: Java API for RESTful Web Services -->
 		<dependency>
 			<groupId>asm</groupId>

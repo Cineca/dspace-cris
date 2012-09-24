@@ -60,7 +60,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "model_researcher_page")
-@NamedQueries( {
+@NamedQueries({
         @NamedQuery(name = "ResearcherPage.findAll", query = "from ResearcherPage order by id"),
         @NamedQuery(name = "ResearcherPage.paginate.id.asc", query = "from ResearcherPage order by id asc"),
         @NamedQuery(name = "ResearcherPage.paginate.id.desc", query = "from ResearcherPage order by id desc"),
@@ -79,7 +79,8 @@ import org.hibernate.annotations.Type;
         @NamedQuery(name = "ResearcherPage.count", query = "select count(*) from ResearcherPage"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherPageByStatus", query = "from ResearcherPage where status = ? order by id"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByName", query = "select distinct rp from ResearcherPage rp join rp.variants v where rp.academicName.value = :par0 or rp.fullName = :par0 or rp.chineseName.value = :par0 or v.value = :par0"),
-        //@NamedQuery(name = "ResearcherPage.findAllResearcherByField", query = "select rp from ResearcherPage rp where :par0 in indices(rp.additionalFields)"),
+        // @NamedQuery(name = "ResearcherPage.findAllResearcherByField", query =
+        // "select rp from ResearcherPage rp where :par0 in indices(rp.additionalFields)"),
         @NamedQuery(name = "ResearcherPage.countAllResearcherByName", query = "select count(*) from ResearcherPage rp join rp.variants v where (rp.academicName.value = :par0 or rp.fullName = :par0 or rp.chineseName.value = :par0 or v.value = :par0)"),
         @NamedQuery(name = "ResearcherPage.countAllResearcherByNameExceptResearcher", query = "select count(*) from ResearcherPage rp join rp.variants v where (rp.academicName.value = :par0 or rp.fullName = :par0 or rp.chineseName.value = :par0 or v.value = :par0) and rp.id != :par1 "),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByNamesTimestampLastModified", query = "from ResearcherPage where namesModifiedTimeStamp.timestamp >= ?"),
@@ -93,27 +94,31 @@ import org.hibernate.annotations.Type;
         @NamedQuery(name = "ResearcherPage.findAllNextResearcherByStaffNoStart", query = "from ResearcherPage rp where rp.staffNo >= ?"),
         @NamedQuery(name = "ResearcherPage.findAllPrevResearcherByStaffNoEnd", query = "from ResearcherPage rp where rp.staffNo <= ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInStaffNoRange", query = "from ResearcherPage rp where rp.staffNo between :par0 and :par1"),
-        @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?")
-})
-
-public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampInfo, Cloneable, IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>
+        @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?") })
+public class ResearcherPage
+        implements
+        UUIDSupport,
+        Identifiable,
+        HasTimeStampInfo,
+        Cloneable,
+        IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>
 {
 
-	@Transient
-	public static final int PUBLICATION_LIST_SECTION = -1;
-	
-	@Transient
-	public static final int DOWNLOAD_CV_SECTION = -2;
+    @Transient
+    public static final int PUBLICATION_LIST_SECTION = -1;
 
-	@Transient
-	public static final int COLLABORATION_NETWORK_SECTION = -3;
-	
-	@Transient
-	/**
-	 * Constant for resource type assigned to the RP
-	 */
-	public static final int RP_TYPE_ID = 9;
-	
+    @Transient
+    public static final int DOWNLOAD_CV_SECTION = -2;
+
+    @Transient
+    public static final int COLLABORATION_NETWORK_SECTION = -3;
+
+    @Transient
+    /**
+     * Constant for resource type assigned to the RP
+     */
+    public static final int RP_TYPE_ID = 9;
+
     /** log4j logger */
     @Transient
     private static Logger log = Logger.getLogger(ResearcherPage.class);
@@ -129,9 +134,9 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     /** DB Primary key */
     @Id
     @GeneratedValue(generator = "RESEARCHERPAGE_SEQ")
-    @SequenceGenerator(name = "RESEARCHERPAGE_SEQ", sequenceName = "RESEARCHERPAGE_SEQ")    
+    @SequenceGenerator(name = "RESEARCHERPAGE_SEQ", sequenceName = "RESEARCHERPAGE_SEQ")
     private Integer id;
-    
+
     @Column(nullable = false, unique = true)
     private String uuid;
 
@@ -139,13 +144,13 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     private Boolean status;
 
     /** HKU internal unique identifier of the ResearcherPage, must be not null */
-    @Column(nullable = false, unique = true)    
+    @Column(nullable = false, unique = true)
     private String staffNo;
 
     /** the full name of the researcher, must be not null */
     @Column(nullable = false)
     private String fullName;
-    
+
     @Transient
     /**
      * The names that the ResearcherPage has when loaded from the db the first
@@ -156,34 +161,37 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     private String oldNames;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "honorific_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "honorific_visibility")) })
     @Cascade(value = { CascadeType.ALL })
     /**
      * the honorific 
      */
+    @Deprecated
     private RestrictedField honorific;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "academicName_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "academicName_visibility")) })
     @Cascade(value = { CascadeType.ALL })
     /**
      * the academic name 
      */
+    @Deprecated
     private RestrictedField academicName;
-    
+
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "chineseName_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "chineseName_visibility")) })
     /**
      * the Chinese name
      */
+    @Deprecated
     private RestrictedField chineseName;
-        
+
     @Embedded
     @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
@@ -191,75 +199,83 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     /**
      * the title
      */
+    @Deprecated
     private List<RestrictedField> title;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "dept_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "dept_visibility")) })    
+            @AttributeOverride(name = "visibility", column = @Column(name = "dept_visibility")) })
     /**
      * the department
      */
+    @Deprecated
     private RestrictedField dept;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "address_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "address_visibility")) })
     /**
      * the address
      */
+    @Deprecated
     private RestrictedField address;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "officeTel_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "officeTel_visibility")) })
     /**
      * the office telephone number
      */
+    @Deprecated
     private RestrictedField officeTel;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "email_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "email_visibility")) })
     /**
      * the email
      */
+    @Deprecated
     private RestrictedField email;
 
     /**
      * url of a webpage where check for a picture. Only for internal staff not
      * used in public view
-     */  
+     */
+    @Deprecated
     @Type(type = "text")
     private String urlPict;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "pict_ext")),
             @AttributeOverride(name = "mimeType", column = @Column(name = "pict_type")),
             @AttributeOverride(name = "visibility", column = @Column(name = "pict_visibility")) })
     /**
      * the picture to show on the public page 
      */
+    @Deprecated
     private RestrictedFieldFile pict;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "cv_ext")),
-            @AttributeOverride(name = "remoteUrl", column = @Column(name = "cv_url")),            
+            @AttributeOverride(name = "remoteUrl", column = @Column(name = "cv_url")),
             @AttributeOverride(name = "mimeType", column = @Column(name = "cv_type")),
             @AttributeOverride(name = "visibility", column = @Column(name = "cv_visibility")) })
     /**
      * the CV to show on the public page 
      */
+    @Deprecated
     private RestrictedFieldLocalOrRemoteFile cv;
-    
+
     @Deprecated
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "bio_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "bio_visibility")) })
     /**
@@ -269,9 +285,9 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      */
     private RestrictedField bio;
 
-    @Deprecated    
+    @Deprecated
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "personal_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "personal_visibility")) })
     /**
@@ -280,8 +296,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * @Deprecated changed to dynamic field (shortname=myurls)
      */
     private RestrictedField urlPersonal;
-    
-    @Deprecated    
+
+    @Deprecated
     @Embedded
     @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
@@ -296,10 +312,10 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-   /**
-    * the variants form of the name (include also Japanese, Korean, etc.)
-    */
-   private List<RestrictedField> variants;
+    /**
+     * the variants form of the name (include also Japanese, Korean, etc.)
+     */
+    private List<RestrictedField> variants;
 
     @Embedded
     @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
@@ -308,6 +324,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     /**
      * the interests list
      */
+    @Deprecated
     private List<RestrictedField> interests;
 
     @Deprecated
@@ -325,7 +342,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     @Embedded
     @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     /**
      * the list of spoken languages in Chinese form
      * @Deprecated changed to dynamic field (shortname=spokenZH (children of 'spoken' complex field))
@@ -346,7 +363,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     @Embedded
     @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     /**
      * the list of written languages in Chinese form
      */
@@ -354,167 +371,183 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     // fields that come from the bibliometric excel data...
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "ridISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "ridISI_visibility")) })    
+            @AttributeOverride(name = "visibility", column = @Column(name = "ridISI_visibility")) })
     /**
      * ISI Researcher ID
      */
+    @Deprecated
     private RestrictedField ridISI;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "ridLinkISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "ridLinkISI_visibility"))
-    }) 
+            @AttributeOverride(name = "visibility", column = @Column(name = "ridLinkISI_visibility")) })
     /**
      * Link to ISI RID page
      */
+    @Deprecated
     private RestrictedField ridLinkISI;
 
     /**
-     * ISI Document Count 
+     * ISI Document Count
      */
+    @Deprecated
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "paperCountISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "paperCountISI_visibility")) })     
+            @AttributeOverride(name = "visibility", column = @Column(name = "paperCountISI_visibility")) })
     private RestrictedField paperCountISI;
 
     /**
-     * ISI Link to Document Count  page
+     * ISI Link to Document Count page
      */
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "paperLinkISI_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "paperLinkISI_visibility")) })
+    @Deprecated
     private RestrictedField paperLinkISI;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "citationCountISI_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "citationCountISI_visibility")) })
+    @Deprecated
     /**
      * ISI Times Cited 
-     */            
+     */
     private RestrictedField citationCountISI;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "citationLinkISI_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "citationLinkISI_visibility")) })
     /**
      * Link to ISI Times Cited page
-     */                       
+     */
+    @Deprecated
     private RestrictedField citationLinkISI;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "coAuthorsISI_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "coAuthorsISI_visibility")) })
     /**
      * ISI Co-Authors 
-     */                       
+     */
+    @Deprecated
     private RestrictedField coAuthorsISI;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "hindexISI_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "hindexISI_visibility")) })
     /**
      * ISI h-index
-     */                      
+     */
+    @Deprecated
     private RestrictedField hindexISI;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "authorIdScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "authorIdScopus_visibility")) })    
+            @AttributeOverride(name = "visibility", column = @Column(name = "authorIdScopus_visibility")) })
     /**
      * Scopus AuthorID 
-     */                          
+     */
+    @Deprecated
     private RestrictedField authorIdScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "authorIdLinkScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "authorIdLinkScopus_visibility")) })
     /**
      * Link to Scopus AuthorID page
-     */            
+     */
+    @Deprecated
     private RestrictedField authorIdLinkScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "paperCountScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "paperCountScopus_visibility")) })
     /**
      * Scopus Document count 
-     */            
+     */
+    @Deprecated
     private RestrictedField paperCountScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "paperLinkScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "paperLinkScopus_visibility")) })
     /**
      * Link to Scopus Document count page
-     */                        
+     */
+    @Deprecated
     private RestrictedField paperLinkScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "citationCountScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "citationCountScopus_visibility")) })
     /**
      * Scopus Cited By 
-     */                    
+     */
+    @Deprecated
     private RestrictedField citationCountScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "citationLinkScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "citationLinkScopus_visibility")) })
     /**
      * Link to Scopus Cited By 
-     */              
+     */
+    @Deprecated
     private RestrictedField citationLinkScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "coAuthorsScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "coAuthorsScopus_visibility")) })
     /**
      * Scopus Co-Authors
-     */      
+     */
+    @Deprecated
     private RestrictedField coAuthorsScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "coAuthorsLinkScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "coAuthorsLinkScopus_visibility")) })
     /**
      * Link to Scopus Co-Authors page
-     */                  
+     */
+    @Deprecated
     private RestrictedField coAuthorsLinkScopus;
 
     @Embedded
-    @AttributeOverrides( {
+    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "hindexScopus_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "hindexScopus_visibility")) })
     /**
      * Scopus h-index
-     */          
+     */
+    @Deprecated
     private RestrictedField hindexScopus;
 
     // fields outside the "standard" excel file
 
     /**
-     * Map of additional custom data 
+     * Map of additional custom data
      */
-	@OneToOne
-	@Cascade(value = { CascadeType.ALL })
-	private RPAdditionalFieldStorage dynamicField;
+    @OneToOne
+    @Cascade(value = { CascadeType.ALL })
+    private RPAdditionalFieldStorage dynamicField;
 
     /**
      * Manually rejected potential matches
@@ -526,9 +559,9 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     @Transient
     private boolean internalRP = true;
-    
+
     /**
-     * Constructor method, create new ResearcherPage setting status to true. 
+     * Constructor method, create new ResearcherPage setting status to true.
      */
     public ResearcherPage()
     {
@@ -538,13 +571,14 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the db primary key
      */
     public Integer getId()
     {
         return id;
     }
-    
+
     /**
      * Setter method.
      * 
@@ -558,6 +592,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the staffNo
      */
     public String getStaffNo()
@@ -578,6 +613,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the fullName
      */
     public String getFullName()
@@ -598,6 +634,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the honorific
      */
     public RestrictedField getHonorific()
@@ -622,6 +659,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the academic name
      */
     public RestrictedField getAcademicName()
@@ -632,7 +670,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
         }
         return academicName;
     }
-    
+
     /**
      * Setter method.
      * 
@@ -646,6 +684,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the chinese name
      */
     public RestrictedField getChineseName()
@@ -670,6 +709,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the title's list
      */
     public List<RestrictedField> getTitle()
@@ -686,7 +726,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * 
      * @param title
      *            the title's list
-     */    
+     */
     public void setTitle(List<RestrictedField> title)
     {
         this.title = title;
@@ -694,6 +734,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the department
      */
     public RestrictedField getDept()
@@ -718,6 +759,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the address
      */
     public RestrictedField getAddress()
@@ -742,6 +784,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the office telephone number
      */
     public RestrictedField getOfficeTel()
@@ -766,6 +809,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the email
      */
     public RestrictedField getEmail()
@@ -790,6 +834,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the url of a webpage where check for a picture
      */
     public String getUrlPict()
@@ -810,7 +855,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the picture to show on the public page 
+     * 
+     * @return the picture to show on the public page
      */
     public RestrictedFieldFile getPict()
     {
@@ -825,7 +871,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param pict
-     *            the picture to show on the public page 
+     *            the picture to show on the public page
      */
     public void setPict(RestrictedFieldFile pict)
     {
@@ -834,7 +880,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the picture to show on the public page 
+     * 
+     * @return the picture to show on the public page
      */
     public RestrictedFieldLocalOrRemoteFile getCv()
     {
@@ -849,15 +896,16 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param pict
-     *            the picture to show on the public page 
+     *            the picture to show on the public page
      */
     public void setCv(RestrictedFieldLocalOrRemoteFile cv)
     {
         this.cv = cv;
     }
-    
+
     /**
      * Getter method.
+     * 
      * @return the biography
      */
     public RestrictedField getBio()
@@ -882,7 +930,9 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the variants form of the name (include also Japanese, Korean, etc.)
+     * 
+     * @return the variants form of the name (include also Japanese, Korean,
+     *         etc.)
      */
     public List<RestrictedField> getVariants()
     {
@@ -897,16 +947,17 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param variants
-     *            the variants form of the name (include also Japanese, Korean, etc.)
+     *            the variants form of the name (include also Japanese, Korean,
+     *            etc.)
      */
     public void setVariants(List<RestrictedField> variants)
     {
         this.variants = variants;
     }
 
-
     /**
      * Getter method.
+     * 
      * @return the interests
      */
     public List<RestrictedField> getInterests()
@@ -931,6 +982,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the ISI Researcher ID
      */
     public RestrictedField getRidISI()
@@ -955,6 +1007,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the link to ISI RID page
      */
     public RestrictedField getRidLinkISI()
@@ -979,7 +1032,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the ISI Document Count 
+     * 
+     * @return the ISI Document Count
      */
     public RestrictedField getPaperCountISI()
     {
@@ -994,7 +1048,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param paperCountISI
-     *            the ISI Document Count 
+     *            the ISI Document Count
      */
     public void setPaperCountISI(RestrictedField paperCountISI)
     {
@@ -1003,6 +1057,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the ISI Link to Document Count page
      */
     public RestrictedField getPaperLinkISI()
@@ -1027,7 +1082,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the ISI Times Cited 
+     * 
+     * @return the ISI Times Cited
      */
     public RestrictedField getCitationCountISI()
     {
@@ -1042,7 +1098,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param citationCountISI
-     *            the ISI Times Cited 
+     *            the ISI Times Cited
      */
     public void setCitationCountISI(RestrictedField citationCountISI)
     {
@@ -1051,6 +1107,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the link to ISI Times Cited page
      */
     public RestrictedField getCitationLinkISI()
@@ -1075,7 +1132,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the ISI Co-Authors 
+     * 
+     * @return the ISI Co-Authors
      */
     public RestrictedField getCoAuthorsISI()
     {
@@ -1090,7 +1148,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param coAuthorsISI
-     *            the ISI Co-Authors 
+     *            the ISI Co-Authors
      */
     public void setCoAuthorsISI(RestrictedField coAuthorsISI)
     {
@@ -1099,6 +1157,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the ISI h-index
      */
     public RestrictedField getHindexISI()
@@ -1123,7 +1182,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the Scopus AuthorID 
+     * 
+     * @return the Scopus AuthorID
      */
     public RestrictedField getAuthorIdScopus()
     {
@@ -1138,7 +1198,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param authorIdScopus
-     *            the Scopus AuthorID 
+     *            the Scopus AuthorID
      */
     public void setAuthorIdScopus(RestrictedField authorIdScopus)
     {
@@ -1147,6 +1207,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the link to Scopus AuthorID page
      */
     public RestrictedField getAuthorIdLinkScopus()
@@ -1171,7 +1232,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return  the Scopus document count
+     * 
+     * @return the Scopus document count
      */
     public RestrictedField getPaperCountScopus()
     {
@@ -1195,6 +1257,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the link to Scopus Document count page
      */
     public RestrictedField getPaperLinkScopus()
@@ -1216,9 +1279,10 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     {
         this.paperLinkScopus = paperLinkScopus;
     }
-    
+
     /**
      * Getter method.
+     * 
      * @return the Scopus Cited By
      */
     public RestrictedField getCitationCountScopus()
@@ -1243,7 +1307,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the link to Scopus citation page 
+     * 
+     * @return the link to Scopus citation page
      */
     public RestrictedField getCitationLinkScopus()
     {
@@ -1258,7 +1323,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param citationLinkScopus
-     *            the link to Scopus citation page 
+     *            the link to Scopus citation page
      */
     public void setCitationLinkScopus(RestrictedField citationLinkScopus)
     {
@@ -1267,6 +1332,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the Scopus co-Author(s)
      */
     public RestrictedField getCoAuthorsScopus()
@@ -1291,6 +1357,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the the link to Scopus Co-Authors page
      */
     public RestrictedField getCoAuthorsLinkScopus()
@@ -1315,6 +1382,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the Scopus h-index
      */
     public RestrictedField getHindexScopus()
@@ -1339,6 +1407,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the url to the personal page of the researcher
      */
     public RestrictedField getUrlPersonal()
@@ -1363,6 +1432,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the timestamp of creation and last modify of this ResearcherPage
      */
     public TimeStampInfo getTimeStampInfo()
@@ -1376,6 +1446,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the status
      */
     public Boolean getStatus()
@@ -1396,7 +1467,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the area of expertise list 
+     * 
+     * @return the area of expertise list
      */
     public List<RestrictedField> getMedia()
     {
@@ -1411,7 +1483,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param media
-     *            the area of expertise list 
+     *            the area of expertise list
      */
     public void setMedia(List<RestrictedField> media)
     {
@@ -1420,6 +1492,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the manually rejected potential matches
      */
     public Set<Integer> getRejectItems()
@@ -1444,6 +1517,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the list of spoken languages in English form
      */
     public List<RestrictedField> getSpokenLanguagesEN()
@@ -1468,6 +1542,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the list of spoken languages in Chinese form
      */
     public List<RestrictedField> getSpokenLanguagesZH()
@@ -1492,6 +1567,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the list of written languages in English form
      */
     public List<RestrictedField> getWrittenLanguagesEN()
@@ -1516,6 +1592,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
+     * 
      * @return the list of written languages in Chinese form
      */
     public List<RestrictedField> getWrittenLanguagesZH()
@@ -1540,7 +1617,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     /**
      * Getter method.
-     * @return the timestamp of last modify to this Researcher Page's names  
+     * 
+     * @return the timestamp of last modify to this Researcher Page's names
      */
     public SingleTimeStampInfo getNamesModifiedTimeStamp()
     {
@@ -1565,9 +1643,10 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
      * Setter method.
      * 
      * @param namesModifiedTimeStamp
-     *            the timestamp of last modified to researcher names 
+     *            the timestamp of last modified to researcher names
      */
-    public void setNamesModifiedTimeStamp(SingleTimeStampInfo namesModifiedTimeStamp)
+    public void setNamesModifiedTimeStamp(
+            SingleTimeStampInfo namesModifiedTimeStamp)
     {
         this.namesModifiedTimeStamp = namesModifiedTimeStamp;
     }
@@ -1586,31 +1665,35 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
         this.oldNames = oldNames;
     }
 
-	public void setDynamicField(RPAdditionalFieldStorage dynamicField) {
-		this.dynamicField = dynamicField;
-	}
+    public void setDynamicField(RPAdditionalFieldStorage dynamicField)
+    {
+        this.dynamicField = dynamicField;
+    }
 
-	public RPAdditionalFieldStorage getDynamicField() {
-		if(this.dynamicField == null) {
-			this.dynamicField = new RPAdditionalFieldStorage();
-		}
-		return dynamicField;
-	}
+    public RPAdditionalFieldStorage getDynamicField()
+    {
+        if (this.dynamicField == null)
+        {
+            this.dynamicField = new RPAdditionalFieldStorage();
+        }
+        return dynamicField;
+    }
 
-	/**
-	 * Convenience method to get data from ResearcherPage by a string. For any
-	 * existent field name the method must return the relative value (i.e
-	 * getMetadata("fullName") is equivalent to getFullName()) but the method
-	 * always return a list (with 0, 1 or more elements). For dynamic field it
-	 * returns the value of the dynamic field with the shorter name equals to
-	 * the argument. Only public values are returned!
-	 * 
-	 * PARTIALLY IMPLEMENTED: works only on dept and any not nested dynamic fields
-	 * 
-	 * @param dcField
-	 *            the field (not null) to retrieve the value
-	 * @return a list of 0, 1 or more values
-	 */
+    /**
+     * Convenience method to get data from ResearcherPage by a string. For any
+     * existent field name the method must return the relative value (i.e
+     * getMetadata("fullName") is equivalent to getFullName()) but the method
+     * always return a list (with 0, 1 or more elements). For dynamic field it
+     * returns the value of the dynamic field with the shorter name equals to
+     * the argument. Only public values are returned!
+     * 
+     * PARTIALLY IMPLEMENTED: works only on dept and any not nested dynamic
+     * fields
+     * 
+     * @param dcField
+     *            the field (not null) to retrieve the value
+     * @return a list of 0, 1 or more values
+     */
     public List<String> getMetadata(String dcField)
     {
         List<String> result = new ArrayList();
@@ -1633,8 +1716,8 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
                     result.add(prop.toString());
             }
         }
-		return result;
-	}
+        return result;
+    }
 
     @Transient
     public List<String> getAllPublicNames()
@@ -1661,7 +1744,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
         }
         return results;
     }
-    
+
     public List<String> getAllNames()
     {
         List<String> results = new ArrayList<String>();
@@ -1686,25 +1769,28 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
         return results;
     }
 
-//	public ResearcherPage clone(ResearcherPage clone) {
-//		clone.setAcademicName(this.academicName);
-//		clone.setAddress(this.address);
-//		clone.setAuthorIdLinkScopus(this.authorIdLinkScopus);
-//		return null;
-//	}
-    
+    // public ResearcherPage clone(ResearcherPage clone) {
+    // clone.setAcademicName(this.academicName);
+    // clone.setAddress(this.address);
+    // clone.setAuthorIdLinkScopus(this.authorIdLinkScopus);
+    // return null;
+    // }
+
     @Override
-    public Object clone() throws CloneNotSupportedException {
-    	return super.clone();
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 
-	public void setInternalRP(boolean internalRP) {
-		this.internalRP = internalRP;
-	}
+    public void setInternalRP(boolean internalRP)
+    {
+        this.internalRP = internalRP;
+    }
 
-	public boolean isInternalRP() {
-		return internalRP;
-	}
+    public boolean isInternalRP()
+    {
+        return internalRP;
+    }
 
     @Override
     public String getNamePublicIDAttribute()
@@ -1715,7 +1801,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     @Override
     public String getValuePublicIDAttribute()
     {
-        return ""+this.getId();
+        return "" + this.getId();
     }
 
     @Override
@@ -1726,11 +1812,12 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
 
     @Override
     public String getValueIDAttribute()
-    {       
-        if(this.getUuid()==null) {
+    {
+        if (this.getUuid() == null)
+        {
             return "";
         }
-        return ""+this.getUuid().toString();
+        return "" + this.getUuid().toString();
     }
 
     @Override
@@ -1754,7 +1841,7 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
     @Override
     public String getValueTypeIDAttribute()
     {
-        return ""+RP_TYPE_ID;
+        return "" + RP_TYPE_ID;
     }
 
     public void setUuid(String uuid)
@@ -1773,6 +1860,4 @@ public class ResearcherPage implements UUIDSupport, Identifiable, HasTimeStampIn
         return ExportConstants.ELEMENT_SINGLEROW;
     }
 
-    
-     
 }

@@ -18,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -27,6 +28,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CacheModeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
 
 @Entity
 @Table(name = "model_jdyna_box")
@@ -38,8 +42,9 @@ import org.hibernate.annotations.CacheModeType;
 })
 public class BoxRPAdditionalFieldStorage extends Box<Containable> {
 	
-	@ManyToMany
+	@ManyToMany	
 	@JoinTable(name = "model_jdyna_box2containable")	
+	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Containable> mask;
 
 	public BoxRPAdditionalFieldStorage() {

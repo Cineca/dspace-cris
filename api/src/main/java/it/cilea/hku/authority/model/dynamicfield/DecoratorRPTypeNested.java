@@ -19,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
 @NamedQueries( {
     @NamedQuery(name = "DecoratorRPTypeNested.findAll", query = "from DecoratorRPTypeNested order by id"),
     @NamedQuery(name = "DecoratorRPTypeNested.uniqueContainableByDecorable", query = "from DecoratorRPTypeNested where real.id = ?"),
-    @NamedQuery(name = "DecoratorRPTypeNested.uniqueContainableByShortName", query = "from DecoratorRPTypeNested where real.nome = ?")
+    @NamedQuery(name = "DecoratorRPTypeNested.uniqueContainableByShortName", query = "from DecoratorRPTypeNested where real.shortName = ?")
     
 })
 @DiscriminatorValue(value="typerpnestedobject")
@@ -35,7 +35,7 @@ public class DecoratorRPTypeNested extends
     @Override
     public String getShortName()
     {        
-        return this.real.getNome();
+        return this.real.getShortName();
     }
 
     @Override

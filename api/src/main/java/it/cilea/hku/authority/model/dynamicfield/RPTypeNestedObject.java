@@ -22,7 +22,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "model_rp_jdyna_nestedobject_typo")
 @NamedQueries ({
     @NamedQuery(name="RPTypeNestedObject.findAll", query = "from RPTypeNestedObject order by id" ),
-    @NamedQuery(name="RPTypeNestedObject.uniqueByNome", query = "from RPTypeNestedObject where nome = ?" )
+    @NamedQuery(name="RPTypeNestedObject.uniqueByNome", query = "from RPTypeNestedObject where shortName = ?" )
 })
 public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefinition>
 {

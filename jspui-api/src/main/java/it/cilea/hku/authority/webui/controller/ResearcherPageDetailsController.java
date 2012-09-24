@@ -234,10 +234,7 @@ public class ResearcherPageDetailsController
             {
 
                 String boxShortName = box.getShortName();
-                List<Containable> temp = box.getMask();
-                ((ExtendedTabService) applicationService)
-                        .findOtherContainablesInBoxByConfiguration(
-                                boxShortName, temp);
+                List<Containable> temp = box.getMask();         
                 if (components != null)
                 {
                     IRPComponent comp = components.get(boxShortName);
@@ -267,6 +264,7 @@ public class ResearcherPageDetailsController
             // edit, please fix.
             // JSPManager.showAuthorizeError(request, response, new
             // AuthorizeException(e.getMessage()));
+            log.error(e.getMessage(), e);           
             response.sendRedirect("/rp/"
                     + ResearcherPageUtils.getPersistentIdentifier(researcher));
             return null;

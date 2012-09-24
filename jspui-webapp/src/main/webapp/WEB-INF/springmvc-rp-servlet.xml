@@ -359,6 +359,31 @@
 		<property name="validator" ref="dynamicFieldValidator" />
 	</bean>
 
+	<bean id="editNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPNestedObjectDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<property name="successView">
+			<value>redirect:/rp/administrator/editBox.htm</value>
+		</property>
+		<property name="targetClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+	</bean>
+
 	<bean id="editDateDynamicFieldController" parent="baseFormController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPDatePropertiesDefinitionController">
 		<property name="applicationService">
@@ -1102,6 +1127,8 @@
 				<prop key="/administrator/createEditTabs.htm">editEditTabController</prop>
 				<prop key="/administrator/editEditTabs.htm">editEditTabController</prop>
 				<prop key="/administrator/deleteEditTabs.htm">deleteEditTabController</prop>				
+			    <prop key="/administrator/createNestedDynamicField.htm">editNestedDynamicFieldController</prop>
+				<prop key="/administrator/editNestedDynamicField.htm">editNestedDynamicFieldController</prop>
 								
 				<prop key="/tools/editDynamicData.htm">editDynamicDataController</prop>
 

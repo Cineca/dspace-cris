@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -23,6 +24,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CacheModeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="model_jdyna_tab")
@@ -33,11 +38,10 @@ import org.hibernate.annotations.CacheModeType;
         @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from TabRPAdditionalFieldStorage tab where shortName = ?", cacheable=true),
 		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAccessLevel", query = "from TabRPAdditionalFieldStorage tab where visibility = ? order by priority", cacheable=true)		
 })
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class TabRPAdditionalFieldStorage extends AbstractTab<BoxRPAdditionalFieldStorage> {
 
 	/** Showed holder in this tab */
-	@ManyToMany
+	@ManyToMany	
 	@JoinTable(name = "model_jdyna_tab2box")
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxRPAdditionalFieldStorage> mask;

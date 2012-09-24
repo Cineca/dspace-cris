@@ -200,6 +200,7 @@ public class ResearcherTagLibraryFunctions
         return isBoxHiddenInternal(anagrafica, box);
     }
 
+    @Deprecated 
     public static <TP extends PropertiesDefinition, P extends Property<TP>, B extends Box<Containable>> boolean isBoxHiddenWithStructural(
             ResearcherPage anagrafica, B box)
     {     

@@ -15,6 +15,7 @@ import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.AbstractEditTab;
 import it.cilea.hku.authority.model.dynamicfield.AbstractTab;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
+import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
 import it.cilea.osd.jdyna.dao.TabDao;
 import it.cilea.osd.jdyna.model.ATipologia;
@@ -59,7 +60,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     @Deprecated
     protected void findOtherContainables(List<IContainable> containables)
     {
-        findOtherContainables(containables, "researcherpage");
+        findOtherContainables(containables, RPPropertiesDefinition.class.getName());
     }
 
     /**
@@ -93,7 +94,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     private void extractIsMandatory(String containable,
             DecoratorRestrictedField drf)
     {
-        extractIsMandatory(containable, drf, "researcherpage");
+        extractIsMandatory(containable, drf, RPPropertiesDefinition.class.getName());
     }
 
     private void extractIsMandatory(String containable,
@@ -110,7 +111,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
     private void extractAccessLevel(String containable,
             DecoratorRestrictedField drf)
     {
-        extractAccessLevel(containable, drf, "researcherpage");
+        extractAccessLevel(containable, drf, RPPropertiesDefinition.class.getName());
     }
 
     private void extractAccessLevel(String containable,

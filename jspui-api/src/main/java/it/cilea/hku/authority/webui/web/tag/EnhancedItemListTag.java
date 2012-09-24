@@ -39,6 +39,14 @@
  */
 package it.cilea.hku.authority.webui.web.tag;
 
+import it.cilea.hku.authority.webui.util.DateDisplayStrategy;
+import it.cilea.hku.authority.webui.util.DefaultDisplayStrategy;
+import it.cilea.hku.authority.webui.util.IDisplayMetadataValueStrategy;
+import it.cilea.hku.authority.webui.util.LinkDisplayStrategy;
+import it.cilea.hku.authority.webui.util.ResolverDisplayStrategy;
+import it.cilea.hku.authority.webui.util.ThumbDisplayStrategy;
+import it.cilea.hku.authority.webui.util.TitleDisplayStrategy;
+
 import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -52,13 +60,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.dspace.app.webui.util.DateDisplayStrategy;
-import org.dspace.app.webui.util.DefaultDisplayStrategy;
-import org.dspace.app.webui.util.IDisplayMetadataValueStrategy;
-import org.dspace.app.webui.util.LinkDisplayStrategy;
-import org.dspace.app.webui.util.ResolverDisplayStrategy;
-import org.dspace.app.webui.util.ThumbDisplayStrategy;
-import org.dspace.app.webui.util.TitleDisplayStrategy;
 import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
 import org.dspace.browse.CrossLinks;
