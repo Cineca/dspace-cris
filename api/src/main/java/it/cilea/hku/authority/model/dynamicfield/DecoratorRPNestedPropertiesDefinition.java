@@ -25,13 +25,13 @@ import org.hibernate.annotations.CascadeType;
     @NamedQuery(name = "DecoratorRPNestedPropertiesDefinition.uniqueContainableByShortName", query = "from DecoratorRPNestedPropertiesDefinition where real.shortName = ?")
     
 })
-@DiscriminatorValue(value="propertiesdefinitionrpnestedobject")
+@DiscriminatorValue(value="pdrpnestedobject")
 public class DecoratorRPNestedPropertiesDefinition extends
     ADecoratorNestedPropertiesDefinition<RPNestedPropertiesDefinition>
 {
 
     @OneToOne(optional=true)
-    @JoinColumn(name="propertiesdefinitionrpnestedobject_fk")
+    @JoinColumn(name="pdrpnestedobject_fk")
     @Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     private RPNestedPropertiesDefinition real;
     

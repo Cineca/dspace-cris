@@ -166,7 +166,7 @@
 						</goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
 						inheritRefs="true"> <target name="create-tables-and-GEN-DDL" /> </ant> </tasks> 
 						</configuration> </execution> 
-					
+	
 					<execution>
 						<id>generate-ddl</id>
 						<phase>process-classes</phase>
@@ -182,8 +182,8 @@
 							</tasks>
 						</configuration>
 					</execution>
-					-->
-<!--	
+				
+
 					<execution>
 						<id>generate-drop-ddl</id>
 						<phase>process-classes</phase>
@@ -200,7 +200,7 @@
 						</configuration>
 					</execution>
 					  
-						-->
+					-->						
 						<execution>
 							<id>generate-update-ddl</id>
 							<phase>process-classes</phase>

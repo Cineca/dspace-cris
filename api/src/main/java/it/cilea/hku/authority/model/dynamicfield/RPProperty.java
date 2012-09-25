@@ -10,6 +10,7 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -40,7 +41,7 @@ public class RPProperty extends Property<RPPropertiesDefinition> {
 	private RPPropertiesDefinition typo;
 	
 	
-	@ManyToOne	
+	@ManyToOne(targetEntity = ResearcherPage.class)
 	private RPAdditionalFieldStorage parent;
 
 

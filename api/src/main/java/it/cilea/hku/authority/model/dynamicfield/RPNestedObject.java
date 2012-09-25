@@ -1,5 +1,6 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 
 import java.util.LinkedList;
@@ -33,7 +34,7 @@ public class RPNestedObject extends ANestedObjectWithTypeSupport<RPNestedPropert
     @ManyToOne
     private RPTypeNestedObject typo;
     
-    @ManyToOne
+    @ManyToOne(targetEntity = ResearcherPage.class)
     private RPAdditionalFieldStorage parent;
     
     @Override

@@ -545,8 +545,7 @@ public class ResearcherPage
     /**
      * Map of additional custom data
      */
-    @OneToOne
-    @Cascade(value = { CascadeType.ALL })
+    @Embedded
     private RPAdditionalFieldStorage dynamicField;
 
     /**

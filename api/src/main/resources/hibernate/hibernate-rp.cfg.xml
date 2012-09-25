@@ -55,9 +55,7 @@
 		<mapping
 			class="it.cilea.hku.authority.model.ws.CriteriaWS" />
 		<!-- Dynamic field -->
-
-		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage" />		
+	
 		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPProperty" />
 		
 		<mapping class="it.cilea.hku.authority.model.dynamicfield.GrantProperty" />

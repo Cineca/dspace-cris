@@ -24,6 +24,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Index;
 
 @Entity
 @Table(name="model_grant_jdyna_prop", 
@@ -42,6 +43,7 @@ public class GrantProperty extends Property<GrantPropertiesDefinition> {
 	
 	
 	@ManyToOne
+	@Index(name = "model_grant_jdyna_prop_idx_parent_id")
 	private ResearcherGrant parent;
 	
 

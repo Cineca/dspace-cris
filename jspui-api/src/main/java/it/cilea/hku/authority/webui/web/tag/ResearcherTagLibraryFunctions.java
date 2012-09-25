@@ -42,6 +42,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dspace.core.ConfigurationManager;
@@ -200,10 +201,10 @@ public class ResearcherTagLibraryFunctions
         return isBoxHiddenInternal(anagrafica, box);
     }
 
-    @Deprecated 
+    @Deprecated
     public static <TP extends PropertiesDefinition, P extends Property<TP>, B extends Box<Containable>> boolean isBoxHiddenWithStructural(
             ResearcherPage anagrafica, B box)
-    {     
+    {
         boolean result = true;
 
         List<IContainable> containables = new LinkedList<IContainable>();
@@ -213,34 +214,36 @@ public class ResearcherTagLibraryFunctions
         for (IContainable decorator : containables)
         {
             String shortName = decorator.getShortName();
-            Method[] methods = anagrafica.getClass().getMethods();
-            Object field = null;
             Method method = null;
-            for (Method m : methods)
+            Object field = null;
+
+            try
             {
-                if (m.getName().toLowerCase()
-                        .equals("get" + shortName.toLowerCase()))
-                {
-                    try
-                    {
-                        field = m.invoke(anagrafica, null);
-                    }
-                    catch (IllegalArgumentException e)
-                    {
-                        throw new RuntimeException(e.getMessage(), e);
-                    }
-                    catch (IllegalAccessException e)
-                    {
-                        throw new RuntimeException(e.getMessage(), e);
-                    }
-                    catch (InvocationTargetException e)
-                    {
-                        throw new RuntimeException(e.getMessage(), e);
-                    }
-                    method = m;
-                    break;
-                }
+                method = anagrafica.getClass().getDeclaredMethod(
+                        "get" + StringUtils.capitalise(shortName), null);
+                field = method.invoke(anagrafica, null);
             }
+            catch (IllegalArgumentException e)
+            {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+            catch (IllegalAccessException e)
+            {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+            catch (InvocationTargetException e)
+            {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+            catch (SecurityException e)
+            {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+            catch (NoSuchMethodException e)
+            {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+
             if (method.getReturnType().isAssignableFrom(List.class))
             {
 

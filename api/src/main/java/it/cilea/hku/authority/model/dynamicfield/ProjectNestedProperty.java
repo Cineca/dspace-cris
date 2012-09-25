@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Index;
 /**
  * @author pascarelli
  *
@@ -35,6 +36,7 @@ public class ProjectNestedProperty extends ANestedProperty<ProjectNestedProperti
     
     
     @ManyToOne  
+    @Index(name = "model_project_jdyna_nestedobject_prop_parent_id")
     private ProjectNestedObject parent;
 
 
