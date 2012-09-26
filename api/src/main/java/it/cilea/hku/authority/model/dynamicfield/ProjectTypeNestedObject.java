@@ -41,4 +41,10 @@ public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedProp
         this.mask = mask;
     }
 
+    @Override
+    public Class getDecoratorClass()
+    {
+        return DecoratorProjectTypeNested.class;
+    }
+
 }

@@ -58,14 +58,14 @@ public class GrantProperty extends Property<GrantPropertiesDefinition> {
 	}
 
 
-	@Override
-	public AnagraficaSupport<GrantProperty, GrantPropertiesDefinition> getParent() {
+	
+	public Object getParent() {
 		return parent;
 	}
 
-	@Override
+	
 	public void setParent(
-			AnagraficaSupport<? extends Property<GrantPropertiesDefinition>, GrantPropertiesDefinition> parent) {
+			Object parent) {
 		
 		this.parent = (ResearcherGrant)parent;
 		

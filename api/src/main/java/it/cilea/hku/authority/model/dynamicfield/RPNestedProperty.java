@@ -4,6 +4,7 @@ import it.cilea.osd.jdyna.model.ANestedProperty;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.Property;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -14,6 +15,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Index;
 
 /**
  * @author pascarelli
@@ -35,7 +37,8 @@ public class RPNestedProperty extends ANestedProperty<RPNestedPropertiesDefiniti
     private RPNestedPropertiesDefinition typo;
     
     
-    @ManyToOne  
+    @ManyToOne
+    @Index(name = "model_rp_jdyna_nestedobject_prop_parent_id")
     private RPNestedObject parent;
 
 
@@ -53,7 +56,7 @@ public class RPNestedProperty extends ANestedProperty<RPNestedPropertiesDefiniti
 
     @Override
     public void setParent(
-            AnagraficaSupport<? extends Property<RPNestedPropertiesDefinition>, RPNestedPropertiesDefinition> parent)
+            Object parent)
     {
         this.parent = (RPNestedObject)parent;
     }

@@ -12,6 +12,8 @@ package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant;
 import it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant;
 import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.osd.jdyna.model.IContainable;
@@ -28,13 +30,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class FormGrantBoxController
 		extends
-		AFormBoxController<GrantPropertiesDefinition, BoxResearcherGrant, TabResearcherGrant> {
+		AFormBoxController<GrantPropertiesDefinition, BoxResearcherGrant, TabResearcherGrant, ProjectNestedPropertiesDefinition, ProjectTypeNestedObject> {
 
 	
 	
 	public FormGrantBoxController(Class<BoxResearcherGrant> clazzH,
-			Class<GrantPropertiesDefinition> clazzTP) {
-		super(clazzH, clazzTP);
+			Class<GrantPropertiesDefinition> clazzTP, Class<ProjectTypeNestedObject> clazzTTP) {
+		super(clazzH, clazzTP, clazzTTP);
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class FormGrantBoxController
 		List<IContainable> containables = new LinkedList<IContainable>();
 		if (paramId != null) {
 			BoxResearcherGrant box = applicationService.get(BoxResearcherGrant.class, Integer.parseInt(paramId));
-			((ExtendedTabService)applicationService).findOtherContainablesInBoxByConfiguration(box.getShortName(), containables);
+			((ExtendedTabService)applicationService).findOtherContainablesInBoxByConfiguration(box.getShortName(), containables, GrantPropertiesDefinition.class.getName());
 		}
 		map.put("owneredContainablesByConfiguration", containables);
 		List<IContainable> containablesList = new LinkedList<IContainable>();

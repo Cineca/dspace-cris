@@ -110,11 +110,13 @@ alter table model_researcher_page_writtenLanguagesEN add constraint FK4DAD813C18
 alter table model_researcher_page_writtenLanguagesZH add constraint FK4DAD83C1182595FC foreign key (model_researcher_page_id) references model_researcher_page;
 alter table model_rp_jdyna_nestedobject add constraint FK5BE7C8AE23C001C foreign key (typo_id) references model_rp_jdyna_nestedobject_typo;
 alter table model_rp_jdyna_nestedobject add constraint FK5BE7C8AE621C42E2 foreign key (parent_id) references model_researcher_page;
+create index model_rp_jdyna_nestedobject_prop_parent_id on model_rp_jdyna_nestedobject_prop (parent_id);
 alter table model_rp_jdyna_nestedobject_prop add constraint FK740FD054A8028BA9 foreign key (typo_id) references model_rp_jdyna_nestedobject_propertiesdefinition;
 alter table model_rp_jdyna_nestedobject_prop add constraint FKC8A841F5E52079D7740fd054 foreign key (value_id) references jdyna_values;
 alter table model_rp_jdyna_nestedobject_prop add constraint FK740FD054842B339C foreign key (parent_id) references model_rp_jdyna_nestedobject;
 alter table model_rp_jdyna_nestedobject_typo2mask add constraint FK9B083B0950EEE18B foreign key (model_rp_jdyna_nestedobject_typo_id) references model_rp_jdyna_nestedobject_typo;
 alter table model_rp_jdyna_nestedobject_typo2mask add constraint FK9B083B09CEB1301 foreign key (mask_id) references model_rp_jdyna_nestedobject_propertiesdefinition;
+create index model_rp_jdyna_prop_parent_id on model_rp_jdyna_prop (parent_id);
 alter table model_rp_jdyna_prop add constraint FK6CF7751B4A70B892 foreign key (typo_id) references model_rp_jdyna_propertiesdefinition;
 alter table model_rp_jdyna_prop add constraint FKC8A841F5E52079D76cf7751b foreign key (value_id) references jdyna_values;
 alter table model_rp_jdyna_prop add constraint FK6CF7751B621C42E2 foreign key (parent_id) references model_researcher_page;

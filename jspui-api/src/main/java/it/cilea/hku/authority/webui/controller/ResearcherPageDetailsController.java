@@ -234,7 +234,9 @@ public class ResearcherPageDetailsController
             {
 
                 String boxShortName = box.getShortName();
-                List<Containable> temp = box.getMask();         
+                List<Containable> temp = box.getMask();       
+                ((ExtendedTabService) applicationService).findOtherContainablesInBoxByConfiguration(
+                        box.getShortName(), temp,RPPropertiesDefinition.class.getName());
                 if (components != null)
                 {
                     IRPComponent comp = components.get(boxShortName);

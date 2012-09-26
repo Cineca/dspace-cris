@@ -60,6 +60,22 @@
 					key="it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition">
 					<ref bean="grantDecoratorPropertiesDefinitionDao" />
 				</entry>
+				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject">
+					<ref bean="rpTypeDefinitionDao" />
+				</entry>
+				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject">
+					<ref bean="projectTypeDefinitionDao" />
+				</entry>
+				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested">
+					<ref bean="rpDecoratorTypeDefinitionDao" />
+				</entry>
+				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested">
+					<ref bean="projectDecoratorTypeDefinitionDao" />
+				</entry>
 				<!--<entry
 					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField">
 					<ref bean="rpDecoratorRestrictedFieldDao" />
@@ -675,7 +691,57 @@
 			</bean>
 		</property>
 	</bean>		
+
+	<bean id="rpTypeDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.hku.authority.dao.RPNestedObjectDAO
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
 	
+	<bean id="projectTypeDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.hku.authority.dao.ProjectNestedObjectDAO
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="rpDecoratorTypeDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.hku.authority.dao.RPDecoratorPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>	
 	<!--  resources  -->
 	<!-- dspace-config is a system variable, set it as jvm parameter -->
 	<bean id="propertyConfigurer"

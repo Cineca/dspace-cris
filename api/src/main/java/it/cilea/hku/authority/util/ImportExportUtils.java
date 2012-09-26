@@ -1464,7 +1464,7 @@ public class ImportExportUtils
         for (ResearcherPage rp : rps)
         {
             Integer dynaId = rp.getDynamicField().getId();
-            RPNestedObject nestedObject = applicationService.<RPNestedObject,RPNestedProperty,RPNestedPropertiesDefinition>getNestedObjectByParentIDAndShortnameTypo(dynaId, UtilsXML.GRANT_TAG_PROJECTS, RPNestedObject.class);
+            RPNestedObject nestedObject = null;//TODO applicationService.<RPNestedObject,RPNestedProperty,RPNestedPropertiesDefinition>getNestedObjectByParentIDAndShortnameTypo(dynaId, UtilsXML.GRANT_TAG_PROJECTS, RPNestedObject.class);
    
 
             if (nestedObject != null)

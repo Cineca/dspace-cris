@@ -15,7 +15,7 @@
 <%@page import="it.cilea.osd.jdyna.model.PropertiesDefinition"%>
 <%@page
 	import="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition"%>
-<%@page import="it.cilea.hku.authority.model.dynamicfield.AccessLevelConstants"%>
+<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@ page import="java.net.URL"%>
 <%@ page import="org.dspace.eperson.EPerson" %>
 

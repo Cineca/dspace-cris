@@ -17,20 +17,22 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 
 import it.cilea.osd.jdyna.controller.FormBoxController;
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 
-public class AFormBoxController<TP extends PropertiesDefinition, H extends IPropertyHolder<Containable>, T extends Tab<H>>
-		extends FormBoxController<TP, H, T> {
+public class AFormBoxController<TP extends PropertiesDefinition, H extends IPropertyHolder<Containable>, T extends Tab<H>, ATTP extends ANestedPropertiesDefinition, TTP extends ATypeNestedObject<ATTP>>
+		extends FormBoxController<TP, H, T, ATTP, TTP> {
 
 
 	private String specificPartPath;
 	
 	
-	public AFormBoxController(Class<H> clazzH, Class<TP> clazzTP) {
-		super(clazzH, clazzTP);
+	public AFormBoxController(Class<H> clazzH, Class<TP> clazzTP, Class<TTP> clazzTTP) {
+		super(clazzH, clazzTP, clazzTTP);
 	}
 	
 

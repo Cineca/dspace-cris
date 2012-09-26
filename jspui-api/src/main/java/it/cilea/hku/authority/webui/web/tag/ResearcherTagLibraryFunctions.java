@@ -210,7 +210,7 @@ public class ResearcherTagLibraryFunctions
         List<IContainable> containables = new LinkedList<IContainable>();
 
         applicationService.findOtherContainablesInBoxByConfiguration(
-                box.getShortName(), containables);
+                box.getShortName(), containables,RPPropertiesDefinition.class.getName());
         for (IContainable decorator : containables)
         {
             String shortName = decorator.getShortName();

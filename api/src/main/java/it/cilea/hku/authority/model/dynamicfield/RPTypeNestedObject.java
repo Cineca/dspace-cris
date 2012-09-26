@@ -41,4 +41,10 @@ public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefi
         this.mask = mask;
     }
 
+    @Override
+    public Class getDecoratorClass()
+    {
+        return DecoratorRPTypeNested.class;
+    }
+
 }

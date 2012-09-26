@@ -54,7 +54,7 @@ public class ProjectNestedProperty extends ANestedProperty<ProjectNestedProperti
 
     @Override
     public void setParent(
-            AnagraficaSupport<? extends Property<ProjectNestedPropertiesDefinition>, ProjectNestedPropertiesDefinition> parent)
+            Object parent)
     {
         this.parent = (ProjectNestedObject)parent;
     }

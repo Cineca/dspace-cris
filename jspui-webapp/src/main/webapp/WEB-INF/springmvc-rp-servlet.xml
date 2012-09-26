@@ -268,6 +268,10 @@
 			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
+			</value>
+		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/rp/administrator/editBox.htm</value>
 		</property>
@@ -716,6 +720,10 @@
 			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
 			</value>
 		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
+			</value>
+		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/rp/grants/administrator/listPropertiesDefinitions.htm</value>
 		</property>
@@ -797,6 +805,10 @@
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="successView">

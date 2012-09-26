@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -39,9 +40,9 @@ public class RPAdditionalFieldStorage extends AnagraficaObject<RPProperty, RPPro
     private ResearcherPage researcherPage;
     
     
-    @OneToMany(mappedBy = "parent", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="parent", fetch=FetchType.EAGER)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-    @OrderBy(clause="position asc")
+    @OrderBy(clause="position asc")        
     private List<RPProperty> anagrafica;
     
     public List<RPProperty> getAnagrafica() {
@@ -65,6 +66,16 @@ public class RPAdditionalFieldStorage extends AnagraficaObject<RPProperty, RPPro
 
     public void setAnagraficaLazy(List<RPProperty> pp) {
         this.anagrafica = pp;       
+    }
+
+    public ResearcherPage getResearcherPage()
+    {
+        return researcherPage;
+    }
+
+    public void setResearcherPage(ResearcherPage researcherPage)
+    {
+        this.researcherPage = researcherPage;
     }
 
 }
