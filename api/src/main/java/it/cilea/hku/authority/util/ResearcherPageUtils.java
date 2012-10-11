@@ -13,6 +13,7 @@ package it.cilea.hku.authority.util;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.RestrictedField;
 import it.cilea.hku.authority.model.VisibilityConstants;
+import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.osd.jdyna.web.Tab;
 
@@ -123,16 +124,14 @@ public class ResearcherPageUtils
      * @return the label to use
      */
     public static String getLabel(String alternativeName, ResearcherPage rp)
-    {
+    {        
         if (alternativeName.equals(rp.getFullName()))
         {
-            return rp.getFullName() + " " + rp.getChineseName().getValue() + " - "
-                    + rp.getDept().getValue();
+            return rp.getFullName() + " " + rp.getChineseName().getValue();
         }
         else
         {
-            return alternativeName + " See \"" + rp.getFullName() + "\" - "
-                    + rp.getDept().getValue();
+            return alternativeName + " See \"" + rp.getFullName();
         }
     }
 
@@ -216,51 +215,7 @@ public class ResearcherPageUtils
         return null;
     }
     
-    
-    /**
-     * Get the department of the ResearcherPage
-     * 
-     * @param rpkey
-     *            the rp identifier
-     * @return the department of the ResearcherPage
-     */
-    public static String getDepartment(String rpkey)
-    {
-        if (rpkey != null && rpkey.startsWith("rp"))
-        {
-            ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));            
-            return VisibilityConstants.PUBLIC == rp.getDept().getVisibility()?
-                    rp.getDept().getValue():null;
-        }
-        return null;
-    }
-
-    /**
-     * Get the list of publicly visible interests of the ResearcherPage
-     * 
-     * @param rpkey
-     *            the rp identifier
-     * @return the fullname of the ResearcherPage
-     */
-    public static List<String> getInterests(String rpkey)
-    {
-        if (rpkey != null && rpkey.startsWith("rp"))
-        {
-            ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));            
-            List<String> results = new ArrayList<String>();            
-            for (RestrictedField rf : rp.getInterests())
-            {
-              if (rf.getVisibility() == VisibilityConstants.PUBLIC)
-              {
-                  results.add(rf.getValue());
-              }
-            }
-            return results;
-        }
-        return null;
-    }
+        
     
     /**
      * Get the staff number of the ResearcherPage
@@ -318,156 +273,6 @@ public class ResearcherPageUtils
         }
         return null;
     }
-    
-	/**
-	 * Remove curriculum vitae on server by researcher get from parameter method.
-	 * 
-	 * @param researcher
-	 */
-	public static void removeCVFiles(ResearcherPage researcher) {
-		researcher.getCv().setValue(null);
-		researcher.getCv().setMimeType(null);
-		File directory = new File(
-				ConfigurationManager.getProperty("researcherpage.file.path")
-						+ File.separatorChar
-						+ ResearcherPageUtils
-								.getPersistentIdentifier(researcher));
-
-		if (directory.exists()) {
-			Collection<File> files = FileUtils.listFiles(directory,
-					new WildcardFilter("*-CV.*"), null);
-
-			for (File cv : files) {
-				cv.delete();
-			}
-		}
-	}
-	
-	/**
-	 * Remove researcher personal image from the server.
-	 * 
-	 * @param researcher
-	 */
-	public static void removePicture(ResearcherPage researcher) {
-		File image = new File(ConfigurationManager
-		        .getProperty("researcherpage.file.path")
-		        + File.separatorChar
-		        + ResearcherPageUtils.getPersistentIdentifier(researcher)
-		        + File.separatorChar + ResearcherPageUtils.getPersistentIdentifier(researcher) + "." + researcher.getPict().getValue());
-		image.delete();   
-		researcher.setPict(null);
-	}
-	
-	/**
-	 * 
-	 * Load curriculum and copy to default directory.
-	 * 
-	 * @param researcher
-	 * @param rp
-	 * @param itemCV
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 */
-	public static void loadCv(ResearcherPage researcher, String rp,
-			MultipartFile itemCV) throws IOException, FileNotFoundException {
-		String pathCV = ConfigurationManager
-		        .getProperty("researcherpage.file.path");
-		String ext = itemCV.getOriginalFilename().substring(
-		        itemCV.getOriginalFilename().lastIndexOf(".") + 1);
-		File dir = new File(pathCV + File.separatorChar + rp);
-		dir.mkdir();
-		File file = new File(dir, rp + "-CV." + ext);
-		file.createNewFile();
-		FileOutputStream out = new FileOutputStream(file);
-		Utils.bufferedCopy(itemCV.getInputStream(), out);
-		out.close();
-		researcher.getCv().setValue(ext);
-		researcher.getCv().setMimeType(itemCV.getContentType());
-	}
-	
-	/**
-	 * 
-	 * Load curriculum and copy to default directory.
-	 * 
-	 * @param researcher
-	 * @param rp
-	 * @param itemCV
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 */
-	public static void loadCv(ResearcherPage researcher, String rp,
-			File itemCV) throws IOException, FileNotFoundException {
-		String pathCV = ConfigurationManager
-		        .getProperty("researcherpage.file.path");
-		String ext = itemCV.getName().substring(
-		        itemCV.getName().lastIndexOf(".") + 1);
-		File dir = new File(pathCV + File.separatorChar + rp);
-		dir.mkdir();
-		File file = new File(dir, rp + "-CV." + ext);
-		file.createNewFile();
-		FileInputStream in = new FileInputStream(itemCV);
-		FileOutputStream out = new FileOutputStream(file);
-		Utils.bufferedCopy(in, out);
-		out.close();
-		researcher.getCv().setValue(ext);
-		researcher.getCv().setMimeType(new MimetypesFileTypeMap().getContentType(itemCV));
-	}
-	
-
-	/**
-	 * 
-	 * Load image and copy to default directory.
-	 * 
-	 * @param researcher
-	 * @param rp
-	 * @param itemImage MultipartFile to use in webform
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 */
-	public static void loadImg(ResearcherPage researcher, String rp,
-			MultipartFile itemImage) throws IOException, FileNotFoundException {
-		String pathImage = ConfigurationManager
-		        .getProperty("researcherpage.file.path");
-		String ext = itemImage.getOriginalFilename().substring(
-		        itemImage.getOriginalFilename().lastIndexOf(".") + 1);
-		File dir = new File(pathImage + File.separatorChar + rp);
-		dir.mkdir();
-		File file = new File(dir, rp + "." + ext);
-		file.createNewFile();
-		FileOutputStream out = new FileOutputStream(file);
-		Utils.bufferedCopy(itemImage.getInputStream(), out);
-		out.close();
-		researcher.getPict().setValue(ext);
-		researcher.getPict().setMimeType(itemImage.getContentType());
-	}
-
-	/**
-	 * 
-	 * Load image and copy to default directory.
-	 * 
-	 * @param researcher
-	 * @param rp
-	 * @param itemImage java.util.File to use out web form
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 */
-	public static void loadImg(ResearcherPage researcher, String rp,
-			File itemImage) throws IOException, FileNotFoundException {
-		String pathImage = ConfigurationManager
-		        .getProperty("researcherpage.file.path");
-		String ext = itemImage.getName().substring(
-		        itemImage.getName().lastIndexOf(".") + 1);
-		File dir = new File(pathImage + File.separatorChar + rp);
-		dir.mkdir();
-		File file = new File(dir, rp + "." + ext);
-		file.createNewFile();
-		FileInputStream in = new FileInputStream(itemImage);
-		FileOutputStream out = new FileOutputStream(file);
-		Utils.bufferedCopy(in, out);
-		out.close();
-		researcher.getPict().setValue(ext);
-		researcher.getPict().setMimeType(new MimetypesFileTypeMap().getContentType(itemImage));
-	}
 	
 	/**
 	 * 

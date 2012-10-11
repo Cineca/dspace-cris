@@ -23,11 +23,7 @@ public class ResearcherPageValidator implements Validator
     private Class clazz;
 
     private ApplicationService applicationService;
-    
-	private long imageMaxSize;
-    
-    private long cvMaxSize;
-    
+
     public boolean supports(Class arg0)
     {
         return clazz.isAssignableFrom(arg0);
@@ -42,17 +38,6 @@ public class ResearcherPageValidator implements Validator
         ValidationUtils.rejectIfEmptyOrWhitespace(arg1, "fullName",
                 "error.fullName.mandatory", "FullName is mandatory");
 
-        if (researcher.getPict().getFile() != null && 
-        		researcher.getPict().getFile().getSize() > imageMaxSize)
-        {
-        	arg1.reject("pict.file", "Picture file too big");
-        }
-        
-        if (researcher.getCv().getFile() != null && 
-        		researcher.getCv().getFile().getSize() > cvMaxSize)
-        {
-        	arg1.reject("cv.file", "CV file too big");
-        }
         
         String staffNo = researcher.getStaffNo();
         if (staffNo!=null)
@@ -79,20 +64,5 @@ public class ResearcherPageValidator implements Validator
     {
         this.applicationService = applicationService;
     }
-    
-    public long getImageMaxSize() {
-		return imageMaxSize;
-	}
 
-	public void setImageMaxSize(long imageMaxSize) {
-		this.imageMaxSize = imageMaxSize;
-	}
-
-	public long getCvMaxSize() {
-		return cvMaxSize;
-	}
-
-	public void setCvMaxSize(long cvMaxSize) {
-		this.cvMaxSize = cvMaxSize;
-	}
 }

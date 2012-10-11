@@ -15,6 +15,9 @@
 <%@page import="it.cilea.osd.jdyna.model.PropertiesDefinition"%>
 <%@page
 	import="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition"%>
+<%@page
+	import="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField"%>
+	
 <%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@ page import="java.net.URL"%>
 <%@ page import="org.dspace.eperson.EPerson" %>
@@ -37,19 +40,82 @@
 
 	
 <c:set var="commandObject" value="${anagraficadto}" scope="request" />
+
 <c:set var="simpleNameAnagraficaObject"
 	value="${simpleNameAnagraficaObject}" scope="page" />
 
 <c:set var="disabledfield" value=" disabled=\"disabled\" "></c:set>
 
-<c:set var="dspace.layout.head" scope="request">
+<c:set var="dspace.layout.head" scope="request">	
+	<link href="<%= request.getContextPath() %>/css/jdyna.css" type="text/css" rel="stylesheet" />
+	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+	<link href="<%= request.getContextPath() %>/css/redmond/jquery-ui-1.8.24.custom.css" type="text/css" rel="stylesheet" />
     <style type="text/css">@import url(<%=request.getContextPath()%>/js/jscalendar/calendar-blue.css );</style>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/lang/calendar-en.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar-setup.js"> </script>
-	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui-1.8.24.custom.min.js"></script>
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.form.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>
+	
+	
+	  <script type="text/javascript"><!--
+
+		var j = jQuery.noConflict();
+    
+    	var LoaderSnippet = {    		
+    		write : function(text, idelement) {    			
+    			var elem = document.getElementById(idelement);
+    			elem.innerHTML = text;		
+    		}
+    	};
+
+    	var LoaderModal = {        		
+        		write : function(text, idelement) {
+        			var elem = document.getElementById(idelement);
+        			elem.innerHTML = text;		
+        		}
+        };
+
+    
+    	var Loader = {
+    		elem : false,
+    		write : function(text) {
+    			if (!this.elem)
+    				this.elem = document.getElementById('logcontent3');
+    			this.elem.innerHTML = text;		
+    			}
+    	};
+    	
+  	
+    	
+    
+    	
+		j(document).ready(function()
+				{
+			
+				  j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
+				  			
+				  j(".control").click(function()
+				  {
+					  j(this).toggleClass("expanded");
+					  j(this).children("img").toggleClass("hide");
+				      j(this).next(".collapsable").slideToggle(300);
+				  });
+	
+		});
+		
+		
+		// post-submit callback 
+		function showResponse(responseText, statusText, xhr, $form)  {		 
+		    j(".dialogfragment").dialog("close");
+		}
+
+		-->
+	</script>
+	
 </c:set>
 <dspace:layout titlekey="jsp.researcher-page.primary-data-form">
 
@@ -194,16 +260,7 @@
 							items="${propertiesDefinitionsInHolder[holder.shortName]}"
 							var="tipologiaDaVisualizzare">
 							<c:set var="hideLabel">${fn:length(propertiesDefinitionsInHolder[holder.shortName]) le 1}</c:set>
-							<%
-								List<String> parameters = new ArrayList<String>();
-												parameters.add(pageContext.getAttribute(
-														"simpleNameAnagraficaObject").toString());
-												parameters
-														.add(((DecoratorRPPropertiesDefinition) pageContext
-																.getAttribute("tipologiaDaVisualizzare"))
-																.getShortName());
-												pageContext.setAttribute("parameters", parameters);
-							%>
+						
 							<c:set var="show" value="true" />
 							<c:choose>							
 							<c:when
@@ -224,12 +281,95 @@
 							<c:otherwise>
 								<c:set var="show" value="false" />
 							</c:otherwise>
-							</c:choose>
-							
+							</c:choose>	
+							<c:if
+								test="${tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRPTypeNested'}">
+
+								<c:set var="totalHit" value="0"/>
+								<c:set var="limit" value="5"/>
+								<c:set var="offset" value="0"/>											
+								<c:set var="pageCurrent" value="0"/>	
+								<c:set var="editmode" value="true"/>
+								
+								<div
+									id="viewnested_${tipologiaDaVisualizzare.shortName}"
+									class="previewdialog">
+										
+										<div id="log1_${tipologiaDaVisualizzare.shortName}" class="log">
+											<img
+												src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
+												id="loader1_${tipologiaDaVisualizzare.shortName}" class="loader" />
+											<div id="logcontent1_${tipologiaDaVisualizzare.shortName}" class="logcontent"></div>
+										</div>
+									
+								</div>
+
+								<div
+									id="nestedfragment_${tipologiaDaVisualizzare.shortName}"
+									class="dialogfragment">
+									<div
+										id="nestedfragmentcontent_${tipologiaDaVisualizzare.shortName}">
+										<div id="log2_${tipologiaDaVisualizzare.shortName}" class="log">
+											<img
+												src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
+												id="loader2_${tipologiaDaVisualizzare.shortName}" class="loader"/>
+											<div id="logcontent2_${tipologiaDaVisualizzare.shortName}" class="logcontent"></div>
+										</div>
+									</div>
+								</div>
+
+
+									<script type="text/javascript">		
+
+									LoaderSnippet.write("Loading... ${tipologiaDaVisualizzare.label}", "viewnested_${tipologiaDaVisualizzare.shortName}");									
+									var parameterId = this.id;																	
+									var ajaxurlrelations = "<%=request.getContextPath()%>/rp/viewNested.htm";
+									j.ajax( {
+										url : ajaxurlrelations,
+										data : {																			
+											"elementID" : parameterId,
+											"parentID" : ${researcher.id},
+											"typeNestedID" : ${tipologiaDaVisualizzare.real.id},
+											"pageCurrent": ${pageCurrent},
+											"offset": ${offset},
+											"limit": ${limit},
+											"editmode": 'true',
+											"totalHit": ${totalHit}
+										},
+										success : function(data) {																										
+											j('#viewnested_${tipologiaDaVisualizzare.shortName}').html(data);								
+											
+										},
+										error : function(data) {
+											
+											LoaderSnippet.write(data.statusText, "viewnested_${tipologiaDaVisualizzare.shortName}");
+											
+										}
+									});
+								
+									j('#nestedfragment_${tipologiaDaVisualizzare.shortName}').dialog({width: '800', closeOnEscape: true, modal: true, autoOpen: false, resizable: true, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
+									j(".ui-dialog-titlebar").click(function() {	j('#nestedfragment_${tipologiaDaVisualizzare.shortName}').dialog("close");});
+								
+								
+									</script>
+
+								
+							</c:if>
+
+
 							<c:if
 								test="${show && (tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRPPropertiesDefinition')}">
 								
-								
+								<%
+								List<String> parameters = new ArrayList<String>();
+												parameters.add(pageContext.getAttribute(
+														"simpleNameAnagraficaObject").toString());
+												parameters
+														.add(((DecoratorRPPropertiesDefinition) pageContext
+																.getAttribute("tipologiaDaVisualizzare"))
+																.getShortName());
+												pageContext.setAttribute("parameters", parameters);
+								%>
 								<dyna:edit tipologia="${tipologiaDaVisualizzare.object}" disabled="${disabled}"
 									propertyPath="anagraficadto.anagraficaProperties[${tipologiaDaVisualizzare.shortName}]"
 									ajaxValidation="validateAnagraficaProperties" hideLabel="${hideLabel}"
@@ -240,11 +380,9 @@
 								test="${show && (tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRestrictedField')}">
 
 				
-										<c:set var="urljspcustom" value="custom/editstructuralmetadata/${tipologiaDaVisualizzare.shortName}.jsp" />
+										<c:set var="urljspcustom" value="/authority/jdyna/custom/editstructuralmetadata/${tipologiaDaVisualizzare.shortName}.jsp" scope="request"/>
 										
 
-							<c:set var="urljspcustom"
-								value="/authority/jdyna/custom/${holder.shortName}.jsp" scope="request" />
 								
 							<%
 								filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");
@@ -302,6 +440,12 @@
 </form:form>
 </div>
 
+<div id="log3" class="log">
+	<img
+		src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
+		id="loader3" class="loader"/>
+	<div id="logcontent3"></div>
+</div>
 
 </td>
 

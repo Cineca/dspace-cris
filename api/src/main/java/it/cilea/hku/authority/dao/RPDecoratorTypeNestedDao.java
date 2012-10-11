@@ -10,9 +10,9 @@
  */
 package it.cilea.hku.authority.dao;
 
-import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested;
 import it.cilea.osd.jdyna.dao.ContainableDao;
 
-public interface RPDecoratorTypeNestedDao extends ContainableDao<DecoratorRPPropertiesDefinition> {
+public interface RPDecoratorTypeNestedDao extends ContainableDao<DecoratorRPTypeNested> {
 	
 }

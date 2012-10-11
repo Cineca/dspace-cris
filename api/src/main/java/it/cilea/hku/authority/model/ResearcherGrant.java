@@ -12,13 +12,16 @@ package it.cilea.hku.authority.model;
 
 import it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.GrantProperty;
+import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.export.ExportConstants;
 import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
-import it.cilea.osd.jdyna.model.AnagraficaObject;
+import it.cilea.osd.common.model.Identifiable;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -28,17 +31,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OrderBy;
 
 
 
@@ -51,7 +50,7 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "ResearcherGrant.paginate.id.desc", query = "from ResearcherGrant order by id desc"),
         @NamedQuery(name = "ResearcherGrant.uniqueRGByCode", query = "from ResearcherGrant where rgCode = ? order by id desc")        
 })
-public class ResearcherGrant extends AnagraficaObject<GrantProperty, GrantPropertiesDefinition> implements UUIDSupport, HasTimeStampInfo, Cloneable, IExportableDynamicObject<GrantPropertiesDefinition, GrantProperty, ResearcherGrant> {
+public class ResearcherGrant implements Identifiable, UUIDSupport, HasTimeStampInfo, Cloneable, IExportableDynamicObject<GrantPropertiesDefinition, GrantProperty, ProjectAdditionalFieldStorage>, AnagraficaSupport<GrantProperty, GrantPropertiesDefinition> {
 
 	@Transient
 	/**
@@ -80,40 +79,20 @@ public class ResearcherGrant extends AnagraficaObject<GrantProperty, GrantProper
     @JoinTable(name="model_grant_investigator")    
     private List<Investigator> coInvestigators;
     
-	@OneToMany(mappedBy = "parent")
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })	
-	@OrderBy(clause="position asc")
-    private List<GrantProperty> anagrafica;
 
+    /**
+     * Map of additional custom data
+     */
+    @Embedded
+    private ProjectAdditionalFieldStorage dynamicField;
+    
+    
     /** True if grant is active */
     private Boolean status;
     
     /** Grant code */
     private String rgCode;
-	
-	@Override
-	public List<GrantProperty> getAnagrafica() {		
-		if(this.anagrafica == null) {
-			this.anagrafica = new LinkedList<GrantProperty>();
-		}		
-		return anagrafica;
-	}
-
-	@Override
-	public Class<GrantProperty> getClassProperty() {
-		return GrantProperty.class;
-	}
-
-	@Override
-	public Class<GrantPropertiesDefinition> getClassPropertiesDefinition() { 
-		return GrantPropertiesDefinition.class;
-	}
-
-	@Override
-	public Integer getId() {
-		return id;
-	}
+		
 
 	public void setInvestigator(Investigator investigator) {
 		this.investigator = investigator;
@@ -187,7 +166,7 @@ public class ResearcherGrant extends AnagraficaObject<GrantProperty, GrantProper
     
     public String getTitle() {
     	String result = "";
-    	for(GrantProperty title : this.getAnagrafica4view().get("projecttitle")) {
+    	for(GrantProperty title : this.getDynamicField().getAnagrafica4view().get("projecttitle")) {
     		result += title.getValue().getObject();
     		result += " ";
     	}
@@ -196,7 +175,7 @@ public class ResearcherGrant extends AnagraficaObject<GrantProperty, GrantProper
     
     public String getYear() {
     	String result = "";
-    	for(GrantProperty year : this.getAnagrafica4view().get("fundingyear")) {
+    	for(GrantProperty year : this.getDynamicField().getAnagrafica4view().get("fundingyear")) {
     		result += year.getValue().getObject();
     		result += " ";
     	}
@@ -284,10 +263,113 @@ public class ResearcherGrant extends AnagraficaObject<GrantProperty, GrantProper
     }
 
     @Override
-    public ResearcherGrant getDynamicField()
+    public ProjectAdditionalFieldStorage getDynamicField()
     {
-        return this;
+        return dynamicField;
     }
-       
+
+    public void setDynamicField(ProjectAdditionalFieldStorage dynamicField)
+    {
+        this.dynamicField = dynamicField;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    @Override
+    public String getIdentifyingValue()
+    {
+        return this.dynamicField.getIdentifyingValue();
+    }
+
+    @Override
+    public String getDisplayValue()
+    {
+        return this.dynamicField.getDisplayValue();
+    }
+
+    @Override
+    public List<GrantProperty> getAnagrafica()
+    {
+        return this.dynamicField.getAnagrafica();
+    }
+
+    @Override
+    public Map<String, List<GrantProperty>> getAnagrafica4view()
+    {
+        return this.dynamicField.getAnagrafica4view();
+    }
+
+    @Override
+    public void setAnagrafica(List<GrantProperty> anagrafica)
+    {
+        this.dynamicField.setAnagrafica(anagrafica);
+    }
+
+    @Override
+    public GrantProperty createProprieta(
+            GrantPropertiesDefinition tipologiaProprieta)
+            throws IllegalArgumentException
+    {
+        return this.dynamicField.createProprieta(tipologiaProprieta);
+    }
+
+    @Override
+    public GrantProperty createProprieta(
+            GrantPropertiesDefinition tipologiaProprieta, Integer posizione)
+            throws IllegalArgumentException
+    {
+        return this.dynamicField.createProprieta(tipologiaProprieta, posizione);
+    }
+
+    @Override
+    public boolean removeProprieta(GrantProperty proprieta)
+    {
+        return this.dynamicField.removeProprieta(proprieta);
+    }
+
+    @Override
+    public List<GrantProperty> getProprietaDellaTipologia(
+            GrantPropertiesDefinition tipologiaProprieta)
+    {
+        return this.dynamicField.getProprietaDellaTipologia(tipologiaProprieta);
+    }
+
+    @Override
+    public Class<GrantProperty> getClassProperty()
+    {
+        return this.dynamicField.getClassProperty();
+    }
+
+    @Override
+    public Class<GrantPropertiesDefinition> getClassPropertiesDefinition()
+    {
+        return this.dynamicField.getClassPropertiesDefinition();
+    }
+
+    @Override
+    public void inizializza()
+    {
+        this.dynamicField.inizializza();
+    }
+
+    @Override
+    public void invalidateAnagraficaCache()
+    {
+        this.dynamicField.invalidateAnagraficaCache();
+    }
+
+    @Override
+    public void pulisciAnagrafica()
+    {
+        this.dynamicField.pulisciAnagrafica();
+    }
 
 }

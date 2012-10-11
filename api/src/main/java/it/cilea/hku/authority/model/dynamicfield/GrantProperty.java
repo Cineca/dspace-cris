@@ -57,18 +57,25 @@ public class GrantProperty extends Property<GrantPropertiesDefinition> {
 		this.typo = propertyDefinition;		
 	}
 
+    @Override
+    public void setParent(
+            AnagraficaSupport<? extends Property<GrantPropertiesDefinition>, GrantPropertiesDefinition> parent)
+    {
+        if(parent!=null) {
+            this.parent = ((ProjectAdditionalFieldStorage)parent).getResearcherGrant();
+        }
+        else {
+            this.parent = null;
+        }       
+                
+    }
 
-	
-	public Object getParent() {
-		return parent;
-	}
+    @Override
+    public AnagraficaSupport<GrantProperty, GrantPropertiesDefinition> getParent()
+    {
+        return this.parent;
 
-	
-	public void setParent(
-			Object parent) {
-		
-		this.parent = (ResearcherGrant)parent;
-		
-	}
+    }
 
+   
 }

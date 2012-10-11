@@ -30,7 +30,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         @NamedQuery(name = "TabResearcherGrant.findPropertyHolderInTab", query = "from BoxResearcherGrant box where box in (select m from TabResearcherGrant tab join tab.mask m where tab.id = ?) order by priority"),
         @NamedQuery(name = "TabResearcherGrant.findTabsByHolder", query = "from TabResearcherGrant tab where :par0 in elements(tab.mask)"),
         @NamedQuery(name = "TabResearcherGrant.uniqueTabByShortName", query = "from TabResearcherGrant tab where shortName = ?"),
-		@NamedQuery(name = "TabResearcherGrant.findByAccessLevel", query = "from TabResearcherGrant tab where visibility = ? order by priority")
+		@NamedQuery(name = "TabResearcherGrant.findByAccessLevel", query = "from TabResearcherGrant tab where visibility = ? order by priority"),
+        @NamedQuery(name = "TabResearcherGrant.findByAdmin", query = "from TabResearcherGrant tab where visibility = 1 or visibility = 2 or visibility = 3 order by priority"),
+        @NamedQuery(name = "TabResearcherGrant.findByOwner", query = "from TabResearcherGrant tab where visibility = 0 or visibility = 2 or visibility = 3 order by priority"),
+        @NamedQuery(name = "TabResearcherGrant.findByAnonimous", query = "from TabResearcherGrant tab where visibility = 3 order by priority")
+		
 })
 public class TabResearcherGrant extends AbstractTab<BoxResearcherGrant> {
 

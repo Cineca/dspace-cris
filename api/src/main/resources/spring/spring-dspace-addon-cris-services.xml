@@ -45,8 +45,16 @@
 					<ref bean="rpAdditionalDao" />
 				</entry>
 				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage">
+					<ref bean="projectAdditionalDao" />
+				</entry>
+				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition">
 					<ref bean="rpPropertiesDefinitionDao" />
+				</entry>
+				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition">
+					<ref bean="rpNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition">
@@ -61,6 +69,15 @@
 					<ref bean="grantDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition">
+					<ref bean="rpDecoratorNestedPropertiesDefinitionDao" />
+				</entry>
+				<entry
+					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition">
+					<ref bean="projectDecoratorNestedPropertiesDefinitionDao" />
+				</entry>
+				
+				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject">
 					<ref bean="rpTypeDefinitionDao" />
 				</entry>
@@ -70,17 +87,13 @@
 				</entry>
 				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested">
-					<ref bean="rpDecoratorTypeDefinitionDao" />
+					<ref bean="rpDecoratorTypeNestedDao" />
 				</entry>
 				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested">
-					<ref bean="projectDecoratorTypeDefinitionDao" />
+					<ref bean="projectDecoratorTypeNestedDao" />
 				</entry>
-				<!--<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField">
-					<ref bean="rpDecoratorRestrictedFieldDao" />
-				</entry>
-				--><entry
+				<entry
 					key="it.cilea.osd.jdyna.model.Containable">
 					<ref bean="containableDao" />
 				</entry>
@@ -144,15 +157,9 @@
 				</entry>
 				<entry key="it.cilea.osd.jdyna.model.AWidget">
 					<ref bean="widgetDao" />
-				</entry>
-				<entry key="it.cilea.hku.authority.model.StatSubscription">
-					<ref bean="statSubscriptionDao" />
-				</entry>
+				</entry>				
 				<entry key="it.cilea.hku.authority.model.RPSubscription">
 					<ref bean="rpSubscriptionDao" />
-				</entry>
-				<entry key="it.cilea.hku.authority.model.UserWS">
-					<ref bean="userWSDao" />
 				</entry>
 			</map>
 		</property>		
@@ -238,6 +245,19 @@
 	</bean>
 	
 
+	<bean id="projectAdditionalDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>it.cilea.hku.authority.dao.ProjectAdditionalFieldStorageDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="widgetDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -444,6 +464,24 @@
 		</property>
 	</bean>
 
+	<bean id="rpNestedPropertiesDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.hku.authority.dao.RPNestedPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+
 	<bean id="grantPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -598,6 +636,23 @@
 		</property>
 	</bean>
 	
+	<bean id="rpDecoratorNestedPropertiesDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.hku.authority.dao.RPDecoratorNestedPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="grantDecoratorPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -613,29 +668,26 @@
 				</constructor-arg>
 			</bean>
 		</property>
-	</bean>	
-	<!--
-
-
-	<bean id="rpDecoratorRestrictedFieldDao" parent="abstractDao">
+	</bean>
+	
+	<bean id="projectDecoratorNestedPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPDecoratorRestrictedFieldDao
+				it.cilea.hku.authority.dao.ProjectDecoratorNestedPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField
+						it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
 		</property>
 	</bean>
-	
-	
-	--><bean id="containableDao" parent="abstractDao">
+			
+	<bean id="containableDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
 				it.cilea.osd.jdyna.dao.ContainableDao
@@ -665,32 +717,6 @@
 		</property>
 	</bean>
 	
-	<bean id="statSubscriptionDao" parent="abstractDao">
-		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.StatSubscriptionDao</value>
-		</property>
-		<property name="target">
-			<bean parent="abstractDaoTarget">
-				<constructor-arg>
-					<value>it.cilea.hku.authority.model.StatSubscription</value>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>		
-	
-		
-	<bean id="userWSDao" parent="abstractDao">
-		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.UserWSDao</value>
-		</property>
-		<property name="target">
-			<bean parent="abstractDaoTarget">
-				<constructor-arg>
-					<value>it.cilea.hku.authority.model.UserWS</value>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>		
 
 	<bean id="rpTypeDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
@@ -726,22 +752,39 @@
 		</property>
 	</bean>
 
-	<bean id="rpDecoratorTypeDefinitionDao" parent="abstractDao">
+	<bean id="rpDecoratorTypeNestedDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPDecoratorPropertiesDefinitionDao
+				it.cilea.hku.authority.dao.RPDecoratorTypeNestedDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+						it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested
 					</value>
 				</constructor-arg>
 			</bean>
 		</property>
-	</bean>	
+	</bean>
+	
+	<bean id="projectDecoratorTypeNestedDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.hku.authority.dao.ProjectDecoratorTypeNestedDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>		
 	<!--  resources  -->
 	<!-- dspace-config is a system variable, set it as jvm parameter -->
 	<bean id="propertyConfigurer"

@@ -22,7 +22,7 @@ import org.hibernate.annotations.CascadeType;
     @NamedQuery(name = "DecoratorProjectTypeNested.uniqueContainableByShortName", query = "from DecoratorProjectTypeNested where real.shortName = ?")
     
 })
-@DiscriminatorValue(value="typerpnestedobject")
+@DiscriminatorValue(value="typeprojectnestedobject")
 public class DecoratorProjectTypeNested extends
     ADecoratorTypeDefinition<ProjectTypeNestedObject, ProjectNestedPropertiesDefinition>
 {

@@ -1,9 +1,10 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.hku.authority.model.ResearcherGrant;
-import it.cilea.osd.jdyna.model.ANestedObject;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
-import it.cilea.osd.jdyna.model.TypeSupport;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
+import it.cilea.osd.jdyna.model.PropertiesDefinition;
+import it.cilea.osd.jdyna.model.Property;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +29,12 @@ import org.hibernate.annotations.OrderBy;
 @NamedQueries( {
         @NamedQuery(name = "ProjectNestedObject.findAll", query = "from ProjectNestedObject order by id"),
         @NamedQuery(name = "ProjectNestedObject.paginate.id.asc", query = "from ProjectNestedObject order by id asc"),
-        @NamedQuery(name = "ProjectNestedObject.paginate.id.desc", query = "from ProjectNestedObject order by id desc")
+        @NamedQuery(name = "ProjectNestedObject.paginate.id.desc", query = "from ProjectNestedObject order by id desc"),
+        @NamedQuery(name = "ProjectNestedObject.findNestedObjectsByParentIDAndTypoID", query = "from ProjectNestedObject where parent.id = ? and typo.id = ?"),
+        @NamedQuery(name = "ProjectNestedObject.paginateNestedObjectsByParentIDAndTypoID.asc.asc", query = "from ProjectNestedObject where parent.id = ? and typo.id = ?"),
+        @NamedQuery(name = "ProjectNestedObject.countNestedObjectsByParentIDAndTypoID", query = "select count(*) from ProjectNestedObject where parent.id = ? and typo.id = ?"),
+        @NamedQuery(name = "ProjectNestedObject.findNestedObjectsByTypoID", query = "from ProjectNestedObject where typo.id = ?"),
+        @NamedQuery(name = "ProjectNestedObject.deleteNestedObjectsByTypoID", query = "delete from ProjectNestedObject where typo.id = ?")
         })
 public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNestedProperty, ProjectNestedPropertiesDefinition> 
 {
@@ -78,10 +84,10 @@ public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNes
     }
 
 
+    @Override
     public ResearcherGrant getParent()
     {
         return parent;
     }
-
-    
+   
 }

@@ -21,12 +21,14 @@ import it.cilea.hku.authority.model.VisibilityConstants;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedProperty;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.osd.common.util.Utils;
 import it.cilea.osd.common.utils.XMLUtils;
 import it.cilea.osd.jdyna.dto.AnagraficaObjectDTO;
@@ -39,6 +41,7 @@ import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.util.AnagraficaUtils;
 import it.cilea.osd.jdyna.value.EmbeddedLinkValue;
 import it.cilea.osd.jdyna.widget.WidgetDate;
+import it.cilea.osd.jdyna.widget.WidgetFile;
 import it.cilea.osd.jdyna.widget.WidgetLink;
 import it.cilea.osd.jdyna.widget.WidgetTesto;
 
@@ -259,8 +262,7 @@ public class ImportExportUtils
 
         File filexsd = null;
         File filexml = null;
-        List<ResearcherPage> toRenameCV = new LinkedList<ResearcherPage>();
-        List<ResearcherPage> toRenameIMG = new LinkedList<ResearcherPage>();
+
         // build filexml
         String nameXML = "xml-" + dateFormat.format(new Date()) + ".xml";
         filexml = new File(dir, nameXML);
@@ -456,19 +458,19 @@ public class ImportExportUtils
                         }
                     }
                 }
-                
-                                 
-                AnagraficaUtils.fillDTO(dto, researcher.getDynamicField(), realFillTPS);
+
+                AnagraficaUtils.fillDTO(dto, researcher.getDynamicField(),
+                        realFillTPS);
 
                 // one-shot fill and reverse to well-format clonedto and clean
                 // empty
-                // data                
-                AnagraficaUtils.fillDTO(clonedto, clone.getDynamicField(), realFillTPS);
+                // data
+                AnagraficaUtils.fillDTO(clonedto, clone.getDynamicField(),
+                        realFillTPS);
 
-                
                 AnagraficaUtils.reverseDTO(clonedto, clone.getDynamicField(),
                         realFillTPS);
-                
+
                 AnagraficaUtils.fillDTO(clonedto, clone.getDynamicField(),
                         realFillTPS);
                 importDynAXML(applicationService, realFillTPS, node, dto,
@@ -627,110 +629,9 @@ public class ImportExportUtils
                                                     visibility);
 
                                         }
-                                        if (RestrictedFieldLocalOrRemoteFile.class
-                                                .equals(method.getReturnType()))
-                                        {
 
-                                            RestrictedFieldLocalOrRemoteFile object = (RestrictedFieldLocalOrRemoteFile) field;
-                                            object.setValue(value);
-                                            if (visibility != null)
-                                            {
-                                                object.setVisibility(visibility);
-                                            }
-                                            // String remoteUrl =
-                                            // xpath.evaluate(
-                                            // xpathExpression + "/"
-                                            // + XPATH_RULES[5],
-                                            // node);
-                                            String remoteUrl = control_value
-                                                    .getAttribute(UtilsXML.NAMEATTRIBUTE_REMOTEURL);
-                                            if (StringUtils
-                                                    .isNotEmpty(remoteUrl))
-                                            {
-                                                if (update)
-                                                {
-                                                    ResearcherPageUtils
-                                                            .removeCVFiles(researcher);
-                                                }
-                                                object.setRemoteUrl(remoteUrl);
-                                            }
-                                            else
-                                            {
-                                                if (update)
-                                                {
-                                                    String rp = ResearcherPageUtils
-                                                            .getPersistentIdentifier(researcher);
-
-                                                    File file = new File(dir
-                                                            + "/"
-                                                            + CV_SUBFOLDER
-                                                            + "/" + rp + "."
-                                                            + value);
-                                                    if (file.exists())
-                                                    {
-                                                        // FIXME should be add
-                                                        // mime
-                                                        // type
-                                                        // to signature of
-                                                        // method to
-                                                        // check correctness
-                                                        ResearcherPageUtils
-                                                                .loadCv(researcher,
-                                                                        rp,
-                                                                        file);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    toRenameCV.add(researcher);
-
-                                                }
-                                            }
-
-                                            setter.invoke(researcher, object);
-
-                                        }
-                                        else if (RestrictedFieldFile.class
-                                                .equals(method.getReturnType()))
-                                        {
-
-                                            RestrictedFieldFile object = (RestrictedFieldFile) field;
-                                            object.setValue(value);
-                                            if (visibility != null)
-                                            {
-                                                object.setVisibility(visibility);
-                                            }
-                                            if (update)
-                                            {
-                                                String rp = ResearcherPageUtils
-                                                        .getPersistentIdentifier(researcher);
-
-                                                File file = new File(dir + "/"
-                                                        + IMAGE_SUBFOLDER + "/"
-                                                        + rp + "." + value);
-                                                if (file.exists())
-                                                {
-                                                    // FIXME should be add mime
-                                                    // type
-                                                    // to signature of method to
-                                                    // check correctness
-                                                    ResearcherPageUtils
-                                                            .loadImg(
-                                                                    researcher,
-                                                                    rp, file);
-                                                }
-                                            }
-                                            else
-                                            {
-
-                                                toRenameIMG.add(researcher);
-
-                                            }
-                                            setter.invoke(researcher, object);
-
-                                        }
-                                        else if (RestrictedField.class
-                                                .equals(method.getReturnType()))
+                                        if (RestrictedField.class.equals(method
+                                                .getReturnType()))
                                         {
 
                                             RestrictedField object = (RestrictedField) field;
@@ -755,26 +656,6 @@ public class ImportExportUtils
                                             setter.invoke(researcher,
                                                     (RestrictedField) null);
                                         }
-                                        else if (RestrictedFieldFile.class
-                                                .equals(method.getReturnType()))
-                                        {
-
-                                            ResearcherPageUtils
-                                                    .removePicture(researcher);
-                                            setter.invoke(researcher,
-                                                    (RestrictedFieldFile) null);
-
-                                        }
-                                        else if (RestrictedFieldLocalOrRemoteFile.class
-                                                .equals(method.getReturnType()))
-                                        {
-                                            ResearcherPageUtils
-                                                    .removeCVFiles(researcher);
-                                            setter.invoke(
-                                                    researcher,
-                                                    (RestrictedFieldLocalOrRemoteFile) null);
-
-                                        }
 
                                     }
                                 }
@@ -788,7 +669,7 @@ public class ImportExportUtils
                 AnagraficaUtils.reverseDTO(dto, researcher.getDynamicField(),
                         realFillTPS);
 
-                EPerson dspaceUser = EPerson.findByNetid(dspaceContext,
+                EPerson dspaceUser = EPerson.findByStaffNo(dspaceContext,
                         researcher.getStaffNo());
                 if (dspaceUser == null)
                 {
@@ -855,50 +736,10 @@ public class ImportExportUtils
             {
                 log.error("Import researcher - FAILED " + e.getMessage(), e);
                 rows_discarded++;
-                toRenameCV.remove(researcher);
-                toRenameIMG.remove(researcher);
             }
 
         }
 
-        log.info("Import researchers - start import image and cv for new added researcher");
-        for (ResearcherPage rrr : toRenameCV)
-        {
-            File file = new File(dir + "/" + CV_SUBFOLDER + "/"
-                    + rrr.getStaffNo() + "." + rrr.getCv().getValue());
-            if (file.exists())
-            {
-                log.debug("CV --- File " + file.getAbsolutePath()
-                        + " exist - try to load");
-                ResearcherPageUtils.loadCv(rrr,
-                        ResearcherPageUtils.getPersistentIdentifier(rrr), file);
-            }
-            else
-            {
-                log.warn("CV --- File " + file.getAbsolutePath()
-                        + " not founded - check if this file really exist?");
-            }
-            applicationService.saveOrUpdate(ResearcherPage.class, rrr);
-        }
-
-        for (ResearcherPage rrr : toRenameIMG)
-        {
-            File file = new File(dir + "/" + IMAGE_SUBFOLDER + "/"
-                    + rrr.getStaffNo() + "." + rrr.getPict().getValue());
-            if (file.exists())
-            {
-                log.info("IMG --- File " + file.getAbsolutePath()
-                        + " exist - try to load");
-                ResearcherPageUtils.loadImg(rrr,
-                        ResearcherPageUtils.getPersistentIdentifier(rrr), file);
-            }
-            else
-            {
-                log.info("IMG --- File " + file.getAbsolutePath()
-                        + " not founded - check if this file really exist?");
-            }
-            applicationService.saveOrUpdate(ResearcherPage.class, rrr);
-        }
         log.info("Import researchers - end import additional files");
 
         log.info("Statistics: row ingested " + rows_imported + " on total of "
@@ -983,7 +824,7 @@ public class ImportExportUtils
                                 oldValues);
                     }
                 }
-            }            
+            }
             if (rpPD.getRendering() instanceof WidgetDate)
             {
                 if (rpPD.isRepeatable())
@@ -1105,6 +946,11 @@ public class ImportExportUtils
                     }
                 }
             }
+
+            if (rpPD.getRendering() instanceof WidgetFile)
+            {
+                // TODO
+            }
         }
     }
 
@@ -1121,16 +967,18 @@ public class ImportExportUtils
     }
 
     public static File newGenerateGrantXSD(Writer writer, File dir,
-            List<IContainable> metadata, File filexsd, String[] elementsRoot, String[] attributeMainRow, boolean[] attributeMainRowRequired)
+            List<IContainable> metadata, File filexsd, String[] elementsRoot,
+            String[] attributeMainRow, boolean[] attributeMainRowRequired)
             throws IOException, NoSuchFieldException, SecurityException,
             InstantiationException, IllegalAccessException
     {
 
         UtilsXSD xsd = new UtilsXSD(writer);
-        xsd.createGrantXSD(metadata, elementsRoot, attributeMainRow, attributeMainRowRequired);
+        xsd.createGrantXSD(metadata, elementsRoot, attributeMainRow,
+                attributeMainRowRequired);
         return filexsd;
     }
-    
+
     @Deprecated
     public static File generateXSD(Writer writer, File dir,
             List<IContainable> metadata, File filexsd, String[] elementsRoot)
@@ -1143,24 +991,30 @@ public class ImportExportUtils
         return filexsd;
     }
 
-    public static File generateSimpleTypeWithListOfAllMetadata(Writer writer, 
-            List<IContainable> metadata, File filexsd, String namespace, String fullNamespace, String name) throws IOException, SecurityException, NoSuchFieldException {
+    public static File generateSimpleTypeWithListOfAllMetadata(Writer writer,
+            List<IContainable> metadata, File filexsd, String namespace,
+            String fullNamespace, String name) throws IOException,
+            SecurityException, NoSuchFieldException
+    {
         UtilsXSD xsd = new UtilsXSD(writer);
         xsd.createSimpleTypeFor(metadata, namespace, fullNamespace, name);
-        return filexsd;        
+        return filexsd;
     }
-    
+
     public static File newGenerateXSD(Writer writer, File dir,
-            List<IContainable> metadata, File filexsd, String[] elementsRoot, String namespace,  String namespaceValue,  String namespaceTarget, String[] attributeMainRow, boolean[] attributeMainRowRequired)
+            List<IContainable> metadata, File filexsd, String[] elementsRoot,
+            String namespace, String namespaceValue, String namespaceTarget,
+            String[] attributeMainRow, boolean[] attributeMainRowRequired)
             throws IOException, NoSuchFieldException, SecurityException,
             InstantiationException, IllegalAccessException
     {
 
         UtilsXSD xsd = new UtilsXSD(writer);
-        xsd.createXSD(metadata, elementsRoot, namespace, namespaceValue, namespaceTarget, attributeMainRow, attributeMainRowRequired);
+        xsd.createXSD(metadata, elementsRoot, namespace, namespaceValue,
+                namespaceTarget, attributeMainRow, attributeMainRowRequired);
         return filexsd;
-    }    
-    
+    }
+
     private static <P extends Property<TP>, TP extends PropertiesDefinition> void workOnText(
             ApplicationService applicationService, Element node, TP rpPD,
             List<ValoreDTO> values, List<ValoreDTO> old)
@@ -1364,7 +1218,6 @@ public class ImportExportUtils
                 : VisibilityConstants.PUBLIC;
     }
 
-   
     /**
      * Export xml, it don't close or flush writer, format with
      * {@link XMLOutputter}, use use jdom for it.
@@ -1392,7 +1245,8 @@ public class ImportExportUtils
     {
 
         UtilsXML xml = new UtilsXML(writer, applicationService);
-        org.jdom.Document xmldoc = xml.createRoot(null, null, "http://www.cilea.it/researcherpage/schemas");
+        org.jdom.Document xmldoc = xml.createRoot(null, null,
+                "http://www.cilea.it/researcherpage/schemas");
         if (researchers != null)
         {
             for (ResearcherPage rp : researchers)
@@ -1405,16 +1259,19 @@ public class ImportExportUtils
         }
     }
 
-    public static <TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>, I extends IExportableDynamicObject<TP, P, AO>> void newExportXML(Writer writer,
-            ApplicationService applicationService, List<IContainable> metadata,
-            List<I> objects, String prefixNamespace, String namespace, String rootName) throws IOException,
-            SecurityException, IllegalArgumentException, NoSuchFieldException,
-            IllegalAccessException, InvocationTargetException,
-            ParserConfigurationException, TransformerException
+    public static <TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>, I extends IExportableDynamicObject<TP, P, AO>> void newExportXML(
+            Writer writer, ApplicationService applicationService,
+            List<IContainable> metadata, List<I> objects,
+            String prefixNamespace, String namespace, String rootName)
+            throws IOException, SecurityException, IllegalArgumentException,
+            NoSuchFieldException, IllegalAccessException,
+            InvocationTargetException, ParserConfigurationException,
+            TransformerException
     {
 
         UtilsXML xml = new UtilsXML(writer, applicationService);
-        org.jdom.Document xmldoc = xml.createRoot(rootName, prefixNamespace, namespace);
+        org.jdom.Document xmldoc = xml.createRoot(rootName, prefixNamespace,
+                namespace);
         if (objects != null)
         {
             for (I rp : objects)
@@ -1463,128 +1320,143 @@ public class ImportExportUtils
                 + status + "/" + active + "/" + newly);
         for (ResearcherPage rp : rps)
         {
-            Integer dynaId = rp.getDynamicField().getId();
-            RPNestedObject nestedObject = null;//TODO applicationService.<RPNestedObject,RPNestedProperty,RPNestedPropertiesDefinition>getNestedObjectByParentIDAndShortnameTypo(dynaId, UtilsXML.GRANT_TAG_PROJECTS, RPNestedObject.class);
-   
 
-            if (nestedObject != null)
+            List<RPNestedObject> nestedObjects = ((ExtendedTabService) applicationService)
+                    .getNestedObjectsByParentIDAndShortname(rp.getId(),
+                            UtilsXML.GRANT_TAG_PROJECTS, RPNestedObject.class);
+
+            if (nestedObjects != null)
             {
-                List<RPNestedProperty> rpProperties = nestedObject.getAnagrafica4view().get(UtilsXML.GRANT_TAG_PROJECTS);
-                for (RPNestedProperty rpp : rpProperties)
-                {                    
-                 
-                    String projectcode = (String)(rpp.getValue().getObject());
-                     
-                    ResearcherGrant rg = null;
-                    // use dto to fill dynamic metadata
-                    AnagraficaObjectDTO dtoRG = new AnagraficaObjectDTO();
-                    AnagraficaObjectWithTypeDTO dtoNested = new AnagraficaObjectWithTypeDTO();
-                    if (projectcode != null && !projectcode.isEmpty())
-                    {
-                        rg = applicationService
-                                .getResearcherGrantByCode(projectcode.trim());
-                    }
-                    else
-                    {
-                        log.error("Grant discarded ( projectCode not founded) [researcher: "
-                                + ResearcherPageUtils
-                                        .getPersistentIdentifier(rp) + "]");
-                        discardImported++;
-                        continue;
-                    }
+                for (RPNestedObject nestedObject : nestedObjects)
+                {
 
-                    // skip if only new grants mode and rg is found
-                    if (newly && rg != null)
+                    List<RPNestedProperty> rpProperties = nestedObject
+                            .getAnagrafica4view().get(
+                                    UtilsXML.GRANT_TAG_PROJECTS);
+                    for (RPNestedProperty rpp : rpProperties)
                     {
-                        skipImported++;
-                        continue;
-                    }
 
-                    // create new grants
-                    if (rg == null)
-                    {
-                        log.info("Create new GRANT with code " + projectcode);
-                        rg = new ResearcherGrant();
-                        rg.setRgCode(projectcode);
-                        rg.setStatus(active);
-                        newImported++;
-                    }
-                    else
-                    {
-                        log.info("Edit GRANT with code " + projectcode);
-                        editImported++;
-                    }
+                        String projectcode = (String) (rpp.getValue()
+                                .getObject());
 
-                    List<RPNestedPropertiesDefinition> subTps = applicationService.findTipologieProprietaAssegnabili(nestedObject);
-                    AnagraficaUtils.fillDTO(dtoNested, nestedObject, subTps);
-                    
-                    List<GrantPropertiesDefinition> rgTps = applicationService
-                            .getListTipologieProprietaFirstLevel(GrantPropertiesDefinition.class);
-
-                    for (String key : dtoNested.getAnagraficaProperties().keySet())
-                    {
-                        dtoRG.getAnagraficaProperties().put(
-                                key,
-                                dtoNested.getAnagraficaProperties()
-                                        .get(key));
-                    }
-
-                    // get investigators/coninvestigator
-                    List<ValoreDTO> investigatorDTO = dtoRG
-                            .getAnagraficaProperties().get(
-                                    UtilsXML.GRANT_TAG_INVESTIGATOR);
-                    for (ValoreDTO vv : investigatorDTO)
-                    {
-                        Investigator inv = new Investigator();
-                        EmbeddedLinkValue link = (EmbeddedLinkValue) vv
-                                .getObject();
-                        if (link != null)
+                        ResearcherGrant rg = null;
+                        // use dto to fill dynamic metadata
+                        AnagraficaObjectDTO dtoRG = new AnagraficaObjectDTO();
+                        AnagraficaObjectWithTypeDTO dtoNested = new AnagraficaObjectWithTypeDTO();
+                        if (projectcode != null && !projectcode.isEmpty())
                         {
-                            if (link.getValueLink() != null
-                                    && !link.getValueLink().isEmpty())
-                            {
-                                inv.setIntInvestigator(applicationService
-                                        .getResearcherByAuthorityKey(link
-                                                .getValueLink().substring(3)));
-                            }
-                            else
-                            {
-                                inv.setExtInvestigator(link
-                                        .getDescriptionLink());
-                            }
+                            rg = applicationService
+                                    .getResearcherGrantByCode(projectcode
+                                            .trim());
                         }
-                        rg.setInvestigator(inv);
-                    }
-                    List<ValoreDTO> coinvestigatorDTO = dtoRG
-                            .getAnagraficaProperties().get(
-                                    UtilsXML.GRANT_TAG_COINVESTIGATOR);
-                    List<Investigator> coinvestigators = new LinkedList<Investigator>();
-                    for (ValoreDTO vv : coinvestigatorDTO)
-                    {
-                        Investigator co = new Investigator();
-                        EmbeddedLinkValue link = (EmbeddedLinkValue) vv
-                                .getObject();
-                        if (link != null)
+                        else
                         {
-                            if (link.getValueLink() != null
-                                    && !link.getValueLink().isEmpty())
-                            {
-                                co.setIntInvestigator(applicationService
-                                        .getResearcherByAuthorityKey(link
-                                                .getValueLink()));
-                            }
-                            else
-                            {
-                                co.setExtInvestigator(link.getDescriptionLink());
-
-                            }
+                            log.error("Grant discarded ( projectCode not founded) [researcher: "
+                                    + ResearcherPageUtils
+                                            .getPersistentIdentifier(rp) + "]");
+                            discardImported++;
+                            continue;
                         }
-                        coinvestigators.add(co);
-                    }
-                    rg.setCoInvestigators(coinvestigators);
-                    AnagraficaUtils.reverseDTO(dtoRG, rg, rgTps);
-                    applicationService.saveOrUpdate(ResearcherGrant.class, rg);
 
+                        // skip if only new grants mode and rg is found
+                        if (newly && rg != null)
+                        {
+                            skipImported++;
+                            continue;
+                        }
+
+                        // create new grants
+                        if (rg == null)
+                        {
+                            log.info("Create new GRANT with code "
+                                    + projectcode);
+                            rg = new ResearcherGrant();
+                            rg.setRgCode(projectcode);
+                            rg.setStatus(active);
+                            newImported++;
+                        }
+                        else
+                        {
+                            log.info("Edit GRANT with code " + projectcode);
+                            editImported++;
+                        }
+
+                        List<RPNestedPropertiesDefinition> subTps = applicationService
+                                .findTipologieProprietaAssegnabili(nestedObject);
+                        AnagraficaUtils
+                                .fillDTO(dtoNested, nestedObject, subTps);
+
+                        List<GrantPropertiesDefinition> rgTps = applicationService
+                                .getList(GrantPropertiesDefinition.class);
+
+                        for (String key : dtoNested.getAnagraficaProperties()
+                                .keySet())
+                        {
+                            dtoRG.getAnagraficaProperties().put(
+                                    key,
+                                    dtoNested.getAnagraficaProperties()
+                                            .get(key));
+                        }
+
+                        // get investigators/coninvestigator
+                        List<ValoreDTO> investigatorDTO = dtoRG
+                                .getAnagraficaProperties().get(
+                                        UtilsXML.GRANT_TAG_INVESTIGATOR);
+                        for (ValoreDTO vv : investigatorDTO)
+                        {
+                            Investigator inv = new Investigator();
+                            EmbeddedLinkValue link = (EmbeddedLinkValue) vv
+                                    .getObject();
+                            if (link != null)
+                            {
+                                if (link.getValueLink() != null
+                                        && !link.getValueLink().isEmpty())
+                                {
+                                    inv.setIntInvestigator(applicationService
+                                            .getResearcherByAuthorityKey(link
+                                                    .getValueLink()
+                                                    .substring(3)));
+                                }
+                                else
+                                {
+                                    inv.setExtInvestigator(link
+                                            .getDescriptionLink());
+                                }
+                            }
+                            rg.setInvestigator(inv);
+                        }
+                        List<ValoreDTO> coinvestigatorDTO = dtoRG
+                                .getAnagraficaProperties().get(
+                                        UtilsXML.GRANT_TAG_COINVESTIGATOR);
+                        List<Investigator> coinvestigators = new LinkedList<Investigator>();
+                        for (ValoreDTO vv : coinvestigatorDTO)
+                        {
+                            Investigator co = new Investigator();
+                            EmbeddedLinkValue link = (EmbeddedLinkValue) vv
+                                    .getObject();
+                            if (link != null)
+                            {
+                                if (link.getValueLink() != null
+                                        && !link.getValueLink().isEmpty())
+                                {
+                                    co.setIntInvestigator(applicationService
+                                            .getResearcherByAuthorityKey(link
+                                                    .getValueLink()));
+                                }
+                                else
+                                {
+                                    co.setExtInvestigator(link
+                                            .getDescriptionLink());
+
+                                }
+                            }
+                            coinvestigators.add(co);
+                        }
+                        rg.setCoInvestigators(coinvestigators);
+                        AnagraficaUtils.reverseDTO(dtoRG, rg, rgTps);
+                        applicationService.saveOrUpdate(ResearcherGrant.class,
+                                rg);
+                    }
                 }
             }
         }
@@ -1653,7 +1525,7 @@ public class ImportExportUtils
         Document document = parser.parse(filexml);
 
         List<GrantPropertiesDefinition> realFillTPS = applicationService
-                .getListTipologieProprietaFirstLevel(GrantPropertiesDefinition.class);
+                .getList(GrantPropertiesDefinition.class);
 
         List<Element> grantxml = XMLUtils.getElementList(
                 document.getDocumentElement(), "grant");
@@ -1728,11 +1600,11 @@ public class ImportExportUtils
                         // clone dynamic data and structural on dto
 
                         clone = (ResearcherGrant) grant.clone();
-                        ResearcherGrant additionalTemp = new ResearcherGrant();
-                        clone.setAnagrafica(additionalTemp.getAnagrafica());
-                        additionalTemp.duplicaAnagrafica(grant);
+                        ProjectAdditionalFieldStorage additionalTemp = new ProjectAdditionalFieldStorage();
+                        clone.setDynamicField(additionalTemp);
+                        additionalTemp.duplicaAnagrafica(grant
+                                .getDynamicField());
                         update = true;
-
                     }
                     else
                     {
@@ -1748,9 +1620,11 @@ public class ImportExportUtils
                             grant.setStatus(status);
 
                             clone = (ResearcherGrant) grant.clone();
-                            ResearcherGrant additionalTemp = new ResearcherGrant();
-                            clone.setAnagrafica(additionalTemp.getAnagrafica());
-                            additionalTemp.duplicaAnagrafica(grant);
+                            ProjectAdditionalFieldStorage additionalTemp = new ProjectAdditionalFieldStorage();
+                            clone.setDynamicField(additionalTemp);
+                            additionalTemp.duplicaAnagrafica(grant
+                                    .getDynamicField());
+
                         }
                         else
                         {

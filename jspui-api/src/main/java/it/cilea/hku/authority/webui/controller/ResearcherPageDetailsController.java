@@ -192,22 +192,27 @@ public class ResearcherPageDetailsController
         }
         // this map contains key-values pairs, key = box shortname and values =
         // collection of metadata
-        Map<String, List<Containable>> mapBoxToContainables = new HashMap<String, List<Containable>>();
+        Map<String, List<IContainable>> mapBoxToContainables = new HashMap<String, List<IContainable>>();
+        Map<String, Map<String,IContainable>> mapBoxToMapContainables = new HashMap<String, Map<String,IContainable>>();
         List<IContainable> pDInTab = new LinkedList<IContainable>();
         List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
-        List<TabRPAdditionalFieldStorage> tabs = new LinkedList<TabRPAdditionalFieldStorage>();
+        List<TabRPAdditionalFieldStorage> tabs = findTabsWithVisibility(request, model, response);
         Integer tabId = getTabId(request);
         try
         {
-
-            tabs = findTabsWithVisibility(
-                    request, model, response);
-            // collection of edit tabs (all edit tabs created on system
-            // associate to visibility)
-
-            if (tabId == null && tabs != null && tabs.size() > 0)
-            {
-                tabId = tabs.get(0).getId();
+            
+            TabRPAdditionalFieldStorage t = null; 
+                
+            if (tabId == null)
+            {                
+                if(tabs!=null && !tabs.isEmpty()) {
+                    t = tabs.get(0);
+                    tabId = t.getId();
+                }
+            }
+            else {
+                t = applicationService.get(tabClass,
+                        tabId);                
             }
 
             if (tabId == null)
@@ -216,8 +221,7 @@ public class ResearcherPageDetailsController
                         "No tabs to display contact administrator");
             }
 
-            TabRPAdditionalFieldStorage t = applicationService.get(tabClass,
-                    tabId);
+      
             if (!tabs.contains(t))
             {
                 throw new RuntimeException(
@@ -234,7 +238,10 @@ public class ResearcherPageDetailsController
             {
 
                 String boxShortName = box.getShortName();
-                List<Containable> temp = box.getMask();       
+                List<IContainable> temp = applicationService
+                .<BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage>findContainableInPropertyHolder(propertyHolderClass,
+                        box.getId());       
+                Map<String, IContainable> tempMap = new HashMap<String, IContainable>();
                 ((ExtendedTabService) applicationService).findOtherContainablesInBoxByConfiguration(
                         box.getShortName(), temp,RPPropertiesDefinition.class.getName());
                 if (components != null)
@@ -253,8 +260,13 @@ public class ResearcherPageDetailsController
                         box.setCollapsed(false);                        
                     }
                 }
+                
+                for(IContainable tt : temp) {
+                    tempMap.put(tt.getShortName(), tt);
+                }           
 
                 mapBoxToContainables.put(box.getShortName(), temp);
+                mapBoxToMapContainables.put(box.getShortName(), tempMap);
                 pDInTab.addAll(temp);
             }
             researcher.getDynamicField().inizializza();
@@ -275,6 +287,7 @@ public class ResearcherPageDetailsController
         Collections.sort(propertyHolders);
         model.put("propertiesHolders", propertyHolders);
         model.put("propertiesDefinitionsInHolder", mapBoxToContainables);
+        model.put("mapPropertiesDefinitionsInHolder", mapBoxToMapContainables);
         model.put("tabList", tabs);
         model.put("tabId", tabId);
         model.put("path", modelPath);
@@ -321,72 +334,9 @@ public class ResearcherPageDetailsController
         }
         List<TabRPAdditionalFieldStorage> tabs = applicationService
                 .getTabsByVisibility(TabRPAdditionalFieldStorage.class, isAdmin);
+        return tabs;
 
-        List<TabRPAdditionalFieldStorage> notEmptyTabs = new LinkedList<TabRPAdditionalFieldStorage>();
-
-        // retrieve sub-page active links
-        Map<String, List<String[]>> navigation = new HashMap<String, List<String[]>>();
-        List<String[]> sublinkstoexport = new ArrayList<String[]>();
-
-        for (TabRPAdditionalFieldStorage tab : tabs)
-        {
-            List<String[]> sublinks = new ArrayList<String[]>();
-            boolean justAdded = false;
-            List<BoxRPAdditionalFieldStorage> boxs = tab.getMask();
-            for (BoxRPAdditionalFieldStorage box : boxs)
-            {
-
-                IRPComponent comp = null;
-                boolean componentsWorked = false;
-                if (components != null)
-                {
-                    comp = components.get(box.getShortName());
-
-                }
-                if (comp != null)
-                {
-                    List<String[]> compSubLinks = comp.sublinks(request,
-                            response);
-                    sublinks.addAll(compSubLinks);
-                    sublinkstoexport.addAll(compSubLinks);
-                    componentsWorked = true;
-                }
-
-                if (!box.isUnrelevant()
-                        && !ResearcherTagLibraryFunctions.isBoxHidden(
-                                researcher, box))
-                {
-                    
-                    if(!justAdded) {
-                        notEmptyTabs.add(tab);
-                    }
-                    
-                    justAdded = true;
-                    
-
-                    if (!componentsWorked)
-                    {
-                        int countBoxPublicMetadata = ResearcherTagLibraryFunctions
-                                .countBoxPublicMetadata(researcher, box, true);
-                        sublinks.add(new String[] {
-                                box.getShortName(),
-                                box.getTitle()
-                                        + (countBoxPublicMetadata == 0 ? ""
-                                                : " (" + countBoxPublicMetadata
-                                                        + ")"),
-                                box.getShortName() });
-                    }
-                }
-
-            }
-
-            navigation.put(tab.getShortName(), sublinks);
-        }
-
-        model.put("navigation", navigation);
-        model.put("sublinktoexport", sublinkstoexport);
-        return notEmptyTabs;
-
+       
     }
 
     @Override

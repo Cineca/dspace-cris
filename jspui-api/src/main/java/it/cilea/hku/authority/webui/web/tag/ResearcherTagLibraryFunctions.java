@@ -17,12 +17,14 @@ import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
-import it.cilea.hku.authority.webui.dto.AllMonthsStatsDTO;
 import it.cilea.osd.jdyna.model.AWidget;
 import it.cilea.osd.jdyna.model.AccessLevelConstants;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
@@ -34,13 +36,10 @@ import it.cilea.osd.jdyna.web.Box;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.ParseException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -192,7 +191,8 @@ public class ResearcherTagLibraryFunctions
     public static boolean isBoxHidden(ResearcherPage anagrafica,
             BoxRPAdditionalFieldStorage box)
     {
-        return isBoxHiddenInternal(anagrafica.getDynamicField(), box) && isBoxHiddenWithStructural(anagrafica, box);
+        return isBoxHiddenInternal(anagrafica.getDynamicField(), box)
+                && isBoxHiddenWithStructural(anagrafica, box);
     }
 
     public static boolean isBoxHidden(ResearcherGrant anagrafica,
@@ -210,7 +210,8 @@ public class ResearcherTagLibraryFunctions
         List<IContainable> containables = new LinkedList<IContainable>();
 
         applicationService.findOtherContainablesInBoxByConfiguration(
-                box.getShortName(), containables,RPPropertiesDefinition.class.getName());
+                box.getShortName(), containables,
+                RPPropertiesDefinition.class.getName());
         for (IContainable decorator : containables)
         {
             String shortName = decorator.getShortName();
@@ -286,6 +287,31 @@ public class ResearcherTagLibraryFunctions
         for (IContainable cont : containables)
         {
 
+            if (cont instanceof DecoratorRPTypeNested)
+            {
+                DecoratorRPTypeNested decorator = (DecoratorRPTypeNested) cont;
+                List<RPNestedObject> results = applicationService
+                        .getNestedObjectsByParentIDAndTypoID(Integer
+                                .parseInt(anagrafica.getIdentifyingValue()),
+                                ((DecoratorRPTypeNested) cont).getReal()
+                                        .getId(), RPNestedObject.class);
+                boolean resultPiece = true;
+                for (RPNestedObject object : results)
+                {
+                    for (RPNestedPropertiesDefinition rpp : decorator.getReal()
+                            .getMaschera())
+                    {
+                        resultPiece = checkDynamicVisibility(object,
+                                rpp.getShortName(), rpp.getRendering(), rpp);
+                        if (resultPiece == false)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+            }
+
             if (cont instanceof DecoratorRPPropertiesDefinition)
             {
                 DecoratorRPPropertiesDefinition decorator = (DecoratorRPPropertiesDefinition) cont;
@@ -356,95 +382,6 @@ public class ResearcherTagLibraryFunctions
         }
         return result;
 
-    }
-
-    public static List<AllMonthsStatsDTO> getAllMonthsStats(Object object)
-            throws ParseException
-    {
-
-        String[][] temp = (String[][]) object;
-        List<AllMonthsStatsDTO> result = new LinkedList<AllMonthsStatsDTO>();
-
-        Map<String, List<String>> tempMap = new HashMap<String, List<String>>();
-        boolean foundit = false;
-        int countIntegrityMonth = 12;
-        for (int i = 0; i < temp.length; i++)
-        {
-
-            String tempKey = temp[i][0];
-            String key = tempKey.substring(0, 4);
-            if (!tempMap.containsKey(key))
-            {
-                tempMap.put(key, new LinkedList<String>());
-                if (countIntegrityMonth > 0 && countIntegrityMonth != 12
-                        && i > 0)
-                {
-                    while (countIntegrityMonth != 0)
-                    {
-                        String check = temp[i - 1][0].substring(0, 4);
-                        List<String> array = tempMap.get(check);
-                        array.add(0, null);
-                        countIntegrityMonth--;
-                    }
-                    countIntegrityMonth = 12;
-                }
-            }
-            countIntegrityMonth--;
-            List<String> array = tempMap.get(key);
-            array.add(temp[i][1]);
-
-            if (countIntegrityMonth > 0 && i == temp.length - 1)
-            {
-                while (countIntegrityMonth != 0)
-                {
-                    array.add(null);
-                    countIntegrityMonth--;
-                }
-            }
-            if (countIntegrityMonth == 0)
-            {
-                countIntegrityMonth = 12;
-            }
-        }
-
-        for (String key : tempMap.keySet())
-        {
-            AllMonthsStatsDTO dto = new AllMonthsStatsDTO();
-            dto.setYear(key);
-            Integer total = 0;
-            List<String> tempToken = tempMap.get(key);
-            for (String token : tempToken)
-            {
-                if (token != null && !token.isEmpty())
-                {
-                    Integer addendum = Integer.parseInt(token);
-                    total += addendum;
-                    if (addendum > 0)
-                    {
-                        foundit = true;
-                    }
-                }
-            }
-            if (foundit == true)
-            {
-                dto.setJan(tempToken.get(0));
-                dto.setFeb(tempToken.get(1));
-                dto.setMar(tempToken.get(2));
-                dto.setApr(tempToken.get(3));
-                dto.setMay(tempToken.get(4));
-                dto.setJun(tempToken.get(5));
-                dto.setJul(tempToken.get(6));
-                dto.setAug(tempToken.get(7));
-                dto.setSep(tempToken.get(8));
-                dto.setOct(tempToken.get(9));
-                dto.setNov(tempToken.get(10));
-                dto.setDec(tempToken.get(11));
-                dto.setTotal(total);
-                result.add(dto);
-            }
-        }
-        Collections.sort(result);
-        return result;
     }
 
     public static int countBoxPublicMetadata(ResearcherPage anagrafica,
@@ -605,6 +542,29 @@ public class ResearcherTagLibraryFunctions
         Collections.sort(boxs, comparator);
         return boxs;
 
+    }
+
+    public static List<RPNestedObject> getResearcherNestedObject(
+            Integer researcherID, Integer typoNestedId)
+    {
+        return applicationService.getNestedObjectsByParentIDAndTypoID(
+                researcherID, typoNestedId, RPNestedObject.class);
+    }
+
+    public static List<RPNestedObject> getPaginateResearcherNestedObject(
+            Integer researcherID, Integer typoNestedId, Integer limit,
+            Integer offset)
+    {
+        return applicationService
+                .getNestedObjectsByParentIDAndTypoIDLimitAt(researcherID,
+                        typoNestedId, RPNestedObject.class, limit, offset);
+    }
+
+    public static List<RPNestedObject> getResearcherNestedObjectByShortname(
+            Integer researcherID, String typoNested)
+    {
+        return applicationService.getNestedObjectsByParentIDAndShortname(
+                researcherID, typoNested, RPNestedObject.class);
     }
 
 }

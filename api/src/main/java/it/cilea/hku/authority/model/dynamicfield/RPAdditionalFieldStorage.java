@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -37,8 +36,7 @@ public class RPAdditionalFieldStorage extends AnagraficaObject<RPProperty, RPPro
     
     @OneToOne
     @JoinColumn(name = "id")    
-    private ResearcherPage researcherPage;
-    
+    private ResearcherPage researcherPage;    
     
     @OneToMany(mappedBy="parent", fetch=FetchType.EAGER)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    

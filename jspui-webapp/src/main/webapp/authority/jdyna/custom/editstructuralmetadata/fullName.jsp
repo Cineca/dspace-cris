@@ -34,7 +34,7 @@
 
 				<td><fmt:message
 					key="jsp.layout.hku.primarydata.label.fullname" /></td>
-				<td><form:input path="fullName" size="80%" /></td>
+				<td><form:input path="fullName" size="80%"/></td>
 				<td></td>
 			</tr>
 			<tr>

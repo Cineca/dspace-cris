@@ -32,7 +32,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@NamedQuery(name = "EditTabRPAdditionalFieldStorage.findTabsByHolder", query = "from EditTabRPAdditionalFieldStorage tab where :par0 in elements(tab.mask)"),
 		@NamedQuery(name = "EditTabRPAdditionalFieldStorage.uniqueByDisplayTab", query = "from EditTabRPAdditionalFieldStorage tab where displayTab.id = ?"),
 		@NamedQuery(name = "EditTabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from EditTabRPAdditionalFieldStorage tab where shortName = ?"), 
-		@NamedQuery(name = "EditTabRPAdditionalFieldStorage.findByAccessLevel", query = "from EditTabRPAdditionalFieldStorage tab where visibility = ? order by priority")
+		@NamedQuery(name = "EditTabRPAdditionalFieldStorage.findByAccessLevel", query = "from EditTabRPAdditionalFieldStorage tab where visibility = ? order by priority"),
+        @NamedQuery(name = "EditTabRPAdditionalFieldStorage.findByAdmin", query = "from EditTabRPAdditionalFieldStorage tab where visibility = 1 or visibility = 2 or visibility = 3 order by priority"),
+        @NamedQuery(name = "EditTabRPAdditionalFieldStorage.findByOwner", query = "from EditTabRPAdditionalFieldStorage tab where visibility = 0 or visibility = 2 or visibility = 3 order by priority"),
+        @NamedQuery(name = "EditTabRPAdditionalFieldStorage.findByAnonimous", query = "from EditTabRPAdditionalFieldStorage tab where visibility = 3 order by priority")
 })
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class EditTabRPAdditionalFieldStorage extends

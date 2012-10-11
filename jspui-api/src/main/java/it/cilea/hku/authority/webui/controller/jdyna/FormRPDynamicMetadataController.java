@@ -23,6 +23,7 @@ import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.RPAnagraficaObjectDTO;
 import it.cilea.osd.jdyna.dto.AnagraficaObjectAreaDTO;
@@ -39,14 +40,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.core.Context;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 public class FormRPDynamicMetadataController
@@ -142,6 +141,8 @@ public class FormRPDynamicMetadataController
             List<IContainable> temp = getApplicationService()
                     .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
                             getClazzBox(), iph.getId());
+            ((ExtendedTabService) getApplicationService()).findOtherContainablesInBoxByConfiguration(
+                    iph.getShortName(), temp,RPPropertiesDefinition.class.getName());
             mapBoxToContainables.put(iph.getShortName(), temp);
             pDInTab.addAll(temp);
         }
@@ -172,7 +173,7 @@ public class FormRPDynamicMetadataController
         ResearcherPage researcher = getApplicationService().get(
                 ResearcherPage.class, id);
         Context context = UIUtil.obtainContext(request);
-        if ((context.getCurrentUser().getNetid() != null && !context
+        if (context.getCurrentUser()==null || (context.getCurrentUser().getNetid() != null && !context
                 .getCurrentUser().getNetid()
                 .equalsIgnoreCase(researcher.getStaffNo()))
                 && !AuthorizeManager.isAdmin(context))
@@ -266,11 +267,7 @@ public class FormRPDynamicMetadataController
                             RPPropertiesDefinition.class, c.getShortName());
             if (rpPd != null)
             {
-                realTPS.add(((DecoratorRPPropertiesDefinition) getApplicationService()
-                        .findContainableByDecorable(
-                                getClazzTipologiaProprieta().newInstance()
-                                        .getDecoratorClass(), c.getId()))
-                        .getReal());
+                realTPS.add(rpPd);
             }
             else
             {
@@ -351,11 +348,7 @@ public class FormRPDynamicMetadataController
                             RPPropertiesDefinition.class, c.getShortName());
             if (rpPd != null)
             {
-                realTPS.add(((DecoratorRPPropertiesDefinition) getApplicationService()
-                        .findContainableByDecorable(
-                                getClazzTipologiaProprieta().newInstance()
-                                        .getDecoratorClass(), c.getId()))
-                        .getReal());
+                realTPS.add(rpPd);
             }
             else
             {
@@ -369,37 +362,6 @@ public class FormRPDynamicMetadataController
 
         String rp = ResearcherPageUtils.getPersistentIdentifier(researcher);
 
-        String deleteImage_s = request.getParameter("deleteImage");
-
-        if (deleteImage_s != null)
-        {
-            Boolean deleteImage = Boolean.parseBoolean(deleteImage_s);
-            if (deleteImage)
-            {
-                ResearcherPageUtils.removePicture(researcher);
-            }
-        }
-
-        String deleteCV_s = request.getParameter("deleteCV");
-
-        if ((deleteCV_s != null && Boolean.parseBoolean(deleteCV_s))
-                || StringUtils.isNotEmpty(researcher.getCv().getRemoteUrl()))
-        {
-            ResearcherPageUtils.removeCVFiles(researcher);
-        }
-
-        List<RestrictedField> list_interest = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getInterests())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of interests");
-            }
-            else
-            {
-                list_interest.add(rf);
-            }
-        }
 
         List<RestrictedField> list_variants = new LinkedList<RestrictedField>();
         for (RestrictedField rf : researcher.getVariants())
@@ -413,113 +375,11 @@ public class FormRPDynamicMetadataController
                 list_variants.add(rf);
             }
         }
-
-        List<RestrictedField> list_titles = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getTitle())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of title");
-            }
-            else
-            {
-                list_titles.add(rf);
-            }
-        }
-
-        MultipartFile itemImage = researcher.getPict().getFile();
-        if (itemImage != null && !itemImage.getOriginalFilename().isEmpty())
-        {
-            ResearcherPageUtils.loadImg(researcher, rp, itemImage);
-        }
-
-        MultipartFile itemCV = researcher.getCv().getFile();
-
-        // if there is a remote url we don't upload the file
-        if (StringUtils.isEmpty(researcher.getCv().getRemoteUrl())
-                && itemCV != null && !itemCV.getOriginalFilename().isEmpty())
-        {
-            ResearcherPageUtils.loadCv(researcher, rp, itemCV);
-        }
-
-        researcher.setInterests(list_interest);
         researcher.setVariants(list_variants);
-        researcher.setTitle(list_titles);
-
-        List<RestrictedField> list_media = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getMedia())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of media");
-            }
-            else
-            {
-                list_media.add(rf);
-            }
-        }
-
-        List<RestrictedField> list_spokenEN = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getSpokenLanguagesEN())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of spoken languages EN");
-            }
-            else
-            {
-                list_spokenEN.add(rf);
-            }
-        }
-
-        List<RestrictedField> list_spokenZH = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getSpokenLanguagesZH())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of spoken languages ZH");
-            }
-            else
-            {
-                list_spokenZH.add(rf);
-            }
-        }
-
-        List<RestrictedField> list_writtenEN = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getWrittenLanguagesEN())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of written languages EN");
-            }
-            else
-            {
-                list_writtenEN.add(rf);
-            }
-        }
-
-        List<RestrictedField> list_writtenZH = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getWrittenLanguagesZH())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of written languages ZH");
-            }
-            else
-            {
-                list_writtenZH.add(rf);
-            }
-        }
-        researcher.setMedia(list_media);
-        researcher.setSpokenLanguagesEN(list_spokenEN);
-        researcher.setSpokenLanguagesZH(list_spokenZH);
-        researcher.setWrittenLanguagesEN(list_writtenEN);
-        researcher.setWrittenLanguagesZH(list_writtenZH);
-
         researcher.setFullName(anagraficaObjectDTO.getFullName());
         researcher.setStaffNo(anagraficaObjectDTO.getStaffNo());
-        researcher.setUrlPict(anagraficaObjectDTO.getUrlPict());
-
+        researcher.setEmail(anagraficaObjectDTO.getEmail());
+        
         getApplicationService().saveOrUpdate(ResearcherPage.class, researcher);
         EditTabRPAdditionalFieldStorage area = getApplicationService().get(
                 getClazzTab(), anagraficaObjectDTO.getTabId());

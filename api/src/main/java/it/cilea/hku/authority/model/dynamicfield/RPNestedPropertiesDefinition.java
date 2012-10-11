@@ -13,14 +13,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="model_rp_jdyna_nestedobject_propertiesdefinition")
 @NamedQueries( {
-    @NamedQuery(name = "RPNestedPropertiesDefinition.findAll", query = "from RPNestedPropertiesDefinition order by id"),
-    @NamedQuery(name = "RPNestedPropertiesDefinition.findAllTipologieProprietaFirstLevel", query = "from RPNestedPropertiesDefinition where topLevel = true order by id"),
-    @NamedQuery(name = "RPNestedPropertiesDefinition.findValoriOnCreation", query = "from RPNestedPropertiesDefinition where onCreation=true and topLevel = true"),
+    @NamedQuery(name = "RPNestedPropertiesDefinition.findAll", query = "from RPNestedPropertiesDefinition order by id"),    
+    @NamedQuery(name = "RPNestedPropertiesDefinition.findValoriOnCreation", query = "from RPNestedPropertiesDefinition where onCreation=true"),
     @NamedQuery(name = "RPNestedPropertiesDefinition.findSimpleSearch", query = "from RPNestedPropertiesDefinition where simpleSearch=true"),
     @NamedQuery(name = "RPNestedPropertiesDefinition.findAdvancedSearch", query = "from RPNestedPropertiesDefinition where advancedSearch=true"),
     @NamedQuery(name = "RPNestedPropertiesDefinition.uniqueIdByShortName", query = "select id from RPNestedPropertiesDefinition where shortName = ?"),
     @NamedQuery(name = "RPNestedPropertiesDefinition.uniqueByShortName", query = "from RPNestedPropertiesDefinition where shortName = ?"),
-    @NamedQuery(name = "RPNestedPropertiesDefinition.findValoriDaMostrare", query = "from RPNestedPropertiesDefinition where showInList = true and topLevel = true")
+    @NamedQuery(name = "RPNestedPropertiesDefinition.findValoriDaMostrare", query = "from RPNestedPropertiesDefinition where showInList = true")
 })
 public class RPNestedPropertiesDefinition extends ANestedPropertiesDefinition
 {

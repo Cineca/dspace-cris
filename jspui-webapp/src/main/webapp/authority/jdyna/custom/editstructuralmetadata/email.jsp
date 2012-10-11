@@ -12,7 +12,26 @@
 <%@ taglib uri="http://ajaxtags.org/tags/ajax" prefix="ajax" %>
 <c:set var="root"><%= request.getContextPath() %></c:set>
 
-			<td><fmt:message key="jsp.layout.hku.primarydata.label.email" /></td>
-			<td><form:input path="email.value" size="80%" /></td>
-			<td><form:checkbox path="email.visibility" value="1" /></td>
+		<table width="98%" cellpadding="0"
+		cellspacing="4">
+
+		<tr>
+		<td>
+			<table id="tabledatafields" align="left" cellpadding="0" cellspacing="4">
+			&nbsp;
+		
 	
+		<tr>
+
+			<td><fmt:message key="jsp.layout.hku.primarydata.label.email" /></td>
+			<td><form:input path="email.value" size="80%"/></td>
+			<td><form:checkbox path="email.visibility" value="1" /></td>
+		</tr>
+		
+		
+	</table>
+</td>
+</tr>
+</table>
+
+		<p></p>

@@ -21,14 +21,13 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="model_rp_jdyna_propertiesdefinition")
 @NamedQueries( {
-    @NamedQuery(name = "RPPropertiesDefinition.findAll", query = "from RPPropertiesDefinition order by id"),
-    @NamedQuery(name = "RPPropertiesDefinition.findAllTipologieProprietaFirstLevel", query = "from RPPropertiesDefinition where topLevel = true order by id"),
-    @NamedQuery(name = "RPPropertiesDefinition.findValoriOnCreation", query = "from RPPropertiesDefinition where onCreation=true and topLevel = true"),
+    @NamedQuery(name = "RPPropertiesDefinition.findAll", query = "from RPPropertiesDefinition order by id"),    
+    @NamedQuery(name = "RPPropertiesDefinition.findValoriOnCreation", query = "from RPPropertiesDefinition where onCreation=true"),
     @NamedQuery(name = "RPPropertiesDefinition.findSimpleSearch", query = "from RPPropertiesDefinition where simpleSearch=true"),
     @NamedQuery(name = "RPPropertiesDefinition.findAdvancedSearch", query = "from RPPropertiesDefinition where advancedSearch=true"),
     @NamedQuery(name = "RPPropertiesDefinition.uniqueIdByShortName", query = "select id from RPPropertiesDefinition where shortName = ?"),
     @NamedQuery(name = "RPPropertiesDefinition.uniqueByShortName", query = "from RPPropertiesDefinition where shortName = ?"),
-    @NamedQuery(name = "RPPropertiesDefinition.findValoriDaMostrare", query = "from RPPropertiesDefinition where showInList = true and topLevel = true")
+    @NamedQuery(name = "RPPropertiesDefinition.findValoriDaMostrare", query = "from RPPropertiesDefinition where showInList = true")
 })
 public class RPPropertiesDefinition extends PropertiesDefinition {
 	

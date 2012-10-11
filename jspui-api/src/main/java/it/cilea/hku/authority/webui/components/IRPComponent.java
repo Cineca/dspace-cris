@@ -10,17 +10,16 @@
  */
 package it.cilea.hku.authority.webui.components;
 
+import it.cilea.osd.jdyna.components.IComponent;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface IRPComponent
+public interface IRPComponent extends IComponent
 {
 
-    void evalute(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-    List<String[]> sublinks(HttpServletRequest request,
-            HttpServletResponse response) throws Exception;
+  
 
 }

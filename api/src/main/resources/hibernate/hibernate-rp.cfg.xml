@@ -47,17 +47,9 @@
 		<mapping class="it.cilea.hku.authority.model.RestrictedFieldFile" />
 		<mapping class="it.cilea.hku.authority.model.RestrictedFieldLocalOrRemoteFile" />
 		<mapping class="it.cilea.hku.authority.model.RPSubscription" />
-		
-		<mapping class="it.cilea.hku.authority.model.StatSubscription" />
-		
-		<mapping
-			class="it.cilea.hku.authority.model.UserWS" />
-		<mapping
-			class="it.cilea.hku.authority.model.ws.CriteriaWS" />
-		<!-- Dynamic field -->
 
-		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage" />		
+		<!-- Dynamic field -->
+		
 		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPProperty" />
 		
 		<mapping class="it.cilea.hku.authority.model.dynamicfield.GrantProperty" />
@@ -91,9 +83,7 @@
 			class="it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage" />
 		<mapping
 			class="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant" />
-		<!--<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField" />
-		-->
+		
 		<mapping
 			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
 		<mapping

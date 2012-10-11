@@ -49,7 +49,7 @@ public class DecoratorProjectNestedPropertiesDefinition extends
     @Override
     public Class getDecoratorClass()
     {
-        return ProjectNestedPropertiesDefinition.class;
+        return real.getDecoratorClass();
     }
 
     @Transient

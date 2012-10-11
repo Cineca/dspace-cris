@@ -84,5 +84,8 @@ public class DecoratorRPTypeNested extends
         return real;
     }
 
+    public boolean isNewline() {
+        return real.isNewline();
+    }
     
 }

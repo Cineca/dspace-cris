@@ -1,4 +1,4 @@
-<%@page import="it.cilea.hku.authority.model.dynamicfield.AccessLevelConstants"%>
+<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -11,10 +11,11 @@
 <%@ taglib uri="jdynatags" prefix="dyna" %>
 
 <c:set var="dspace.layout.head" scope="request">
-	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>
 	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+	<link href="<%= request.getContextPath() %>/css/jdyna.css" type="text/css" rel="stylesheet" />
 </c:set>
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.researchers-list">
@@ -195,7 +196,11 @@
 					<c:when
 						test="${propertiesdefinition.rendering.triview eq 'calendar'}">
 
+						<dyna:text visibility="false" propertyPath="real.rendering.minYear"
+								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.calendar.min" helpKey="help.jdyna.message.rendering.calendar.min"/>
 
+						<dyna:text visibility="false" propertyPath="real.rendering.maxYear"
+								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.calendar.max" helpKey="help.jdyna.message.rendering.calendar.max"/>
 
 					</c:when>
 					<c:otherwise>

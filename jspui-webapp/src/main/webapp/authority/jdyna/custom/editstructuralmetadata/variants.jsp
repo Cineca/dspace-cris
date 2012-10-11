@@ -46,14 +46,15 @@
 	<table width="98%" cellpadding="0"
 		cellspacing="4">
 
-		<tr>
-		<td>
-					<table id="tablevariantfields" align="left" cellpadding="0" cellspacing="4">
+	<tr>		
+			<td>
+			
+			<table id="tablevariantfields" align="left" cellpadding="0" cellspacing="4">
 
 				<c:forEach items="${researcher.variants}" var="variant"
 					varStatus="i">
 				<tr>
-				<td>Variant #${i.index}:</td>
+				<td><span class="dynaLabel">Variant #${i.index}:</span></td>
 				<td><form:input path="variants[${i.index}].value"
 					size="80%" /></td>
 				<td><form:checkbox
@@ -67,4 +68,13 @@
 				&nbsp;
 
 			</table>
-		</td></tr></table>
+			
+			</td>
+		
+		</tr>
+		<tr>
+			<td><input id="addVariants" name="addVariants" type="button" onclick="addVariant()" value="Add Variant"/></td>
+		</tr>
+	
+		
+	</table>

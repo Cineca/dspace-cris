@@ -22,14 +22,13 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="model_grant_jdyna_propertiesdefinition")
 @NamedQueries( {
-    @NamedQuery(name = "GrantPropertiesDefinition.findAll", query = "from GrantPropertiesDefinition order by id"),
-    @NamedQuery(name = "GrantPropertiesDefinition.findAllTipologieProprietaFirstLevel", query = "from GrantPropertiesDefinition where topLevel = true order by id"),
-    @NamedQuery(name = "GrantPropertiesDefinition.findValoriOnCreation", query = "from GrantPropertiesDefinition where onCreation=true and topLevel = true"),
+    @NamedQuery(name = "GrantPropertiesDefinition.findAll", query = "from GrantPropertiesDefinition order by id"),    
+    @NamedQuery(name = "GrantPropertiesDefinition.findValoriOnCreation", query = "from GrantPropertiesDefinition where onCreation=true"),
     @NamedQuery(name = "GrantPropertiesDefinition.findSimpleSearch", query = "from GrantPropertiesDefinition where simpleSearch=true"),
     @NamedQuery(name = "GrantPropertiesDefinition.findAdvancedSearch", query = "from GrantPropertiesDefinition where advancedSearch=true"),
     @NamedQuery(name = "GrantPropertiesDefinition.uniqueIdByShortName", query = "select id from GrantPropertiesDefinition where shortName = ?"),
     @NamedQuery(name = "GrantPropertiesDefinition.uniqueByShortName", query = "from GrantPropertiesDefinition where shortName = ?"),
-    @NamedQuery(name = "GrantPropertiesDefinition.findValoriDaMostrare", query = "from GrantPropertiesDefinition where showInList = true and topLevel = true")    
+    @NamedQuery(name = "GrantPropertiesDefinition.findValoriDaMostrare", query = "from GrantPropertiesDefinition where showInList = true")    
     
 })
 public class GrantPropertiesDefinition extends PropertiesDefinition {

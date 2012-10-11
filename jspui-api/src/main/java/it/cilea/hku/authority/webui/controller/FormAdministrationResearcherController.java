@@ -88,7 +88,10 @@ public class FormAdministrationResearcherController extends
             rpd.setFullName(r.getFullName());
             rpd.setAcademicName(r.getAcademicName().getValue());
             rpd.setChineseName(r.getChineseName().getValue());
-            rpd.setDept(r.getDept().getValue());
+            List<String> ss = r.getMetadata("dept");
+            if(ss!=null && !ss.isEmpty()) {  
+                rpd.setDept(ss.get(0));
+            }
             rpd.setStatus(r.getStatus());
             rpd.setRp(r);
             if((r.getId()).equals(id)) {

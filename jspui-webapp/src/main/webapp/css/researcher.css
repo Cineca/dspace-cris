@@ -1054,3 +1054,12 @@ form.citationExportBottom table tr td.columnBody {
 
 h2 img.hide {display: none;}
 h4 img.hide {display: none;}
+
+.log {
+    height: auto !important;
+    text-align: center;
+}
+
+.logcontent {
+    padding-top: 0.5em;
+}

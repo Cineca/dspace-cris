@@ -19,11 +19,13 @@ import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.SingleTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
 import it.cilea.osd.common.model.Identifiable;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -36,7 +38,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -47,7 +48,6 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Type;
 
 /**
  * This class models the HKU Researcher Page concept. Almost all the field of
@@ -67,9 +67,7 @@ import org.hibernate.annotations.Type;
         @NamedQuery(name = "ResearcherPage.paginate.academicName.asc", query = "from ResearcherPage order by academicName.value asc"),
         @NamedQuery(name = "ResearcherPage.paginate.academicName.desc", query = "from ResearcherPage order by academicName.value desc"),
         @NamedQuery(name = "ResearcherPage.paginate.chineseName.asc", query = "from ResearcherPage order by chineseName.value asc"),
-        @NamedQuery(name = "ResearcherPage.paginate.chineseName.desc", query = "from ResearcherPage order by chineseName.value desc"),
-        @NamedQuery(name = "ResearcherPage.paginate.dept.asc", query = "from ResearcherPage order by dept.value asc"),
-        @NamedQuery(name = "ResearcherPage.paginate.dept.desc", query = "from ResearcherPage order by dept.value desc"),
+        @NamedQuery(name = "ResearcherPage.paginate.chineseName.desc", query = "from ResearcherPage order by chineseName.value desc"),        
         @NamedQuery(name = "ResearcherPage.paginate.status.asc", query = "from ResearcherPage order by status asc"),
         @NamedQuery(name = "ResearcherPage.paginate.status.desc", query = "from ResearcherPage order by status desc"),
         @NamedQuery(name = "ResearcherPage.paginate.staffNo.asc", query = "from ResearcherPage order by staffNo asc"),
@@ -101,7 +99,8 @@ public class ResearcherPage
         Identifiable,
         HasTimeStampInfo,
         Cloneable,
-        IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>
+        IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>,
+        AnagraficaSupport<RPProperty, RPPropertiesDefinition>
 {
 
     @Transient
@@ -162,24 +161,12 @@ public class ResearcherPage
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "honorific_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "honorific_visibility")) })
-    @Cascade(value = { CascadeType.ALL })
-    /**
-     * the honorific 
-     */
-    @Deprecated
-    private RestrictedField honorific;
-
-    @Embedded
-    @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "academicName_value")),
             @AttributeOverride(name = "visibility", column = @Column(name = "academicName_visibility")) })
     @Cascade(value = { CascadeType.ALL })
     /**
      * the academic name 
      */
-    @Deprecated
     private RestrictedField academicName;
 
     @Embedded
@@ -189,124 +176,7 @@ public class ResearcherPage
     /**
      * the Chinese name
      */
-    @Deprecated
     private RestrictedField chineseName;
-
-    @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    /**
-     * the title
-     */
-    @Deprecated
-    private List<RestrictedField> title;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "dept_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "dept_visibility")) })
-    /**
-     * the department
-     */
-    @Deprecated
-    private RestrictedField dept;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "address_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "address_visibility")) })
-    /**
-     * the address
-     */
-    @Deprecated
-    private RestrictedField address;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "officeTel_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "officeTel_visibility")) })
-    /**
-     * the office telephone number
-     */
-    @Deprecated
-    private RestrictedField officeTel;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "email_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "email_visibility")) })
-    /**
-     * the email
-     */
-    @Deprecated
-    private RestrictedField email;
-
-    /**
-     * url of a webpage where check for a picture. Only for internal staff not
-     * used in public view
-     */
-    @Deprecated
-    @Type(type = "text")
-    private String urlPict;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "pict_ext")),
-            @AttributeOverride(name = "mimeType", column = @Column(name = "pict_type")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "pict_visibility")) })
-    /**
-     * the picture to show on the public page 
-     */
-    @Deprecated
-    private RestrictedFieldFile pict;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "cv_ext")),
-            @AttributeOverride(name = "remoteUrl", column = @Column(name = "cv_url")),
-            @AttributeOverride(name = "mimeType", column = @Column(name = "cv_type")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "cv_visibility")) })
-    /**
-     * the CV to show on the public page 
-     */
-    @Deprecated
-    private RestrictedFieldLocalOrRemoteFile cv;
-
-    @Deprecated
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "bio_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "bio_visibility")) })
-    /**
-     * the url where find the researcher biography
-     * 
-     * @Deprecated changed to dynamic field (shortname=myurls)
-     */
-    private RestrictedField bio;
-
-    @Deprecated
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "personal_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "personal_visibility")) })
-    /**
-     * the url to the personal page of the researcher
-     * 
-     * @Deprecated changed to dynamic field (shortname=myurls)
-     */
-    private RestrictedField urlPersonal;
-
-    @Deprecated
-    @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    /**
-     * the area of expertise list
-     * @Deprecated changed to dynamic field (shortname=expertise (complex field)) 
-     */
-    private List<RestrictedField> media;
 
     @Embedded
     @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
@@ -318,229 +188,13 @@ public class ResearcherPage
     private List<RestrictedField> variants;
 
     @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @AttributeOverrides( {
+            @AttributeOverride(name = "value", column = @Column(name = "email_value")),
+            @AttributeOverride(name = "visibility", column = @Column(name = "email_visibility")) })
     /**
-     * the interests list
+     * the email
      */
-    @Deprecated
-    private List<RestrictedField> interests;
-
-    @Deprecated
-    @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    /**
-     * the list of spoken languages in English form
-     * @Deprecated changed to dynamic field (shortname=spokenEN (children of 'spoken' complex field))
-     */
-    private List<RestrictedField> spokenLanguagesEN;
-
-    @Deprecated
-    @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    /**
-     * the list of spoken languages in Chinese form
-     * @Deprecated changed to dynamic field (shortname=spokenZH (children of 'spoken' complex field))
-     */
-    private List<RestrictedField> spokenLanguagesZH;
-
-    @Deprecated
-    @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    /**
-     * the list of written languages in English form
-     */
-    private List<RestrictedField> writtenLanguagesEN;
-
-    @Deprecated
-    @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    /**
-     * the list of written languages in Chinese form
-     */
-    private List<RestrictedField> writtenLanguagesZH;
-
-    // fields that come from the bibliometric excel data...
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "ridISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "ridISI_visibility")) })
-    /**
-     * ISI Researcher ID
-     */
-    @Deprecated
-    private RestrictedField ridISI;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "ridLinkISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "ridLinkISI_visibility")) })
-    /**
-     * Link to ISI RID page
-     */
-    @Deprecated
-    private RestrictedField ridLinkISI;
-
-    /**
-     * ISI Document Count
-     */
-    @Deprecated
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "paperCountISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "paperCountISI_visibility")) })
-    private RestrictedField paperCountISI;
-
-    /**
-     * ISI Link to Document Count page
-     */
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "paperLinkISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "paperLinkISI_visibility")) })
-    @Deprecated
-    private RestrictedField paperLinkISI;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "citationCountISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "citationCountISI_visibility")) })
-    @Deprecated
-    /**
-     * ISI Times Cited 
-     */
-    private RestrictedField citationCountISI;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "citationLinkISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "citationLinkISI_visibility")) })
-    /**
-     * Link to ISI Times Cited page
-     */
-    @Deprecated
-    private RestrictedField citationLinkISI;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "coAuthorsISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "coAuthorsISI_visibility")) })
-    /**
-     * ISI Co-Authors 
-     */
-    @Deprecated
-    private RestrictedField coAuthorsISI;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "hindexISI_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "hindexISI_visibility")) })
-    /**
-     * ISI h-index
-     */
-    @Deprecated
-    private RestrictedField hindexISI;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "authorIdScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "authorIdScopus_visibility")) })
-    /**
-     * Scopus AuthorID 
-     */
-    @Deprecated
-    private RestrictedField authorIdScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "authorIdLinkScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "authorIdLinkScopus_visibility")) })
-    /**
-     * Link to Scopus AuthorID page
-     */
-    @Deprecated
-    private RestrictedField authorIdLinkScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "paperCountScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "paperCountScopus_visibility")) })
-    /**
-     * Scopus Document count 
-     */
-    @Deprecated
-    private RestrictedField paperCountScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "paperLinkScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "paperLinkScopus_visibility")) })
-    /**
-     * Link to Scopus Document count page
-     */
-    @Deprecated
-    private RestrictedField paperLinkScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "citationCountScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "citationCountScopus_visibility")) })
-    /**
-     * Scopus Cited By 
-     */
-    @Deprecated
-    private RestrictedField citationCountScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "citationLinkScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "citationLinkScopus_visibility")) })
-    /**
-     * Link to Scopus Cited By 
-     */
-    @Deprecated
-    private RestrictedField citationLinkScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "coAuthorsScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "coAuthorsScopus_visibility")) })
-    /**
-     * Scopus Co-Authors
-     */
-    @Deprecated
-    private RestrictedField coAuthorsScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "coAuthorsLinkScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "coAuthorsLinkScopus_visibility")) })
-    /**
-     * Link to Scopus Co-Authors page
-     */
-    @Deprecated
-    private RestrictedField coAuthorsLinkScopus;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "hindexScopus_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "hindexScopus_visibility")) })
-    /**
-     * Scopus h-index
-     */
-    @Deprecated
-    private RestrictedField hindexScopus;
-
-    // fields outside the "standard" excel file
+    private RestrictedField email;
 
     /**
      * Map of additional custom data
@@ -621,42 +275,6 @@ public class ResearcherPage
     }
 
     /**
-     * Setter method.
-     * 
-     * @param fullName
-     *            the full name
-     */
-    public void setFullName(String fullName)
-    {
-        this.fullName = fullName;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the honorific
-     */
-    public RestrictedField getHonorific()
-    {
-        if (honorific == null)
-        {
-            honorific = new RestrictedField();
-        }
-        return honorific;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param honorific
-     *            the honorific
-     */
-    public void setHonorific(RestrictedField honorific)
-    {
-        this.honorific = honorific;
-    }
-
-    /**
      * Getter method.
      * 
      * @return the academic name
@@ -709,227 +327,6 @@ public class ResearcherPage
     /**
      * Getter method.
      * 
-     * @return the title's list
-     */
-    public List<RestrictedField> getTitle()
-    {
-        if (title == null)
-        {
-            title = new LinkedList<RestrictedField>();
-        }
-        return title;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param title
-     *            the title's list
-     */
-    public void setTitle(List<RestrictedField> title)
-    {
-        this.title = title;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the department
-     */
-    public RestrictedField getDept()
-    {
-        if (dept == null)
-        {
-            dept = new RestrictedField();
-        }
-        return dept;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param dept
-     *            the department
-     */
-    public void setDept(RestrictedField dept)
-    {
-        this.dept = dept;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the address
-     */
-    public RestrictedField getAddress()
-    {
-        if (address == null)
-        {
-            address = new RestrictedField();
-        }
-        return address;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param address
-     *            the address
-     */
-    public void setAddress(RestrictedField address)
-    {
-        this.address = address;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the office telephone number
-     */
-    public RestrictedField getOfficeTel()
-    {
-        if (officeTel == null)
-        {
-            officeTel = new RestrictedField();
-        }
-        return officeTel;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param officeTel
-     *            the office telephone number
-     */
-    public void setOfficeTel(RestrictedField officeTel)
-    {
-        this.officeTel = officeTel;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the email
-     */
-    public RestrictedField getEmail()
-    {
-        if (email == null)
-        {
-            email = new RestrictedField();
-        }
-        return email;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param email
-     *            the email
-     */
-    public void setEmail(RestrictedField email)
-    {
-        this.email = email;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the url of a webpage where check for a picture
-     */
-    public String getUrlPict()
-    {
-        return urlPict;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param urlPict
-     *            the url of a webpage where check for a picture
-     */
-    public void setUrlPict(String urlPict)
-    {
-        this.urlPict = urlPict;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the picture to show on the public page
-     */
-    public RestrictedFieldFile getPict()
-    {
-        if (pict == null)
-        {
-            pict = new RestrictedFieldFile();
-        }
-        return pict;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param pict
-     *            the picture to show on the public page
-     */
-    public void setPict(RestrictedFieldFile pict)
-    {
-        this.pict = pict;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the picture to show on the public page
-     */
-    public RestrictedFieldLocalOrRemoteFile getCv()
-    {
-        if (cv == null)
-        {
-            cv = new RestrictedFieldLocalOrRemoteFile();
-        }
-        return cv;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param pict
-     *            the picture to show on the public page
-     */
-    public void setCv(RestrictedFieldLocalOrRemoteFile cv)
-    {
-        this.cv = cv;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the biography
-     */
-    public RestrictedField getBio()
-    {
-        if (bio == null)
-        {
-            bio = new RestrictedField();
-        }
-        return bio;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param biography
-     *            the biography
-     */
-    public void setBio(RestrictedField bio)
-    {
-        this.bio = bio;
-    }
-
-    /**
-     * Getter method.
-     * 
      * @return the variants form of the name (include also Japanese, Korean,
      *         etc.)
      */
@@ -952,481 +349,6 @@ public class ResearcherPage
     public void setVariants(List<RestrictedField> variants)
     {
         this.variants = variants;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the interests
-     */
-    public List<RestrictedField> getInterests()
-    {
-        if (interests == null)
-        {
-            interests = new LinkedList<RestrictedField>();
-        }
-        return interests;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param interests
-     *            interests
-     */
-    public void setInterests(List<RestrictedField> interests)
-    {
-        this.interests = interests;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the ISI Researcher ID
-     */
-    public RestrictedField getRidISI()
-    {
-        if (ridISI == null)
-        {
-            ridISI = new RestrictedField();
-        }
-        return ridISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param ridISI
-     *            the ISI Researcher ID
-     */
-    public void setRidISI(RestrictedField ridISI)
-    {
-        this.ridISI = ridISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the link to ISI RID page
-     */
-    public RestrictedField getRidLinkISI()
-    {
-        if (ridLinkISI == null)
-        {
-            ridLinkISI = new RestrictedField();
-        }
-        return ridLinkISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param ridLinkISI
-     *            the link to ISI RID page
-     */
-    public void setRidLinkISI(RestrictedField ridLinkISI)
-    {
-        this.ridLinkISI = ridLinkISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the ISI Document Count
-     */
-    public RestrictedField getPaperCountISI()
-    {
-        if (paperCountISI == null)
-        {
-            paperCountISI = new RestrictedField();
-        }
-        return paperCountISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param paperCountISI
-     *            the ISI Document Count
-     */
-    public void setPaperCountISI(RestrictedField paperCountISI)
-    {
-        this.paperCountISI = paperCountISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the ISI Link to Document Count page
-     */
-    public RestrictedField getPaperLinkISI()
-    {
-        if (paperLinkISI == null)
-        {
-            paperLinkISI = new RestrictedField();
-        }
-        return paperLinkISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param paperLinkISI
-     *            the ISI Link to Document Count page
-     */
-    public void setPaperLinkISI(RestrictedField paperLinkISI)
-    {
-        this.paperLinkISI = paperLinkISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the ISI Times Cited
-     */
-    public RestrictedField getCitationCountISI()
-    {
-        if (citationCountISI == null)
-        {
-            citationCountISI = new RestrictedField();
-        }
-        return citationCountISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param citationCountISI
-     *            the ISI Times Cited
-     */
-    public void setCitationCountISI(RestrictedField citationCountISI)
-    {
-        this.citationCountISI = citationCountISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the link to ISI Times Cited page
-     */
-    public RestrictedField getCitationLinkISI()
-    {
-        if (citationLinkISI == null)
-        {
-            citationLinkISI = new RestrictedField();
-        }
-        return citationLinkISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param citationLinkISI
-     *            the link to ISI Times Cited page
-     */
-    public void setCitationLinkISI(RestrictedField citationLinkISI)
-    {
-        this.citationLinkISI = citationLinkISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the ISI Co-Authors
-     */
-    public RestrictedField getCoAuthorsISI()
-    {
-        if (coAuthorsISI == null)
-        {
-            coAuthorsISI = new RestrictedField();
-        }
-        return coAuthorsISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param coAuthorsISI
-     *            the ISI Co-Authors
-     */
-    public void setCoAuthorsISI(RestrictedField coAuthorsISI)
-    {
-        this.coAuthorsISI = coAuthorsISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the ISI h-index
-     */
-    public RestrictedField getHindexISI()
-    {
-        if (hindexISI == null)
-        {
-            hindexISI = new RestrictedField();
-        }
-        return hindexISI;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param hindexISI
-     *            the ISI h-index
-     */
-    public void setHindexISI(RestrictedField hindexISI)
-    {
-        this.hindexISI = hindexISI;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the Scopus AuthorID
-     */
-    public RestrictedField getAuthorIdScopus()
-    {
-        if (authorIdScopus == null)
-        {
-            authorIdScopus = new RestrictedField();
-        }
-        return authorIdScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param authorIdScopus
-     *            the Scopus AuthorID
-     */
-    public void setAuthorIdScopus(RestrictedField authorIdScopus)
-    {
-        this.authorIdScopus = authorIdScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the link to Scopus AuthorID page
-     */
-    public RestrictedField getAuthorIdLinkScopus()
-    {
-        if (authorIdLinkScopus == null)
-        {
-            authorIdLinkScopus = new RestrictedField();
-        }
-        return authorIdLinkScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param authorIdLinkScopus
-     *            the link to Scopus AuthorID page
-     */
-    public void setAuthorIdLinkScopus(RestrictedField authorIdLinkScopus)
-    {
-        this.authorIdLinkScopus = authorIdLinkScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the Scopus document count
-     */
-    public RestrictedField getPaperCountScopus()
-    {
-        if (paperCountScopus == null)
-        {
-            paperCountScopus = new RestrictedField();
-        }
-        return paperCountScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param paperCountScopus
-     *            the Scopus document count
-     */
-    public void setPaperCountScopus(RestrictedField paperCountScopus)
-    {
-        this.paperCountScopus = paperCountScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the link to Scopus Document count page
-     */
-    public RestrictedField getPaperLinkScopus()
-    {
-        if (paperLinkScopus == null)
-        {
-            paperLinkScopus = new RestrictedField();
-        }
-        return paperLinkScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param paperLinkScopus
-     *            the link to Scopus Document count page
-     */
-    public void setPaperLinkScopus(RestrictedField paperLinkScopus)
-    {
-        this.paperLinkScopus = paperLinkScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the Scopus Cited By
-     */
-    public RestrictedField getCitationCountScopus()
-    {
-        if (citationCountScopus == null)
-        {
-            citationCountScopus = new RestrictedField();
-        }
-        return citationCountScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param citationCountScopus
-     *            the Scopus Cited By
-     */
-    public void setCitationCountScopus(RestrictedField citationCountScopus)
-    {
-        this.citationCountScopus = citationCountScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the link to Scopus citation page
-     */
-    public RestrictedField getCitationLinkScopus()
-    {
-        if (citationLinkScopus == null)
-        {
-            citationLinkScopus = new RestrictedField();
-        }
-        return citationLinkScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param citationLinkScopus
-     *            the link to Scopus citation page
-     */
-    public void setCitationLinkScopus(RestrictedField citationLinkScopus)
-    {
-        this.citationLinkScopus = citationLinkScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the Scopus co-Author(s)
-     */
-    public RestrictedField getCoAuthorsScopus()
-    {
-        if (coAuthorsScopus == null)
-        {
-            coAuthorsScopus = new RestrictedField();
-        }
-        return coAuthorsScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param coAuthorsScopus
-     *            the Scopus co-Author(s)
-     */
-    public void setCoAuthorsScopus(RestrictedField coAuthorsScopus)
-    {
-        this.coAuthorsScopus = coAuthorsScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the the link to Scopus Co-Authors page
-     */
-    public RestrictedField getCoAuthorsLinkScopus()
-    {
-        if (coAuthorsLinkScopus == null)
-        {
-            coAuthorsLinkScopus = new RestrictedField();
-        }
-        return coAuthorsLinkScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param coAuthorsLinkScopus
-     *            the link to Scopus Co-Authors page
-     */
-    public void setCoAuthorsLinkScopus(RestrictedField coAuthorsLinkScopus)
-    {
-        this.coAuthorsLinkScopus = coAuthorsLinkScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the Scopus h-index
-     */
-    public RestrictedField getHindexScopus()
-    {
-        if (hindexScopus == null)
-        {
-            hindexScopus = new RestrictedField();
-        }
-        return hindexScopus;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param hindexScopus
-     *            the Scopus h-index
-     */
-    public void setHindexScopus(RestrictedField hindexScopus)
-    {
-        this.hindexScopus = hindexScopus;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the url to the personal page of the researcher
-     */
-    public RestrictedField getUrlPersonal()
-    {
-        if (urlPersonal == null)
-        {
-            urlPersonal = new RestrictedField();
-        }
-        return urlPersonal;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param urlPersonal
-     *            the url to the personal page of the researcher
-     */
-    public void setUrlPersonal(RestrictedField urlPersonal)
-    {
-        this.urlPersonal = urlPersonal;
     }
 
     /**
@@ -1467,31 +389,6 @@ public class ResearcherPage
     /**
      * Getter method.
      * 
-     * @return the area of expertise list
-     */
-    public List<RestrictedField> getMedia()
-    {
-        if (media == null)
-        {
-            media = new LinkedList<RestrictedField>();
-        }
-        return media;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param media
-     *            the area of expertise list
-     */
-    public void setMedia(List<RestrictedField> media)
-    {
-        this.media = media;
-    }
-
-    /**
-     * Getter method.
-     * 
      * @return the manually rejected potential matches
      */
     public Set<Integer> getRejectItems()
@@ -1512,106 +409,6 @@ public class ResearcherPage
     public void setRejectItems(Set<Integer> rejectItems)
     {
         this.rejectItems = rejectItems;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the list of spoken languages in English form
-     */
-    public List<RestrictedField> getSpokenLanguagesEN()
-    {
-        if (spokenLanguagesEN == null)
-        {
-            spokenLanguagesEN = new LinkedList<RestrictedField>();
-        }
-        return spokenLanguagesEN;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param spokenLanguagesEN
-     *            the list of spoken languages in English form
-     */
-    public void setSpokenLanguagesEN(List<RestrictedField> spokenLanguagesEN)
-    {
-        this.spokenLanguagesEN = spokenLanguagesEN;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the list of spoken languages in Chinese form
-     */
-    public List<RestrictedField> getSpokenLanguagesZH()
-    {
-        if (spokenLanguagesZH == null)
-        {
-            spokenLanguagesZH = new LinkedList<RestrictedField>();
-        }
-        return spokenLanguagesZH;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param spokenLanguagesZH
-     *            the list of spoken languages in Chinese form
-     */
-    public void setSpokenLanguagesZH(List<RestrictedField> spokenLanguagesZH)
-    {
-        this.spokenLanguagesZH = spokenLanguagesZH;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the list of written languages in English form
-     */
-    public List<RestrictedField> getWrittenLanguagesEN()
-    {
-        if (writtenLanguagesEN == null)
-        {
-            writtenLanguagesEN = new LinkedList<RestrictedField>();
-        }
-        return writtenLanguagesEN;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param writtenLanguagesEN
-     *            the list of written languages in English form
-     */
-    public void setWrittenLanguagesEN(List<RestrictedField> writtenLanguagesEN)
-    {
-        this.writtenLanguagesEN = writtenLanguagesEN;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the list of written languages in Chinese form
-     */
-    public List<RestrictedField> getWrittenLanguagesZH()
-    {
-        if (writtenLanguagesZH == null)
-        {
-            writtenLanguagesZH = new LinkedList<RestrictedField>();
-        }
-        return writtenLanguagesZH;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param writtenLanguagesZH
-     *            the list of written languages in Chinese form
-     */
-    public void setWrittenLanguagesZH(List<RestrictedField> writtenLanguagesZH)
-    {
-        this.writtenLanguagesZH = writtenLanguagesZH;
     }
 
     /**
@@ -1686,29 +483,49 @@ public class ResearcherPage
      * returns the value of the dynamic field with the shorter name equals to
      * the argument. Only public values are returned!
      * 
-     * PARTIALLY IMPLEMENTED: works only on dept and any not nested dynamic
-     * fields
      * 
      * @param dcField
      *            the field (not null) to retrieve the value
      * @return a list of 0, 1 or more values
      */
-    public List<String> getMetadata(String dcField)
+    public List<String> getMetadata(String field)
     {
         List<String> result = new ArrayList();
-        if (dcField == null)
+        if (field == null)
         {
             throw new IllegalArgumentException("You must specified a field");
         }
-        if (dcField.equals("dept")
-                && getDept().getVisibility() == VisibilityConstants.PUBLIC)
+
+        if (field.equals("fullName"))
         {
-            result.add(getDept().getValue());
+            result.add(getFullName());
+        }
+        else if (field.equals("chineseName")
+                && getChineseName().getVisibility() == VisibilityConstants.PUBLIC)
+        {
+            result.add(getChineseName().getValue());
+        }
+        else if (field.equals("academicName")
+                && getAcademicName().getVisibility() == VisibilityConstants.PUBLIC)
+        {
+            result.add(getAcademicName().getValue());
+        }
+        else if (field.equals("variants"))                
+        {
+            for(RestrictedField variant : getVariants()) {
+                if(variant.getVisibility() == VisibilityConstants.PUBLIC) {
+                    result.add(variant.getValue());                    
+                }
+            }            
+        }
+        else if (field.equals("email"))
+        {
+            result.add(getEmail().getValue());
         }
         else
         {
             List<RPProperty> dyna = getDynamicField().getAnagrafica4view().get(
-                    dcField);
+                    field);
             for (RPProperty prop : dyna)
             {
                 if (prop.getVisibility() == VisibilityConstants.PUBLIC)
@@ -1857,6 +674,109 @@ public class ResearcherPage
     public String getNameSingleRowElement()
     {
         return ExportConstants.ELEMENT_SINGLEROW;
+    }
+
+    @Override
+    public String getIdentifyingValue()
+    {
+        return this.dynamicField.getIdentifyingValue();
+    }
+
+    @Override
+    public String getDisplayValue()
+    {
+        return this.dynamicField.getDisplayValue();
+    }
+
+    @Override
+    public List<RPProperty> getAnagrafica()
+    {
+        return this.dynamicField.getAnagrafica();
+    }
+
+    @Override
+    public Map<String, List<RPProperty>> getAnagrafica4view()
+    {
+        return this.dynamicField.getAnagrafica4view();
+    }
+
+    @Override
+    public void setAnagrafica(List<RPProperty> anagrafica)
+    {
+        this.dynamicField.setAnagrafica(anagrafica);
+    }
+
+    @Override
+    public RPProperty createProprieta(RPPropertiesDefinition tipologiaProprieta)
+            throws IllegalArgumentException
+    {
+        return this.dynamicField.createProprieta(tipologiaProprieta);
+    }
+
+    @Override
+    public RPProperty createProprieta(
+            RPPropertiesDefinition tipologiaProprieta, Integer posizione)
+            throws IllegalArgumentException
+    {
+        return this.dynamicField.createProprieta(tipologiaProprieta, posizione);
+    }
+
+    @Override
+    public boolean removeProprieta(RPProperty proprieta)
+    {
+        return this.dynamicField.removeProprieta(proprieta);
+    }
+
+    @Override
+    public List<RPProperty> getProprietaDellaTipologia(
+            RPPropertiesDefinition tipologiaProprieta)
+    {
+        return this.dynamicField.getProprietaDellaTipologia(tipologiaProprieta);
+    }
+
+    @Override
+    public Class<RPProperty> getClassProperty()
+    {
+        return this.dynamicField.getClassProperty();
+    }
+
+    @Override
+    public Class<RPPropertiesDefinition> getClassPropertiesDefinition()
+    {
+        return this.dynamicField.getClassPropertiesDefinition();
+    }
+
+    @Override
+    public void inizializza()
+    {
+        this.dynamicField.inizializza();
+    }
+
+    @Override
+    public void invalidateAnagraficaCache()
+    {
+        this.dynamicField.invalidateAnagraficaCache();
+    }
+
+    @Override
+    public void pulisciAnagrafica()
+    {
+        this.dynamicField.pulisciAnagrafica();
+    }
+
+    public void setEmail(RestrictedField email)
+    {
+        this.email = email;
+    }
+
+    public RestrictedField getEmail()
+    {
+        return email;
+    }
+
+    public void setFullName(String fullName)
+    {
+        this.fullName = fullName;
     }
 
 }

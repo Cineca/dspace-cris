@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+<%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 
@@ -47,7 +48,9 @@
 			<display:column headerClass="staff" class="staff" titleKey="jsp.layout.table.hku.researchers.staffNo" property="staffNo" url="/rp/rp/detail.htm" paramId="persistentIdentifier" paramProperty="persistentIdentifier" sortable="true"/>			
 			<display:column headerClass="names" class="names" titleKey="jsp.layout.table.hku.researchers.fullName" property="fullName" sortable="true"/>						
 			<display:column headerClass="chinese" titleKey="jsp.layout.table.hku.researchers.chineseName" property="chineseName" sortable="true"/>
-			<display:column headerClass="dept" class="dept" titleKey="jsp.layout.table.hku.researchers.department" property="dept" sortable="true"/>	
+			<display:column headerClass="dept" class="dept" titleKey="jsp.layout.table.hku.researchers.department" sortable="true">
+				<a href="${dyna:getLinkValue(objectList.dept)}">${dyna:getLinkDescription(objectList.dept)}</a> 
+			</display:column>	
 			<display:column headerClass="active" titleKey="jsp.layout.table.hku.researchers.status" sortable="true" sortProperty="status">				
 				<form:checkbox cssClass="active" path="list[${objectList_rowNum-1}].status" value="1"/>				
 			</display:column>

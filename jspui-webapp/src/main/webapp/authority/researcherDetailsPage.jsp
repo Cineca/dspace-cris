@@ -30,13 +30,32 @@
 	}
 %>
 <c:set var="dspace.layout.head" scope="request">
-    <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui-1.8.24.custom.min.js"></script>
     <link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+    <link href="<%= request.getContextPath() %>/css/jdyna.css" type="text/css" rel="stylesheet" />
+    <link href="<%= request.getContextPath() %>/css/redmond/jquery-ui-1.8.24.custom.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
+    
+    	var LoaderSnippet = {    		
+    		write : function(text, idelement) {
+    			var elem = document.getElementById(idelement);
+    			elem.innerHTML = text;		
+    		}
+    	};
+
+    	var LoaderModal = {        		
+        		write : function(text, idelement) {
+        			var elem = document.getElementById(idelement);
+        			elem.innerHTML = text;		
+        		}
+        };
+    
 		j(document).ready(function()
 				{
+				  			
 				  j(".control").click(function()
 				  {
 					  j(this).toggleClass("expanded");
@@ -132,9 +151,10 @@
 					<td align="center" class="tb-head0">&nbsp;</td>
 				</tr>
 				<tr>
-					<td bgcolor="#f9f9f9" valign="top" class="tb-body" colspan="9">
+					<td bgcolor="#f9f9f9" valign="top" class="tb-body" colspan="0">
 
 					<c:forEach items="${propertiesHolders}" var="holder">
+					
 						<c:set
 							value="${researcher:isBoxHidden(researcher,holder.shortName)}"
 							var="invisibleBox"></c:set>
@@ -172,6 +192,63 @@
 										items="${propertiesDefinitionsInHolder[holder.shortName]}"
 										var="tipologiaDaVisualizzare" varStatus="status">
 
+			
+										<c:if
+											test="${tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRPTypeNested'}">
+											
+											
+												<c:set var="totalHit" value="0"/>
+												<c:set var="limit" value="5"/>
+												<c:set var="offset" value="0"/>											
+												<c:set var="pageCurrent" value="0"/>	
+												<c:set var="editmode" value="false"/>
+												
+												<div
+													id="viewnested_${tipologiaDaVisualizzare.shortName}"
+													class="previewdialog">
+
+														<div id="log1_${tipologiaDaVisualizzare.shortName}" class="log">
+															<img
+																src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
+																id="loader1_${tipologiaDaVisualizzare.shortName}" class="loader" />
+															<div id="logcontent1_${tipologiaDaVisualizzare.shortName}" class="logcontent"></div>
+														</div>
+
+												</div>
+				
+												
+												<script type="text/javascript">		
+				
+													LoaderSnippet.write("Loading... ${tipologiaDaVisualizzare.label}", "logcontent1_${tipologiaDaVisualizzare.shortName}");												
+													var parameterId = this.id;																	
+													var ajaxurlrelations = "<%=request.getContextPath()%>/rp/viewNested.htm";
+													j.ajax( {
+														url : ajaxurlrelations,
+														data : {																			
+															"elementID" : parameterId,
+															"parentID" : ${researcher.id},
+															"typeNestedID" : ${tipologiaDaVisualizzare.real.id},
+															"pageCurrent": ${pageCurrent},
+															"offset": ${offset},
+															"limit": ${limit},
+															"editmode": 'false',
+															"totalHit": ${totalHit}															
+														},
+														success : function(data) {																										
+															j('#viewnested_${tipologiaDaVisualizzare.shortName}').html(data);								
+															
+														},
+														error : function(data) {
+															
+															LoaderSnippet.write(data.statusText, "logcontent1_${tipologiaDaVisualizzare.shortName}");
+															
+														}
+													});
+																																				
+												
+												</script>
+														
+										</c:if>
 										<c:if
 											test="${tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRPPropertiesDefinition'}">
 											<dyna:display tipologia="${tipologiaDaVisualizzare.real}"

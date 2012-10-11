@@ -29,6 +29,7 @@ import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.core.Utils;
+import org.springframework.util.FileCopyUtils;
 
 public class RPFileServiceServlet extends HttpServlet {
 	/** log4j category */
@@ -59,14 +60,12 @@ public class RPFileServiceServlet extends HttpServlet {
 				InputStream is = null;
 				try {
 					is = new FileInputStream(image);
-					response.setContentType(new MimetypesFileTypeMap().getContentType(image));
 
-					// Response length
-					response.setHeader("Content-Length",
-							String.valueOf(image.length()));
-
-					Utils.bufferedCopy(is, response.getOutputStream());
-					is.close();
+					response.setContentType(this.getServletContext().getMimeType(image.getName()));
+					Long len = image.length();					
+					response.setContentLength(len.intValue());
+					response.setHeader("Content-Disposition", "attachment; filename=" + image.getName());
+					FileCopyUtils.copy(is, response.getOutputStream());
 					response.getOutputStream().flush();
 				} finally {
 					if (is != null) {

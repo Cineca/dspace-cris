@@ -13,10 +13,11 @@
 <%@page import="it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant"%>
 
 <c:set var="dspace.layout.head" scope="request">
-	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>
 	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+	<link href="<%= request.getContextPath() %>/css/jdyna.css" type="text/css" rel="stylesheet" />
 </c:set>
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.researchers-list">
@@ -205,17 +206,17 @@
 					</c:if>
 					<c:if test="${boxed.real.rendering.triview == 'calendar'}">
 						<c:set var="controller" value="Date" />
-					</c:if>
-					<c:if test="${boxed.real.rendering.triview == 'combo'}">
-						<c:set var="controller" value="Nested" />
-					</c:if>
+					</c:if>					
 					<c:if test="${boxed.real.rendering.triview == 'link'}">
 						<c:set var="controller" value="Link" />
+					</c:if>
+					<c:if test="${boxed.real.rendering.triview == 'file'}">
+						<c:set var="controller" value="File" />
 					</c:if>
 					<a class="jdynaremovebutton"
 						title="<fmt:message
 				key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
-						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/deleteDynamicField.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
+						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/deleteFieldDefinition.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
 					<img
 						src="<%=request.getContextPath()%>/image/authority/jdynadeletebutton.jpg"
 						border="0"
@@ -249,7 +250,55 @@
 					</div>
 					</c:if>
 				</c:if>
-				
+				<c:if
+					test="${dyna:instanceOf(boxed,'it.cilea.osd.jdyna.model.ADecoratorTypeDefinition')}">
+					<c:forEach var="ownered" items="${owneredContainables}"
+							varStatus="i">
+							<c:if test="${ownered.id eq boxed.id}">
+							<c:set var="checked" value="true" />
+						<spring:transform value="${ownered.id}" var="optionToCompare" />
+						</c:if>
+					</c:forEach>
+					
+					<c:if test="${checked == true}">
+					<c:set var="controller" value="Nested" />
+					<div class="mask">
+				<a class="jdynaremovebutton"
+						title="<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
+						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/deleteFieldDefinition.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
+					<img
+						src="<%=request.getContextPath()%>/image/authority/jdynadeletebutton.jpg"
+						border="0"
+						alt="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
+						title="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
+						name="remove" id="remove_${boxed.id}" /> </a>
+					<a class="jdynaeditbutton"
+						title="<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
+						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/edit${controller}DynamicField.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
+					<img
+						src="<%=request.getContextPath()%>/image/authority/jdynaeditbutton.jpg"
+						border="0"
+						alt="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
+						title="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
+						name="edit" id="edit_${boxed.id}" /> </a>
+					<spring:bind path="mask">
+						<input id="_${status.expression}" name="_${status.expression}"
+							value="true" type="hidden" />
+						<c:set var="checked" value="false" />
+					
+						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}]</form:label>
+
+						<input class="jdynacontainable" type="checkbox"	value="${optionToCompare}" checked="checked" id="mask_${boxed.id}" name="mask" />
+					</spring:bind>
+					</div>				
+					</c:if>	
+				</c:if>
 			</c:if>
 		   
 		    
@@ -285,8 +334,8 @@
 					<c:if test="${boxed.real.rendering.triview == 'calendar'}">
 						<c:set var="controller" value="Date" />
 					</c:if>
-					<c:if test="${boxed.real.rendering.triview == 'combo'}">
-						<c:set var="controller" value="Nested" />
+					<c:if test="${boxed.real.rendering.triview == 'file'}">
+						<c:set var="controller" value="File" />
 					</c:if>
 					<c:if test="${boxed.real.rendering.triview == 'link'}">
 						<c:set var="controller" value="Link" />
@@ -294,7 +343,7 @@
 					<a class="jdynaremovebutton"
 						title="<fmt:message
 				key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
-						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/deleteDynamicField.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
+						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/deleteFieldDefinition.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
 					<img
 						src="<%=request.getContextPath()%>/image/authority/jdynadeletebutton.jpg"
 						border="0"
@@ -329,6 +378,61 @@
 					</c:if>
 				</c:if>
 				
+				
+				<c:if
+					test="${dyna:instanceOf(boxed,'it.cilea.osd.jdyna.model.ADecoratorTypeDefinition')}">
+					<c:set var="checked" value="false" />
+					<c:forEach var="ownered" items="${owneredContainables}"
+							varStatus="i">
+							<c:if test="${ownered.id eq boxed.id}">
+								<c:set var="checked" value="true" />
+								<spring:transform value="${ownered.id}" var="optionToCompare" />
+							</c:if>
+					</c:forEach>
+					
+					<c:if test="${checked eq false}">
+					
+					<div class="mask">
+					
+					<c:set var="controller" value="Nested" />
+					
+					<a class="jdynaremovebutton"
+						title="<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
+						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/deleteNestedField.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
+					<img
+						src="<%=request.getContextPath()%>/image/authority/jdynadeletebutton.jpg"
+						border="0"
+						alt="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
+						title="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
+						name="remove" id="remove_${boxed.id}" /> </a>
+					<a class="jdynaeditbutton"
+						title="<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
+						href="<%=request.getContextPath()%>/${specificPartPath}/administrator/edit${controller}DynamicField.htm?pDId=${boxed.real.id}&boxId=${box.id}&tabId=${tabId}">
+					<img
+						src="<%=request.getContextPath()%>/image/authority/jdynaeditbutton.jpg"
+						border="0"
+						alt="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
+						title="<fmt:message
+					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
+						name="edit" id="edit_${boxed.id}" /> </a>
+
+					<spring:bind path="mask">
+						<input id="_${status.expression}" name="_${status.expression}"
+							value="true" type="hidden" />
+						<c:set var="checked" value="false" />
+					
+						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}]</form:label>
+
+						<input class="jdynacontainable" type="checkbox"	value="${boxed.id}" id="mask_${boxed.id}" name="mask" />
+					</spring:bind>
+					</div>
+					</c:if>
+				</c:if>
 			</c:if>
 		   
 		    

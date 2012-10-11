@@ -13,16 +13,9 @@ package it.cilea.hku.authority.service;
 import it.cilea.hku.authority.dao.RPSubscriptionDao;
 import it.cilea.hku.authority.dao.ResearcherGrantDao;
 import it.cilea.hku.authority.dao.ResearcherPageDao;
-import it.cilea.hku.authority.dao.StatSubscriptionDao;
-import it.cilea.hku.authority.dao.UserWSDao;
 import it.cilea.hku.authority.model.RPSubscription;
 import it.cilea.hku.authority.model.ResearcherGrant;
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.StatSubscription;
-import it.cilea.hku.authority.model.UserWS;
-import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
-import it.cilea.hku.authority.model.dynamicfield.RPNestedProperty;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.common.dao.IApplicationDao;
 import it.cilea.osd.common.model.Identifiable;
@@ -51,9 +44,6 @@ public class ApplicationService extends ExtendedTabService
 
     private RPSubscriptionDao rpSubscriptionDao;
 
-    private StatSubscriptionDao statSubscriptionDao;
-    
-    private UserWSDao userWSDao;
 
     /**
      * Initialization method
@@ -63,8 +53,7 @@ public class ApplicationService extends ExtendedTabService
         researcherPageDao = (ResearcherPageDao) getDaoByModel(ResearcherPage.class);
         researcherGrantDao = (ResearcherGrantDao) getDaoByModel(ResearcherGrant.class);
         rpSubscriptionDao = (RPSubscriptionDao) getDaoByModel(RPSubscription.class);
-        statSubscriptionDao = (StatSubscriptionDao) getDaoByModel(StatSubscription.class);
-        userWSDao = (UserWSDao)getDaoByModel(UserWS.class);
+
     }
 
     /**
@@ -426,33 +415,6 @@ public class ApplicationService extends ExtendedTabService
         return researcherPageDao.findAllResearcherInStaffNoRange(start, end);
     }
 
-    public List<StatSubscription> getAllStatSubscriptionByFreq(int freq)
-    {
-        return statSubscriptionDao.findByFreq(freq);
-    }
-
-    public List<StatSubscription> getAllStatSubscriptionByEPersonID(int eid)
-    {
-        return statSubscriptionDao.findByEPersonID(eid);
-    }
-
-    public List<StatSubscription> getRPStatSubscriptionByEPersonID(int id,
-            ResearcherPage rp)
-    {
-        return statSubscriptionDao.findByEPersonIDandRP(id, rp);
-    }
-
-    public List<StatSubscription> getHandleStatSubscriptionByEPersonID(int id,
-            String handle)
-    {
-        return statSubscriptionDao.findByEPersonIDandHandle(id, handle);
-    }
-
-    public void deleteStatSubscriptionsByEPersonID(int id)
-    {
-        statSubscriptionDao.deleteByEPersonID(id);
-    }
-
     public <T, PK extends Serializable> List<T> getList(Class<T> model,
             List<PK> ids)
     {
@@ -463,14 +425,5 @@ public class ApplicationService extends ExtendedTabService
     {
         return researcherGrantDao.uniqueRGByCode(projectcode);
     }
-    
-    public UserWS getUserWSByUsernameAndPassword(String username, String password) {
-        return userWSDao.uniqueByUsernameAndPassword(username, password); 
-    }
-
-    public UserWS getUserWSByToken(String token) {
-        return userWSDao.uniqueByToken(token); 
-    }
-
   
 }

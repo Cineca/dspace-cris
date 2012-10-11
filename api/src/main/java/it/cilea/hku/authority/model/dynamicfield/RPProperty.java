@@ -16,7 +16,6 @@ import it.cilea.osd.jdyna.model.Property;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -43,11 +42,10 @@ public class RPProperty extends Property<RPPropertiesDefinition> {
 	private RPPropertiesDefinition typo;
 	
 	
-	@ManyToOne(targetEntity = ResearcherPage.class)	
+	@ManyToOne	
 	@Index(name = "model_rp_jdyna_prop_parent_id")
 	private ResearcherPage parent;
-
-
+	
 	@Override
 	public RPPropertiesDefinition getTypo() {
 		return typo;
@@ -58,17 +56,22 @@ public class RPProperty extends Property<RPPropertiesDefinition> {
 		this.typo = propertyDefinition;		
 	}
 
+   
+
 	@Override
-	public ResearcherPage getParent() {
+	public AnagraficaSupport<RPProperty, RPPropertiesDefinition> getParent() {
 		return parent;
 	}
 
 	@Override
 	public void setParent(
-			Object parent) {
-		
-		this.parent = (ResearcherPage)parent;
-		
+			AnagraficaSupport<? extends Property<RPPropertiesDefinition>, RPPropertiesDefinition> parent) {
+		if(parent!=null) {
+		    this.parent = ((RPAdditionalFieldStorage)parent).getResearcherPage();
+		}
+		else {
+		    this.parent = null;
+		}		
 	}
 
 }

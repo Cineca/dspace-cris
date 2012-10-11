@@ -137,6 +137,26 @@
 
 
 	<filter-mapping>
+		<filter-name>admin-only</filter-name>
+		<url-pattern>/rp/administrator/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>admin-only</filter-name>
+		<url-pattern>/rp/grants/administrator/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>registered-only</filter-name>
+		<url-pattern>/rp/tools/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>registered-only</filter-name>
+		<url-pattern>/rp/login</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
 	    <filter-name>DSpaceCleanupFilter</filter-name>
 	    <url-pattern>/rp/*</url-pattern>
 	</filter-mapping>
@@ -447,8 +467,9 @@
 		<servlet-name>AuthorityChooseServlet</servlet-name>
 		<servlet-class>org.dspace.app.webui.servlet.AuthorityChooseServlet</servlet-class>
 	</servlet>
-	<!-- cris  -->
 	
+		
+	<!-- cris  -->	
 	<servlet>
 		<servlet-name>researcherEditTabImageServlet</servlet-name>
 		<servlet-class>it.cilea.hku.authority.webui.servlet.ResearcherEditTabImageServlet</servlet-class>
@@ -469,25 +490,6 @@
 		<url-pattern>/researchertabimage/*</url-pattern>
 	</servlet-mapping>
 	
-	<servlet>
-		<servlet-name>researcherImageServlet</servlet-name>
-		<servlet-class>it.cilea.hku.authority.webui.servlet.ResearcherImageServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-	    <servlet-name>researcherImageServlet</servlet-name>
-		<url-pattern>/researcherimage/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>researcherCVServlet</servlet-name>
-		<servlet-class>it.cilea.hku.authority.webui.servlet.ResearcherCVServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-	    <servlet-name>researcherCVServlet</servlet-name>
-		<url-pattern>/researchercv/*</url-pattern>
-	</servlet-mapping>
 
   	<servlet>
 		<servlet-name>rpjdynafileservice</servlet-name>
@@ -497,6 +499,16 @@
   	<servlet-mapping>
     	<servlet-name>rpjdynafileservice</servlet-name>
     	<url-pattern>/rpfileservice/*</url-pattern>
+  	</servlet-mapping>
+  	
+  	  <servlet>
+		<servlet-name>rgjdynafileservice</servlet-name>
+		<servlet-class>it.cilea.hku.authority.webui.servlet.RGFileServiceServlet</servlet-class>
+	</servlet>
+  	
+  	<servlet-mapping>
+    	<servlet-name>rgjdynafileservice</servlet-name>
+    	<url-pattern>/rgfileservice/*</url-pattern>
   	</servlet-mapping>
   	
 	<!-- spring mvc dspace -->

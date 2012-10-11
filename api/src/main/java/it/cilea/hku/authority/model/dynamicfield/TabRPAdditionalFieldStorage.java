@@ -36,7 +36,10 @@ import org.hibernate.annotations.LazyCollectionOption;
         @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findPropertyHolderInTab", query = "from BoxRPAdditionalFieldStorage box where box in (select m from TabRPAdditionalFieldStorage tab join tab.mask m where tab.id = ?) order by priority", cacheable=true),
         @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findTabsByHolder", query = "from TabRPAdditionalFieldStorage tab where :par0 in elements(tab.mask)", cacheable=true),
         @org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.uniqueTabByShortName", query = "from TabRPAdditionalFieldStorage tab where shortName = ?", cacheable=true),
-		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAccessLevel", query = "from TabRPAdditionalFieldStorage tab where visibility = ? order by priority", cacheable=true)		
+		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAccessLevel", query = "from TabRPAdditionalFieldStorage tab where visibility = ? order by priority", cacheable=true),
+		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAdmin", query = "from TabRPAdditionalFieldStorage tab where visibility = 1 or visibility = 2 or visibility = 3 order by priority", cacheable=true),
+		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByOwner", query = "from TabRPAdditionalFieldStorage tab where visibility = 0 or visibility = 2 or visibility = 3 order by priority", cacheable=true),
+		@org.hibernate.annotations.NamedQuery(name = "TabRPAdditionalFieldStorage.findByAnonimous", query = "from TabRPAdditionalFieldStorage tab where visibility = 3 order by priority", cacheable=true)
 })
 public class TabRPAdditionalFieldStorage extends AbstractTab<BoxRPAdditionalFieldStorage> {
 

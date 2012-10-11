@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="jdynatags" prefix="dyna"%>
+<%@ taglib uri="researchertags" prefix="researcher"%>
 
 	<div id="${holder.shortName}" class="showMoreLessBox box">
 		<h2 class="showMoreLessControlElement control ${holder.collapsed?"":"expanded"}">
@@ -16,7 +17,7 @@
 		<td valign="top" class="columnBody">
 		
 		 <c:set var="values"
-			value="${dyna:hideComboRow(anagraficaObject.anagrafica4view['spoken'])}" />
+			value="${researcher:getResearcherNestedObjectByShortname(researcher.id,'spoken')}" />
 
 			<c:if test="${!empty values}">
 			<tr>
@@ -24,11 +25,11 @@
 							key="jsp.layout.hku.detail.researcher.spokenlanguages" /></td>
 						<td>
 			<c:forEach var="value" items="${values}" varStatus="i">					
-					<c:forEach var="val" items="${value.object.anagraficaProperties['spokenEN']}" varStatus="j">
+					<c:forEach var="val" items="${value.anagrafica4view['spokenEN']}" varStatus="j">
 					<c:if test="${val.visibility==true}">
 								<c:out value="${val}" escapeXml="false" />
 						
-													<c:if test="${j.index != fn:length(value.object.anagraficaProperties['spokenEN']) - 1}">
+													<c:if test="${j.index != fn:length(value.anagrafica4view['spokenEN']) - 1}">
 							<span class="sep_bar">|</span>
 						</c:if>
 
@@ -47,11 +48,11 @@
 		
 			<c:forEach var="value" items="${values}" varStatus="i">
 					
-					<c:forEach var="val" items="${value.object.anagraficaProperties['spokenZH']}" varStatus="j">
+					<c:forEach var="val" items="${value.anagrafica4view['spokenZH']}" varStatus="j">
 					<c:if test="${val.visibility==true}">
 								<c:out value="${val}" escapeXml="false" />
 
-						<c:if test="${j.index != fn:length(value.object.anagraficaProperties['spokenZH']) - 1}">
+						<c:if test="${j.index != fn:length(value.anagrafica4view['spokenZH']) - 1}">
 							<span class="sep_bar">|</span>
 						</c:if>
 
@@ -73,18 +74,18 @@
 			
 		
 			<c:set var="valuesWritten"
-			value="${dyna:hideComboRow(anagraficaObject.anagrafica4view['written'])}" />
+			value="${researcher:getResearcherNestedObjectByShortname(researcher.id,'written')}" />
 			<tr>
 			<td colspan="3" class="columnHead"><fmt:message
 							key="jsp.layout.hku.detail.researcher.writtenlanguages" /></td>
 				<td>
 							<c:forEach var="value" items="${valuesWritten}" varStatus="i">
 					
-					<c:forEach var="val" items="${value.object.anagraficaProperties['writtenEN']}" varStatus="j">
+					<c:forEach var="val" items="${value.anagrafica4view['writtenEN']}" varStatus="j">
 					<c:if test="${val.visibility==true}">
 								<c:out value="${val}" escapeXml="false" />
 
-						<c:if test="${j.index != fn:length(value.object.anagraficaProperties['writtenEN']) - 1}">
+						<c:if test="${j.index != fn:length(value.anagrafica4view['writtenEN']) - 1}">
 							<span class="sep_bar">|</span>
 						</c:if>
 
@@ -107,11 +108,11 @@
 			<c:forEach var="value" items="${valuesWritten}" varStatus="i">
 					
 					
-					<c:forEach var="val" items="${value.object.anagraficaProperties['writtenZH']}" varStatus="j">
+					<c:forEach var="val" items="${value.anagrafica4view['writtenZH']}" varStatus="j">
 					<c:if test="${val.visibility==true}">
 								<c:out value="${val}" escapeXml="false" />
 
-						<c:if test="${j.index != fn:length(value.object.anagraficaProperties['writtenZH']) - 1}">
+						<c:if test="${j.index != fn:length(value.anagrafica4view['writtenZH']) - 1}">
 							<span class="sep_bar">|</span>
 						</c:if>
 
@@ -133,7 +134,7 @@
 		
 		
 		<c:set var="valueExpertise"
-			value="${dyna:hideComboRow(anagraficaObject.anagrafica4view['expertise'])}" />
+			value="${researcher:getResearcherNestedObjectByShortname(researcher.id,'expertise')}" />
 		<c:if test="${!empty valueExpertise}">
 					<tr>
 						<td colspan="4" class="columnHead"><fmt:message
@@ -147,20 +148,20 @@
 										
 					<c:forEach var="value" items="${valueExpertise}" varStatus="i">
 					
-					<c:forEach var="val" items="${value.object.anagraficaProperties['expertiseEN']}" varStatus="j">
-					<c:if test="${value.object.anagraficaProperties['expertiseEN'][j.index].visibility==true || value.object.anagraficaProperties['expertiseZH'][j.index].visibility==true}">
+					<c:forEach var="val" items="${value.anagrafica4view['expertiseEN']}" varStatus="j">
+					<c:if test="${value.anagrafica4view['expertiseEN'][j.index].visibility==true || value.anagrafica4view['expertiseZH'][j.index].visibility==true}">
 					<li>
 					</c:if>
-					<c:if test="${value.object.anagraficaProperties['expertiseEN'][j.index].visibility==true}">
-						<c:out value="${value.object.anagraficaProperties['expertiseEN'][j.index]}" escapeXml="false" />
+					<c:if test="${value.anagrafica4view['expertiseEN'][j.index].visibility==true}">
+						<c:out value="${value.anagrafica4view['expertiseEN'][j.index]}" escapeXml="false" />
 								<div class="dynaClear">
 								&nbsp;
 								</div>														
 					</c:if>									
-					<c:if test="${value.object.anagraficaProperties['expertiseZH'][j.index].visibility==true}">
-						<c:out value="${value.object.anagraficaProperties['expertiseZH'][j.index]}" escapeXml="false" />
+					<c:if test="${value.anagrafica4view['expertiseZH'][j.index].visibility==true}">
+						<c:out value="${value.anagrafica4view['expertiseZH'][j.index]}" escapeXml="false" />
 					</c:if>							
-					<c:if test="${value.object.anagraficaProperties['expertiseEN'][j.index].visibility==true || value.object.anagraficaProperties['expertiseZH'][j.index].visibility==true}">
+					<c:if test="${value.anagrafica4view['expertiseEN'][j.index].visibility==true || value.anagrafica4view['expertiseZH'][j.index].visibility==true}">
 					</li>
 					</c:if>
 					</c:forEach>
