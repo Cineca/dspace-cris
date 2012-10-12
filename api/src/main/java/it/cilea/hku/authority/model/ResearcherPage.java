@@ -779,4 +779,10 @@ public class ResearcherPage
         this.fullName = fullName;
     }
 
+    public int getEPersonID()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }

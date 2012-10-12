@@ -30,7 +30,7 @@
 	</c:set>
 		
 	
-	<table align="center">
+	<table>
 	<tr>
 	<td>	
 	<fmt:message key="jsp.layout.form.search.navigation">
@@ -46,7 +46,8 @@
 	</tr>
 	</table>
 	
-	<table align="center">
+	<c:if test="${totalpage>1}">
+	<table>
 	<tr>
 	<c:if test="${pageCurrent>0}">
 		<td>	
@@ -85,7 +86,7 @@
 	</c:if>
 	</tr>
 	</table>	
-		
+	</c:if>
 		
 	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}"/>
 	</c:if>	
@@ -105,8 +106,9 @@
 						function() {	
 					    
 						    j("#log3").dialog("open");																			
-							var parameterId = this.id.substring(5, this.id.length);							
-							Loader.write("Loading ${decoratorPropertyDefinition.label}... Page "+ j('#'+this.id).text() +" of ${totalpage}");
+							var parameterId = this.id.substring(5, this.id.length);	
+							var pagefrom = parseInt(parameterId) + 1;
+							Loader.write("Loading ${decoratorPropertyDefinition.label}... Page "+ pagefrom  +" of ${totalpage}");
 							var ajaxurlrelations = "<%= request.getContextPath() %>/rp/viewNested.htm";
 							j.ajax( {
 								url : ajaxurlrelations,

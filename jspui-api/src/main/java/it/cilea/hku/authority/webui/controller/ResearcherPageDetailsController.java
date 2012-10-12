@@ -143,8 +143,9 @@ public class ResearcherPageDetailsController
         Context context = UIUtil.obtainContext(request);
         EPerson currUser = context.getCurrentUser();
 
+        boolean isAdmin = AuthorizeManager.isAdmin(context);
         if ((researcher.getStatus() == null || researcher.getStatus()
-                .booleanValue() == false) && !AuthorizeManager.isAdmin(context))
+                .booleanValue() == false) && !isAdmin)
         {
             if (context.getCurrentUser() != null
                     || Authenticate.startAuthentication(context, request,
@@ -165,7 +166,7 @@ public class ResearcherPageDetailsController
             return null;
         }
 
-        if (AuthorizeManager.isAdmin(context)
+        if (isAdmin
                 || (currUser != null && researcher.getStaffNo().equals(
                         currUser.getNetid())))
         {
@@ -173,7 +174,7 @@ public class ResearcherPageDetailsController
             model.put("authority_key",
                     ResearcherPageUtils.getPersistentIdentifier(researcher));
 
-            if (AuthorizeManager.isAdmin(context))
+            if (isAdmin)
             {
                 AuthorityDAO dao = AuthorityDAOFactory.getInstance(context);
                 long pendingItems = dao

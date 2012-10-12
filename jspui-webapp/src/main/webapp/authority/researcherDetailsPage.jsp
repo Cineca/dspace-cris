@@ -38,7 +38,9 @@
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    
+    	var ajaxurltabs = "<%=request.getContextPath()%>/rp/loadTabs.htm";
+    	var ajaxurlnavigation = "<%=request.getContextPath()%>/rp/loadNavigation.htm";
+    	
     	var LoaderSnippet = {    		
     		write : function(text, idelement) {
     			var elem = document.getElementById(idelement);
@@ -47,15 +49,25 @@
     	};
 
     	var LoaderModal = {        		
-        		write : function(text, idelement) {
-        			var elem = document.getElementById(idelement);
-        			elem.innerHTML = text;		
-        		}
+       		write : function(text, idelement) {
+       			var elem = document.getElementById(idelement);
+       			elem.innerHTML = text;		
+       		}
         };
     
+    	var Loader = {
+       		elem : false,
+       		write : function(text) {
+       			if (!this.elem)
+       				this.elem = document.getElementById('logcontent3');
+       			this.elem.innerHTML = text;		
+      		}
+        };
+        	
 		j(document).ready(function()
 				{
-				  			
+				  j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
+			
 				  j(".control").click(function()
 				  {
 					  j(this).toggleClass("expanded");
@@ -66,7 +78,53 @@
 			if (showSubMsg) {%>alert('Email Alert Now On');<%}
 			if (showUnSubMsg) {%>alert('Email Alert Now Off');<%}
 		%>
-				});
+		
+			
+		<c:forEach items="${tabList}" var="tabnavigation">		
+		j.ajax( {
+			url : ajaxurlnavigation,
+			data : {																			
+				"tabId" : ${tabnavigation.id},
+				"currentOpenedTabId": ${tabId},
+				"objectId": ${researcher.id},
+				"authority": '${authority}'
+			},
+			success : function(data) {				
+				j('#snavmenu-${tabnavigation.shortName}').html(data);				
+			},
+			error : function(data) {
+				//nothing				
+			}
+		});
+		
+		
+		<c:choose>
+		<c:when test="${tabnavigation.id == tabId}">
+			j('#cris-tabs-navigation-${tabnavigation.shortName}').show();	
+		</c:when>
+		<c:otherwise>
+		j.ajax( {
+			url : ajaxurltabs,
+			data : {																			
+				"tabId" : ${tabnavigation.id},
+				"currentOpenedTabId": ${tabId},
+				"objectId": ${researcher.id},
+				"authority": '${authority}'
+			},
+			success : function(data) {				
+				j('#tb-head2-${tabnavigation.shortName}').html(data);						
+				
+			},
+			error : function(data) {
+				//nothing				
+			}
+		});		
+		</c:otherwise>
+		</c:choose>
+	
+		</c:forEach>
+		
+		});
 		-->
 	</script>
     
@@ -124,7 +182,7 @@
 
 				<tr>
 					<c:forEach items="${tabList}" var="area" varStatus="rowCounter">
-						<td align="center" class="tb-head0">&nbsp;</td>
+						
 
 						<c:set var="tablink"><c:choose>
 							<c:when test="${rowCounter.count == 1}">${root}/rp/${authority}</c:when>
@@ -133,17 +191,18 @@
 
 						<c:choose>
 							<c:when test="${area.id == tabId}">
+								<td align="center" class="tb-head0">&nbsp;</td>
 								<td nowrap="" align="center" class="tb-head1"><img
 									border="0" 
 									src="<%=request.getContextPath()%>/researchertabimage/${area.id}" alt="X">
 								${area.title}</td>
 							</c:when>
 							<c:otherwise>
-								<td nowrap="" align="center" class="tb-head2"><a
-									href='${tablink}'><img
-									border="0"
-									src="<%=request.getContextPath()%>/researchertabimage/${area.id}" alt="X">
-								${area.title}</a></td>
+								<td nowrap="" align="center" class="tb-head2" id="tb-head2-${area.shortName}">
+									<img
+										src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+			    						class="loader" />
+								</td>							
 							</c:otherwise>
 						</c:choose>
 
@@ -321,7 +380,12 @@
 	</tr>
 </table>
 </div>
-
+<div id="log3" class="log">
+	<img
+		src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
+		id="loader3" class="loader"/>
+	<div id="logcontent3"></div>
+</div>
 
 
 

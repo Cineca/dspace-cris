@@ -153,6 +153,7 @@ public class FormRPDynamicMetadataController
         map.put("tabList", tabs);
         map.put("simpleNameAnagraficaObject", getClazzAnagraficaObject()
                 .getSimpleName());
+        map.put("addModeType", "edit");
         return map;
     }
 

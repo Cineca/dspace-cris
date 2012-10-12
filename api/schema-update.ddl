@@ -1,5 +1,17 @@
+alter table jdyna_containables add column pdrpnestedobject_fk int4;
+alter table jdyna_containables add column pdprojectnestedobject_fk int4;
 alter table model_jdyna_nestedobject_typo add column inline bool not null;
+alter table model_jdyna_nestedobject_typo add column newline bool not null;
 alter table model_project_jdyna_nestedobject_typo add column inline bool not null;
+alter table model_project_jdyna_nestedobject_typo add column newline bool not null;
 alter table model_rp_jdyna_nestedobject_typo add column inline bool not null;
+alter table model_rp_jdyna_nestedobject_typo add column newline bool not null;
+alter table jdyna_containables add constraint FKB80C84B2F3A3E867 foreign key (pdprojectnestedobject_fk) references model_project_jdyna_nestedobject_propertiesdefinition;
+alter table jdyna_containables add constraint FKB80C84B266187CEF foreign key (pdrpnestedobject_fk) references model_rp_jdyna_nestedobject_propertiesdefinition;
+create index model_grant_jdyna_prop_idx_parent_id on model_grant_jdyna_prop (parent_id);
+create index model_jdyna_nestedobject_prop_parent_id on model_jdyna_nestedobject_prop (parent_id);
+create index model_project_jdyna_nestedobject_prop_parent_id on model_project_jdyna_nestedobject_prop (parent_id);
+alter table model_rp_jdyna_nestedobject add constraint FK5BE7C8AE621C42E2 foreign key (parent_id) references model_researcher_page;
 create index model_rp_jdyna_nestedobject_prop_parent_id on model_rp_jdyna_nestedobject_prop (parent_id);
+alter table model_rp_jdyna_prop add constraint FK6CF7751B621C42E2 foreign key (parent_id) references model_researcher_page;
 create index model_rp_jdyna_prop_parent_id on model_rp_jdyna_prop (parent_id);

@@ -669,8 +669,8 @@ public class ImportExportUtils
                 AnagraficaUtils.reverseDTO(dto, researcher.getDynamicField(),
                         realFillTPS);
 
-                EPerson dspaceUser = EPerson.findByStaffNo(dspaceContext,
-                        researcher.getStaffNo());
+                EPerson dspaceUser = EPerson.find(dspaceContext,
+                        researcher.getEPersonID());
                 if (dspaceUser == null)
                 {
                     // no dspace user we need to create it

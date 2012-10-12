@@ -112,7 +112,7 @@
 		function showResponse(responseText, statusText, xhr, $form)  {		 
 		    j(".dialogfragment").dialog("close");
 		}
-
+				
 		-->
 	</script>
 	
@@ -296,9 +296,7 @@
 									class="previewdialog">
 										
 										<div id="log1_${tipologiaDaVisualizzare.shortName}" class="log">
-											<img
-												src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
-												id="loader1_${tipologiaDaVisualizzare.shortName}" class="loader" />
+											<img src="<%=request.getContextPath()%>/image/cris/bar-loader.gif" id="loader1_${tipologiaDaVisualizzare.shortName}" class="loader" />
 											<div id="logcontent1_${tipologiaDaVisualizzare.shortName}" class="logcontent"></div>
 										</div>
 									
@@ -321,7 +319,7 @@
 
 									<script type="text/javascript">		
 
-									LoaderSnippet.write("Loading... ${tipologiaDaVisualizzare.label}", "viewnested_${tipologiaDaVisualizzare.shortName}");									
+									LoaderSnippet.write("Loading... ${tipologiaDaVisualizzare.label}", "logcontent1_${tipologiaDaVisualizzare.shortName}");									
 									var parameterId = this.id;																	
 									var ajaxurlrelations = "<%=request.getContextPath()%>/rp/viewNested.htm";
 									j.ajax( {
@@ -342,7 +340,7 @@
 										},
 										error : function(data) {
 											
-											LoaderSnippet.write(data.statusText, "viewnested_${tipologiaDaVisualizzare.shortName}");
+											LoaderSnippet.write(data.statusText, "logcontent1_${tipologiaDaVisualizzare.shortName}");
 											
 										}
 									});

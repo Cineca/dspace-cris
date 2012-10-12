@@ -1336,9 +1336,51 @@
 			<value>redirect:/rp/administrator/editBox.htm</value>
 		</property>
 	</bean>
+
+
+	<bean id="loadRPNavigation" class="it.cilea.hku.authority.webui.controller.jdyna.RPNavigationController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="specificPath">
+			<value>rp</value>
+		</property>				
+		<property name="detailsView">
+			<value>layout/navigation</value>
+		</property>		
+
+		<!-- 		<property name="components">
+			<map>
+				<entry key="dspaceitems">
+					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
+				</entry>				
+			</map>
+		</property>			 -->			
+	</bean>
 	
-	<!-- url mapping -->
+	<bean id="loadRPTabs" class="it.cilea.hku.authority.webui.controller.jdyna.RPLoaderTabsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="specificPath">
+			<value>rp</value>
+		</property>								
+		<property name="detailsView">
+			<value>jdyna/loadtabs</value>
+		</property>		
+
+<!-- 		<property name="components">
+			<map>
+				<entry key="dspaceitems">
+					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
+				</entry>				
+			</map>
+		</property>			 -->
+		
+	</bean>	
 	
+	
+	<!-- url mapping -->	
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 
@@ -1354,6 +1396,9 @@
 				<prop key="/addNested.htm">editNestedDetailsController</prop>
 				<prop key="/editNested.htm">editNestedDetailsController</prop>				
 				<prop key="/deleteNested.htm">deleteNestedDetailsController</prop>
+				
+				<prop key="/loadNavigation.htm">loadRPNavigation</prop>
+				<prop key="/loadTabs.htm">loadRPTabs</prop>
 				
 				<prop key="/tools/rebindItemsToRP.htm">reBindItemToRpController</prop>
 				<prop key="/tools/requestChanges.htm">requestChangesController</prop>											
