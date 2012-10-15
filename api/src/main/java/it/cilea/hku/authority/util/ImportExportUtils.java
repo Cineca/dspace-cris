@@ -12,7 +12,7 @@ package it.cilea.hku.authority.util;
 
 import it.cilea.hku.authority.model.IExportableDynamicObject;
 import it.cilea.hku.authority.model.Investigator;
-import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.RestrictedField;
 import it.cilea.hku.authority.model.RestrictedFieldFile;
@@ -20,7 +20,7 @@ import it.cilea.hku.authority.model.RestrictedFieldLocalOrRemoteFile;
 import it.cilea.hku.authority.model.VisibilityConstants;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
-import it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
@@ -1339,7 +1339,7 @@ public class ImportExportUtils
                         String projectcode = (String) (rpp.getValue()
                                 .getObject());
 
-                        ResearcherGrant rg = null;
+                        Project rg = null;
                         // use dto to fill dynamic metadata
                         AnagraficaObjectDTO dtoRG = new AnagraficaObjectDTO();
                         AnagraficaObjectWithTypeDTO dtoNested = new AnagraficaObjectWithTypeDTO();
@@ -1370,7 +1370,7 @@ public class ImportExportUtils
                         {
                             log.info("Create new GRANT with code "
                                     + projectcode);
-                            rg = new ResearcherGrant();
+                            rg = new Project();
                             rg.setRgCode(projectcode);
                             rg.setStatus(active);
                             newImported++;
@@ -1386,8 +1386,8 @@ public class ImportExportUtils
                         AnagraficaUtils
                                 .fillDTO(dtoNested, nestedObject, subTps);
 
-                        List<GrantPropertiesDefinition> rgTps = applicationService
-                                .getList(GrantPropertiesDefinition.class);
+                        List<ProjectPropertiesDefinition> rgTps = applicationService
+                                .getList(ProjectPropertiesDefinition.class);
 
                         for (String key : dtoNested.getAnagraficaProperties()
                                 .keySet())
@@ -1454,7 +1454,7 @@ public class ImportExportUtils
                         }
                         rg.setCoInvestigators(coinvestigators);
                         AnagraficaUtils.reverseDTO(dtoRG, rg, rgTps);
-                        applicationService.saveOrUpdate(ResearcherGrant.class,
+                        applicationService.saveOrUpdate(Project.class,
                                 rg);
                     }
                 }
@@ -1499,7 +1499,7 @@ public class ImportExportUtils
         out.close();
 
         List<IContainable> metadataALL = applicationService
-                .findAllContainables(GrantPropertiesDefinition.class);
+                .findAllContainables(ProjectPropertiesDefinition.class);
 
         // create xsd and write up
         String nameXSD = "xsd-" + dateFormat.format(new Date()) + ".xsd";
@@ -1524,8 +1524,8 @@ public class ImportExportUtils
                 .newDocumentBuilder();
         Document document = parser.parse(filexml);
 
-        List<GrantPropertiesDefinition> realFillTPS = applicationService
-                .getList(GrantPropertiesDefinition.class);
+        List<ProjectPropertiesDefinition> realFillTPS = applicationService
+                .getList(ProjectPropertiesDefinition.class);
 
         List<Element> grantxml = XMLUtils.getElementList(
                 document.getDocumentElement(), "grant");
@@ -1536,7 +1536,7 @@ public class ImportExportUtils
         for (int i = 0; i < grantxml.size(); i++)
         {
             log.info("Number " + i + " of " + grantxml.size());
-            ResearcherGrant grant = null;
+            Project grant = null;
             try
             {
                 Element node = grantxml.get(i);
@@ -1550,7 +1550,7 @@ public class ImportExportUtils
                         .getAttribute(UtilsXML.GRANT_NAMEATTRIBUTE_CODE);
                 String rgId = node
                         .getAttribute(UtilsXML.GRANT_NAMEATTRIBUTE_RGID);
-                ResearcherGrant clone = null;
+                Project clone = null;
                 // use dto to fill dynamic metadata
                 AnagraficaObjectDTO dto = new AnagraficaObjectDTO();
                 AnagraficaObjectDTO clonedto = new AnagraficaObjectDTO();
@@ -1599,7 +1599,7 @@ public class ImportExportUtils
                         }
                         // clone dynamic data and structural on dto
 
-                        clone = (ResearcherGrant) grant.clone();
+                        clone = (Project) grant.clone();
                         ProjectAdditionalFieldStorage additionalTemp = new ProjectAdditionalFieldStorage();
                         clone.setDynamicField(additionalTemp);
                         additionalTemp.duplicaAnagrafica(grant
@@ -1613,13 +1613,13 @@ public class ImportExportUtils
                                 .getResearcherGrantByCode(nodeId);
                         if (grant == null)
                         {
-                            grant = new ResearcherGrant();
+                            grant = new Project();
                             grant.setRgCode(nodeId);
                             // use -active in command line to change default
                             // status to active.
                             grant.setStatus(status);
 
-                            clone = (ResearcherGrant) grant.clone();
+                            clone = (Project) grant.clone();
                             ProjectAdditionalFieldStorage additionalTemp = new ProjectAdditionalFieldStorage();
                             clone.setDynamicField(additionalTemp);
                             additionalTemp.duplicaAnagrafica(grant
@@ -1728,7 +1728,7 @@ public class ImportExportUtils
                 }
                 AnagraficaUtils.reverseDTO(dto, grant, realFillTPS);
 
-                applicationService.saveOrUpdate(ResearcherGrant.class, grant);
+                applicationService.saveOrUpdate(Project.class, grant);
 
                 log.info("Import grant " + grant.getRgCode() + " (code) / "
                         + grant.getId() + " (id) - SUCCESS");

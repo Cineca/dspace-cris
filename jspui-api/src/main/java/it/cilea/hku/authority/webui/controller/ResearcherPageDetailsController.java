@@ -12,11 +12,11 @@ package it.cilea.hku.authority.webui.controller;
 
 import it.cilea.hku.authority.dspace.HKUAuthority;
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.hku.authority.service.RPSubscribeService;
@@ -65,14 +65,14 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ResearcherPageDetailsController
         extends
-        SimpleDynaController<RPProperty, RPPropertiesDefinition, BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage>
+        SimpleDynaController<RPProperty, RPPropertiesDefinition, BoxResearcherPage, TabResearcherPage>
 {
 
     public ResearcherPageDetailsController(
             Class<RPAdditionalFieldStorage> anagraficaObjectClass,
             Class<RPPropertiesDefinition> classTP,
-            Class<TabRPAdditionalFieldStorage> classT,
-            Class<BoxRPAdditionalFieldStorage> classH)
+            Class<TabResearcherPage> classT,
+            Class<BoxResearcherPage> classH)
             throws InstantiationException, IllegalAccessException
     {
         super(anagraficaObjectClass, classTP, classT, classH);
@@ -196,13 +196,13 @@ public class ResearcherPageDetailsController
         Map<String, List<IContainable>> mapBoxToContainables = new HashMap<String, List<IContainable>>();
         Map<String, Map<String,IContainable>> mapBoxToMapContainables = new HashMap<String, Map<String,IContainable>>();
         List<IContainable> pDInTab = new LinkedList<IContainable>();
-        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
-        List<TabRPAdditionalFieldStorage> tabs = findTabsWithVisibility(request, model, response);
+        List<BoxResearcherPage> propertyHolders = new LinkedList<BoxResearcherPage>();
+        List<TabResearcherPage> tabs = findTabsWithVisibility(request, model, response);
         Integer tabId = getTabId(request);
         try
         {
             
-            TabRPAdditionalFieldStorage t = null; 
+            TabResearcherPage t = null; 
                 
             if (tabId == null)
             {                
@@ -235,12 +235,12 @@ public class ResearcherPageDetailsController
             String openbox = extractAnchorId(request);
             // this piece of code get containables object from boxs and put them
             // on map
-            for (BoxRPAdditionalFieldStorage box : propertyHolders)
+            for (BoxResearcherPage box : propertyHolders)
             {
 
                 String boxShortName = box.getShortName();
                 List<IContainable> temp = applicationService
-                .<BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage>findContainableInPropertyHolder(propertyHolderClass,
+                .<BoxResearcherPage, TabResearcherPage>findContainableInPropertyHolder(propertyHolderClass,
                         box.getId());       
                 Map<String, IContainable> tempMap = new HashMap<String, IContainable>();
                 ((ExtendedTabService) applicationService).findOtherContainablesInBoxByConfiguration(
@@ -305,7 +305,7 @@ public class ResearcherPageDetailsController
     }
 
     @Override
-    protected List<TabRPAdditionalFieldStorage> findTabsWithVisibility(
+    protected List<TabResearcherPage> findTabsWithVisibility(
             HttpServletRequest request, Map<String, Object> model,
             HttpServletResponse response) throws Exception
     {
@@ -333,8 +333,8 @@ public class ResearcherPageDetailsController
         {
             isAdmin = false; // owner
         }
-        List<TabRPAdditionalFieldStorage> tabs = applicationService
-                .getTabsByVisibility(TabRPAdditionalFieldStorage.class, isAdmin);
+        List<TabResearcherPage> tabs = applicationService
+                .getTabsByVisibility(TabResearcherPage.class, isAdmin);
         return tabs;
 
        
@@ -363,8 +363,8 @@ public class ResearcherPageDetailsController
         String tabName = extractTabName(request);
         if (StringUtils.isNotEmpty(tabName))
         {
-            TabRPAdditionalFieldStorage tab = applicationService
-                    .getTabByShortName(TabRPAdditionalFieldStorage.class,
+            TabResearcherPage tab = applicationService
+                    .getTabByShortName(TabResearcherPage.class,
                             tabName);
             if (tab != null)
                 return tab.getId();

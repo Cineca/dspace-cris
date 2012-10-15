@@ -10,9 +10,9 @@
  */
 package it.cilea.hku.authority.webui.controller.jdyna;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 
@@ -27,10 +27,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class FormRPTabController
 		extends
-		AFormTabController<BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage> {
+		AFormTabController<BoxResearcherPage, TabResearcherPage> {
 
-	public FormRPTabController(Class<TabRPAdditionalFieldStorage> clazzT,
-			Class<BoxRPAdditionalFieldStorage> clazzB) {
+	public FormRPTabController(Class<TabResearcherPage> clazzT,
+			Class<BoxResearcherPage> clazzB) {
 		super(clazzT, clazzB);
 	}
 
@@ -39,8 +39,8 @@ public class FormRPTabController
 		String paramId = request.getParameter("id");
 		Map<String, Object> map = super.referenceData(request);
 		if (paramId != null) {
-			EditTabRPAdditionalFieldStorage editTab = ((ExtendedTabService<BoxRPAdditionalFieldStorage,TabRPAdditionalFieldStorage,EditTabRPAdditionalFieldStorage>) applicationService)
-					.getEditTabByDisplayTab(Integer.parseInt(paramId), EditTabRPAdditionalFieldStorage.class);
+			EditTabResearcherPage editTab = ((ExtendedTabService<BoxResearcherPage,TabResearcherPage,EditTabResearcherPage>) applicationService)
+					.getEditTabByDisplayTab(Integer.parseInt(paramId), EditTabResearcherPage.class);
 			if (editTab != null) {
 				map.put("edittabid", editTab.getId());
 			}
@@ -52,7 +52,7 @@ public class FormRPTabController
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-		TabRPAdditionalFieldStorage object = (TabRPAdditionalFieldStorage) command;
+		TabResearcherPage object = (TabResearcherPage) command;
       
 		String deleteImage_s = request.getParameter("deleteIcon");		
 
@@ -70,7 +70,7 @@ public class FormRPTabController
 		if (object.getId() == null) {
 			createEditTab = true;
 		}
-		applicationService.saveOrUpdate(TabRPAdditionalFieldStorage.class,
+		applicationService.saveOrUpdate(TabResearcherPage.class,
 				object);
 		
         MultipartFile itemIcon = object.getIconFile();
@@ -79,7 +79,7 @@ public class FormRPTabController
         if (itemIcon != null && !itemIcon.getOriginalFilename().isEmpty())
         {
            ResearcherPageUtils.loadTabIcon(object, object.getId().toString(), object.getIconFile());
-           applicationService.saveOrUpdate(TabRPAdditionalFieldStorage.class,
+           applicationService.saveOrUpdate(TabResearcherPage.class,
    				object);
         }
 		if (createEditTab) {
@@ -87,21 +87,21 @@ public class FormRPTabController
 					+ object.getShortName();
 			String title = ExtendedTabService.PREFIX_TITLE_EDIT_TAB
 			+ object.getTitle();
-			EditTabRPAdditionalFieldStorage e = applicationService
-					.getTabByShortName(EditTabRPAdditionalFieldStorage.class,
+			EditTabResearcherPage e = applicationService
+					.getTabByShortName(EditTabResearcherPage.class,
 							name);
 			if (e == null) {
-				e = new EditTabRPAdditionalFieldStorage();
+				e = new EditTabResearcherPage();
 				e.setDisplayTab(object);
 				e.setTitle(title);
 				e.setShortName(name);
 				applicationService.saveOrUpdate(
-						EditTabRPAdditionalFieldStorage.class, e);
+						EditTabResearcherPage.class, e);
 			} else {
 				if (e.getDisplayTab() == null) {
 					e.setDisplayTab(object);
 					applicationService.saveOrUpdate(
-							EditTabRPAdditionalFieldStorage.class, e);
+							EditTabResearcherPage.class, e);
 				}
 			}
 		}

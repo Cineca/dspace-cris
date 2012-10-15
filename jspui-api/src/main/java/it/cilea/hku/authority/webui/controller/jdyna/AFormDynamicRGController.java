@@ -10,7 +10,7 @@
  */
 package it.cilea.hku.authority.webui.controller.jdyna;
 
-import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.hku.authority.model.Project;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ANestedProperty;
@@ -70,8 +70,8 @@ public abstract class AFormDynamicRGController<P extends Property<TP>, TP extend
         
         String id_s = request.getParameter("id");
         Integer id = Integer.parseInt(id_s);
-        ResearcherGrant grant = getApplicationService().get(
-                    ResearcherGrant.class, id);
+        Project grant = getApplicationService().get(
+                    Project.class, id);
         Context context = UIUtil.obtainContext(request);        
         if (AuthorizeManager.isAdmin(context))        
         {

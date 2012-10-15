@@ -23,6 +23,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @NamedQueries ({
     @NamedQuery(name="ProjectTypeNestedObject.findAll", query = "from ProjectTypeNestedObject order by id" ),
     @NamedQuery(name="ProjectTypeNestedObject.uniqueByNome", query = "from ProjectTypeNestedObject where shortName = ?" )
+    
 })
 public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedPropertiesDefinition>
 {
@@ -32,12 +33,12 @@ public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedProp
     private List<ProjectNestedPropertiesDefinition> mask;
 
     @Override
-    public List<ProjectNestedPropertiesDefinition> getMaschera()
+    public List<ProjectNestedPropertiesDefinition> getMask()
     {
         return mask;
     }
 
-    public void setMaschera(List<ProjectNestedPropertiesDefinition> mask) {
+    public void setMask(List<ProjectNestedPropertiesDefinition> mask) {
         this.mask = mask;
     }
 

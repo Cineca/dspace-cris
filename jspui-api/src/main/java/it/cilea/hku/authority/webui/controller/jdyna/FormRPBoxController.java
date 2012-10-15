@@ -10,12 +10,12 @@
  */
 package it.cilea.hku.authority.webui.controller.jdyna;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.osd.jdyna.model.IContainable;
 
@@ -32,11 +32,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class FormRPBoxController
 		extends
-		AFormBoxController<RPPropertiesDefinition, BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage, RPNestedPropertiesDefinition, RPTypeNestedObject> {
+		AFormBoxController<RPPropertiesDefinition, BoxResearcherPage, TabResearcherPage, RPNestedPropertiesDefinition, RPTypeNestedObject> {
 
 	
 	
-	public FormRPBoxController(Class<BoxRPAdditionalFieldStorage> clazzH,
+	public FormRPBoxController(Class<BoxResearcherPage> clazzH,
 			Class<RPPropertiesDefinition> clazzTP, Class<RPTypeNestedObject> clazzTTP) {
 		super(clazzH, clazzTP, clazzTTP);
 	}
@@ -48,7 +48,7 @@ public class FormRPBoxController
 		Map<String, Object> map = super.referenceData(request);
 		List<IContainable> containables = new LinkedList<IContainable>();
 		if (paramId != null) {
-			BoxRPAdditionalFieldStorage box = applicationService.get(BoxRPAdditionalFieldStorage.class, Integer.parseInt(paramId));
+			BoxResearcherPage box = applicationService.get(BoxResearcherPage.class, Integer.parseInt(paramId));
 			((ExtendedTabService)applicationService).findOtherContainablesInBoxByConfiguration(box.getShortName(), containables, RPPropertiesDefinition.class.getName());
 		}
 		map.put("owneredContainablesByConfiguration", containables);
@@ -66,9 +66,9 @@ public class FormRPBoxController
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
 
-		BoxRPAdditionalFieldStorage object = (BoxRPAdditionalFieldStorage) command;
+		BoxResearcherPage object = (BoxResearcherPage) command;
 		String tabId = request.getParameter("tabId");
-		applicationService.saveOrUpdate(BoxRPAdditionalFieldStorage.class,
+		applicationService.saveOrUpdate(BoxResearcherPage.class,
 				object);
 		saveMessage(
 				request,

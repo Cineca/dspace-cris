@@ -1,11 +1,11 @@
 package it.cilea.hku.authority.webui.controller.jdyna;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.osd.jdyna.widget.WidgetDate;
 
 import java.util.Map;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
-public class FormRPAddToNestedDefinitionController extends AFormDecoratorPropertiesDefinitionController<WidgetDate, RPPropertiesDefinition, DecoratorRPPropertiesDefinition, BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage> {
+public class FormRPAddToNestedDefinitionController extends AFormDecoratorPropertiesDefinitionController<WidgetDate, RPPropertiesDefinition, DecoratorRPPropertiesDefinition, BoxResearcherPage, TabResearcherPage> {
 
 	
 	
@@ -49,7 +49,7 @@ public class FormRPAddToNestedDefinitionController extends AFormDecoratorPropert
 			nested = getApplicationService().get(DecoratorRPTypeNested.class, Integer.parseInt(rendering));			
 		}
 		DecoratorRPNestedPropertiesDefinition object = (DecoratorRPNestedPropertiesDefinition)super.formBackingObject(request);		
-		nested.getReal().getMaschera().add(object.getReal());
+		nested.getReal().getMask().add(object.getReal());
 		return object;
 		
 	}

@@ -37,7 +37,7 @@
 				<entry key="it.cilea.hku.authority.model.ResearcherPage">
 					<ref bean="researcherPageDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.ResearcherGrant">
+				<entry key="it.cilea.hku.authority.model.Project">
 					<ref bean="researcherGrantDao" />
 				</entry>
 				<entry
@@ -52,12 +52,12 @@
 					key="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition">
 					<ref bean="rpPropertiesDefinitionDao" />
 				</entry>
-				<entry
+				<entry				         
 					key="it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition">
 					<ref bean="rpNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition">
+					key="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition">
 					<ref bean="grantPropertiesDefinitionDao" />
 				</entry>
 				<entry
@@ -65,14 +65,14 @@
 					<ref bean="rpDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition">
+					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition">
 					<ref bean="grantDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition">
 					<ref bean="rpDecoratorNestedPropertiesDefinitionDao" />
 				</entry>
-				<entry
+				<entry				                  
 					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition">
 					<ref bean="projectDecoratorNestedPropertiesDefinitionDao" />
 				</entry>
@@ -103,9 +103,15 @@
 				<entry key="it.cilea.hku.authority.model.dynamicfield.RPProperty">
 					<ref bean="rpPropertyDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.GrantProperty">
+				<entry key="it.cilea.hku.authority.model.dynamicfield.ProjectProperty">
 					<ref bean="grantPropertyDao" />
 				</entry>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.RPNestedProperty">
+					<ref bean="rpNestedPropertyDao" />
+				</entry>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty">
+					<ref bean="projectNestedPropertyDao" />
+				</entry>						
 				<entry key="it.cilea.hku.authority.model.dynamicfield.RPNestedObject">
 					<ref bean="rpNestedObjectDao" />
 				</entry>
@@ -116,27 +122,27 @@
 					<ref bean="propertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage">
+					key="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage">
 					<ref bean="rpTabDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant">
+					key="it.cilea.hku.authority.model.dynamicfield.TabProject">
 					<ref bean="grantTabDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage">
+					key="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage">
 					<ref bean="rpBoxDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant">
+					key="it.cilea.hku.authority.model.dynamicfield.BoxProject">
 					<ref bean="grantBoxDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage">
+					key="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage">
 					<ref bean="rpEditTabDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant">
+					key="it.cilea.hku.authority.model.dynamicfield.EditTabProject">
 					<ref bean="grantEditTabDao" />
 				</entry>				
 				
@@ -220,12 +226,12 @@
 
 	<bean id="researcherGrantDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.ResearcherGrantDao</value>
+			<value>it.cilea.hku.authority.dao.ProjectDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.ResearcherGrant</value>
+					<value>it.cilea.hku.authority.model.Project</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -398,20 +404,53 @@
 	<bean id="grantPropertyDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.GrantPropertyDao
+				it.cilea.hku.authority.dao.ProjectPropertyDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.GrantProperty
+						it.cilea.hku.authority.model.dynamicfield.ProjectProperty
 					</value>
 				</constructor-arg>
 			</bean>
 		</property>
 	</bean>
 
+	<bean id="rpNestedPropertyDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.osd.jdyna.dao.PropertyDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.RPNestedProperty
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="projectNestedPropertyDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.osd.jdyna.dao.PropertyDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
 	<bean id="rpNestedObjectDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -485,14 +524,14 @@
 	<bean id="grantPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.GrantPropertiesDefinitionDao
+				it.cilea.hku.authority.dao.ProjectPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+						it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -541,7 +580,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage
+						it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -550,13 +589,13 @@
 
 	<bean id="grantTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.GrantTabDao</value>
+			<value>it.cilea.hku.authority.dao.ProjectTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant
+						it.cilea.hku.authority.model.dynamicfield.TabProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -570,7 +609,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+						it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -578,13 +617,13 @@
 	</bean>
 	<bean id="grantBoxDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.GrantBoxDao</value>
+			<value>it.cilea.hku.authority.dao.ProjectBoxDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+						it.cilea.hku.authority.model.dynamicfield.BoxProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -598,7 +637,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage
+						it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -606,13 +645,13 @@
 	</bean>
 	<bean id="grantEditTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.GrantEditTabDao</value>
+			<value>it.cilea.hku.authority.dao.ProjectEditTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant
+						it.cilea.hku.authority.model.dynamicfield.EditTabProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -656,14 +695,14 @@
 	<bean id="grantDecoratorPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.GrantDecoratorPropertiesDefinitionDao
+				it.cilea.hku.authority.dao.ProjectDecoratorPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
+						it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -721,7 +760,7 @@
 	<bean id="rpTypeDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPNestedObjectDAO
+				it.cilea.hku.authority.dao.RPTypeNestedObjectDao
 			</value>
 		</property>
 		<property name="target">
@@ -738,7 +777,7 @@
 	<bean id="projectTypeDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectNestedObjectDAO
+				it.cilea.hku.authority.dao.ProjectTypeNestedObjectDao
 			</value>
 		</property>
 		<property name="target">

@@ -10,9 +10,9 @@
  */
 package it.cilea.hku.authority.dao;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.osd.jdyna.dao.PropertyHolderDao;
 
-public interface RPBoxDao extends PropertyHolderDao<BoxRPAdditionalFieldStorage> {
+public interface RPBoxDao extends PropertyHolderDao<BoxResearcherPage> {
 
 }

@@ -10,10 +10,10 @@
  */
 package it.cilea.hku.authority.webui.controller.jdyna;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
-public class FormRPFilePropertiesDefinitionController extends AFormDecoratorPropertiesDefinitionController<WidgetFileRP, RPPropertiesDefinition, DecoratorRPPropertiesDefinition, BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage> {
+public class FormRPFilePropertiesDefinitionController extends AFormDecoratorPropertiesDefinitionController<WidgetFileRP, RPPropertiesDefinition, DecoratorRPPropertiesDefinition, BoxResearcherPage, TabResearcherPage> {
 
 	
 	

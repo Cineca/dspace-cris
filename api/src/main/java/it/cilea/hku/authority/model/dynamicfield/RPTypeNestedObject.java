@@ -22,7 +22,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "model_rp_jdyna_nestedobject_typo")
 @NamedQueries ({
     @NamedQuery(name="RPTypeNestedObject.findAll", query = "from RPTypeNestedObject order by id" ),
-    @NamedQuery(name="RPTypeNestedObject.uniqueByNome", query = "from RPTypeNestedObject where shortName = ?" )
+    @NamedQuery(name="RPTypeNestedObject.uniqueByNome", query = "from RPTypeNestedObject where shortName = ?" )              
 })
 public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefinition>
 {
@@ -32,12 +32,12 @@ public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefi
     private List<RPNestedPropertiesDefinition> mask;
 
     @Override
-    public List<RPNestedPropertiesDefinition> getMaschera()
+    public List<RPNestedPropertiesDefinition> getMask()
     {
         return mask;
     }
 
-    public void setMaschera(List<RPNestedPropertiesDefinition> mask) {
+    public void setMask(List<RPNestedPropertiesDefinition> mask) {
         this.mask = mask;
     }
 

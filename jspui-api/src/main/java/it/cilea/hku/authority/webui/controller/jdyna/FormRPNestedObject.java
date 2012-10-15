@@ -1,9 +1,9 @@
 package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested;
-import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
@@ -46,7 +46,7 @@ public class FormRPNestedObject extends BaseFormController
         model.put("simpleNameAnagraficaObject",
                 RPNestedObject.class.getSimpleName());
         RPTypeNestedObject typo = applicationService.get(RPTypeNestedObject.class, typeNestedID);
-        model.put("maschera", typo.getMaschera());               
+        model.put("maschera", typo.getMask());               
         String parentStringID = request.getParameter("parentID");
         String editmode = request.getParameter("editmode");
                 
@@ -84,7 +84,7 @@ public class FormRPNestedObject extends BaseFormController
         anagraficaObjectDTO.setObjectId(nested.getId());
         
         
-        AnagraficaUtils.fillDTO(anagraficaObjectDTO, nested, typo.getMaschera());
+        AnagraficaUtils.fillDTO(anagraficaObjectDTO, nested, typo.getMask());
         return anagraficaObjectDTO;
 
     }
@@ -103,7 +103,7 @@ public class FormRPNestedObject extends BaseFormController
             myObject = applicationService.get(RPNestedObject.class, anagraficaObjectDTO.getObjectId());          
         }
                 
-        AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, typo.getMaschera());
+        AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, typo.getMask());
         
         myObject.pulisciAnagrafica();
         myObject.setParent(applicationService.get(ResearcherPage.class, anagraficaObjectDTO.getParentId()));
@@ -184,8 +184,8 @@ public class FormRPNestedObject extends BaseFormController
         }
                 
         
-        AnagraficaUtils.reverseDTO(dto, myObject, typo.getMaschera());
-        AnagraficaUtils.fillDTO(dto, myObject, typo.getMaschera());
+        AnagraficaUtils.reverseDTO(dto, myObject, typo.getMask());
+        AnagraficaUtils.fillDTO(dto, myObject, typo.getMask());
     }
     
     public ApplicationService getApplicationService()

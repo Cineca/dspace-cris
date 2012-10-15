@@ -10,7 +10,7 @@
  */
 package it.cilea.hku.authority.batch;
 
-import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.service.ApplicationService;
 
@@ -42,10 +42,10 @@ public class BatchCreateUUID
             applicationService.saveOrUpdate(ResearcherPage.class, rp);
         }
 
-        for (ResearcherGrant grant : applicationService
-                .getList(ResearcherGrant.class))
+        for (Project grant : applicationService
+                .getList(Project.class))
         {
-            applicationService.saveOrUpdate(ResearcherGrant.class, grant);
+            applicationService.saveOrUpdate(Project.class, grant);
         }
         
     }

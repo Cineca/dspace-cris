@@ -10,12 +10,12 @@
  */
 package it.cilea.hku.authority.dao;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.osd.jdyna.dao.TabDao;
 
 
 
-public interface RPTabDao extends TabDao<BoxRPAdditionalFieldStorage,TabRPAdditionalFieldStorage> {
+public interface RPTabDao extends TabDao<BoxResearcherPage,TabResearcherPage> {
 
 }

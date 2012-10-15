@@ -1,8 +1,8 @@
 package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
 import it.cilea.osd.jdyna.web.controller.AjaxNavigationController;
@@ -18,14 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class RPNavigationController
         extends
-        AjaxNavigationController<BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage>
+        AjaxNavigationController<BoxResearcherPage, TabResearcherPage>
 {
 
     private List<String> publistFilters;
 
     public RPNavigationController()
     {
-        super(TabRPAdditionalFieldStorage.class);        
+        super(TabResearcherPage.class);        
         publistFilters = new ArrayList<String>();
         String menu = getPublicationMenu();
         if (menu != null)
@@ -53,7 +53,7 @@ public class RPNavigationController
 
     @Override
     public int countBoxPublicMetadata(HttpServletRequest request, Integer objectID,
-            BoxRPAdditionalFieldStorage box, boolean b)
+            BoxResearcherPage box, boolean b)
     {        
         return ResearcherTagLibraryFunctions
         .countBoxPublicMetadata(getApplicationService().get(ResearcherPage.class, objectID), box, b);
@@ -61,7 +61,7 @@ public class RPNavigationController
 
     @Override
     public boolean isBoxHidden(HttpServletRequest request, Integer objectID,
-            BoxRPAdditionalFieldStorage box)
+            BoxResearcherPage box)
     {
         return ResearcherTagLibraryFunctions.isBoxHidden(
                 getApplicationService().get(ResearcherPage.class, objectID), box);

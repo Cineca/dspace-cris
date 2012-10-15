@@ -10,12 +10,12 @@
  */
 package it.cilea.hku.authority.webui.web.tag;
 
-import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.RestrictedField;
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant;
-import it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.BoxProject;
+import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
@@ -170,33 +170,33 @@ public class ResearcherTagLibraryFunctions
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException
     {
-        BoxRPAdditionalFieldStorage box = applicationService.getBoxByShortName(
-                BoxRPAdditionalFieldStorage.class, boxName);
+        BoxResearcherPage box = applicationService.getBoxByShortName(
+                BoxResearcherPage.class, boxName);
 
         return isBoxHidden(anagrafica, box);
 
     }
 
-    public static boolean isBoxHidden(ResearcherGrant anagrafica, String boxName)
+    public static boolean isBoxHidden(Project anagrafica, String boxName)
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException
     {
-        BoxResearcherGrant box = applicationService.getBoxByShortName(
-                BoxResearcherGrant.class, boxName);
+        BoxProject box = applicationService.getBoxByShortName(
+                BoxProject.class, boxName);
 
         return isBoxHiddenInternal(anagrafica, box);
 
     }
 
     public static boolean isBoxHidden(ResearcherPage anagrafica,
-            BoxRPAdditionalFieldStorage box)
+            BoxResearcherPage box)
     {
         return isBoxHiddenInternal(anagrafica.getDynamicField(), box)
                 && isBoxHiddenWithStructural(anagrafica, box);
     }
 
-    public static boolean isBoxHidden(ResearcherGrant anagrafica,
-            BoxResearcherGrant box)
+    public static boolean isBoxHidden(Project anagrafica,
+            BoxProject box)
     {
         return isBoxHiddenInternal(anagrafica, box);
     }
@@ -299,7 +299,7 @@ public class ResearcherTagLibraryFunctions
                 for (RPNestedObject object : results)
                 {
                     for (RPNestedPropertiesDefinition rpp : decorator.getReal()
-                            .getMaschera())
+                            .getMask())
                     {
                         resultPiece = checkDynamicVisibility(object,
                                 rpp.getShortName(), rpp.getRendering(), rpp);
@@ -324,9 +324,9 @@ public class ResearcherTagLibraryFunctions
                 }
             }
 
-            if (cont instanceof DecoratorGrantPropertiesDefinition)
+            if (cont instanceof DecoratorProjectPropertiesDefinition)
             {
-                DecoratorGrantPropertiesDefinition decorator = (DecoratorGrantPropertiesDefinition) cont;
+                DecoratorProjectPropertiesDefinition decorator = (DecoratorProjectPropertiesDefinition) cont;
                 boolean resultPiece = checkDynamicVisibility(anagrafica,
                         decorator.getShortName(), decorator.getRendering(),
                         (TP) decorator.getReal());
@@ -389,15 +389,15 @@ public class ResearcherTagLibraryFunctions
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException
     {
-        BoxRPAdditionalFieldStorage box = applicationService.getBoxByShortName(
-                BoxRPAdditionalFieldStorage.class, boxName);
+        BoxResearcherPage box = applicationService.getBoxByShortName(
+                BoxResearcherPage.class, boxName);
 
         return countBoxPublicMetadata(anagrafica, box, onlyComplexValue);
 
     }
 
     public static int countBoxPublicMetadata(ResearcherPage anagrafica,
-            BoxRPAdditionalFieldStorage box, boolean onlyComplexValue)
+            BoxResearcherPage box, boolean onlyComplexValue)
     {
         int result = 0;
         List<IContainable> containables = new LinkedList<IContainable>();

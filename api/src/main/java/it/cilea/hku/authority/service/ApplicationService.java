@@ -11,10 +11,10 @@
 package it.cilea.hku.authority.service;
 
 import it.cilea.hku.authority.dao.RPSubscriptionDao;
-import it.cilea.hku.authority.dao.ResearcherGrantDao;
+import it.cilea.hku.authority.dao.ProjectDao;
 import it.cilea.hku.authority.dao.ResearcherPageDao;
 import it.cilea.hku.authority.model.RPSubscription;
-import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.common.dao.IApplicationDao;
@@ -40,7 +40,7 @@ public class ApplicationService extends ExtendedTabService
 
     private ResearcherPageDao researcherPageDao;
 
-    private ResearcherGrantDao researcherGrantDao;
+    private ProjectDao projectDao;
 
     private RPSubscriptionDao rpSubscriptionDao;
 
@@ -51,7 +51,7 @@ public class ApplicationService extends ExtendedTabService
     public void init()
     {
         researcherPageDao = (ResearcherPageDao) getDaoByModel(ResearcherPage.class);
-        researcherGrantDao = (ResearcherGrantDao) getDaoByModel(ResearcherGrant.class);
+        projectDao = (ProjectDao) getDaoByModel(Project.class);
         rpSubscriptionDao = (RPSubscriptionDao) getDaoByModel(RPSubscription.class);
 
     }
@@ -421,9 +421,9 @@ public class ApplicationService extends ExtendedTabService
         return applicationDao.getList(model, ids);
     }
 
-    public ResearcherGrant getResearcherGrantByCode(String projectcode)
+    public Project getResearcherGrantByCode(String projectcode)
     {
-        return researcherGrantDao.uniqueRGByCode(projectcode);
+        return projectDao.uniqueRGByCode(projectcode);
     }
   
 }

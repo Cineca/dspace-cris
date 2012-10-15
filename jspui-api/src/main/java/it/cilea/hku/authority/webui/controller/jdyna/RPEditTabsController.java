@@ -10,8 +10,8 @@
  */
 package it.cilea.hku.authority.webui.controller.jdyna;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage;
 
 /**
  * Concrete SpringMVC controller is used to list, delete and view detail of tab
@@ -19,11 +19,11 @@ import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage
  * @author pascarelli
  * 
  */
-public class RPEditTabsController extends ATabsController<BoxRPAdditionalFieldStorage, EditTabRPAdditionalFieldStorage> {
+public class RPEditTabsController extends ATabsController<BoxResearcherPage, EditTabResearcherPage> {
 
 	
 	
-	public RPEditTabsController(Class<EditTabRPAdditionalFieldStorage> tabsClass) {
+	public RPEditTabsController(Class<EditTabResearcherPage> tabsClass) {
 		super(tabsClass);
 	}
 

@@ -1,8 +1,8 @@
 package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
 import it.cilea.osd.jdyna.web.controller.AjaxOpenTabController;
 
@@ -11,17 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public class RPLoaderTabsController extends AjaxOpenTabController<BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage>
+public class RPLoaderTabsController extends AjaxOpenTabController<BoxResearcherPage, TabResearcherPage>
 {
 
     public RPLoaderTabsController()
     {
-        super(TabRPAdditionalFieldStorage.class);
+        super(TabResearcherPage.class);
     }
     
     @Override
     public boolean isBoxHidden(HttpServletRequest request, Integer objectID,
-            BoxRPAdditionalFieldStorage box)
+            BoxResearcherPage box)
     {
         return ResearcherTagLibraryFunctions.isBoxHidden(
                 getApplicationService().get(ResearcherPage.class, objectID), box);

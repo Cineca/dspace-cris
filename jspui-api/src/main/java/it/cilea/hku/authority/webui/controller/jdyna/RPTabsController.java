@@ -10,9 +10,9 @@
  */
 package it.cilea.hku.authority.webui.controller.jdyna;
 
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
 import it.cilea.hku.authority.service.ApplicationService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,10 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
  * @author pascarelli
  * 
  */
-public class RPTabsController extends ATabsController<BoxRPAdditionalFieldStorage, TabRPAdditionalFieldStorage> {
+public class RPTabsController extends ATabsController<BoxResearcherPage, TabResearcherPage> {
 
 	
-	public RPTabsController(Class<TabRPAdditionalFieldStorage> tabsClass) {
+	public RPTabsController(Class<TabResearcherPage> tabsClass) {
 		super(tabsClass);
 	}
 
@@ -38,7 +38,7 @@ public class RPTabsController extends ATabsController<BoxRPAdditionalFieldStorag
 		
 		String tabId = request.getParameter("id");
 		Integer paramIntegerId = Integer.parseInt(tabId);
-		((ApplicationService)getApplicationService()).decoupleEditTabByDisplayTab(paramIntegerId,EditTabRPAdditionalFieldStorage.class);
+		((ApplicationService)getApplicationService()).decoupleEditTabByDisplayTab(paramIntegerId,EditTabResearcherPage.class);
 		return super.handleDelete(request);
 		
 		

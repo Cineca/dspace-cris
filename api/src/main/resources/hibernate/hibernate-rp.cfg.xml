@@ -42,7 +42,7 @@
 		<mapping class="it.cilea.osd.common.core.SingleTimeStampInfo" />
 		
 		<mapping class="it.cilea.hku.authority.model.ResearcherPage" />
-		<mapping class="it.cilea.hku.authority.model.ResearcherGrant" />		
+		<mapping class="it.cilea.hku.authority.model.Project" />		
 		<mapping class="it.cilea.hku.authority.model.RestrictedField" />
 		<mapping class="it.cilea.hku.authority.model.RestrictedFieldFile" />
 		<mapping class="it.cilea.hku.authority.model.RestrictedFieldLocalOrRemoteFile" />
@@ -52,7 +52,7 @@
 		
 		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPProperty" />
 		
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.GrantProperty" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectProperty" />
 		
 		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPNestedObject" />
 		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject" />
@@ -65,29 +65,29 @@
 		<mapping
 			class="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition" />
+			class="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition" />
 		<mapping
 			class="it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition" />
 		<mapping
 			class="it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition" />
 		
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage" />
+			class="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant" />
+			class="it.cilea.hku.authority.model.dynamicfield.TabProject" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage" />
+			class="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant" />
+			class="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage" />
+			class="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant" />
+			class="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
 		
 		<mapping
 			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition" />
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
 		<mapping
 			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
 		<mapping
@@ -125,7 +125,7 @@
 			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP" />
 
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRG" />
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject" />
 			
 			
 	</session-factory>

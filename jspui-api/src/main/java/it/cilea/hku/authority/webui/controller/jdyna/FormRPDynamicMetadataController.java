@@ -12,9 +12,9 @@ package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.RestrictedField;
-import it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
@@ -50,7 +50,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class FormRPDynamicMetadataController
         extends
-        AFormDynamicRPController<RPProperty, RPPropertiesDefinition, BoxRPAdditionalFieldStorage, EditTabRPAdditionalFieldStorage, AnagraficaObject<RPProperty, RPPropertiesDefinition>, RPNestedObject, RPNestedProperty, RPNestedPropertiesDefinition>
+        AFormDynamicRPController<RPProperty, RPPropertiesDefinition, BoxResearcherPage, EditTabResearcherPage, AnagraficaObject<RPProperty, RPPropertiesDefinition>, RPNestedObject, RPNestedProperty, RPNestedPropertiesDefinition>
 {
 
     @Override
@@ -77,13 +77,13 @@ public class FormRPDynamicMetadataController
 
         // collection of edit tabs (all edit tabs created on system associate to
         // visibility)
-        List<EditTabRPAdditionalFieldStorage> tabs = getApplicationService()
-                .getTabsByVisibility(EditTabRPAdditionalFieldStorage.class,
+        List<EditTabResearcherPage> tabs = getApplicationService()
+                .getTabsByVisibility(EditTabResearcherPage.class,
                         isAdmin);
 
         // check if request tab from view is active (check on collection before)
-        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-                EditTabRPAdditionalFieldStorage.class,
+        EditTabResearcherPage editT = getApplicationService().get(
+                EditTabResearcherPage.class,
                 anagraficaObjectDTO.getTabId());
         if (!tabs.contains(editT))
         {
@@ -92,14 +92,14 @@ public class FormRPDynamicMetadataController
         }
 
         // collection of boxs
-        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        List<BoxResearcherPage> propertyHolders = new LinkedList<BoxResearcherPage>();
 
         // if edit tab got a display tab (edit tab is hookup to display tab)
         // then edit box will be created from display box otherwise get all boxs
         // in edit tab
         if (editT.getDisplayTab() != null)
         {
-            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+            for (BoxResearcherPage box : editT.getDisplayTab()
                     .getMask())
             {
                 propertyHolders.add(box);
@@ -112,8 +112,8 @@ public class FormRPDynamicMetadataController
         }
 
         // clean boxs list with accesslevel
-        List<BoxRPAdditionalFieldStorage> propertyHoldersCurrentAccessLevel = new LinkedList<BoxRPAdditionalFieldStorage>();
-        for (BoxRPAdditionalFieldStorage propertyHolder : propertyHolders)
+        List<BoxResearcherPage> propertyHoldersCurrentAccessLevel = new LinkedList<BoxResearcherPage>();
+        for (BoxResearcherPage propertyHolder : propertyHolders)
         {
             if (isAdmin)
             {
@@ -136,10 +136,10 @@ public class FormRPDynamicMetadataController
         // this piece of code get containables object from boxs and put them on
         // map
         List<IContainable> pDInTab = new LinkedList<IContainable>();
-        for (BoxRPAdditionalFieldStorage iph : propertyHoldersCurrentAccessLevel)
+        for (BoxResearcherPage iph : propertyHoldersCurrentAccessLevel)
         {
             List<IContainable> temp = getApplicationService()
-                    .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                    .<BoxResearcherPage, it.cilea.osd.jdyna.web.Tab<BoxResearcherPage>> findContainableInPropertyHolder(
                             getClazzBox(), iph.getId());
             ((ExtendedTabService) getApplicationService()).findOtherContainablesInBoxByConfiguration(
                     iph.getShortName(), temp,RPPropertiesDefinition.class.getName());
@@ -193,9 +193,9 @@ public class FormRPDynamicMetadataController
         {
             if (paramFuzzyTabId == null)
             {
-                List<EditTabRPAdditionalFieldStorage> tabs = getApplicationService()
+                List<EditTabResearcherPage> tabs = getApplicationService()
                         .getTabsByVisibility(
-                                EditTabRPAdditionalFieldStorage.class, isAdmin);
+                                EditTabResearcherPage.class, isAdmin);
                 if (tabs.isEmpty())
                 {
                     throw new AuthorizeException("No tabs defined!!");
@@ -204,7 +204,7 @@ public class FormRPDynamicMetadataController
             }
             else
             {
-                EditTabRPAdditionalFieldStorage fuzzyEditTab = (EditTabRPAdditionalFieldStorage)((ApplicationService)getApplicationService()).getEditTabByDisplayTab(Integer.parseInt(paramFuzzyTabId),EditTabRPAdditionalFieldStorage.class);
+                EditTabResearcherPage fuzzyEditTab = (EditTabResearcherPage)((ApplicationService)getApplicationService()).getEditTabByDisplayTab(Integer.parseInt(paramFuzzyTabId),EditTabResearcherPage.class);
                 areaId = fuzzyEditTab.getId();
             }
         }
@@ -215,12 +215,12 @@ public class FormRPDynamicMetadataController
 
         RPAdditionalFieldStorage dynamicObject = researcher.getDynamicField();
 
-        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-                EditTabRPAdditionalFieldStorage.class, areaId);
-        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        EditTabResearcherPage editT = getApplicationService().get(
+                EditTabResearcherPage.class, areaId);
+        List<BoxResearcherPage> propertyHolders = new LinkedList<BoxResearcherPage>();
         if (editT.getDisplayTab() != null)
         {
-            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+            for (BoxResearcherPage box : editT.getDisplayTab()
                     .getMask())
             {
                 propertyHolders.add(box);
@@ -234,21 +234,21 @@ public class FormRPDynamicMetadataController
 
         List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-        for (BoxRPAdditionalFieldStorage iph : propertyHolders)
+        for (BoxResearcherPage iph : propertyHolders)
         {
             if (editT.getDisplayTab() != null)
             {
                 tipProprietaInArea
                         .addAll(getApplicationService()
-                                .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
-                                        BoxRPAdditionalFieldStorage.class,
+                                .<BoxResearcherPage, it.cilea.osd.jdyna.web.Tab<BoxResearcherPage>> findContainableInPropertyHolder(
+                                        BoxResearcherPage.class,
                                         iph.getId()));
             }
             else
             {
                 tipProprietaInArea
                         .addAll(getApplicationService()
-                                .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                                .<BoxResearcherPage, it.cilea.osd.jdyna.web.Tab<BoxResearcherPage>> findContainableInPropertyHolder(
                                         getClazzBox(), iph.getId()));
             }
         }
@@ -289,8 +289,8 @@ public class FormRPDynamicMetadataController
         String exitPage = "redirect:/rp/tools/editDynamicData.htm?id="
                 + +anagraficaObjectDTO.getParentId();
 
-        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-                EditTabRPAdditionalFieldStorage.class,
+        EditTabResearcherPage editT = getApplicationService().get(
+                EditTabResearcherPage.class,
                 anagraficaObjectDTO.getTabId());
         if (anagraficaObjectDTO.getNewTabId() != null)
         {
@@ -313,10 +313,10 @@ public class FormRPDynamicMetadataController
                 ResearcherPage.class, anagraficaObjectDTO.getParentId());
         RPAdditionalFieldStorage myObject = researcher.getDynamicField();
 
-        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        List<BoxResearcherPage> propertyHolders = new LinkedList<BoxResearcherPage>();
         if (editT.getDisplayTab() != null)
         {
-            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+            for (BoxResearcherPage box : editT.getDisplayTab()
                     .getMask())
             {
                 propertyHolders.add(box);
@@ -330,12 +330,12 @@ public class FormRPDynamicMetadataController
 
         List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-        for (BoxRPAdditionalFieldStorage iph : propertyHolders)
+        for (BoxResearcherPage iph : propertyHolders)
         {
 
             tipProprietaInArea
                     .addAll(getApplicationService()
-                            .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                            .<BoxResearcherPage, it.cilea.osd.jdyna.web.Tab<BoxResearcherPage>> findContainableInPropertyHolder(
                                     getClazzBox(), iph.getId()));
 
         }
@@ -382,7 +382,7 @@ public class FormRPDynamicMetadataController
         researcher.setEmail(anagraficaObjectDTO.getEmail());
         
         getApplicationService().saveOrUpdate(ResearcherPage.class, researcher);
-        EditTabRPAdditionalFieldStorage area = getApplicationService().get(
+        EditTabResearcherPage area = getApplicationService().get(
                 getClazzTab(), anagraficaObjectDTO.getTabId());
         final String areaTitle = area.getTitle();
         saveMessage(
@@ -403,12 +403,12 @@ public class FormRPDynamicMetadataController
                 ResearcherPage.class, dto.getParentId());
         RPAdditionalFieldStorage myObject = researcher.getDynamicField();
 
-        EditTabRPAdditionalFieldStorage editT = getApplicationService().get(
-                EditTabRPAdditionalFieldStorage.class, dto.getTabId());
-        List<BoxRPAdditionalFieldStorage> propertyHolders = new LinkedList<BoxRPAdditionalFieldStorage>();
+        EditTabResearcherPage editT = getApplicationService().get(
+                EditTabResearcherPage.class, dto.getTabId());
+        List<BoxResearcherPage> propertyHolders = new LinkedList<BoxResearcherPage>();
         if (editT.getDisplayTab() != null)
         {
-            for (BoxRPAdditionalFieldStorage box : editT.getDisplayTab()
+            for (BoxResearcherPage box : editT.getDisplayTab()
                     .getMask())
             {
                 propertyHolders.add(box);
@@ -422,12 +422,12 @@ public class FormRPDynamicMetadataController
 
         List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-        for (BoxRPAdditionalFieldStorage iph : propertyHolders)
+        for (BoxResearcherPage iph : propertyHolders)
         {
 
             tipProprietaInArea
                     .addAll(getApplicationService()
-                            .<BoxRPAdditionalFieldStorage, it.cilea.osd.jdyna.web.Tab<BoxRPAdditionalFieldStorage>> findContainableInPropertyHolder(
+                            .<BoxResearcherPage, it.cilea.osd.jdyna.web.Tab<BoxResearcherPage>> findContainableInPropertyHolder(
                                     getClazzBox(), iph.getId()));
 
         }

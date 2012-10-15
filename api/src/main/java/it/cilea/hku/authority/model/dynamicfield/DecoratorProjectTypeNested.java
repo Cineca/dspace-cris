@@ -47,7 +47,7 @@ public class DecoratorProjectTypeNested extends
     @Override
     public String getLabel()
     {
-        return this.real.getDescrizione();
+        return this.real.getLabel();
     }
 
     @Override

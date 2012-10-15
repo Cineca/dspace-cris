@@ -1,7 +1,7 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 
-import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.hku.authority.model.Project;
 import it.cilea.osd.jdyna.model.AnagraficaObject;
 
 import java.util.LinkedList;
@@ -33,49 +33,49 @@ import org.hibernate.annotations.OrderBy;
     @NamedQuery(name = "ProjectAdditionalFieldStorage.countEmptyByTipologiaProprieta", query = "select count(rpdyn) from ProjectAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ?)"),
     @NamedQuery(name = "ProjectAdditionalFieldStorage.count", query = "select count(*) from ProjectAdditionalFieldStorage")
 })
-public class ProjectAdditionalFieldStorage extends AnagraficaObject<GrantProperty, GrantPropertiesDefinition> {
+public class ProjectAdditionalFieldStorage extends AnagraficaObject<ProjectProperty, ProjectPropertiesDefinition> {
     
     @OneToOne
     @JoinColumn(name = "id")    
-    private ResearcherGrant researcherGrant;    
+    private Project project;    
 
     @OneToMany(mappedBy = "parent")
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
     @OrderBy(clause="position asc")
-    private List<GrantProperty> anagrafica;
+    private List<ProjectProperty> anagrafica;
     
-    public List<GrantProperty> getAnagrafica() {
+    public List<ProjectProperty> getAnagrafica() {
         if(this.anagrafica == null) {
-            this.anagrafica = new LinkedList<GrantProperty>();
+            this.anagrafica = new LinkedList<ProjectProperty>();
         }
         return anagrafica;
     }
 
-    public Class<GrantProperty> getClassProperty() {
-        return GrantProperty.class;
+    public Class<ProjectProperty> getClassProperty() {
+        return ProjectProperty.class;
     }
 
-    public Class<GrantPropertiesDefinition> getClassPropertiesDefinition() {
-        return GrantPropertiesDefinition.class;
+    public Class<ProjectPropertiesDefinition> getClassPropertiesDefinition() {
+        return ProjectPropertiesDefinition.class;
     }
 
     public Integer getId() {
-        return researcherGrant.getId();
+        return project.getId();
     }
 
-    public void setAnagraficaLazy(List<GrantProperty> pp) {
+    public void setAnagraficaLazy(List<ProjectProperty> pp) {
         this.anagrafica = pp;       
     }
 
-    public ResearcherGrant getResearcherGrant()
+    public Project getResearcherGrant()
     {
-        return researcherGrant;
+        return project;
     }
 
-    public void setResearcherGrant(ResearcherGrant researcherGrant)
+    public void setResearcherGrant(Project project)
     {
-        this.researcherGrant = researcherGrant;
+        this.project = project;
     }
  
 }

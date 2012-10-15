@@ -10,7 +10,7 @@
  */
 package it.cilea.hku.authority.util;
 
-import it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
@@ -145,10 +145,10 @@ public class UtilsXSD
 
         for (I containable : metadata)
         {
-            if (containable instanceof DecoratorGrantPropertiesDefinition)
+            if (containable instanceof DecoratorProjectPropertiesDefinition)
             {
                 this.createRefElement(
-                        (DecoratorGrantPropertiesDefinition) containable,
+                        (DecoratorProjectPropertiesDefinition) containable,
                         namespace);
             }
         }
@@ -454,7 +454,7 @@ public class UtilsXSD
     }
 
     // method to create type element
-    private void createRefElement(DecoratorGrantPropertiesDefinition decorator,
+    private void createRefElement(DecoratorProjectPropertiesDefinition decorator,
             String namespace) throws IOException
     {
         createRefElement(decorator.getReal(), decorator.getRendering(),

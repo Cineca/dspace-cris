@@ -20,12 +20,12 @@
 		<property name="customPropertyEditors">
 			<map>				
 				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" value-ref="decoratorRPPropertiesDefinitionEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition" value-ref="decoratorGrantPropertiesDefinitionEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" value-ref="decoratorProjectPropertiesDefinitionEditor"/>
 				<entry key="it.cilea.osd.jdyna.model.Containable" value-ref="containableEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage" value-ref="tabEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage" value-ref="boxEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant" value-ref="grantTabEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant" value-ref="grantBoxEditor"/>				
+				<entry key="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" value-ref="rpTabEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" value-ref="rpBoxEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.TabProject" value-ref="projectTabEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxProject" value-ref="projectBoxEditor"/>				
 				<entry key="java.util.Date" value-ref="dateUtilEditor"/>
 				<entry key="java.lang.String" value-ref="stringEditor"/>
 			</map>
@@ -63,11 +63,11 @@
 			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="detailsView">
@@ -169,7 +169,7 @@
 	<bean id="listTabController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.RPTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -189,7 +189,7 @@
 	<bean id="listBoxController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.RPBoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -212,18 +212,18 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/rp/administrator/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -241,7 +241,7 @@
 	<bean id="deleteTabController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.RPTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -261,7 +261,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -276,7 +276,7 @@
 			<value>redirect:/rp/administrator/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -294,7 +294,7 @@
 	<bean id="deleteBoxController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.RPBoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -317,7 +317,7 @@
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+				it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -332,7 +332,7 @@
 	</bean>
  
  	<bean id="deleteRPNestedFieldDefinitionController"
-		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
+		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
 				it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
@@ -340,7 +340,7 @@
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+				it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -520,7 +520,7 @@
 	<bean id="listEditTabController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.RPEditTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -543,18 +543,18 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/rp/administrator/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -572,7 +572,7 @@
 	<bean id="deleteEditTabController"
 		class="it.cilea.hku.authority.webui.controller.jdyna.RPEditTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -592,10 +592,10 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage</value>
 		</property>
 		<property name="clazzBox">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
 			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
@@ -644,26 +644,23 @@
 	
 
 
-	<!-- Start grants controller configurations -->
-	
-		
-
-	<bean id="detailsGrantController"
-		class="it.cilea.hku.authority.webui.controller.ResearcherGrantDetailsController">
+	<!-- Start project controller configurations -->
+	<bean id="detailsProjectController"
+		class="it.cilea.hku.authority.webui.controller.ProjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.ResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.Project</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>grantDetailsPage</value>
@@ -673,8 +670,8 @@
 		</property>	
 	</bean>		
 		
-	<bean id="adminGrantController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.GrantAdminController">
+	<bean id="adminProjectController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.ProjectAdminController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -684,8 +681,8 @@
 	</bean>
 
 	
-	<bean id="adminAddResearcherGrantController"
-		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddGrantController">
+	<bean id="adminAddProjectController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddProjectController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -693,7 +690,7 @@
 			<value>redirect:/rp/</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.ResearcherGrantDTO</value>
+			<value>it.cilea.hku.authority.webui.dto.ProjectDTO</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -704,10 +701,10 @@
 	</bean>
 	
 	
-	<bean id="listGrantTabController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.GrantTabsController">
+	<bean id="listProjectTabController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.ProjectTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -723,10 +720,10 @@
 		</property>
 	</bean>
 
-	<bean id="listGrantBoxController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.GrantBoxsController">
+	<bean id="listProjectBoxController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.ProjectBoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -742,17 +739,17 @@
 		</property>
 	</bean>
 	
-	<bean id="listGrantPDController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantBoxController">
+	<bean id="listProjectPDController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectBoxController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
@@ -763,7 +760,7 @@
 			<value>redirect:/rp/grants/administrator/listPropertiesDefinitions.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</property>
 		<property name="commandName">
@@ -780,24 +777,24 @@
 	
 	
 	
-	<bean id="editGrantTabController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantTabController">
+	<bean id="editProjectTabController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectTabController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/rp/grants/administrator/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
 			</value>
 		</property>
 		<property name="commandName">
@@ -812,10 +809,10 @@
 		<property name="validator" ref="grantTabValidator" />
 	</bean>
 
-	<bean id="deleteGrantTabController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.GrantTabsController">
+	<bean id="deleteProjectTabController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.ProjectTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -829,17 +826,17 @@
 		</property>
 	</bean>
 
-	<bean id="editGrantBoxController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantBoxController">
+	<bean id="editProjectBoxController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectBoxController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
@@ -850,7 +847,7 @@
 			<value>redirect:/rp/grants/administrator/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</property>
 		<property name="commandName">
@@ -865,10 +862,10 @@
 		<property name="validator" ref="grantBoxValidator" />
 	</bean>
 
-	<bean id="deleteGrantBoxController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.GrantBoxsController">
+	<bean id="deleteProjectBoxController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.ProjectBoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -882,16 +879,16 @@
 		</property>
 	</bean>
 	
-	<bean id="deleteGrantDynamicFieldController"
+	<bean id="deleteProjectDynamicFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+				it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -905,13 +902,13 @@
 		</property>
 	</bean>
  
-	<bean id="editGrantTextDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantTextPropertiesDefinitionController">
+	<bean id="editProjectTextDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectTextPropertiesDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -922,7 +919,7 @@
 			<value>redirect:/rp/grants/administrator/listPropertiesDefinitions.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -937,13 +934,13 @@
 		<property name="validator" ref="grantDynamicFieldValidator" />
 	</bean>
 
-	<bean id="editGrantDateDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantDatePropertiesDefinitionController">
+	<bean id="editProjectDateDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectDatePropertiesDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -954,7 +951,7 @@
 			<value>redirect:/rp/grants/administrator/listPropertiesDefinitions.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -969,13 +966,13 @@
 		<property name="validator" ref="grantDynamicFieldValidator" />
 	</bean>
 	
-	<bean id="editGrantLinkDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantLinkPropertiesDefinitionController">
+	<bean id="editProjectLinkDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectLinkPropertiesDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
@@ -985,7 +982,7 @@
 			<value>redirect:/rp/grants/administrator/listPropertiesDefinitions.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1000,23 +997,23 @@
 		<property name="validator" ref="grantDynamicFieldValidator" />
 	</bean>
 	
-	<bean id="editGrantFileDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantFilePropertiesDefinitionController">
+	<bean id="editProjectFileDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectFilePropertiesDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRG</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/rp/grants/administrator/listPropertiesDefinitions.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1031,10 +1028,10 @@
 		<property name="validator" ref="grantDynamicFieldValidator" />
 	</bean>
 
-	<bean id="listGrantEditTabController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.GrantEditTabsController">
+	<bean id="listProjectEditTabController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.ProjectEditTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1051,24 +1048,24 @@
 		</property>
 	</bean>
 	
-	<bean id="editGrantEditTabController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantEditTabController">
+	<bean id="editProjectEditTabController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectEditTabController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/rp/grants/administrator/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
 		</property>
 		<property name="commandName">
 			<value>tab</value>
@@ -1082,10 +1079,10 @@
 		</property>
 	</bean>
 
-	<bean id="deleteGrantEditTabController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.GrantEditTabsController">
+	<bean id="deleteProjectEditTabController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.ProjectEditTabsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1099,22 +1096,22 @@
 		</property>
 	</bean>
 
-	<bean id="editGrantDynamicDataController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormGrantDynamicMetadataController">
+	<bean id="editProjectDynamicDataController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectDynamicMetadataController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
 		</property>
 		<property name="clazzBox">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
-			<value>it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
 		</property>
 		<property name="clazzAnagraficaObject">
-			<value>it.cilea.hku.authority.model.ResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.Project</value>
 		</property>
 		<property name="successView">
 			<value>redirect:/rp/</value>
@@ -1123,7 +1120,7 @@
 			<value>/jdyna/grantDynamicDataEditForm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.GrantAnagraficaObjectDTO</value>
+			<value>it.cilea.hku.authority.webui.dto.ProjectAnagraficaObjectDTO</value>
 		</property>		
 		<property name="commandName">
 			<value>anagraficadto</value>
@@ -1324,7 +1321,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -1386,26 +1383,37 @@
 
 		<property name="mappings">
 			<props>
+				<!-- Redirect to dspace login -->
 				<prop key="/login">myRPController</prop>
 							
+				<!-- RP details URLs -->			
 				<prop key="/rp*">detailsResearcherController</prop>				
 				<prop key="/rp*/*">detailsResearcherController</prop>
 				<prop key="/rp/detail.htm">redirectDetailsResearcherController</prop>
-								
+				
+				<!-- Management of nested objects -->				
 				<prop key="/viewNested.htm">viewNestedDetailsController</prop>
 				<prop key="/addNested.htm">editNestedDetailsController</prop>
 				<prop key="/editNested.htm">editNestedDetailsController</prop>				
 				<prop key="/deleteNested.htm">deleteNestedDetailsController</prop>
 				
+				<!-- Controller to load embedded navigation and calculate if show or hidden the Tabs -->
 				<prop key="/loadNavigation.htm">loadRPNavigation</prop>
 				<prop key="/loadTabs.htm">loadRPTabs</prop>
 				
+				<!-- RP tools -->
 				<prop key="/tools/rebindItemsToRP.htm">reBindItemToRpController</prop>
 				<prop key="/tools/requestChanges.htm">requestChangesController</prop>											
-				<prop key="/administrator/index.htm">adminController</prop>							
+				
+				<!-- Administration -->
+				<prop key="/administrator/index.htm">adminController</prop>
+				<prop key="/grants/administrator/index.htm">adminProjectController</prop>
+				
+				<!-- Administration RP list and add functionality -->							
 				<prop key="/administrator/researcherPages.htm">adminResearcherPageController</prop>								
 				<prop key="/administrator/addResearcherPage.htm">adminAddResearcherPageController</prop>			
 				
+				<!-- RP Tabs/Box and properties definitions -->
 				<prop key="/administrator/listTabs.htm">listTabController</prop>
 				<prop key="/administrator/editTabs.htm">editTabController</prop>
 				<prop key="/administrator/createTabs.htm">editTabController</prop>
@@ -1435,37 +1443,40 @@
 				<prop key="/administrator/addFileToNestedDynamicField.htm">addFileToNestedDynamicFieldController</prop>
 				<prop key="/administrator/deleteNestedFieldDefinition.htm">deleteRPNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/deleteNestedField.htm">deleteRPNestedFieldController</prop>
-								
+							
+				<!-- Edit Handlers for RP and Project dynamic object-->				
 				<prop key="/tools/editDynamicData.htm">editDynamicDataController</prop>
+				<prop key="/tools/editGrantDynamicData.htm">editProjectDynamicDataController</prop>
 
-		        <prop key="/grants/details.htm">detailsGrantController</prop>
+				<!-- Grant details -->
+		        <prop key="/grants/details.htm">detailsProjectController</prop>
 		        
-		        <prop key="/grants/administrator/index.htm">adminGrantController</prop>				
-				<prop key="/grants/administrator/listTabs.htm">listGrantTabController</prop>
-				<prop key="/grants/administrator/editTabs.htm">editGrantTabController</prop>
-				<prop key="/grants/administrator/createTabs.htm">editGrantTabController</prop>
-				<prop key="/grants/administrator/deleteTabs.htm">deleteGrantTabController</prop>
-				<prop key="/grants/administrator/createBox.htm">editGrantBoxController</prop>				
-				<prop key="/grants/administrator/listBoxs.htm">listGrantBoxController</prop>
-				<prop key="/grants/administrator/listPropertiesDefinitions.htm">listGrantPDController</prop>
-				<prop key="/grants/administrator/editBox.htm">editGrantBoxController</prop>				
-				<prop key="/grants/administrator/deleteBox.htm">deleteGrantBoxController</prop>				
-				<prop key="/grants/administrator/createDateDynamicField.htm">editGrantDateDynamicFieldController</prop>
-				<prop key="/grants/administrator/editDateDynamicField.htm">editGrantDateDynamicFieldController</prop>
-				<prop key="/grants/administrator/createTextDynamicField.htm">editGrantTextDynamicFieldController</prop>
-				<prop key="/grants/administrator/editTextDynamicField.htm">editGrantTextDynamicFieldController</prop>
-				<prop key="/grants/administrator/createLinkDynamicField.htm">editGrantLinkDynamicFieldController</prop>
-				<prop key="/grants/administrator/editLinkDynamicField.htm">editGrantLinkDynamicFieldController</prop>
-				<prop key="/grants/administrator/createFileDynamicField.htm">editGrantFileDynamicFieldController</prop>
-				<prop key="/grants/administrator/editFileDynamicField.htm">editGrantFileDynamicFieldController</prop>
-				<prop key="/grants/administrator/deleteFieldDefinition.htm">deleteGrantDynamicFieldController</prop>				
-				<prop key="/grants/administrator/listEditTabs.htm">listGrantEditTabController</prop>
-				<prop key="/grants/administrator/createEditTabs.htm">editGrantEditTabController</prop>
-				<prop key="/grants/administrator/editEditTabs.htm">editGrantEditTabController</prop>
-				<prop key="/grants/administrator/deleteEditTabs.htm">deleteGrantEditTabController</prop>
-				<prop key="/grants/administrator/addGrants.htm">adminAddResearcherGrantController</prop>
-												
-				<prop key="/tools/editGrantDynamicData.htm">editGrantDynamicDataController</prop>
+		        <!-- Project Tabs/Box and properties definitions -->		        				
+				<prop key="/grants/administrator/listTabs.htm">listProjectTabController</prop>
+				<prop key="/grants/administrator/editTabs.htm">editProjectTabController</prop>
+				<prop key="/grants/administrator/createTabs.htm">editProjectTabController</prop>
+				<prop key="/grants/administrator/deleteTabs.htm">deleteProjectTabController</prop>
+				<prop key="/grants/administrator/createBox.htm">editProjectBoxController</prop>				
+				<prop key="/grants/administrator/listBoxs.htm">listProjectBoxController</prop>
+				<prop key="/grants/administrator/listPropertiesDefinitions.htm">listProjectPDController</prop>
+				<prop key="/grants/administrator/editBox.htm">editProjectBoxController</prop>				
+				<prop key="/grants/administrator/deleteBox.htm">deleteProjectBoxController</prop>				
+				<prop key="/grants/administrator/createDateDynamicField.htm">editProjectDateDynamicFieldController</prop>
+				<prop key="/grants/administrator/editDateDynamicField.htm">editProjectDateDynamicFieldController</prop>
+				<prop key="/grants/administrator/createTextDynamicField.htm">editProjectTextDynamicFieldController</prop>
+				<prop key="/grants/administrator/editTextDynamicField.htm">editProjectTextDynamicFieldController</prop>
+				<prop key="/grants/administrator/createLinkDynamicField.htm">editProjectLinkDynamicFieldController</prop>
+				<prop key="/grants/administrator/editLinkDynamicField.htm">editProjectLinkDynamicFieldController</prop>
+				<prop key="/grants/administrator/createFileDynamicField.htm">editProjectFileDynamicFieldController</prop>
+				<prop key="/grants/administrator/editFileDynamicField.htm">editProjectFileDynamicFieldController</prop>
+				<prop key="/grants/administrator/deleteFieldDefinition.htm">deleteProjectDynamicFieldController</prop>				
+				<prop key="/grants/administrator/listEditTabs.htm">listProjectEditTabController</prop>
+				<prop key="/grants/administrator/createEditTabs.htm">editProjectEditTabController</prop>
+				<prop key="/grants/administrator/editEditTabs.htm">editProjectEditTabController</prop>
+				<prop key="/grants/administrator/deleteEditTabs.htm">deleteProjectEditTabController</prop>
+				<prop key="/grants/administrator/addProjects.htm">adminAddProjectController</prop>
+								
+				
 			</props>
 		</property>
 		<property name="order" value="1" />
@@ -1484,7 +1495,7 @@
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix">
-			<value>/authority/</value>
+			<value>/cris/</value>
 		</property>
 		<property name="suffix">
 			<value>.jsp</value>
@@ -1514,41 +1525,41 @@
 		</property>
 	</bean>
 	
-	<bean id="decoratorGrantPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+	<bean id="decoratorProjectPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
 	</bean>
 
-	<bean id="tabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+	<bean id="rpTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
 	</bean>
 	
-	<bean id="boxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+	<bean id="rpBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
 	</bean>
 
-	<bean id="grantTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+	<bean id="projectTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
 	</bean>
 	
-	<bean id="grantBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+	<bean id="projectBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant</value>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -1582,32 +1593,32 @@
 
 	<bean id="tabValidator"
 		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabRPAdditionalFieldStorage" />
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="editTabValidator"
 		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage" />
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="boxValidator"
 		class="it.cilea.hku.authority.webui.validator.BoxValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage" />
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantTabValidator"
 		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabResearcherGrant" />
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantEditTabValidator"
 		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant" />
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantBoxValidator"
 		class="it.cilea.hku.authority.webui.validator.BoxValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant" />
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="dynamicFieldValidator"
@@ -1616,23 +1627,23 @@
 		<property name="validatorService" ref="validatorService" />
 	</bean>	
 	<bean id="grantDynamicFieldValidator"
-		class="it.cilea.hku.authority.webui.validator.GrantPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorGrantPropertiesDefinition" />
+		class="it.cilea.hku.authority.webui.validator.ProjectPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>	
 	<bean id="anagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
 		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage" />
-		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabRPAdditionalFieldStorage" />
-		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxRPAdditionalFieldStorage" />
+		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
+		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
 	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition" />
 	</bean>
 	<bean id="grantAnagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
-		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.ResearcherGrant" />
-		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherGrant" />
-		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherGrant" />
-	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.GrantPropertiesDefinition" />
+		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.Project" />
+		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
+		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
+	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition" />
 	</bean>
 
 	

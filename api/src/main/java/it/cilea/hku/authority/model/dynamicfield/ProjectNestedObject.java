@@ -1,6 +1,6 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
-import it.cilea.hku.authority.model.ResearcherGrant;
+import it.cilea.hku.authority.model.Project;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
@@ -48,7 +48,7 @@ public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNes
     private ProjectTypeNestedObject typo;
 
     @ManyToOne
-    private ResearcherGrant parent;
+    private Project parent;
     
     @Override
     public List<ProjectNestedProperty> getAnagrafica() {
@@ -78,14 +78,14 @@ public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNes
     }
 
 
-    public void setParent(ResearcherGrant parent)
+    public void setParent(Project parent)
     {
         this.parent = parent;
     }
 
 
     @Override
-    public ResearcherGrant getParent()
+    public Project getParent()
     {
         return parent;
     }
