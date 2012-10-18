@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 import org.hibernate.annotations.OrderBy;
@@ -38,7 +40,8 @@ public class RPAdditionalFieldStorage extends AnagraficaObject<RPProperty, RPPro
     @JoinColumn(name = "id")    
     private ResearcherPage researcherPage;    
     
-    @OneToMany(mappedBy="parent", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="parent")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
     @OrderBy(clause="position asc")        
     private List<RPProperty> anagrafica;

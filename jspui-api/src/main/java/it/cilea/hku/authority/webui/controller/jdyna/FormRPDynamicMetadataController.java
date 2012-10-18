@@ -286,7 +286,7 @@ public class FormRPDynamicMetadataController
     {
         RPAnagraficaObjectDTO anagraficaObjectDTO = (RPAnagraficaObjectDTO) object;
 
-        String exitPage = "redirect:/rp/tools/editDynamicData.htm?id="
+        String exitPage = "redirect:/cris/rp/tools/editDynamicData.htm?id="
                 + +anagraficaObjectDTO.getParentId();
 
         EditTabResearcherPage editT = getApplicationService().get(
@@ -298,7 +298,7 @@ public class FormRPDynamicMetadataController
         }
         else
         {
-            exitPage = "redirect:/rp/"
+            exitPage = "redirect:/cris/rp/"
                     + ResearcherPageUtils
                             .getPersistentIdentifier(anagraficaObjectDTO
                                     .getParentId()) + "/"
@@ -360,26 +360,8 @@ public class FormRPDynamicMetadataController
         AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, realTPS);
 
         myObject.pulisciAnagrafica();
-
-        String rp = ResearcherPageUtils.getPersistentIdentifier(researcher);
-
-
-        List<RestrictedField> list_variants = new LinkedList<RestrictedField>();
-        for (RestrictedField rf : researcher.getVariants())
-        {
-            if (rf == null || rf.getValue() == null || rf.getValue().equals(""))
-            {
-                log.info("Discard value from lazy list of variants");
-            }
-            else
-            {
-                list_variants.add(rf);
-            }
-        }
-        researcher.setVariants(list_variants);
-        researcher.setFullName(anagraficaObjectDTO.getFullName());
         researcher.setStaffNo(anagraficaObjectDTO.getStaffNo());
-        researcher.setEmail(anagraficaObjectDTO.getEmail());
+        
         
         getApplicationService().saveOrUpdate(ResearcherPage.class, researcher);
         EditTabResearcherPage area = getApplicationService().get(

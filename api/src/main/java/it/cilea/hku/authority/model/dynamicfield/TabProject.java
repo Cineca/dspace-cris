@@ -10,6 +10,8 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.web.AbstractTab;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name="model_jdyna_tab_grant")
+@Table(name="cris_project_tab")
 @NamedQueries( {
         @NamedQuery(name = "TabProject.findAll", query = "from TabProject order by priority asc"),
         @NamedQuery(name = "TabProject.findPropertyHolderInTab", query = "from BoxProject box where box in (select m from TabProject tab join tab.mask m where tab.id = ?) order by priority"),
@@ -40,7 +42,7 @@ public class TabProject extends AbstractTab<BoxProject> {
 
 	/** Showed holder in this tab */
 	@ManyToMany
-	@JoinTable(name = "model_jdyna_tabgrant2boxgrant")	
+	@JoinTable(name = "cris_project_tab2box")	
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxProject> mask;
 

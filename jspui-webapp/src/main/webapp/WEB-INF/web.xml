@@ -92,7 +92,7 @@
 	
 	<filter-mapping>
   		<filter-name>CharacterEncodingFilter</filter-name>
-  		<url-pattern>/rp/*</url-pattern>
+  		<url-pattern>/cris/*</url-pattern>
 	</filter-mapping>
 
 	<filter-mapping>
@@ -138,27 +138,22 @@
 
 	<filter-mapping>
 		<filter-name>admin-only</filter-name>
-		<url-pattern>/rp/administrator/*</url-pattern>
+		<url-pattern>/cris/administrator/*</url-pattern>
 	</filter-mapping>
-
+	
 	<filter-mapping>
-		<filter-name>admin-only</filter-name>
-		<url-pattern>/rp/grants/administrator/*</url-pattern>
+		<filter-name>registered-only</filter-name>
+		<url-pattern>/cris/tools/*</url-pattern>
 	</filter-mapping>
 
 	<filter-mapping>
 		<filter-name>registered-only</filter-name>
-		<url-pattern>/rp/tools/*</url-pattern>
-	</filter-mapping>
-
-	<filter-mapping>
-		<filter-name>registered-only</filter-name>
-		<url-pattern>/rp/login</url-pattern>
+		<url-pattern>/cris/login</url-pattern>
 	</filter-mapping>
 
 	<filter-mapping>
 	    <filter-name>DSpaceCleanupFilter</filter-name>
-	    <url-pattern>/rp/*</url-pattern>
+	    <url-pattern>/cris/*</url-pattern>
 	</filter-mapping>
 
 
@@ -469,28 +464,7 @@
 	</servlet>
 	
 		
-	<!-- cris  -->	
-	<servlet>
-		<servlet-name>researcherEditTabImageServlet</servlet-name>
-		<servlet-class>it.cilea.hku.authority.webui.servlet.ResearcherEditTabImageServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-	    <servlet-name>researcherEditTabImageServlet</servlet-name>
-		<url-pattern>/researcheredittabimage/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>researcherTabImageServlet</servlet-name>
-		<servlet-class>it.cilea.hku.authority.webui.servlet.ResearcherTabImageServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-	    <servlet-name>researcherTabImageServlet</servlet-name>
-		<url-pattern>/researchertabimage/*</url-pattern>
-	</servlet-mapping>
-	
-
+	<!-- cris  -->
   	<servlet>
 		<servlet-name>rpjdynafileservice</servlet-name>
 		<servlet-class>it.cilea.hku.authority.webui.servlet.RPFileServiceServlet</servlet-class>
@@ -811,7 +785,7 @@
 
 	<servlet-mapping>
 		<servlet-name>springmvc-rp</servlet-name>
-		<url-pattern>/rp/*</url-pattern>
+		<url-pattern>/cris/*</url-pattern>
 	</servlet-mapping>
 	
 	<!-- Icon MIME type -->

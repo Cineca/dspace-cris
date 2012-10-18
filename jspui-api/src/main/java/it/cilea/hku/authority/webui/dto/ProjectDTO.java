@@ -10,9 +10,7 @@
  */
 package it.cilea.hku.authority.webui.dto;
 
-import it.cilea.hku.authority.model.Investigator;
 import it.cilea.hku.authority.model.Project;
-import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 
 
 /**

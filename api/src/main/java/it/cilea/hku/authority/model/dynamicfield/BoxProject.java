@@ -28,7 +28,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "model_jdyna_box_grant")
+@Table(name = "cris_project_box")
 @NamedQueries({
 		@NamedQuery(name = "BoxProject.findAll", query = "from BoxProject order by priority asc"),
 		@NamedQuery(name = "BoxProject.findContainableByHolder", query = "from Containable containable where containable in (select m from BoxProject box join box.mask m where box.id = ?)"),
@@ -38,7 +38,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class BoxProject extends Box<Containable> {
 	
 	@ManyToMany
-	@JoinTable(name = "model_jdyna_boxgrant2containablegrant")	
+	@JoinTable(name = "cris_project_box2containable")	
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Containable> mask;
 

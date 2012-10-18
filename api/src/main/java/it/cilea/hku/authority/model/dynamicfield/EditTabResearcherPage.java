@@ -10,6 +10,8 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.web.AbstractEditTab;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "model_jdyna_edittab")
+@Table(name = "cris_rp_edittab")
 @NamedQueries({
 		@NamedQuery(name = "EditTabResearcherPage.findAll", query = "from EditTabResearcherPage order by priority asc"),
 		@NamedQuery(name = "EditTabResearcherPage.findPropertyHolderInTab", query = "from BoxResearcherPage box where box in (select m from EditTabResearcherPage tab join tab.mask m where tab.id = ?) order by priority"),
@@ -43,7 +45,7 @@ public class EditTabResearcherPage extends
 
 	/** Showed holder in this tab */
 	@ManyToMany
-	@JoinTable(name = "model_jdyna_edittab2box")
+	@JoinTable(name = "cris_rp_edittab2box")
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxResearcherPage> mask;
 

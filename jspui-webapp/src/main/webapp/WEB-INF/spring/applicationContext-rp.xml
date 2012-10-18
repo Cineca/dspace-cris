@@ -18,6 +18,10 @@
 		<property name="applicationService" ref="applicationService"/>
 	</bean>
 
+	<bean id="researcherPageUtils" class="it.cilea.hku.authority.util.ResearcherPageUtils">
+		<constructor-arg ref="applicationService" />
+	</bean>
+
 	<bean id="validatorService" class="it.cilea.hku.authority.webui.validator.ExtendedValidatorService">
 		<constructor-arg ref="applicationService" />
 	</bean>

@@ -13,6 +13,7 @@ package it.cilea.hku.authority.dao;
 import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
+import it.cilea.osd.jdyna.dao.EditTabDao;
 
 
 

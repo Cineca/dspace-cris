@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import org.dspace.core.ConfigurationManager;
 
 @Entity
-@Table(name="model_rp_jdyna_widgetfile")
+@Table(name="cris_rp_widgetfile")
 public class WidgetFileRP extends WidgetFile {
 
 	@Override

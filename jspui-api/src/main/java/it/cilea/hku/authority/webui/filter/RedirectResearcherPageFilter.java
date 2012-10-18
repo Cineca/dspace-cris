@@ -63,7 +63,7 @@ public class RedirectResearcherPageFilter implements Filter
 
         String browseType = hrequest.getParameter("type");
         String authority = hrequest.getParameter("authority");
-
+        
         if (browseType != null
                 && browseType.equals(ConfigurationManager
                         .getProperty("researcherpage.browseindex"))
@@ -87,7 +87,7 @@ public class RedirectResearcherPageFilter implements Filter
                         }
                     }
                     hresponse.sendRedirect(hrequest.getContextPath()
-                            + "/rp/"
+                            + "/cris/"
                             + authority
                             + (param.length() > 0 ? "?" + param.substring(1)
                                     : ""));

@@ -27,7 +27,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name="model_rp_jdyna_prop", 
+@Table(name="cris_rp_prop", 
         uniqueConstraints = {@UniqueConstraint(columnNames={"position","typo_id","parent_id"})})
 @NamedQueries( {
 	@NamedQuery(name = "RPProperty.findPropertyByPropertiesDefinition", query = "from RPProperty where typo = ? order by position"),
@@ -43,7 +43,7 @@ public class RPProperty extends Property<RPPropertiesDefinition> {
 	
 	
 	@ManyToOne	
-	@Index(name = "model_rp_jdyna_prop_parent_id")
+	@Index(name = "cris_rp_prop_parent_id")
 	private ResearcherPage parent;
 	
 	@Override

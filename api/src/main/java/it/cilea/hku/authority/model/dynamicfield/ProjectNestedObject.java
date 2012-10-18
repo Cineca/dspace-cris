@@ -2,6 +2,7 @@ package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.hku.authority.model.Project;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
+import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
@@ -25,7 +26,7 @@ import org.hibernate.annotations.OrderBy;
  *
  */
 @Entity
-@Table(name = "model_project_jdyna_nestedobject")
+@Table(name = "cris_project_nestedobject")
 @NamedQueries( {
         @NamedQuery(name = "ProjectNestedObject.findAll", query = "from ProjectNestedObject order by id"),
         @NamedQuery(name = "ProjectNestedObject.paginate.id.asc", query = "from ProjectNestedObject order by id asc"),
@@ -72,7 +73,7 @@ public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNes
     }
 
     @Override
-    public ProjectTypeNestedObject getTipologia()
+    public ProjectTypeNestedObject getTypo()
     {
         return typo;
     }
@@ -88,6 +89,28 @@ public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNes
     public Project getParent()
     {
         return parent;
+    }
+
+
+    @Override
+    public void setTypo(ATipologia<ProjectNestedPropertiesDefinition> typo)
+    {
+        this.typo = (ProjectTypeNestedObject)typo;
+    }
+
+
+    @Override
+    public <PP extends Property<PTP>, PTP extends PropertiesDefinition> void setParent(
+            AnagraficaSupport<PP, PTP> parent)
+    {
+        this.parent = (Project)parent;        
+    }
+
+
+    @Override
+    public Class getClassParent()
+    {
+        return Project.class;
     }
    
 }

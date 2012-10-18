@@ -27,7 +27,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name="model_grant_jdyna_prop", 
+@Table(name="cris_project_prop", 
 		uniqueConstraints = {@UniqueConstraint(columnNames={"position","typo_id","parent_id"})})
 @NamedQueries( {
 	@NamedQuery(name = "ProjectProperty.findPropertyByPropertiesDefinition", query = "from ProjectProperty where typo = ? order by position"),
@@ -43,7 +43,7 @@ public class ProjectProperty extends Property<ProjectPropertiesDefinition> {
 	
 	
 	@ManyToOne
-	@Index(name = "model_grant_jdyna_prop_idx_parent_id")
+	@Index(name = "cris_project_prop_idx_parent_id")
 	private Project parent;
 	
 

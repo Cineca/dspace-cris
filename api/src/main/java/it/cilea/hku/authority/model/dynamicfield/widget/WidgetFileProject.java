@@ -24,7 +24,7 @@ import javax.persistence.Table;
 import org.dspace.core.ConfigurationManager;
 
 @Entity
-@Table(name="model_grant_jdyna_widgetfile")
+@Table(name="cris_project_widgetfile")
 public class WidgetFileProject extends WidgetFile {
 
 	@Override

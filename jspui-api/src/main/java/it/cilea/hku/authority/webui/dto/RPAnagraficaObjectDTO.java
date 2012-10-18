@@ -48,8 +48,8 @@ public class RPAnagraficaObjectDTO extends AnagraficaObjectAreaDTO {
 
 	public RPAnagraficaObjectDTO(ResearcherPage rp) {
 		super();
-		setAcademicName(rp.getAcademicName());		
-		setChineseName(rp.getChineseName());		
+		setAcademicName(rp.getPreferredName());		
+		setChineseName(rp.getTranslatedName());		
 		setEmail(rp.getEmail());
 		setFullName(rp.getFullName());		
 		setStaffNo(rp.getStaffNo());

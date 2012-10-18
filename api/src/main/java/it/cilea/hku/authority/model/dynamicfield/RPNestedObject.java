@@ -4,6 +4,10 @@ import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.UUIDSupport;
 import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
+import it.cilea.osd.jdyna.model.ATipologia;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
+import it.cilea.osd.jdyna.model.PropertiesDefinition;
+import it.cilea.osd.jdyna.model.Property;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +24,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.OrderBy;
 
 @Entity
-@Table(name = "model_rp_jdyna_nestedobject")
+@Table(name = "cris_rp_nestedobject")
 @NamedQueries({
         @NamedQuery(name = "RPNestedObject.findAll", query = "from RPNestedObject order by id"),
         @NamedQuery(name = "RPNestedObject.paginate.id.asc", query = "from RPNestedObject order by id asc"),
@@ -71,11 +75,11 @@ public class RPNestedObject
     }
 
     @Override
-    public RPTypeNestedObject getTipologia()
+    public RPTypeNestedObject getTypo()
     {
         return typo;
     }
-
+    
     public void setParent(ResearcherPage parent)
     {
         this.parent = parent;
@@ -86,9 +90,23 @@ public class RPNestedObject
         return parent;
     }
 
-    public void setTypo(RPTypeNestedObject typo)
+    @Override
+    public void setTypo(ATipologia<RPNestedPropertiesDefinition> typo)
     {
-        this.typo = typo;
+        this.typo = (RPTypeNestedObject)typo;
+    }
+  
+    @Override
+    public <PP extends Property<PTP>, PTP extends PropertiesDefinition> void setParent(
+            AnagraficaSupport<PP, PTP> parent)
+    {
+        this.parent = (ResearcherPage)parent;        
+    }
+
+    @Override
+    public Class getClassParent()
+    {
+        return ResearcherPage.class;
     }
 
 }

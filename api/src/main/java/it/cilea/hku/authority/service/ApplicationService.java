@@ -189,19 +189,6 @@ public class ApplicationService extends ExtendedTabService
                 id);
     }
 
-    /**
-     * Return the list of all the ResearcherPage that make use of an additional
-     * field (ResearcherPageField).
-     * 
-     * @param id
-     *            the id (internal db primary key) of the additional field
-     * @return the list of all the ResearcherPage that make use of the
-     *         additional field
-     */
-    public List<ResearcherPage> getResearchersPageByPageFieldId(Integer id)
-    {
-        return researcherPageDao.findAllResearcherByField(id);
-    }
 
     /**
      * Return the ReseacherPage related to the supplied autority key.
@@ -424,6 +411,11 @@ public class ApplicationService extends ExtendedTabService
     public Project getResearcherGrantByCode(String projectcode)
     {
         return projectDao.uniqueRGByCode(projectcode);
+    }
+
+    public ResearcherPage getResearcherPageByEPersonId(Integer id)
+    {
+        return researcherPageDao.uniqueResearcherPageByEPersonId(id);
     }
   
 }

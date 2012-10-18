@@ -58,8 +58,8 @@ public class MyRPController extends
         }
         else
         {
-            String staffNo = currUser.getNetid();
-            ResearcherPage rp = applicationService.getResearcherPageByStaffNo(staffNo);
+            Integer id = currUser.getID();
+            ResearcherPage rp = applicationService.getResearcherPageByEPersonId(id);
             if (rp != null && rp.getStatus() != null && rp.getStatus().booleanValue())
             {
                 response.sendRedirect(request.getContextPath() + "/rp/" + ResearcherPageUtils.getPersistentIdentifier(rp));

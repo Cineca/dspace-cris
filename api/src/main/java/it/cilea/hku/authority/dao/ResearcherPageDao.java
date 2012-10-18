@@ -65,4 +65,6 @@ public interface ResearcherPageDao extends
             String end);
     
     public List<RPProperty> findAnagraficaByRPID(Integer id);
+
+    public ResearcherPage uniqueResearcherPageByEPersonId(Integer id);
 }

@@ -13,6 +13,7 @@ package it.cilea.hku.authority.dao;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
 import it.cilea.hku.authority.model.dynamicfield.EditTabProject;
 import it.cilea.hku.authority.model.dynamicfield.TabProject;
+import it.cilea.osd.jdyna.dao.EditTabDao;
 
 
 

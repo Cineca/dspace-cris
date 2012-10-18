@@ -13,6 +13,7 @@ package it.cilea.hku.authority.model;
 import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.export.ExportConstants;
 import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
@@ -39,85 +40,76 @@ import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-
-
 @Entity
-@Table(name = "model_researcher_grant")
-@NamedQueries( {
+@Table(name = "cris_project")
+@NamedQueries({
         @NamedQuery(name = "Project.findAll", query = "from Project order by id"),
         @NamedQuery(name = "Project.count", query = "select count(*) from Project"),
         @NamedQuery(name = "Project.paginate.id.asc", query = "from Project order by id asc"),
         @NamedQuery(name = "Project.paginate.id.desc", query = "from Project order by id desc"),
-        @NamedQuery(name = "Project.uniqueRGByCode", query = "from Project where rgCode = ? order by id desc")        
-})
-public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Cloneable, IExportableDynamicObject<ProjectPropertiesDefinition, ProjectProperty, ProjectAdditionalFieldStorage>, AnagraficaSupport<ProjectProperty, ProjectPropertiesDefinition> {
+        @NamedQuery(name = "Project.uniqueRGByCode", query = "from Project where code = ? order by id desc") })
+public class Project
+        implements
+        Identifiable,
+        UUIDSupport,
+        HasTimeStampInfo,
+        Cloneable,
+        IExportableDynamicObject<ProjectPropertiesDefinition, ProjectProperty, ProjectAdditionalFieldStorage>,
+        AnagraficaSupport<ProjectProperty, ProjectPropertiesDefinition>
+{
 
-	@Transient
-	/**
-	 * Constant for resource type assigned to the Researcher Grants
-	 */
-	public static final int GRANT_TYPE_ID = 10;
-	
-	 /** DB Primary key */
+    @Transient
+    /**
+     * Constant for resource type assigned to the Researcher Grants
+     */
+    public static final int GRANT_TYPE_ID = 10;
+
+    /** DB Primary key */
     @Id
-    @GeneratedValue(generator = "RESEARCHERGRANT_SEQ")
-    @SequenceGenerator(name = "RESEARCHERGRANT_SEQ", sequenceName = "RESEARCHERGRANT_SEQ")    
+    @GeneratedValue(generator = "CRIS_PROJECT_SEQ")
+    @SequenceGenerator(name = "CRIS_PROJECT_SEQ", sequenceName = "CRIS_PROJECT_SEQ")
     private Integer id;
-    
+
     @Column(nullable = false, unique = true)
     private String uuid;
-    
+
     /** timestamp info for creation and last modify */
     @Embedded
     private TimeStampInfo timeStampInfo;
-    
-    @Embedded
-    private Investigator investigator;
-        
-    @CollectionOfElements
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(name="model_grant_investigator")    
-    private List<Investigator> coInvestigators;
-    
 
     /**
      * Map of additional custom data
      */
     @Embedded
     private ProjectAdditionalFieldStorage dynamicField;
-    
-    
+
     /** True if grant is active */
     private Boolean status;
-    
+
     /** Grant code */
-    private String rgCode;
-		
+    private String code;
 
-	public void setInvestigator(Investigator investigator) {
-		this.investigator = investigator;
-	}
+    public Project()
+    {
+        this.status = true;
+        this.dynamicField = new ProjectAdditionalFieldStorage();
+    }
 
-	public Investigator getInvestigator() {
-		if(this.investigator==null) {
-			this.investigator=new Investigator();
-		}
-		return investigator;
-	}
+    public Investigator getInvestigator()
+    {
+        // TODO return a JDynA pointer
+        return null;
+    }
 
-	public void setCoInvestigators(List<Investigator> coInvestigators) {		
-		this.coInvestigators = coInvestigators;
-	}
-
-	public List<Investigator> getCoInvestigators() {
-		if(this.coInvestigators==null) {
-			this.coInvestigators = new LinkedList<Investigator>();
-		}
-		return coInvestigators;
-	}
+    public List<Investigator> getCoInvestigators()
+    {
+        // TODO return a JDynA pointer
+        return null;
+    }
 
     /**
      * Getter method.
+     * 
      * @return the timestamp of creation and last modify of this Project
      */
     public TimeStampInfo getTimeStampInfo()
@@ -128,10 +120,10 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
         }
         return timeStampInfo;
     }
-    
-    
+
     /**
      * Getter method.
+     * 
      * @return the status
      */
     public Boolean getStatus()
@@ -150,49 +142,61 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
         this.status = status;
     }
 
-	public void setRgCode(String rgCode) {
-		this.rgCode = rgCode;
-	}
+    public void setCode(String rgCode)
+    {
+        this.code = rgCode;
+    }
 
-	public String getRgCode() {
-		return rgCode;
-	}
+    public String getCode()
+    {
+        return code;
+    }
 
-	
     @Override
-    public Object clone() throws CloneNotSupportedException {
-    	return super.clone();
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
-    
-    public String getTitle() {
-    	String result = "";
-    	for(ProjectProperty title : this.getDynamicField().getAnagrafica4view().get("projecttitle")) {
-    		result += title.getValue().getObject();
-    		result += " ";
-    	}
-    	return result;
+
+    public String getTitle()
+    {
+        String result = "";
+        for (ProjectProperty title : this.getDynamicField()
+                .getAnagrafica4view().get("projecttitle"))
+        {
+            result += title.getValue().getObject();
+            result += " ";
+        }
+        return result;
     }
-    
-    public String getYear() {
-    	String result = "";
-    	for(ProjectProperty year : this.getDynamicField().getAnagrafica4view().get("fundingyear")) {
-    		result += year.getValue().getObject();
-    		result += " ";
-    	}
-    	return result;
+
+    public String getYear()
+    {
+        String result = "";
+        for (ProjectProperty year : this.getDynamicField().getAnagrafica4view()
+                .get("fundingyear"))
+        {
+            result += year.getValue().getObject();
+            result += " ";
+        }
+        return result;
     }
-    
-    public String getInvestigatorToDisplay() {
-    	Investigator inv = getInvestigator();
-    	if(inv!=null) {
-    		if(inv.getIntInvestigator()!=null) {
-    			return inv.getIntInvestigator().getFullName();
-    		}
-    		else {
-    			return inv.getExtInvestigator();
-    		}
-    	}
-    	return "";
+
+    public String getInvestigatorToDisplay()
+    {
+        Investigator inv = getInvestigator();
+        if (inv != null)
+        {
+            if (inv.getIntInvestigator() != null)
+            {
+                return inv.getIntInvestigator().getFullName();
+            }
+            else
+            {
+                return inv.getExtInvestigator();
+            }
+        }
+        return "";
     }
 
     @Override
@@ -204,7 +208,7 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
     @Override
     public String getValuePublicIDAttribute()
     {
-        return ""+this.getId();
+        return "" + this.getId();
     }
 
     @Override
@@ -215,11 +219,12 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
 
     @Override
     public String getValueIDAttribute()
-    {       
-        if(this.getUuid()==null) {
+    {
+        if (this.getUuid() == null)
+        {
             return "";
         }
-        return ""+this.getUuid().toString();
+        return "" + this.getUuid().toString();
     }
 
     @Override
@@ -231,7 +236,7 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
     @Override
     public String getValueBusinessIDAttribute()
     {
-        return this.getRgCode();
+        return this.getCode();
     }
 
     @Override
@@ -243,7 +248,7 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
     @Override
     public String getValueTypeIDAttribute()
     {
-        return ""+GRANT_TYPE_ID;
+        return "" + GRANT_TYPE_ID;
     }
 
     public void setUuid(String uuid)
@@ -265,6 +270,10 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
     @Override
     public ProjectAdditionalFieldStorage getDynamicField()
     {
+        if (this.dynamicField == null)
+        {
+            this.dynamicField = new ProjectAdditionalFieldStorage();
+        }
         return dynamicField;
     }
 
@@ -370,6 +379,18 @@ public class Project implements Identifiable, UUIDSupport, HasTimeStampInfo, Clo
     public void pulisciAnagrafica()
     {
         this.dynamicField.pulisciAnagrafica();
+    }
+
+    public void setInvestigator(Investigator inv)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void setCoInvestigators(List<Investigator> coinvestigators)
+    {
+        // TODO Auto-generated method stub
+
     }
 
 }

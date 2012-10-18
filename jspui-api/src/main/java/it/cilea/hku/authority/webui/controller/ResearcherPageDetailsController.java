@@ -280,7 +280,7 @@ public class ResearcherPageDetailsController
             // JSPManager.showAuthorizeError(request, response, new
             // AuthorizeException(e.getMessage()));
             log.error(e.getMessage(), e);           
-            response.sendRedirect("/rp/"
+            response.sendRedirect("/cris/rp/"
                     + ResearcherPageUtils.getPersistentIdentifier(researcher));
             return null;
         }
@@ -393,17 +393,17 @@ public class ResearcherPageDetailsController
     {
         String path = request.getPathInfo().substring(1); // remove first /
         String[] splitted = path.split("/");
-        request.setAttribute("authority", splitted[0]);
-        return ResearcherPageUtils.getRealPersistentIdentifier(splitted[0]);
+        request.setAttribute("authority", splitted[1]);
+        return ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]);
     }
 
     private String extractTabName(HttpServletRequest request)
     {
         String path = request.getPathInfo().substring(1); // remove first /
         String[] splitted = path.split("/");
-        if (splitted.length > 1)
+        if (splitted.length > 2)
         {
-            return splitted[1].replaceAll("\\.html", "");
+            return splitted[2].replaceAll("\\.html", "");
         }
         else
             return null;

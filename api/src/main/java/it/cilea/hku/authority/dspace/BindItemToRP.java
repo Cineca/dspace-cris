@@ -88,7 +88,7 @@ public class BindItemToRP
             NameResearcherPage name = new NameResearcherPage(researcher
                     .getFullName(), id_padded, researcher.getRejectItems());
             names.add(name);
-            RestrictedField field = researcher.getAcademicName();
+            RestrictedField field = researcher.getPreferredName();
             if (field != null && field.getValue() != null
                     && !field.getValue().isEmpty())
             {
@@ -96,7 +96,7 @@ public class BindItemToRP
                         .getValue(), id_padded, researcher.getRejectItems());
                 names.add(name_1);
             }
-            field = researcher.getChineseName();
+            field = researcher.getTranslatedName();
             if (field != null && field.getValue() != null
                     && !field.getValue().isEmpty())
             {

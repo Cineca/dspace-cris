@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * This class models a single subscription to receive mail notification of the
@@ -28,6 +29,7 @@ import javax.persistence.SequenceGenerator;
  * 
  */
 @Entity
+@Table(name = "cris_rp_subscription")
 @NamedQueries( {
         // WARNING: the findAll query MUST return RPSubscription ordered by eperson as it is needed by the batch script
         @NamedQuery(name = "RPSubscription.findAll", query = "from RPSubscription order by epersonID"),

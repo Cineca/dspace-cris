@@ -164,7 +164,7 @@ public class FormProjectDynamicMetadataController
 			throws Exception {
 		ProjectAnagraficaObjectDTO anagraficaObjectDTO = (ProjectAnagraficaObjectDTO) object;
 
-		String exitPage = "redirect:/rp/grants/details.htm?id="
+		String exitPage = "redirect:/cris/project/details.htm?id="
 				+ +anagraficaObjectDTO.getParentId();
 
 		EditTabProject editT = getApplicationService().get(
@@ -220,7 +220,7 @@ public class FormProjectDynamicMetadataController
 		AnagraficaUtils.reverseDTO(anagraficaObjectDTO, grant, realTPS);
 		grant.pulisciAnagrafica();
 
-		grant.setRgCode(anagraficaObjectDTO.getRgCode());
+		grant.setCode(anagraficaObjectDTO.getRgCode());
 		grant.setStatus(anagraficaObjectDTO.getStatus());
 		String investigator = anagraficaObjectDTO.getInvestigator();
 		Investigator realInvestigator = new Investigator();

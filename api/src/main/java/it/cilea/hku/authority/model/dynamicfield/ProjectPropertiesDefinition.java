@@ -10,7 +10,6 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
-import it.cilea.hku.authority.model.Project;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 
 import javax.persistence.Entity;
@@ -20,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="model_grant_jdyna_propertiesdefinition")
+@Table(name="cris_project_propertiesdefinition")
 @NamedQueries( {
     @NamedQuery(name = "ProjectPropertiesDefinition.findAll", query = "from ProjectPropertiesDefinition order by id"),    
     @NamedQuery(name = "ProjectPropertiesDefinition.findValoriOnCreation", query = "from ProjectPropertiesDefinition where onCreation=true"),
@@ -34,8 +33,8 @@ import javax.persistence.Transient;
 public class ProjectPropertiesDefinition extends PropertiesDefinition {
 		
 	@Transient
-	public Class<Project> getAnagraficaHolderClass() {
-		return Project.class;
+	public Class<ProjectAdditionalFieldStorage> getAnagraficaHolderClass() {
+		return ProjectAdditionalFieldStorage.class;
 	}
 
 	@Transient

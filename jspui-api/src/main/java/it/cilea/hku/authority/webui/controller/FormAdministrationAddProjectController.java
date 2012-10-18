@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * This SpringMVC controller is responsible to handle the creation of a new
  * ResearcherPage. The initialization of the DTO is done by the
- * {@link AdministrationController}
+ * {@link RPAdminController}
  * 
  * @author cilea
  * 
@@ -39,21 +39,21 @@ public class FormAdministrationAddProjectController extends
 				.getResearcherGrantByCode(code);
 		if (code == null || code.isEmpty()) {
 			return new ModelAndView(getSuccessView()
-					+ "grants/administrator/index.htm?error=true");
+					+ "administrator/index.htm?error=true");
 		} else {
 			if (grant != null) {
 
 				return new ModelAndView(getSuccessView()
-						+ "grants/administrator/index.htm?error=true");
+						+ "administrator/index.htm?error=true");
 			} else {
 				grant = new Project();
-				grant.setRgCode(code);
-				grant.setStatus(false);
-				
+				grant.setCode(code);
+				grant.setStatus(false);				
+				grant.getDynamicField().setProject(grant);
 				applicationService.saveOrUpdate(Project.class, grant);
 			}
 		}
-		return new ModelAndView(getSuccessView() + "grants/details.htm?id="+grant.getId());
+		return new ModelAndView(getSuccessView() + "details.htm?id="+grant.getId());
 
 	}
 }

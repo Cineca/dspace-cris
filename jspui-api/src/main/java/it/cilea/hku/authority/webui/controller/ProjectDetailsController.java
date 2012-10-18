@@ -170,18 +170,6 @@ public class ProjectDetailsController
                 mapBoxToContainables);
 
         mvc.getModel().putAll(model);
-
-        String configurationTextToLink = ConfigurationManager
-                .getProperty("researchergrant.display.link");
-        List<String> textToLink = new ArrayList<String>();
-        if (configurationTextToLink != null)
-        {
-            for (String s : configurationTextToLink.split(","))
-            {
-                textToLink.add(s.trim());
-            }
-        }
-        mvc.getModel().put("changedToLink", textToLink);
         return mvc;
     }
 

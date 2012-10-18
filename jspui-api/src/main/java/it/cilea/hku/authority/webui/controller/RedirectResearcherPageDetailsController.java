@@ -40,7 +40,7 @@ public class RedirectResearcherPageDetailsController extends
             HttpServletResponse response) throws Exception
     {        
         String paramRPId = request.getParameter("persistentIdentifier");
-        return new ModelAndView("redirect:/rp/"+paramRPId);     
+        return new ModelAndView("redirect:/cris/rp/"+paramRPId);     
     }
 
  

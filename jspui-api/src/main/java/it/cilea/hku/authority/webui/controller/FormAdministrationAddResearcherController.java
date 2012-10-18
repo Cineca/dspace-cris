@@ -11,6 +11,8 @@
 package it.cilea.hku.authority.webui.controller;
 
 import it.cilea.hku.authority.model.ResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.ResearcherPageDTO;
 
@@ -23,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * This SpringMVC controller is responsible to handle the creation of a new
  * ResearcherPage. The initialization of the DTO is done by the
- * {@link AdministrationController}
+ * {@link RPAdminController}
  * 
  * @author cilea
  * 
@@ -51,7 +53,10 @@ public class FormAdministrationAddResearcherController extends
 				researcher = new ResearcherPage();
 				researcher.setStaffNo(staffNo);
 				researcher.setStatus(false);
-				researcher.setFullName("Insert name here (" + staffNo + ")");
+				researcher.getDynamicField().setResearcherPage(researcher);
+				RPProperty property = researcher.getDynamicField().createProprieta(applicationService.findPropertiesDefinitionByShortName(RPPropertiesDefinition.class, "fullName"));
+				property.getValue().setOggetto("Insert fullname here ("+ staffNo +")");
+				property.setVisibility(1);
 				applicationService.saveOrUpdate(ResearcherPage.class,
 						researcher);
 			}

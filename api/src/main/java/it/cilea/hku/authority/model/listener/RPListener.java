@@ -57,13 +57,13 @@ public class RPListener implements PreUpdateEventListener, PreInsertEventListene
             if(rp.getFullName()!=null) {
                 oldNamesSet.add(rp.getFullName());
             }
-            if (rp.getAcademicName().getValue() != null)
+            if (rp.getPreferredName().getValue() != null)
             {
-                oldNamesSet.add(rp.getAcademicName().getValue()+rp.getAcademicName().getVisibility());
+                oldNamesSet.add(rp.getPreferredName().getValue()+rp.getPreferredName().getVisibility());
             }
-            if (rp.getChineseName().getValue() != null)
+            if (rp.getTranslatedName().getValue() != null)
             {
-                oldNamesSet.add(rp.getChineseName().getValue()+rp.getChineseName().getVisibility());
+                oldNamesSet.add(rp.getTranslatedName().getValue()+rp.getTranslatedName().getVisibility());
             }
             for (RestrictedField variant : rp.getVariants())
             {
@@ -102,16 +102,16 @@ public class RPListener implements PreUpdateEventListener, PreInsertEventListene
             if(rp.getFullName()!=null) {
                 newNamesSet.add(rp.getFullName());
             }
-            if (rp.getAcademicName().getValue() != null) {
-                newNamesSet.add(rp.getAcademicName().getValue()+rp.getAcademicName().getVisibility());
+            if (rp.getPreferredName().getValue() != null) {
+                newNamesSet.add(rp.getPreferredName().getValue()+rp.getPreferredName().getVisibility());
             }
-            if (rp.getChineseName().getValue() != null)
+            if (rp.getTranslatedName().getValue() != null)
             {
-                newNamesSet.add(rp.getChineseName().getValue()+rp.getChineseName().getVisibility());
+                newNamesSet.add(rp.getTranslatedName().getValue()+rp.getTranslatedName().getVisibility());
             }
             for (RestrictedField variant : rp.getVariants())
             {
-                newNamesSet.add(variant.getValue()+rp.getChineseName().getVisibility());
+                newNamesSet.add(variant.getValue()+rp.getTranslatedName().getVisibility());
             }
 
             for (String newName : newNamesSet)

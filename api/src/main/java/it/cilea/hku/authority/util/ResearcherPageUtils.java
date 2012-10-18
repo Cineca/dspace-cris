@@ -15,6 +15,7 @@ import it.cilea.hku.authority.model.RestrictedField;
 import it.cilea.hku.authority.model.VisibilityConstants;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.osd.jdyna.util.TabUtils;
 import it.cilea.osd.jdyna.web.Tab;
 
 import java.io.File;
@@ -42,7 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author cilea
  * 
  */
-public class ResearcherPageUtils
+public class ResearcherPageUtils implements TabUtils
 {
     public static final String DIRECTORY_TAB_ICON = "icon";
 
@@ -127,7 +128,7 @@ public class ResearcherPageUtils
     {        
         if (alternativeName.equals(rp.getFullName()))
         {
-            return rp.getFullName() + " " + rp.getChineseName().getValue();
+            return rp.getFullName() + " " + rp.getTranslatedName().getValue();
         }
         else
         {
@@ -192,7 +193,7 @@ public class ResearcherPageUtils
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
                     getRealPersistentIdentifier(rpkey));            
-            return alternativeName.equals(rp.getChineseName().getValue());
+            return alternativeName.equals(rp.getTranslatedName().getValue());
         }
         return false;
     }
@@ -268,8 +269,8 @@ public class ResearcherPageUtils
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
                     getRealPersistentIdentifier(rpkey));            
-            return VisibilityConstants.PUBLIC == rp.getChineseName().getVisibility()?
-                    rp.getChineseName().getValue():"";
+            return VisibilityConstants.PUBLIC == rp.getTranslatedName().getVisibility()?
+                    rp.getTranslatedName().getValue():"";
         }
         return null;
     }
@@ -284,7 +285,7 @@ public class ResearcherPageUtils
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	public static void loadTabIcon(Tab tab, String iconName,
+	public void loadTabIcon(Tab tab, String iconName,
 			MultipartFile itemImage) throws IOException, FileNotFoundException {
 		String pathImage = ConfigurationManager
 		        .getProperty("researcherpage.file.path");
@@ -306,7 +307,7 @@ public class ResearcherPageUtils
 	 * 
 	 * @param researcher
 	 */
-	public static void removeTabIcon(Tab tab) {
+	public void removeTabIcon(Tab tab) {
 		File image = new File(ConfigurationManager
 		        .getProperty("researcherpage.file.path")
 		        + File.separatorChar

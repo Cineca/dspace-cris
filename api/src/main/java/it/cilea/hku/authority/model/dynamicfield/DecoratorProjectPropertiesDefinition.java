@@ -10,7 +10,6 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
-import it.cilea.hku.authority.model.Project;
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
 import it.cilea.osd.jdyna.model.IContainable;
@@ -31,12 +30,12 @@ import org.hibernate.annotations.CascadeType;
 	@NamedQuery(name = "DecoratorProjectPropertiesDefinition.findAll", query = "from DecoratorProjectPropertiesDefinition order by id"),
 	@NamedQuery(name = "DecoratorProjectPropertiesDefinition.uniqueContainableByDecorable", query = "from DecoratorProjectPropertiesDefinition where real.id = ?"),
 	@NamedQuery(name = "DecoratorProjectPropertiesDefinition.uniqueContainableByShortName", query = "from DecoratorProjectPropertiesDefinition where real.shortName = ?")
-	
 })
+@DiscriminatorValue(value="propertiesdefinitionproject")
 public class DecoratorProjectPropertiesDefinition extends ADecoratorPropertiesDefinition<ProjectPropertiesDefinition>  {
 	
 	@OneToOne(optional=true)
-	@JoinColumn(name="propertiesdefinitiongrant_fk")
+	@JoinColumn(name="propertiesdefinitionproject_fk")
 	@Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
 	private ProjectPropertiesDefinition real;
 	
@@ -52,7 +51,7 @@ public class DecoratorProjectPropertiesDefinition extends ADecoratorPropertiesDe
 	}
 
 	@Transient
-	public Class<Project> getAnagraficaHolderClass() {
+	public Class<ProjectAdditionalFieldStorage> getAnagraficaHolderClass() {
 		return real.getAnagraficaHolderClass();
 	}
 

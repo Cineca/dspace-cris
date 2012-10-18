@@ -10,6 +10,8 @@
  */
 package it.cilea.hku.authority.model.dynamicfield;
 
+import it.cilea.osd.jdyna.web.AbstractTab;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
-@Table(name="model_jdyna_tab")
+@Table(name="cris_rp_tab")
 @org.hibernate.annotations.NamedQueries( {
         @org.hibernate.annotations.NamedQuery(name = "TabResearcherPage.findAll", query = "from TabResearcherPage order by priority asc"),
         @org.hibernate.annotations.NamedQuery(name = "TabResearcherPage.findPropertyHolderInTab", query = "from BoxResearcherPage box where box in (select m from TabResearcherPage tab join tab.mask m where tab.id = ?) order by priority", cacheable=true),
@@ -45,7 +47,7 @@ public class TabResearcherPage extends AbstractTab<BoxResearcherPage> {
 
 	/** Showed holder in this tab */
 	@ManyToMany	
-	@JoinTable(name = "model_jdyna_tab2box")
+	@JoinTable(name = "cris_rp_tab2box")
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxResearcherPage> mask;
 

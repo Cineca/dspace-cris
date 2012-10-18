@@ -669,8 +669,7 @@ public class ImportExportUtils
                 AnagraficaUtils.reverseDTO(dto, researcher.getDynamicField(),
                         realFillTPS);
 
-                EPerson dspaceUser = EPerson.find(dspaceContext,
-                        researcher.getEPersonID());
+                EPerson dspaceUser = researcher.getDspaceUser();
                 if (dspaceUser == null)
                 {
                     // no dspace user we need to create it
@@ -1371,7 +1370,7 @@ public class ImportExportUtils
                             log.info("Create new GRANT with code "
                                     + projectcode);
                             rg = new Project();
-                            rg.setRgCode(projectcode);
+                            rg.setCode(projectcode);
                             rg.setStatus(active);
                             newImported++;
                         }
@@ -1614,7 +1613,7 @@ public class ImportExportUtils
                         if (grant == null)
                         {
                             grant = new Project();
-                            grant.setRgCode(nodeId);
+                            grant.setCode(nodeId);
                             // use -active in command line to change default
                             // status to active.
                             grant.setStatus(status);
@@ -1730,7 +1729,7 @@ public class ImportExportUtils
 
                 applicationService.saveOrUpdate(Project.class, grant);
 
-                log.info("Import grant " + grant.getRgCode() + " (code) / "
+                log.info("Import grant " + grant.getCode() + " (code) / "
                         + grant.getId() + " (id) - SUCCESS");
                 rows_imported++;
             }

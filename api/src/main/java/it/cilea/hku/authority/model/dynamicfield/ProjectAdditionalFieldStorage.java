@@ -68,14 +68,16 @@ public class ProjectAdditionalFieldStorage extends AnagraficaObject<ProjectPrope
         this.anagrafica = pp;       
     }
 
-    public Project getResearcherGrant()
+    public Project getProject()
     {
         return project;
     }
 
-    public void setResearcherGrant(Project project)
+    public void setProject(Project project)
     {
         this.project = project;
     }
+
+  
  
 }

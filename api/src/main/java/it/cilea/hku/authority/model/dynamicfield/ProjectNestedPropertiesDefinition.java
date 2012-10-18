@@ -11,7 +11,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="model_project_jdyna_nestedobject_propertiesdefinition")
+@Table(name="cris_project_nestedobject_propertiesdefinition")
 @NamedQueries( {
     @NamedQuery(name = "ProjectNestedPropertiesDefinition.findAll", query = "from ProjectNestedPropertiesDefinition order by id"),    
     @NamedQuery(name = "ProjectNestedPropertiesDefinition.findValoriOnCreation", query = "from ProjectNestedPropertiesDefinition where onCreation=true"),

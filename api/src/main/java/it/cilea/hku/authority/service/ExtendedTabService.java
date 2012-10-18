@@ -10,27 +10,18 @@
  */
 package it.cilea.hku.authority.service;
 
-import it.cilea.hku.authority.dao.EditTabDao;
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.AbstractEditTab;
-import it.cilea.hku.authority.model.dynamicfield.AbstractTab;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
-import it.cilea.osd.jdyna.dao.TabDao;
-import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AccessLevelConstants;
 import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.IContainable;
-import it.cilea.osd.jdyna.model.PropertiesDefinition;
-import it.cilea.osd.jdyna.model.Property;
+import it.cilea.osd.jdyna.web.AbstractEditTab;
+import it.cilea.osd.jdyna.web.AbstractTab;
 import it.cilea.osd.jdyna.web.Box;
-import it.cilea.osd.jdyna.web.IPropertyHolder;
-import it.cilea.osd.jdyna.web.Tab;
 import it.cilea.osd.jdyna.web.TabService;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,14 +33,6 @@ import org.dspace.core.ConfigurationManager;
 public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTab<H>, T extends AbstractEditTab<H, D>>
         extends TabService
 {
-
-    public final static String PREFIX_TITLE_EDIT_BOX = "Edit ";
-
-    public final static String PREFIX_SHORTNAME_EDIT_BOX = "edit";
-
-    public final static String PREFIX_TITLE_EDIT_TAB = "Edit ";
-
-    public final static String PREFIX_SHORTNAME_EDIT_TAB = "edit";
 
     public static Map<String, List<IContainable>> cacheStructuredMetadata = new HashMap<String, List<IContainable>>();
 
@@ -230,57 +213,6 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
         }
     }
 
-    /**
-     * Decouple edit tab wrapper from display tab id, check persistence object
-     * is alive and after unhook it.
-     * 
-     * @param tabId
-     */
-    public void decoupleEditTabByDisplayTab(int tabId, Class<T> clazz)
-    {
-
-        T editTab = getEditTabByDisplayTab(tabId, clazz);
-        if (editTab != null)
-        {
-            for (H box : editTab.getDisplayTab().getMask())
-            {
-                editTab.getMask().add(box);
-            }
-            editTab.setDisplayTab(null);
-            saveOrUpdate(clazz, editTab);
-        }
-    }
-
-    /**
-     * Hook edit tab with display tab
-     * 
-     * @param id
-     */
-    public void hookUpEditTabToDisplayTab(Integer editTabId,
-            Integer displayTabId, Class<T> clazz)
-    {
-        T editTab = get(clazz, editTabId);
-        if (editTab != null)
-        {
-            D displayTab = get(editTab.getDisplayTabClass(), displayTabId);
-            editTab.setDisplayTab(displayTab);
-            saveOrUpdate(clazz, editTab);
-        }
-
-    }
-
-    /**
-     * Get edit tab by display tab id
-     * 
-     * @param tabId
-     * @return
-     */
-    public T getEditTabByDisplayTab(Integer tabId, Class<T> clazz)
-    {
-        EditTabDao<H, D, T> dao = (EditTabDao<H, D, T>) getDaoByModel(clazz);
-        T editTab = dao.uniqueByDisplayTab(tabId);
-        return editTab;
-    }
 
     /**
      * {@inheritDoc}
@@ -291,52 +223,6 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
         // customization code
     }
 
-    /**
-     * 
-     * Find by access level, @see {@link VisibilityTabConstant}
-     * 
-     * 
-     * @param isAdmin
-     *            three mode, null get all visibility (ADMIN and OWNER
-     *            visibility), true get all admin access level, false get all
-     *            owner rp access level
-     * @return
-     */
-    @Override
-    public <H extends IPropertyHolder<Containable>, T extends Tab<H>> List<T> getTabsByVisibility(
-            Class<T> model, Boolean isAdmin)
-    {
-
-        TabDao<H, T> dao = (TabDao<H, T>) getDaoByModel(model);
-        List<T> tabs = new LinkedList<T>();
-        if (isAdmin == null)
-        {
-            tabs.addAll(dao.findByAnonimous());
-//            tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-        }
-        else
-        {
-            if (isAdmin)
-            {
-                tabs.addAll(dao.findByAdmin());
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.ADMIN));
-//                tabs.addAll(dao
-//                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
-            }
-            else
-            {
-                tabs.addAll(dao.findByOwner());
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.HIGH));
-//                tabs.addAll(dao
-//                        .findByAccessLevel(VisibilityTabConstant.STANDARD));
-//                tabs.addAll(dao.findByAccessLevel(VisibilityTabConstant.LOW));
-            }
-        }
-
-        Collections.sort(tabs);
-        return tabs;
-
-    }
+ 
 
 }

@@ -33,7 +33,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.LazyCollection;
 
 @Entity
-@Table(name = "model_jdyna_box")
+@Table(name = "cris_rp_box")
 @org.hibernate.annotations.NamedQueries({
 		@org.hibernate.annotations.NamedQuery(name = "BoxResearcherPage.findAll", query = "from BoxResearcherPage order by priority asc"),
 		@org.hibernate.annotations.NamedQuery(name = "BoxResearcherPage.findContainableByHolder", query = "from Containable containable where containable in (select m from BoxResearcherPage box join box.mask m where box.id = ?)", cacheable=true),
@@ -43,7 +43,7 @@ import org.hibernate.annotations.LazyCollection;
 public class BoxResearcherPage extends Box<Containable> {
 	
 	@ManyToMany	
-	@JoinTable(name = "model_jdyna_box2containable")	
+	@JoinTable(name = "cris_rp_box2containable")	
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Containable> mask;
 

@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="model_rp_jdyna_propertiesdefinition")
+@Table(name="cris_rp_propertiesdefinition")
 @NamedQueries( {
     @NamedQuery(name = "RPPropertiesDefinition.findAll", query = "from RPPropertiesDefinition order by id"),    
     @NamedQuery(name = "RPPropertiesDefinition.findValoriOnCreation", query = "from RPPropertiesDefinition where onCreation=true"),

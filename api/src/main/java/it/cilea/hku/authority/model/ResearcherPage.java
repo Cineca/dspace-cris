@@ -21,15 +21,14 @@ import it.cilea.osd.common.core.TimeStampInfo;
 import it.cilea.osd.common.model.Identifiable;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -43,6 +42,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CollectionOfElements;
@@ -59,28 +61,20 @@ import org.hibernate.annotations.FetchMode;
  * 
  */
 @Entity
-@Table(name = "model_researcher_page")
+@Table(name = "cris_researcherpage")
 @NamedQueries({
         @NamedQuery(name = "ResearcherPage.findAll", query = "from ResearcherPage order by id"),
         @NamedQuery(name = "ResearcherPage.paginate.id.asc", query = "from ResearcherPage order by id asc"),
         @NamedQuery(name = "ResearcherPage.paginate.id.desc", query = "from ResearcherPage order by id desc"),
-        @NamedQuery(name = "ResearcherPage.paginate.academicName.asc", query = "from ResearcherPage order by academicName.value asc"),
-        @NamedQuery(name = "ResearcherPage.paginate.academicName.desc", query = "from ResearcherPage order by academicName.value desc"),
-        @NamedQuery(name = "ResearcherPage.paginate.chineseName.asc", query = "from ResearcherPage order by chineseName.value asc"),
-        @NamedQuery(name = "ResearcherPage.paginate.chineseName.desc", query = "from ResearcherPage order by chineseName.value desc"),        
         @NamedQuery(name = "ResearcherPage.paginate.status.asc", query = "from ResearcherPage order by status asc"),
         @NamedQuery(name = "ResearcherPage.paginate.status.desc", query = "from ResearcherPage order by status desc"),
-        @NamedQuery(name = "ResearcherPage.paginate.staffNo.asc", query = "from ResearcherPage order by staffNo asc"),
-        @NamedQuery(name = "ResearcherPage.paginate.staffNo.desc", query = "from ResearcherPage order by staffNo desc"),
-        @NamedQuery(name = "ResearcherPage.paginate.fullName.asc", query = "from ResearcherPage order by fullName asc"),
-        @NamedQuery(name = "ResearcherPage.paginate.fullName.desc", query = "from ResearcherPage order by fullName desc"),
         @NamedQuery(name = "ResearcherPage.count", query = "select count(*) from ResearcherPage"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherPageByStatus", query = "from ResearcherPage where status = ? order by id"),
-        @NamedQuery(name = "ResearcherPage.findAllResearcherByName", query = "select distinct rp from ResearcherPage rp join rp.variants v where rp.academicName.value = :par0 or rp.fullName = :par0 or rp.chineseName.value = :par0 or v.value = :par0"),
         // @NamedQuery(name = "ResearcherPage.findAllResearcherByField", query =
         // "select rp from ResearcherPage rp where :par0 in indices(rp.additionalFields)"),
-        @NamedQuery(name = "ResearcherPage.countAllResearcherByName", query = "select count(*) from ResearcherPage rp join rp.variants v where (rp.academicName.value = :par0 or rp.fullName = :par0 or rp.chineseName.value = :par0 or v.value = :par0)"),
-        @NamedQuery(name = "ResearcherPage.countAllResearcherByNameExceptResearcher", query = "select count(*) from ResearcherPage rp join rp.variants v where (rp.academicName.value = :par0 or rp.fullName = :par0 or rp.chineseName.value = :par0 or v.value = :par0) and rp.id != :par1 "),
+        @NamedQuery(name = "ResearcherPage.findAllResearcherByName", query = "select distinct rp from ResearcherPage rp join rp.dynamicField.anagrafica vv where ((vv.typo.shortName = 'variants' or vv.typo.shortName = 'preferredName' or vv.typo.shortName = 'fullName' or vv.typo.shortName = 'translatedName') and vv.value = :par0)"),
+        @NamedQuery(name = "ResearcherPage.countAllResearcherByName", query = "select count(*) from ResearcherPage rp join rp.dynamicField.anagrafica vv where ((vv.typo.shortName = 'variants' or vv.typo.shortName = 'preferredName' or vv.typo.shortName = 'fullName' or vv.typo.shortName = 'translatedName') and vv.value = :par0)"),
+        @NamedQuery(name = "ResearcherPage.countAllResearcherByNameExceptResearcher", query = "select count(*) from ResearcherPage rp join rp.dynamicField.anagrafica vv where ((vv.typo.shortName = 'variants' or vv.typo.shortName = 'preferredName' or vv.typo.shortName = 'fullName' or vv.typo.shortName = 'translatedName') and vv.value = :par0) and rp.id != :par1 "),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByNamesTimestampLastModified", query = "from ResearcherPage where namesModifiedTimeStamp.timestamp >= ?"),
         @NamedQuery(name = "ResearcherPage.uniqueResearcherPageByStaffNo", query = "from ResearcherPage rp where rp.staffNo = ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInDateRange", query = "from ResearcherPage rp where rp.timeStampInfo.timestampCreated.timestamp between :par0 and :par1"),
@@ -102,6 +96,9 @@ public class ResearcherPage
         IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>,
         AnagraficaSupport<RPProperty, RPPropertiesDefinition>
 {
+
+    @Transient
+    private Integer idEPerson;
 
     @Transient
     public static final int PUBLICATION_LIST_SECTION = -1;
@@ -132,8 +129,8 @@ public class ResearcherPage
 
     /** DB Primary key */
     @Id
-    @GeneratedValue(generator = "RESEARCHERPAGE_SEQ")
-    @SequenceGenerator(name = "RESEARCHERPAGE_SEQ", sequenceName = "RESEARCHERPAGE_SEQ")
+    @GeneratedValue(generator = "CRIS_RESEARCHERPAGE_SEQ")
+    @SequenceGenerator(name = "CRIS_RESEARCHERPAGE_SEQ", sequenceName = "CRIS_RESEARCHERPAGE_SEQ")
     private Integer id;
 
     @Column(nullable = false, unique = true)
@@ -146,10 +143,6 @@ public class ResearcherPage
     @Column(nullable = false, unique = true)
     private String staffNo;
 
-    /** the full name of the researcher, must be not null */
-    @Column(nullable = false)
-    private String fullName;
-
     @Transient
     /**
      * The names that the ResearcherPage has when loaded from the db the first
@@ -158,43 +151,6 @@ public class ResearcherPage
      * 
      */
     private String oldNames;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "academicName_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "academicName_visibility")) })
-    @Cascade(value = { CascadeType.ALL })
-    /**
-     * the academic name 
-     */
-    private RestrictedField academicName;
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "value", column = @Column(name = "chineseName_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "chineseName_visibility")) })
-    /**
-     * the Chinese name
-     */
-    private RestrictedField chineseName;
-
-    @Embedded
-    @CollectionOfElements(targetElement = RestrictedField.class, fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    /**
-     * the variants form of the name (include also Japanese, Korean, etc.)
-     */
-    private List<RestrictedField> variants;
-
-    @Embedded
-    @AttributeOverrides( {
-            @AttributeOverride(name = "value", column = @Column(name = "email_value")),
-            @AttributeOverride(name = "visibility", column = @Column(name = "email_visibility")) })
-    /**
-     * the email
-     */
-    private RestrictedField email;
 
     /**
      * Map of additional custom data
@@ -265,13 +221,20 @@ public class ResearcherPage
     }
 
     /**
-     * Getter method.
+     * Wrapper method.
      * 
      * @return the fullName
      */
     public String getFullName()
     {
-        return fullName;
+        String result = "";
+        for (RPProperty property : this.getDynamicField().getAnagrafica4view()
+                .get("fullName"))
+        {
+            result += property.getValue().getObject();
+            break;
+        }
+        return result;
     }
 
     /**
@@ -279,76 +242,75 @@ public class ResearcherPage
      * 
      * @return the academic name
      */
-    public RestrictedField getAcademicName()
+    public RestrictedField getPreferredName()
     {
-        if (academicName == null)
+        RestrictedField result = new RestrictedField();
+        for (RPProperty property : this.getDynamicField().getAnagrafica4view()
+                .get("preferredName"))
         {
-            academicName = new RestrictedField();
+            result.setValue(property.getValue().getObject().toString());
+            result.setVisibility(property.getVisibility());
+            break;
         }
-        return academicName;
+        return result;
     }
 
     /**
-     * Setter method.
-     * 
-     * @param academicName
-     *            the academic name
-     */
-    public void setAcademicName(RestrictedField academicName)
-    {
-        this.academicName = academicName;
-    }
-
-    /**
-     * Getter method.
+     * Wrapper method.
      * 
      * @return the chinese name
      */
-    public RestrictedField getChineseName()
+    public RestrictedField getTranslatedName()
     {
-        if (chineseName == null)
+        RestrictedField result = new RestrictedField();
+        for (RPProperty property : this.getDynamicField().getAnagrafica4view()
+                .get("translatedName"))
         {
-            chineseName = new RestrictedField();
+            result.setValue(property.getValue().getObject().toString());
+            result.setVisibility(property.getVisibility());
+            break;
         }
-        return chineseName;
+        return result;
     }
 
     /**
-     * Setter method.
-     * 
-     * @param chineseName
-     *            the chinese name
-     */
-    public void setChineseName(RestrictedField chineseName)
-    {
-        this.chineseName = chineseName;
-    }
-
-    /**
-     * Getter method.
+     * Wrapper method.
      * 
      * @return the variants form of the name (include also Japanese, Korean,
      *         etc.)
      */
     public List<RestrictedField> getVariants()
     {
-        if (variants == null)
+        List<RestrictedField> results = new ArrayList<RestrictedField>();
+
+        for (RPProperty property : this.getDynamicField().getAnagrafica4view()
+                .get("fullname"))
         {
-            variants = new LinkedList<RestrictedField>();
+            RestrictedField result = new RestrictedField();
+            result.setValue(property.getValue().getObject().toString());
+            result.setVisibility(property.getVisibility());
+            results.add(result);
         }
-        return variants;
+        return results;
     }
 
     /**
-     * Setter method.
+     * Wrapper method
      * 
-     * @param variants
-     *            the variants form of the name (include also Japanese, Korean,
-     *            etc.)
+     * @return
      */
-    public void setVariants(List<RestrictedField> variants)
+    public RestrictedField getEmail()
     {
-        this.variants = variants;
+        RestrictedField result = new RestrictedField();
+        for (RPProperty property : this.getDynamicField().getAnagrafica4view()
+                .get("publicEmail"))
+        {
+            result.setValue(property.getValue().getObject().toString());
+            result.setVisibility(property.getVisibility());
+            break;
+        }
+        return result;
+
     }
 
     /**
@@ -491,47 +453,15 @@ public class ResearcherPage
     public List<String> getMetadata(String field)
     {
         List<String> result = new ArrayList();
-        if (field == null)
+
+        List<RPProperty> dyna = getDynamicField().getAnagrafica4view().get(
+                field);
+        for (RPProperty prop : dyna)
         {
-            throw new IllegalArgumentException("You must specified a field");
+            if (prop.getVisibility() == VisibilityConstants.PUBLIC)
+                result.add(prop.toString());
         }
 
-        if (field.equals("fullName"))
-        {
-            result.add(getFullName());
-        }
-        else if (field.equals("chineseName")
-                && getChineseName().getVisibility() == VisibilityConstants.PUBLIC)
-        {
-            result.add(getChineseName().getValue());
-        }
-        else if (field.equals("academicName")
-                && getAcademicName().getVisibility() == VisibilityConstants.PUBLIC)
-        {
-            result.add(getAcademicName().getValue());
-        }
-        else if (field.equals("variants"))                
-        {
-            for(RestrictedField variant : getVariants()) {
-                if(variant.getVisibility() == VisibilityConstants.PUBLIC) {
-                    result.add(variant.getValue());                    
-                }
-            }            
-        }
-        else if (field.equals("email"))
-        {
-            result.add(getEmail().getValue());
-        }
-        else
-        {
-            List<RPProperty> dyna = getDynamicField().getAnagrafica4view().get(
-                    field);
-            for (RPProperty prop : dyna)
-            {
-                if (prop.getVisibility() == VisibilityConstants.PUBLIC)
-                    result.add(prop.toString());
-            }
-        }
         return result;
     }
 
@@ -540,15 +470,15 @@ public class ResearcherPage
     {
         List<String> results = new ArrayList<String>();
         results.add(getFullName());
-        if (getAcademicName().getValue() != null
-                && !getAcademicName().getValue().isEmpty())
+        if (getPreferredName().getValue() != null
+                && !getPreferredName().getValue().isEmpty())
         {
-            results.add(getAcademicName().getValue());
+            results.add(getPreferredName().getValue());
         }
-        if (getChineseName().getValue() != null
-                && !getChineseName().getValue().isEmpty())
+        if (getTranslatedName().getValue() != null
+                && !getTranslatedName().getValue().isEmpty())
         {
-            results.add(getChineseName().getValue());
+            results.add(getTranslatedName().getValue());
         }
         for (RestrictedField rf : getVariants())
         {
@@ -565,15 +495,15 @@ public class ResearcherPage
     {
         List<String> results = new ArrayList<String>();
         results.add(getFullName());
-        if (getAcademicName().getValue() != null
-                && !getAcademicName().getValue().isEmpty())
+        if (getPreferredName().getValue() != null
+                && !getPreferredName().getValue().isEmpty())
         {
-            results.add(getAcademicName().getValue());
+            results.add(getPreferredName().getValue());
         }
-        if (getChineseName().getValue() != null
-                && !getChineseName().getValue().isEmpty())
+        if (getTranslatedName().getValue() != null
+                && !getTranslatedName().getValue().isEmpty())
         {
-            results.add(getChineseName().getValue());
+            results.add(getTranslatedName().getValue());
         }
         for (RestrictedField rf : getVariants())
         {
@@ -584,13 +514,6 @@ public class ResearcherPage
         }
         return results;
     }
-
-    // public ResearcherPage clone(ResearcherPage clone) {
-    // clone.setAcademicName(this.academicName);
-    // clone.setAddress(this.address);
-    // clone.setAuthorIdLinkScopus(this.authorIdLinkScopus);
-    // return null;
-    // }
 
     @Override
     public Object clone() throws CloneNotSupportedException
@@ -764,25 +687,41 @@ public class ResearcherPage
         this.dynamicField.pulisciAnagrafica();
     }
 
-    public void setEmail(RestrictedField email)
+    public EPerson getDspaceUser()
     {
-        this.email = email;
-    }
+        Context context = null;
+        EPerson eperson = null;
 
-    public RestrictedField getEmail()
-    {
-        return email;
-    }
+        try
+        {
+            context = new Context();
+            if (idEPerson == null)
+            {
 
-    public void setFullName(String fullName)
-    {
-        this.fullName = fullName;
-    }
+                eperson = EPerson.findByEmail(context, getEmail().getValue());
+            }
+            else
+            {
+                eperson = EPerson.find(context, idEPerson);
+            }
+        }
+        catch (SQLException e)
+        {
+            log.error(e.getMessage());
+        }
+        catch (AuthorizeException e)
+        {
+            log.error(e.getMessage());
+        }
+        finally
+        {
+            if (context != null && context.isValid())
+            {
+                context.abort();
+            }
+        }
 
-    public int getEPersonID()
-    {
-        // TODO Auto-generated method stub
-        return 0;
+        return eperson;
     }
 
 }

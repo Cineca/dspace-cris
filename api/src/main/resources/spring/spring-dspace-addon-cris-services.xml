@@ -34,6 +34,9 @@
 		abstract="true">		
 		<property name="modelDaos">
 			<map>
+				<entry key="it.cilea.osd.jdyna.web.Tab">
+					<ref bean="tabDao" />
+				</entry>
 				<entry key="it.cilea.hku.authority.model.ResearcherPage">
 					<ref bean="researcherPageDao" />
 				</entry>
@@ -180,7 +183,7 @@
 		</property>
 	</bean>
 		
-	<bean class="it.cilea.hku.authority.util.ResearcherPageUtils">
+	<bean id="researcherPageUtils" class="it.cilea.hku.authority.util.ResearcherPageUtils">
 		<constructor-arg ref="applicationService" />
 	</bean>	
 	
