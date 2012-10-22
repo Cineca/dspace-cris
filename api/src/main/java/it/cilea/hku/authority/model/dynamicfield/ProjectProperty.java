@@ -62,7 +62,7 @@ public class ProjectProperty extends Property<ProjectPropertiesDefinition> {
             AnagraficaSupport<? extends Property<ProjectPropertiesDefinition>, ProjectPropertiesDefinition> parent)
     {
         if(parent!=null) {
-            this.parent = ((ProjectAdditionalFieldStorage)parent).getResearcherGrant();
+            this.parent = ((ProjectAdditionalFieldStorage)parent).getProject();
         }
         else {
             this.parent = null;
