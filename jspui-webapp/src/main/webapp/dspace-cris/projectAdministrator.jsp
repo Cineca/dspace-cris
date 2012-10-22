@@ -78,6 +78,12 @@
 
 		</li>
 
+		<li>
+		<div style="padding: 0; margin: 0 10px;"><a
+			href="<%=request.getContextPath()%>/cris/administrator/project/list.htm"><fmt:message
+			key="jsp.dspace-admin.hku.see-project" /></a></div>
+		<div>&nbsp;</div>
+		</li>
 	
 	</ul>
 </dspace:layout>

@@ -11,6 +11,7 @@
 package it.cilea.hku.authority.webui.dto;
 
 import it.cilea.hku.authority.model.Project;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 
 
 /**
@@ -21,7 +22,7 @@ import it.cilea.hku.authority.model.Project;
  * @author pascarelli
  * 
  */
-public class ProjectDTO  {
+public class ProjectDTO {
 	
 	private Integer id;
 	private String code;
@@ -77,5 +78,6 @@ public class ProjectDTO  {
 	public void setInvestigators(String investigators) {
 		this.investigators = investigators;
 	}
+
 
 }

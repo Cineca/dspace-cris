@@ -16,11 +16,12 @@ import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.EditTabProject;
-import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
+import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty;
+import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.ProjectAnagraficaObjectDTO;
@@ -346,4 +347,63 @@ public class FormProjectDynamicMetadataController
 		return map;
 	}
 
+	
+	  @Override
+	    protected void onBindAndValidate(HttpServletRequest request,
+	            Object command, BindException errors) throws Exception
+	    {
+
+	        AnagraficaObjectAreaDTO dto = (AnagraficaObjectAreaDTO) command;
+	        Project researcher = getApplicationService().get(
+	                Project.class, dto.getParentId());
+	        ProjectAdditionalFieldStorage myObject = researcher.getDynamicField();
+
+	        EditTabProject editT = getApplicationService().get(
+	                EditTabProject.class, dto.getTabId());
+	        List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
+	        if (editT.getDisplayTab() != null)
+	        {
+	            for (BoxProject box : editT.getDisplayTab()
+	                    .getMask())
+	            {
+	                propertyHolders.add(box);
+	            }
+	        }
+	        else
+	        {
+	            propertyHolders = getApplicationService().findPropertyHolderInTab(
+	                    getClazzTab(), dto.getTabId());
+	        }
+
+	        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
+
+	        for (BoxProject iph : propertyHolders)
+	        {
+
+	            tipProprietaInArea
+	                    .addAll(getApplicationService()
+	                            .<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
+	                                    getClazzBox(), iph.getId()));
+
+	        }
+
+	        List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
+	        List<IContainable> structuralField = new LinkedList<IContainable>();
+	        for (IContainable c : tipProprietaInArea)
+	        {
+	            ProjectPropertiesDefinition rpPd = getApplicationService()
+	                    .findPropertiesDefinitionByShortName(
+	                            ProjectPropertiesDefinition.class, c.getShortName());
+	            if (rpPd != null)
+	            {
+	                realTPS.add(rpPd);
+	            }
+	            else
+	            {
+	                structuralField.add(c);
+	            }
+	        }
+	        AnagraficaUtils.reverseDTO(dto, myObject, realTPS);
+	        AnagraficaUtils.fillDTO(dto, myObject, realTPS);
+	    }
 }

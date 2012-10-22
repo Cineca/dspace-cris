@@ -10,16 +10,17 @@
  */
 package it.cilea.hku.authority.model;
 
+import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
-import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
-import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.model.export.ExportConstants;
 import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
 import it.cilea.osd.common.model.Identifiable;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,16 +30,11 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name = "cris_project")
@@ -98,13 +94,13 @@ public class Project
     public Investigator getInvestigator()
     {
         // TODO return a JDynA pointer
-        return null;
+        return new Investigator();
     }
 
     public List<Investigator> getCoInvestigators()
     {
         // TODO return a JDynA pointer
-        return null;
+        return new LinkedList<Investigator>();
     }
 
     /**
@@ -391,6 +387,34 @@ public class Project
     {
         // TODO Auto-generated method stub
 
+    }
+
+    /**
+     * Convenience method to get data from ResearcherPage by a string. For any
+     * existent field name the method must return the relative value (i.e
+     * getMetadata("fullName") is equivalent to getFullName()) but the method
+     * always return a list (with 0, 1 or more elements). For dynamic field it
+     * returns the value of the dynamic field with the shorter name equals to
+     * the argument. Only public values are returned!
+     * 
+     * 
+     * @param dcField
+     *            the field (not null) to retrieve the value
+     * @return a list of 0, 1 or more values
+     */
+    public List<String> getMetadata(String field)
+    {
+        List<String> result = new ArrayList();
+
+        List<ProjectProperty> dyna = getDynamicField().getAnagrafica4view().get(
+                field);
+        for (ProjectProperty prop : dyna)
+        {
+            if (prop.getVisibility() == VisibilityConstants.PUBLIC)
+                result.add(prop.toString());
+        }
+
+        return result;
     }
 
 }

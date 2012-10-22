@@ -181,10 +181,28 @@ public class ResearcherTagLibraryFunctions
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException
     {
-        BoxProject box = applicationService.getBoxByShortName(
-                BoxProject.class, boxName);
+        BoxProject box = applicationService.getBoxByShortName(BoxProject.class,
+                boxName);
 
         return isBoxHiddenInternal(anagrafica, box);
+
+    }
+
+    public static boolean isBoxHidden(Object anagrafica, String boxName)
+            throws IllegalArgumentException, IllegalAccessException,
+            InvocationTargetException
+    {
+        if(anagrafica instanceof Project) {
+            BoxProject box = applicationService.getBoxByShortName(BoxProject.class,
+                boxName);
+            return isBoxHidden((Project)anagrafica, box);
+        }
+        
+        BoxResearcherPage box = applicationService.getBoxByShortName(
+                BoxResearcherPage.class, boxName);
+
+        return isBoxHidden((ResearcherPage)anagrafica, box);
+
 
     }
 
@@ -195,8 +213,7 @@ public class ResearcherTagLibraryFunctions
                 && isBoxHiddenWithStructural(anagrafica, box);
     }
 
-    public static boolean isBoxHidden(Project anagrafica,
-            BoxProject box)
+    public static boolean isBoxHidden(Project anagrafica, BoxProject box)
     {
         return isBoxHiddenInternal(anagrafica, box);
     }
@@ -484,15 +501,14 @@ public class ResearcherTagLibraryFunctions
         return result;
     }
 
-    private static int countDynamicPublicMetadata(
-            RPAdditionalFieldStorage anagrafica, String shortname,
-            AWidget rendering, RPPropertiesDefinition rpPropertiesDefinition,
-            boolean onlyComplexValue)
+    public static <P extends Property<PD>, PD extends PropertiesDefinition, T extends AnagraficaSupport<P, PD>> int countDynamicPublicMetadata(
+            T anagrafica, String shortname, AWidget rendering,
+            PD rpPropertiesDefinition, boolean onlyComplexValue)
     {
         int result = 0;
         if (!onlyComplexValue)
         {
-            for (RPProperty p : anagrafica.getAnagrafica4view().get(shortname))
+            for (P p : anagrafica.getAnagrafica4view().get(shortname))
             {
                 if (p.getVisibility() == 1)
                 {

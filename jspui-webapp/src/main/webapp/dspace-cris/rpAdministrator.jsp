@@ -80,7 +80,7 @@
 
 		<li>
 		<div style="padding: 0; margin: 0 10px;"><a
-			href="<%=request.getContextPath()%>/cris/administrator/rp/researcherPages.htm"><fmt:message
+			href="<%=request.getContextPath()%>/cris/administrator/rp/list.htm"><fmt:message
 			key="jsp.dspace-admin.hku.see-researchers" /></a></div>
 		<div>&nbsp;</div>
 		</li>

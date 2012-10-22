@@ -21,22 +21,19 @@ import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.hku.authority.service.RPSubscribeService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
-import it.cilea.hku.authority.webui.components.IRPComponent;
-import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
-import it.cilea.osd.jdyna.model.Containable;
+import it.cilea.osd.jdyna.components.IComponent;
 import it.cilea.osd.jdyna.model.IContainable;
-import it.cilea.osd.jdyna.web.Box;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -71,8 +68,7 @@ public class ResearcherPageDetailsController
     public ResearcherPageDetailsController(
             Class<RPAdditionalFieldStorage> anagraficaObjectClass,
             Class<RPPropertiesDefinition> classTP,
-            Class<TabResearcherPage> classT,
-            Class<BoxResearcherPage> classH)
+            Class<TabResearcherPage> classT, Class<BoxResearcherPage> classH)
             throws InstantiationException, IllegalAccessException
     {
         super(anagraficaObjectClass, classTP, classT, classH);
@@ -85,8 +81,6 @@ public class ResearcherPageDetailsController
         }
     }
 
-    private Map<String, IRPComponent> components;
-
     private List<String> publistFilters;
 
     /** log4j category */
@@ -98,11 +92,6 @@ public class ResearcherPageDetailsController
     public void setRpSubscribeService(RPSubscribeService rpSubscribeService)
     {
         this.rpSubscribeService = rpSubscribeService;
-    }
-
-    public void setComponents(Map<String, IRPComponent> components)
-    {
-        this.components = components;
     }
 
     @Override
@@ -139,7 +128,6 @@ public class ResearcherPageDetailsController
             return null;
         }
 
-               
         Context context = UIUtil.obtainContext(request);
         EPerson currUser = context.getCurrentUser();
 
@@ -191,117 +179,25 @@ public class ResearcherPageDetailsController
                     researcher);
             model.put("subscribed", subscribed);
         }
-        // this map contains key-values pairs, key = box shortname and values =
-        // collection of metadata
-        Map<String, List<IContainable>> mapBoxToContainables = new HashMap<String, List<IContainable>>();
-        Map<String, Map<String,IContainable>> mapBoxToMapContainables = new HashMap<String, Map<String,IContainable>>();
-        List<IContainable> pDInTab = new LinkedList<IContainable>();
-        List<BoxResearcherPage> propertyHolders = new LinkedList<BoxResearcherPage>();
-        List<TabResearcherPage> tabs = findTabsWithVisibility(request, model, response);
-        Integer tabId = getTabId(request);
-        try
-        {
-            
-            TabResearcherPage t = null; 
-                
-            if (tabId == null)
-            {                
-                if(tabs!=null && !tabs.isEmpty()) {
-                    t = tabs.get(0);
-                    tabId = t.getId();
-                }
-            }
-            else {
-                t = applicationService.get(tabClass,
-                        tabId);                
-            }
 
-            if (tabId == null)
-            {
-                throw new RuntimeException(
-                        "No tabs to display contact administrator");
-            }
-
-      
-            if (!tabs.contains(t))
-            {
-                throw new RuntimeException(
-                        "You not have needed authorization level to display this tab");
-            }
-
-            // collection of boxs
-            propertyHolders = t.getMask();
-
-            String openbox = extractAnchorId(request);
-            // this piece of code get containables object from boxs and put them
-            // on map
-            for (BoxResearcherPage box : propertyHolders)
-            {
-
-                String boxShortName = box.getShortName();
-                List<IContainable> temp = applicationService
-                .<BoxResearcherPage, TabResearcherPage>findContainableInPropertyHolder(propertyHolderClass,
-                        box.getId());       
-                Map<String, IContainable> tempMap = new HashMap<String, IContainable>();
-                ((ExtendedTabService) applicationService).findOtherContainablesInBoxByConfiguration(
-                        box.getShortName(), temp,RPPropertiesDefinition.class.getName());
-                if (components != null)
-                {
-                    IRPComponent comp = components.get(boxShortName);
-                    if (comp != null)
-                    {
-                        comp.evalute(request, response);
-                    }
-                }
-
-                if (box.getShortName().equals(openbox))
-                {
-                    if (box.isCollapsed())
-                    {
-                        box.setCollapsed(false);                        
-                    }
-                }
-                
-                for(IContainable tt : temp) {
-                    tempMap.put(tt.getShortName(), tt);
-                }           
-
-                mapBoxToContainables.put(box.getShortName(), temp);
-                mapBoxToMapContainables.put(box.getShortName(), tempMap);
-                pDInTab.addAll(temp);
-            }
-            researcher.getDynamicField().inizializza();
-
+        ModelAndView mvc = null; 
+        
+        try {
+            mvc = super.handleDetails(request, response);
         }
-        catch (Exception e)
-        {
-            // TODO: Hack to redirect page if all the box are disabled after an
-            // edit, please fix.
-            // JSPManager.showAuthorizeError(request, response, new
-            // AuthorizeException(e.getMessage()));
-            log.error(e.getMessage(), e);           
-            response.sendRedirect("/cris/rp/"
-                    + ResearcherPageUtils.getPersistentIdentifier(researcher));
+        catch(RuntimeException e) {
+            log.error(e.getMessage(), e);
             return null;
         }
-        
-        Collections.sort(propertyHolders);
-        model.put("propertiesHolders", propertyHolders);
-        model.put("propertiesDefinitionsInHolder", mapBoxToContainables);
-        model.put("mapPropertiesDefinitionsInHolder", mapBoxToMapContainables);
-        model.put("tabList", tabs);
-        model.put("tabId", tabId);
-        model.put("path", modelPath);
-        model.put("anagraficaObject", researcher.getDynamicField());
-        model.put("addModeType", "display");
-        model.put("researcher", researcher);
-        model.put("exportscitations",
-                ConfigurationManager.getProperty("exportcitation.options"));
 
-        model.put("showStatsOnlyAdmin", ConfigurationManager
+        mvc.getModel().putAll(model);
+        mvc.getModel().put("researcher", researcher);
+        mvc.getModel().put("exportscitations",
+                ConfigurationManager.getProperty("exportcitation.options"));
+        mvc.getModel().put("showStatsOnlyAdmin", ConfigurationManager
                 .getBooleanProperty("statistics.item.authorization.admin"));
 
-        return new ModelAndView(detailsView, model);
+        return mvc;
     }
 
     @Override
@@ -333,11 +229,10 @@ public class ResearcherPageDetailsController
         {
             isAdmin = false; // owner
         }
-        List<TabResearcherPage> tabs = applicationService
-                .getTabsByVisibility(TabResearcherPage.class, isAdmin);
+        List<TabResearcherPage> tabs = applicationService.getTabsByVisibility(
+                TabResearcherPage.class, isAdmin);
         return tabs;
 
-       
     }
 
     @Override
@@ -363,30 +258,12 @@ public class ResearcherPageDetailsController
         String tabName = extractTabName(request);
         if (StringUtils.isNotEmpty(tabName))
         {
-            TabResearcherPage tab = applicationService
-                    .getTabByShortName(TabResearcherPage.class,
-                            tabName);
+            TabResearcherPage tab = applicationService.getTabByShortName(
+                    TabResearcherPage.class, tabName);
             if (tab != null)
                 return tab.getId();
         }
         return null;
-    }
-
-    private String extractAnchorId(HttpServletRequest request)
-    {
-        String type = request.getParameter("open");
-        if (publistFilters.contains(type))
-        {
-            return "dspaceitems";
-        }
-        else
-        {
-            if (type != null && !type.isEmpty())
-            {
-                return type;
-            }
-        }
-        return "";
     }
 
     private Integer extractResearcherId(HttpServletRequest request)
@@ -407,6 +284,32 @@ public class ResearcherPageDetailsController
         }
         else
             return null;
+    }
+
+    @Override
+    protected String extractAnchorId(HttpServletRequest request)
+    {
+        String type = request.getParameter("open");
+        if (publistFilters.contains(type))
+        {
+            return "dspaceitems";
+        }
+        else
+        {
+            if (type != null && !type.isEmpty())
+            {
+                return type;
+            }
+        }
+        return "";
+    }
+
+    @Override
+    protected void sendRedirect(HttpServletRequest request,
+            HttpServletResponse response, Exception ex, String objectId) throws IOException, ServletException
+    {
+        JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
+        //response.sendRedirect("/cris/rp/" + objectId);
     }
 
 }

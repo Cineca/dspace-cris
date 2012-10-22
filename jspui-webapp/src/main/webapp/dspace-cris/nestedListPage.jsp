@@ -109,7 +109,7 @@
 							var parameterId = this.id.substring(5, this.id.length);	
 							var pagefrom = parseInt(parameterId) + 1;
 							Loader.write("Loading ${decoratorPropertyDefinition.label}... Page "+ pagefrom  +" of ${totalpage}");
-							var ajaxurlrelations = "<%= request.getContextPath() %>/rp/viewNested.htm";
+							var ajaxurlrelations = "<%= request.getContextPath() %>/cris/${specificPartPath}/viewNested.htm";
 							j.ajax( {
 								url : ajaxurlrelations,
 								data : {																			

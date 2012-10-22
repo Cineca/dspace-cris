@@ -40,7 +40,7 @@ public class RPNavigationController
 
     private String getPublicationMenu()
     {
-        return ConfigurationManager.getProperty("cris.publicationlist.menu");
+        return ConfigurationManager.getProperty("researcherpage.publicationlist.menu");
     }
 
     @Override

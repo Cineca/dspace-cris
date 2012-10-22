@@ -38,8 +38,8 @@
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    	var ajaxurltabs = "<%=request.getContextPath()%>/cris/loadTabs.htm";
-    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/loadNavigation.htm";
+    	var ajaxurltabs = "<%=request.getContextPath()%>/cris/rp/loadTabs.htm";
+    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/rp/loadNavigation.htm";
     	
     	var LoaderSnippet = {    		
     		write : function(text, idelement) {
@@ -153,7 +153,7 @@
 			<td colspan="3"><fmt:message
 				key="jsp.layout.hku.detail.researcher-disabled" /><a
 				target="_blank"
-				href="<%=request.getContextPath()%>/cris/administrator/rp/researcherPages.htm?id=${entity.id}&mode=position"><fmt:message
+				href="<%=request.getContextPath()%>/cris/administrator/rp/list.htm?id=${entity.id}&mode=position"><fmt:message
 				key="jsp.layout.hku.detail.researcher-disabled.fixit" /></a></td>
 		</tr>
 	</c:if>

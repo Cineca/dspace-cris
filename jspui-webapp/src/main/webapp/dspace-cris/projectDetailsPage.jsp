@@ -15,7 +15,7 @@
 <%@ taglib uri="researchertags" prefix="researcher"%>
 <%@ page import="it.cilea.hku.authority.util.ResearcherPageUtils"%>
 <c:set var="root"><%=request.getContextPath()%></c:set>
-<c:set var="entity" value="${grant}" scope="request" />
+<c:set var="entity" value="${project}" scope="request" />
 
 <c:set var="dspace.layout.head" scope="request">
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
@@ -26,8 +26,8 @@
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    	var ajaxurltabs = "<%=request.getContextPath()%>/cris/loadTabs.htm";
-    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/loadNavigation.htm";
+    	var ajaxurltabs = "<%=request.getContextPath()%>/cris/project/loadTabs.htm";
+    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/project/loadNavigation.htm";
     	
     	var LoaderSnippet = {    		
     		write : function(text, idelement) {
@@ -115,21 +115,21 @@
     
 </c:set>
 
-<dspace:layout titlekey="jsp.researcher-page.details">
+<dspace:layout titlekey="jsp.project.details">
 
 <table align="center" class="miscTable">
 <tr>
 <td>
 
 <div id="content">
-<h1><fmt:message key="jsp.layout.hku.detail.title-first" /> ${entity.code}</h1>
+<h1><fmt:message key="jsp.layout.project.detail.title-first" /> ${entity.code}</h1>
 <div>&nbsp;</div>
 <table align="center" class="miscTable">
 	<c:if test="${!entity.status}">
 		<div class="warning">
 			<fmt:message key="jsp.layout.hku.detail.grant-disabled" />
 			<a target="_blank"
-				href="<%=request.getContextPath()%>/cris/tools/project/editDynamicData.htm?id=${entity.id}">
+				href="<%=request.getContextPath()%>/cris/administrator/project/list.htm?id=${entity.id}&mode=position">
 				<fmt:message key="jsp.layout.hku.detail.grant-disabled.fixit" />
 			</a>
 		</div>
@@ -139,7 +139,7 @@
 
 		<td>
 
-		<div id="project">
+		<div id="researcher">
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 

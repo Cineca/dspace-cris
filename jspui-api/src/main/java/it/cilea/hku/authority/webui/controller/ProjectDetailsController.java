@@ -11,33 +11,31 @@
 package it.cilea.hku.authority.webui.controller;
 
 import it.cilea.hku.authority.model.Project;
+import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
 import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 import it.cilea.hku.authority.model.dynamicfield.TabProject;
 import it.cilea.hku.authority.service.ApplicationService;
-import it.cilea.hku.authority.service.ExtendedTabService;
-import it.cilea.osd.jdyna.model.AnagraficaSupport;
-import it.cilea.osd.jdyna.model.IContainable;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.webui.util.Authenticate;
 import org.dspace.app.webui.util.JSPManager;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
-import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.springframework.web.servlet.ModelAndView;
@@ -55,8 +53,7 @@ public class ProjectDetailsController
         SimpleDynaController<ProjectProperty, ProjectPropertiesDefinition, BoxProject, TabProject>
 {
 
-    public ProjectDetailsController(
-            Class<Project> anagraficaObjectClass,
+    public ProjectDetailsController(Class<Project> anagraficaObjectClass,
             Class<ProjectPropertiesDefinition> classTP,
             Class<TabProject> classT, Class<BoxProject> classH)
             throws InstantiationException, IllegalAccessException
@@ -73,44 +70,8 @@ public class ProjectDetailsController
             HttpServletResponse response) throws Exception
     {
         Map<String, Object> model = new HashMap<String, Object>();
-        Project grant = null;
-        String id = request.getParameter("id");
-        if (id != null && !id.isEmpty())
-        {
-            Integer objectId = Integer.parseInt(id);
-            if (objectId == -1)
-            {
-                String projectCode = request.getParameter("code");
-                if (projectCode != null && !projectCode.isEmpty())
-                {
-                    grant = ((ApplicationService) applicationService)
-                            .getResearcherGrantByCode(projectCode);
-                }
-                else
-                {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND,
-                            "Grant page not found");
-                    return null;
-                }
-            }
-            else
-            {
-                try
-                {
-                    grant = applicationService.get(Project.class,
-                            objectId);
-                }
-                catch (NumberFormatException e)
-                {
-                }
-            }
-        }
-        else
-        {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND,
-                    "Grant page not found");
-            return null;
-        }
+
+        Project grant = extractProject(request);
 
         if (grant == null)
         {
@@ -119,7 +80,6 @@ public class ProjectDetailsController
             return null;
         }
 
-        model.put("grant", grant);
         Context context = UIUtil.obtainContext(request);
 
         if ((grant.getStatus() == null || grant.getStatus().booleanValue() == false)
@@ -149,33 +109,26 @@ public class ProjectDetailsController
             model.put("grant_page_menu", new Boolean(true));
         }
 
-        ModelAndView mvc = super.handleDetails(request, response);
+        ModelAndView mvc = null;
 
-        List<IContainable> pDInTab = (List<IContainable>) mvc.getModel().get(
-                "propertiesDefinitionsInTab");
-        Map<String, List<IContainable>> mapBoxToContainables = (Map<String, List<IContainable>>) mvc
-                .getModel().get("propertiesDefinitionsInHolder");
-        for (String boxShortName : mapBoxToContainables.keySet())
+        try
         {
-            List<IContainable> temp = new LinkedList<IContainable>();
-            ((ExtendedTabService) applicationService)
-                    .findOtherContainablesInBoxByConfiguration(boxShortName,
-                            temp);
-            pDInTab.addAll(temp);
-            mapBoxToContainables.get(boxShortName).addAll(temp);
-
+            mvc = super.handleDetails(request, response);
         }
-
-        mvc.getModel().put("propertiesDefinitionsInHolder",
-                mapBoxToContainables);
-
+        catch (RuntimeException e)
+        {
+            return null;
+        }
+        request.setAttribute("authority", grant.getCode());
         mvc.getModel().putAll(model);
+        mvc.getModel().put("project", grant);
         return mvc;
     }
 
     @Override
     protected List<TabProject> findTabsWithVisibility(
-            HttpServletRequest request, Map<String, Object> model, HttpServletResponse response) throws SQLException, Exception
+            HttpServletRequest request, Map<String, Object> model,
+            HttpServletResponse response) throws SQLException, Exception
     {
 
         // check admin authorization
@@ -193,4 +146,106 @@ public class ProjectDetailsController
         return tabs;
     }
 
+    @Override
+    protected Integer getTabId(HttpServletRequest request)
+    {
+        String tabName = extractTabName(request);
+        if (StringUtils.isNotEmpty(tabName))
+        {
+            TabProject tab = applicationService.getTabByShortName(
+                    TabProject.class, tabName);
+            if (tab != null)
+                return tab.getId();
+        }
+        return null;
+    }
+
+    @Override
+    protected String extractAnchorId(HttpServletRequest request)
+    {
+        String type = request.getParameter("open");
+
+        if (type != null && !type.isEmpty())
+        {
+            return type;
+        }
+
+        return "";
+    }
+
+    private String extractTabName(HttpServletRequest request)
+    {
+        String path = request.getPathInfo().substring(1); // remove first /
+        String[] splitted = path.split("/");
+        if (splitted.length > 2)
+        {
+            return splitted[2].replaceAll("\\.html", "");
+        }
+        else
+            return null;
+    }
+
+    @Override
+    protected void sendRedirect(HttpServletRequest request,
+            HttpServletResponse response, Exception ex, String objectId)
+            throws IOException
+    {
+        response.sendRedirect("/cris/project/details?id=" + objectId);
+    }
+
+    @Override
+    protected Integer getAnagraficaId(HttpServletRequest request)
+    {
+        Project grant = null;
+        try
+        {
+            grant = extractProject(request);
+        }
+        catch (NumberFormatException e)
+        {
+            return -1;
+        }
+        return grant.getDynamicField().getId();
+    }
+
+    private Project extractProject(HttpServletRequest request)
+    {
+
+        Project grant = null;
+        String id = request.getParameter("id");
+        if (id == null || id.isEmpty())
+        {
+
+            String projectCode = request.getParameter("code");
+            if (projectCode != null && !projectCode.isEmpty())
+            {
+                grant = ((ApplicationService) applicationService)
+                        .getResearcherGrantByCode(projectCode);
+            }
+            else
+            {
+                String path = request.getPathInfo().substring(1); // remove
+                                                                  // first /
+                String[] splitted = path.split("/");
+                grant = ((ApplicationService) applicationService)
+                        .getResearcherGrantByCode(splitted[1]);
+            }
+
+        }
+        else
+        {
+            try
+            {
+                grant = applicationService.get(Project.class,
+                        Integer.parseInt(id));
+            }
+            catch (NumberFormatException e)
+            {
+                log.error(e.getMessage(), e);
+            }
+        }
+
+        return grant;
+
+    }
 }

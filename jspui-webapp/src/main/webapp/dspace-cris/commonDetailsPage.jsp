@@ -90,7 +90,7 @@
 
 			
 										<c:if
-											test="${tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRPTypeNested'}">
+											test="${dyna:instanceOf(tipologiaDaVisualizzare,'it.cilea.osd.jdyna.model.ADecoratorTypeDefinition')}">
 											
 											
 												<c:set var="totalHit" value="0"/>
@@ -146,7 +146,7 @@
 														
 										</c:if>
 										<c:if
-											test="${tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRPPropertiesDefinition'}">
+											test="${dyna:instanceOf(tipologiaDaVisualizzare,'it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition')}">
 											<dyna:display tipologia="${tipologiaDaVisualizzare.real}"
 												hideLabel="${hideLabel}"
 												values="${anagraficaObject.anagrafica4view[tipologiaDaVisualizzare.shortName]}" />

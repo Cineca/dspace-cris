@@ -98,7 +98,7 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage</value>
+			<value>it.cilea.hku.authority.model.ResearcherPage</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
@@ -126,13 +126,13 @@
 		</property>		
 	</bean>
 	
-	<bean id="adminResearcherPageController"
+	<bean id="adminListResearcherPageController"
 		class="it.cilea.hku.authority.webui.controller.FormAdministrationResearcherController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<property name="successView">
-			<value>redirect:/cris/administrator/rp/researcherPages.htm</value>
+			<value>redirect:/cris/administrator/rp/list.htm</value>
 		</property>
 		<property name="formView">
 			<value>administratorResearchersForm</value>
@@ -653,7 +653,7 @@
 			<value>redirect:/cris/rp/</value>
 		</property>
 		<property name="formView">
-			<value>/jdyna/dynamicDataEditForm</value>
+			<value>/jdyna/rpDataEditForm</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.RPAnagraficaObjectDTO</value>
@@ -750,7 +750,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
@@ -787,7 +787,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
@@ -824,7 +824,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
@@ -861,7 +861,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
@@ -911,7 +911,7 @@
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage</value>
+			<value>it.cilea.hku.authority.model.Project</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
@@ -957,6 +957,25 @@
 		</property>
 		<property name="formView">
 			<value>administrator</value>
+		</property>
+	</bean>
+	
+	<bean id="adminListProjectController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationProjectController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/list.htm</value>
+		</property>
+		<property name="formView">
+			<value>administratorProjectsForm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.util.ProjectDisplayTagData</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
 		</property>
 	</bean>
 	
@@ -1133,7 +1152,7 @@
 			<value>delete</value>
 		</property>
 		<property name="listView">
-			<value>redirect:/cris/administrator/project/listPropertiesDefinitions.htm</value>
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 	</bean>
 
@@ -1157,7 +1176,7 @@
 			</value>
 		</constructor-arg>
 		<property name="successView">
-			<value>redirect:/cris/administrator/project/listPropertiesDefinitions.htm</value>
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
@@ -1194,7 +1213,7 @@
 			</value>
 		</constructor-arg>
 		<property name="successView">
-			<value>redirect:/cris/administrator/project/listPropertiesDefinitions.htm</value>
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
@@ -1230,7 +1249,7 @@
 			</value>
 		</constructor-arg>
 		<property name="successView">
-			<value>redirect:/cris/administrator/project/listPropertiesDefinitions.htm</value>
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
@@ -1266,7 +1285,7 @@
 			</value>
 		</constructor-arg>
 		<property name="successView">
-			<value>redirect:/cris/administrator/project/listPropertiesDefinitions.htm</value>
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
@@ -1375,10 +1394,10 @@
 			<value>it.cilea.hku.authority.model.Project</value>
 		</property>
 		<property name="successView">
-			<value>redirect:/rp/</value>
+			<value>redirect:/cris/project/</value>
 		</property>
 		<property name="formView">
-			<value>/jdyna/dynamicDataEditForm</value>
+			<value>/jdyna/projectDataEditForm</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.ProjectAnagraficaObjectDTO</value>
@@ -1396,7 +1415,7 @@
 	
 	
 	
-	<bean id="viewProjectNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.RPNestedDetailsController">
+	<bean id="viewProjectNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectNestedDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1413,7 +1432,7 @@
 		</property>			
 	</bean>
 
-	<bean id="deleteProjectNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.RPNestedDetailsController">
+	<bean id="deleteProjectNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectNestedDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1479,7 +1498,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
@@ -1516,7 +1535,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
@@ -1553,7 +1572,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
@@ -1590,7 +1609,7 @@
 				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
@@ -1744,6 +1763,50 @@
 		</property>	
 	</bean>		
 	
+	<bean id="loadProjectTabs" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectLoaderTabsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="specificPath">
+			<value>project</value>
+		</property>								
+		<property name="detailsView">
+			<value>jdyna/loadtabs</value>
+		</property>		
+
+<!-- 		<property name="components">
+			<map>
+				<entry key="dspaceitems">
+					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
+				</entry>				
+			</map>
+		</property>			 -->
+		
+	</bean>	
+		
+	<bean id="loadProjectNavigation" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectNavigationController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="specificPath">
+			<value>project</value>
+		</property>				
+		<property name="detailsView">
+			<value>layout/navigation</value>
+		</property>		
+
+		<!-- 		<property name="components">
+			<map>
+				<entry key="dspaceitems">
+					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
+				</entry>				
+			</map>
+		</property>			 -->			
+	</bean>
+	
+				
+	
+	
 	<!-- url mapping -->	
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -1773,8 +1836,10 @@
 				
 								
 				<!-- Controller to load embedded navigation and calculate if show or hidden the Tabs -->
-				<prop key="/loadNavigation.htm">loadRPNavigation</prop>
-				<prop key="/loadTabs.htm">loadRPTabs</prop>
+				<prop key="/rp/loadNavigation.htm">loadRPNavigation</prop>
+				<prop key="/rp/loadTabs.htm">loadRPTabs</prop>
+				<prop key="/project/loadNavigation.htm">loadProjectNavigation</prop>
+				<prop key="/project/loadTabs.htm">loadProjectTabs</prop>
 				
 				<!-- RP tools -->
 				<prop key="/tools/rebindItemsToRP.htm">reBindItemToRpController</prop>
@@ -1786,7 +1851,7 @@
 				<prop key="/administrator/project/index.htm">adminProjectController</prop>
 				
 				<!-- Administration RP list and add functionality -->							
-				<prop key="/administrator/rp/researcherPages.htm">adminResearcherPageController</prop>								
+				<prop key="/administrator/rp/list.htm">adminListResearcherPageController</prop>								
 				<prop key="/administrator/rp/addResearcherPage.htm">adminAddResearcherPageController</prop>			
 				
 				<!-- RP Tabs/Box and properties definitions -->
@@ -1825,8 +1890,11 @@
 				<prop key="/tools/project/editDynamicData.htm">editProjectDynamicDataController</prop>
 
 				<!-- Project details URL -->
+				<prop key="/project/*">detailsProjectController</prop>								
+				<prop key="/project/*/*">detailsProjectController</prop>								
 		        <prop key="/project/details.htm">detailsProjectController</prop>		        
 		        <!-- Administration add Project -->
+		        <prop key="/administrator/project/list.htm">adminListProjectController</prop>								
 		        <prop key="/administrator/project/addProject.htm">adminAddProjectController</prop>		        
 		        
 		        <!-- Project Tabs/Box and properties definitions -->		        				

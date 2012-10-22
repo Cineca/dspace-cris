@@ -14,7 +14,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.cilea.osd.jdyna.model.PropertiesDefinition"%>
 <%@page
-	import="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition"%>
+	import="it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition"%>
 <%@page
 	import="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField"%>
 	
@@ -321,7 +321,7 @@
 
 									LoaderSnippet.write("Loading... ${tipologiaDaVisualizzare.label}", "logcontent1_${tipologiaDaVisualizzare.shortName}");									
 									var parameterId = this.id;																	
-									var ajaxurlrelations = "<%=request.getContextPath()%>/rp/viewNested.htm";
+									var ajaxurlrelations = "<%=request.getContextPath()%>/cris/${specificPartPath}/viewNested.htm";
 									j.ajax( {
 										url : ajaxurlrelations,
 										data : {																			
@@ -363,7 +363,7 @@
 												parameters.add(pageContext.getAttribute(
 														"simpleNameAnagraficaObject").toString());
 												parameters
-														.add(((DecoratorRPPropertiesDefinition) pageContext
+														.add(((ADecoratorPropertiesDefinition) pageContext
 																.getAttribute("tipologiaDaVisualizzare"))
 																.getShortName());
 												pageContext.setAttribute("parameters", parameters);
