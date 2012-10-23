@@ -127,7 +127,7 @@
 
 
 
-<h1>${project.code}</h1>
+<h1>${project.sourceID}</h1>
 
 
 <c:if test="${not empty messages}">

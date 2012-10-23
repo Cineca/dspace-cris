@@ -11,7 +11,7 @@
 <%@page import="java.util.ArrayList"%>	
 <%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@page
-	import="it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition"%>
+	import="it.cilea.osd.jdyna.model.ANestedPropertiesDefinition"%>
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
@@ -90,7 +90,7 @@
 												parameters.add(pageContext.getAttribute(
 														"simpleNameAnagraficaObject").toString());
 												parameters
-														.add(((RPNestedPropertiesDefinition) pageContext
+														.add(((ANestedPropertiesDefinition) pageContext
 																.getAttribute("tipologiaDaVisualizzare"))
 																.getShortName());
 												pageContext.setAttribute("parameters", parameters);

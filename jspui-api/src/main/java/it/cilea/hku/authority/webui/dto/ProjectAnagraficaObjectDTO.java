@@ -40,7 +40,7 @@ public class ProjectAnagraficaObjectDTO extends AnagraficaObjectAreaDTO {
 	public ProjectAnagraficaObjectDTO(Project grant) {
 		super();
 		this.setStatus(grant.getStatus());
-		this.setRgCode(grant.getCode());
+		this.setRgCode(grant.getSourceID());
 	}
 
 	public boolean getStatus() {

@@ -51,7 +51,7 @@ public class FormAdministrationAddResearcherController extends
 						+ "administrator/index.htm?error=true");
 			} else {
 				researcher = new ResearcherPage();
-				researcher.setStaffNo(staffNo);
+				researcher.setSourceID(staffNo);
 				researcher.setStatus(false);
 				researcher.getDynamicField().setResearcherPage(researcher);
 				RPProperty property = researcher.getDynamicField().createProprieta(applicationService.findPropertiesDefinitionByShortName(RPPropertiesDefinition.class, "fullName"));

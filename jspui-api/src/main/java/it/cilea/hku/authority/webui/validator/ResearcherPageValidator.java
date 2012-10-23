@@ -39,7 +39,7 @@ public class ResearcherPageValidator implements Validator
                 "error.fullName.mandatory", "FullName is mandatory");
 
         
-        String staffNo = researcher.getStaffNo();
+        String staffNo = researcher.getSourceID();
         if (staffNo!=null)
         {
             ResearcherPage temp = applicationService

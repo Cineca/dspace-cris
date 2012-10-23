@@ -1,6 +1,8 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.hku.authority.model.Project;
+import it.cilea.hku.authority.model.UUIDSupport;
+import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
@@ -34,10 +36,13 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "ProjectNestedObject.findNestedObjectsByParentIDAndTypoID", query = "from ProjectNestedObject where parent.id = ? and typo.id = ?"),
         @NamedQuery(name = "ProjectNestedObject.paginateNestedObjectsByParentIDAndTypoID.asc.asc", query = "from ProjectNestedObject where parent.id = ? and typo.id = ?"),
         @NamedQuery(name = "ProjectNestedObject.countNestedObjectsByParentIDAndTypoID", query = "select count(*) from ProjectNestedObject where parent.id = ? and typo.id = ?"),
+        @NamedQuery(name = "ProjectNestedObject.findActiveNestedObjectsByParentIDAndTypoID", query = "from ProjectNestedObject where parent.id = ? and typo.id = ? and status = true"),
+        @NamedQuery(name = "ProjectNestedObject.paginateActiveNestedObjectsByParentIDAndTypoID.asc.asc", query = "from ProjectNestedObject where parent.id = ? and typo.id = ? and status = true"),
+        @NamedQuery(name = "ProjectNestedObject.countActiveNestedObjectsByParentIDAndTypoID", query = "select count(*) from ProjectNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "ProjectNestedObject.findNestedObjectsByTypoID", query = "from ProjectNestedObject where typo.id = ?"),
         @NamedQuery(name = "ProjectNestedObject.deleteNestedObjectsByTypoID", query = "delete from ProjectNestedObject where typo.id = ?")
         })
-public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNestedProperty, ProjectNestedPropertiesDefinition> 
+public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNestedProperty, ProjectNestedPropertiesDefinition> implements UUIDSupport, HasTimeStampInfo 
 {
     
     @OneToMany(mappedBy = "parent")

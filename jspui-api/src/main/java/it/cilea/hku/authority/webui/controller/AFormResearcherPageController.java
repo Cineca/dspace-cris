@@ -47,7 +47,7 @@ public abstract class AFormResearcherPageController extends BaseFormController {
         Context context = UIUtil.obtainContext(request);
         EPerson currUser = context.getCurrentUser();
         if (AuthorizeManager.isAdmin(context)
-                || (currUser != null && researcher.getStaffNo().equals(
+                || (currUser != null && researcher.getSourceID().equals(
                         currUser.getNetid())))
         {
             reference.put("researcher_page_menu", new Boolean(true));

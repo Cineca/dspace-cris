@@ -86,7 +86,7 @@ public class FormAdministrationProjectController extends
         for(Project r : researchers) {             
             ProjectDTO rpd = new ProjectDTO();
             rpd.setId(r.getId());
-            rpd.setCode(r.getCode());
+            rpd.setCode(r.getSourceID());
             rpd.setTitle(r.getTitle());            
             rpd.setInvestigators(r.getInvestigatorToDisplay());            
             rpd.setStatus(r.getStatus());

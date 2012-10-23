@@ -16,13 +16,17 @@ import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.EditTabProject;
+import it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty;
 import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
+import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
+import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
+import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.ProjectAnagraficaObjectDTO;
 import it.cilea.osd.jdyna.dto.AnagraficaObjectAreaDTO;
@@ -48,362 +52,450 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 public class FormProjectDynamicMetadataController
-		extends
-		AFormDynamicRGController<ProjectProperty, ProjectPropertiesDefinition, BoxProject, EditTabProject, AnagraficaObject<ProjectProperty, ProjectPropertiesDefinition>, ProjectNestedObject, ProjectNestedProperty, ProjectNestedPropertiesDefinition> {
+        extends
+        AFormDynamicRGController<ProjectProperty, ProjectPropertiesDefinition, BoxProject, EditTabProject, AnagraficaObject<ProjectProperty, ProjectPropertiesDefinition>, ProjectNestedObject, ProjectNestedProperty, ProjectNestedPropertiesDefinition>
+{
 
-	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-		String paramTabId = request.getParameter("tabId");
-		String paramId = request.getParameter("id");
+    @Override
+    protected Map referenceData(HttpServletRequest request, Object command,
+            Errors errors) throws Exception
+    {
 
-		Integer id = null;
-		Boolean isAdmin = false;
-		if (paramId != null) {
-			id = Integer.parseInt(paramId);
-		}
-		Project grant = getApplicationService().get(
-				Project.class, id);
-		Context context = UIUtil.obtainContext(request);
-		if (!AuthorizeManager.isAdmin(context)) {
-			throw new AuthorizeException("Only system admin can edit");
-		} else {
-			isAdmin = true;
-		}
+        // call super method
+        Map<String, Object> map = super.referenceData(request);
 
-		List<EditTabProject> tabs = getApplicationService()
-				.getTabsByVisibility(EditTabProject.class, isAdmin);
+        // this map contains key-values pairs, key = box shortname and values =
+        // collection of metadata
+        Map<String, List<IContainable>> mapBoxToContainables = new HashMap<String, List<IContainable>>();
 
-		Integer areaId;
-		if (paramTabId == null) {
-			if (tabs.isEmpty()) {
-				throw new AuthorizeException("No tabs defined!!");
-			}
-			areaId = tabs.get(0).getId();
-		} else {
-			areaId = Integer.parseInt(paramTabId);
-		}
+        AnagraficaObjectAreaDTO anagraficaObjectDTO = (AnagraficaObjectAreaDTO) command;
 
-		EditTabProject editT = getApplicationService().get(
-				EditTabProject.class, areaId);
-		List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
-		if (editT.getDisplayTab() != null) {
-			for (BoxProject box : editT.getDisplayTab().getMask()) {
-				propertyHolders.add(box);
-			}
-		} else {
-			propertyHolders = getApplicationService().findPropertyHolderInTab(
-					getClazzTab(), areaId);
-		}
+        // check admin authorization
+        boolean isAdmin = false;
+        Context context = UIUtil.obtainContext(request);
+        if (AuthorizeManager.isAdmin(context))
+        {
+            isAdmin = true;
+        }
 
-		List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
+        // collection of edit tabs (all edit tabs created on system associate to
+        // visibility)
+        List<EditTabProject> tabs = getApplicationService()
+                .getTabsByVisibility(EditTabProject.class, isAdmin);
 
-		for (BoxProject iph : propertyHolders) {
-			if (editT.getDisplayTab() != null) {
-				tipProprietaInArea
-						.addAll(getApplicationService()
-								.<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
-										BoxProject.class, iph.getId()));
-			} else {
-				tipProprietaInArea
-						.addAll(getApplicationService()
-								.<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
-										getClazzBox(), iph.getId()));
-			}
-		}
+        // check if request tab from view is active (check on collection before)
+        EditTabProject editT = getApplicationService().get(
+                EditTabProject.class, anagraficaObjectDTO.getTabId());
+        if (!tabs.contains(editT))
+        {
+            throw new AuthorizeException(
+                    "You not have needed authorization level to display this tab");
+        }
 
-		ProjectAnagraficaObjectDTO anagraficaObjectDTO = new ProjectAnagraficaObjectDTO(
-				grant);
-		anagraficaObjectDTO.setTabId(areaId);
-		anagraficaObjectDTO.setObjectId(grant.getId());
-		anagraficaObjectDTO.setParentId(grant.getId());
-		if (grant.getInvestigator() != null) {
-			if (grant.getInvestigator().getIntInvestigator() != null) {
-				anagraficaObjectDTO.setInvestigator(ResearcherPageUtils
-						.getPersistentIdentifier(grant.getInvestigator()
-								.getIntInvestigator().getId()));
-			} else {
-				anagraficaObjectDTO.setInvestigator(grant.getInvestigator()
-						.getExtInvestigator());
-			}
-		}
+        // collection of boxs
+        List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
 
-		for (Investigator inv : grant.getCoInvestigators()) {
-			if (inv.getIntInvestigator() != null) {
-				anagraficaObjectDTO.getCoInvestigators().add(
-						ResearcherPageUtils
-								.getPersistentIdentifier(inv.getIntInvestigator()));
-			} else {
-				anagraficaObjectDTO.getCoInvestigators().add(
-						inv.getExtInvestigator());
-			}
-		}
+        // if edit tab got a display tab (edit tab is hookup to display tab)
+        // then edit box will be created from display box otherwise get all boxs
+        // in edit tab
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxProject box : editT.getDisplayTab().getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), anagraficaObjectDTO.getTabId());
+        }
 
-		List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
-		List<IContainable> structuralField = new LinkedList<IContainable>();
-		for (IContainable c : tipProprietaInArea) {
-			ProjectPropertiesDefinition rpPd = getApplicationService()
-					.findPropertiesDefinitionByShortName(
-							ProjectPropertiesDefinition.class, c.getShortName());
-			if (rpPd != null) {
-				realTPS.add(((DecoratorProjectPropertiesDefinition) getApplicationService()
-						.findContainableByDecorable(
-								getClazzTipologiaProprieta().newInstance()
-										.getDecoratorClass(), c.getId()))
-						.getReal());
-			} else {
-				structuralField.add(c);
-			}
-		}
-		AnagraficaUtils.fillDTO(anagraficaObjectDTO, grant, realTPS);
-		return anagraficaObjectDTO;
-	}
+        // clean boxs list with accesslevel
+        List<BoxProject> propertyHoldersCurrentAccessLevel = new LinkedList<BoxProject>();
+        for (BoxProject propertyHolder : propertyHolders)
+        {
+            if (isAdmin)
+            {
+                if (!propertyHolder.getVisibility().equals(
+                        VisibilityTabConstant.LOW))
+                {
+                    propertyHoldersCurrentAccessLevel.add(propertyHolder);
+                }
+            }
+            else
+            {
+                if (!propertyHolder.getVisibility().equals(
+                        VisibilityTabConstant.ADMIN))
+                {
+                    propertyHoldersCurrentAccessLevel.add(propertyHolder);
+                }
+            }
+        }
+        Collections.sort(propertyHoldersCurrentAccessLevel);
+        // this piece of code get containables object from boxs and put them on
+        // map
+        List<IContainable> pDInTab = new LinkedList<IContainable>();
+        for (BoxProject iph : propertyHoldersCurrentAccessLevel)
+        {
+            List<IContainable> temp = getApplicationService()
+                    .<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
+                            getClazzBox(), iph.getId());
+            mapBoxToContainables.put(iph.getShortName(), temp);
+            pDInTab.addAll(temp);
+        }
 
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request,
-			HttpServletResponse response, Object object, BindException errors)
-			throws Exception {
-		ProjectAnagraficaObjectDTO anagraficaObjectDTO = (ProjectAnagraficaObjectDTO) object;
+        map.put("propertiesHolders", propertyHoldersCurrentAccessLevel);
+        map.put("propertiesDefinitionsInTab", pDInTab);
+        map.put("propertiesDefinitionsInHolder", mapBoxToContainables);
+        map.put("tabList", tabs);
+        map.put("simpleNameAnagraficaObject", getClazzAnagraficaObject()
+                .getSimpleName());
+        map.put("addModeType", "edit");
+        return map;
+    }
 
-		String exitPage = "redirect:/cris/project/details.htm?id="
-				+ +anagraficaObjectDTO.getParentId();
+    @Override
+    protected Object formBackingObject(HttpServletRequest request)
+            throws Exception
+    {
+        String paramFuzzyTabId = request.getParameter("hooktabId");
+        String paramTabId = request.getParameter("tabId");
+        String paramId = request.getParameter("id");
 
-		EditTabProject editT = getApplicationService().get(
-				EditTabProject.class, anagraficaObjectDTO.getTabId());
-		if (anagraficaObjectDTO.getNewTabId() != null) {
-			exitPage += "&tabId=" + anagraficaObjectDTO.getNewTabId();
-		}
+        Integer id = null;
+        Boolean isAdmin = false;
+        if (paramId != null)
+        {
+            id = Integer.parseInt(paramId);
+        }
+        Project grant = getApplicationService().get(Project.class, id);
+        Context context = UIUtil.obtainContext(request);
+        if (!AuthorizeManager.isAdmin(context))
+        {
+            throw new AuthorizeException("Only system admin can edit");
+        }
+        else
+        {
+            isAdmin = true;
+        }
 
-		if (request.getParameter("cancel") != null) {
-			return new ModelAndView(exitPage);
-		}
-		Project grant = getApplicationService().get(
-				Project.class, anagraficaObjectDTO.getParentId());
+        Integer areaId;
+        if (paramTabId == null)
+        {
+            if (paramFuzzyTabId == null)
+            {
+                List<EditTabProject> tabs = getApplicationService()
+                        .getTabsByVisibility(EditTabProject.class, isAdmin);
+                if (tabs.isEmpty())
+                {
+                    throw new AuthorizeException("No tabs defined!!");
+                }
+                areaId = tabs.get(0).getId();
+            }
+            else
+            {
+                EditTabProject fuzzyEditTab = (EditTabProject) ((ApplicationService) getApplicationService())
+                        .getEditTabByDisplayTab(
+                                Integer.parseInt(paramFuzzyTabId),
+                                EditTabProject.class);
+                areaId = fuzzyEditTab.getId();
+            }
+        }
+        else
+        {
+            areaId = Integer.parseInt(paramTabId);
+        }
 
-		List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
-		if (editT.getDisplayTab() != null) {
-			for (BoxProject box : editT.getDisplayTab().getMask()) {
-				propertyHolders.add(box);
-			}
-		} else {
-			propertyHolders = getApplicationService().findPropertyHolderInTab(
-					getClazzTab(), anagraficaObjectDTO.getTabId());
-		}
+        EditTabProject editT = getApplicationService().get(
+                EditTabProject.class, areaId);
+        List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxProject box : editT.getDisplayTab().getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), areaId);
+        }
 
-		List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
+        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-		for (BoxProject iph : propertyHolders) {
+        for (BoxProject iph : propertyHolders)
+        {
+            if (editT.getDisplayTab() != null)
+            {
+                tipProprietaInArea
+                        .addAll(getApplicationService()
+                                .<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
+                                        BoxProject.class, iph.getId()));
+            }
+            else
+            {
+                tipProprietaInArea
+                        .addAll(getApplicationService()
+                                .<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
+                                        getClazzBox(), iph.getId()));
+            }
+        }
+        ProjectAdditionalFieldStorage dynamicObject = grant.getDynamicField();
+        ProjectAnagraficaObjectDTO anagraficaObjectDTO = new ProjectAnagraficaObjectDTO(
+                grant);
+        anagraficaObjectDTO.setTabId(areaId);
+        anagraficaObjectDTO.setObjectId(grant.getId());
+        anagraficaObjectDTO.setParentId(grant.getId());
+        if (grant.getInvestigator() != null)
+        {
+            if (grant.getInvestigator().getIntInvestigator() != null)
+            {
+                anagraficaObjectDTO.setInvestigator(ResearcherPageUtils
+                        .getPersistentIdentifier(grant.getInvestigator()
+                                .getIntInvestigator().getId()));
+            }
+            else
+            {
+                anagraficaObjectDTO.setInvestigator(grant.getInvestigator()
+                        .getExtInvestigator());
+            }
+        }
 
-			tipProprietaInArea
-					.addAll(getApplicationService()
-							.<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
-									getClazzBox(), iph.getId()));
+        for (Investigator inv : grant.getCoInvestigators())
+        {
+            if (inv.getIntInvestigator() != null)
+            {
+                anagraficaObjectDTO.getCoInvestigators().add(
+                        ResearcherPageUtils.getPersistentIdentifier(inv
+                                .getIntInvestigator()));
+            }
+            else
+            {
+                anagraficaObjectDTO.getCoInvestigators().add(
+                        inv.getExtInvestigator());
+            }
+        }
 
-		}
+        List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
+        List<IContainable> structuralField = new LinkedList<IContainable>();
+        for (IContainable c : tipProprietaInArea)
+        {
 
-		List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
-		List<IContainable> structuralField = new LinkedList<IContainable>();
-		for (IContainable c : tipProprietaInArea) {
-			ProjectPropertiesDefinition rpPd = getApplicationService()
-					.findPropertiesDefinitionByShortName(
-							ProjectPropertiesDefinition.class, c.getShortName());
-			if (rpPd != null) {
-				realTPS.add(((DecoratorProjectPropertiesDefinition) getApplicationService()
-						.findContainableByDecorable(
-								getClazzTipologiaProprieta().newInstance()
-										.getDecoratorClass(), c.getId()))
-						.getReal());
-			} else {
-				structuralField.add(c);
-			}
-		}
+            ProjectPropertiesDefinition rpPd = getApplicationService()
+                    .findPropertiesDefinitionByShortName(
+                            ProjectPropertiesDefinition.class, c.getShortName());
+            if (rpPd != null)
+            {
+                realTPS.add(rpPd);
+            }
+            else
+            {
+                structuralField.add(c);
+            }
+        }
+        AnagraficaUtils.fillDTO(anagraficaObjectDTO, dynamicObject, realTPS);
+        return anagraficaObjectDTO;
+    }
 
-		AnagraficaUtils.reverseDTO(anagraficaObjectDTO, grant, realTPS);
-		grant.pulisciAnagrafica();
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object object, BindException errors)
+            throws Exception
+    {
+        ProjectAnagraficaObjectDTO anagraficaObjectDTO = (ProjectAnagraficaObjectDTO) object;
 
-		grant.setCode(anagraficaObjectDTO.getRgCode());
-		grant.setStatus(anagraficaObjectDTO.getStatus());
-		String investigator = anagraficaObjectDTO.getInvestigator();
-		Investigator realInvestigator = new Investigator();
-		if (investigator != null && !investigator.isEmpty()) {
-			if (investigator.trim().matches("rp[0-9]{5}")) {
-				ResearcherPage rp = getApplicationService().get(
-						ResearcherPage.class, ResearcherPageUtils.getRealPersistentIdentifier(investigator.trim()));
-				realInvestigator.setIntInvestigator(rp);
-			} else {
-				realInvestigator.setExtInvestigator(investigator.trim());
-			}
-		}
-		grant.setInvestigator(realInvestigator);
-		grant.setCoInvestigators(null);
+        String exitPage = "redirect:/cris/project/details.htm?id="
+                + +anagraficaObjectDTO.getParentId();
 
-		List<String> coinvestigators = anagraficaObjectDTO.getCoInvestigators();
-		for (String co : coinvestigators) {
-			realInvestigator = new Investigator();
-			if (co != null && !co.isEmpty()) {
-				if (co.trim().matches("rp[0-9]{5}")) {
-					ResearcherPage rp = getApplicationService().get(
-							ResearcherPage.class, ResearcherPageUtils.getRealPersistentIdentifier(co.trim()));
-					realInvestigator.setIntInvestigator(rp);
-				} else {
-					realInvestigator.setExtInvestigator(co.trim());
-				}
-			}
-			grant.getCoInvestigators().add(realInvestigator);
-		}
-		getApplicationService().saveOrUpdate(Project.class, grant);
-		EditTabProject area = getApplicationService().get(
-				getClazzTab(), anagraficaObjectDTO.getTabId());
-		final String areaTitle = area.getTitle();
-		saveMessage(
-				request,
-				getText("action.anagrafica.edited", new Object[] { areaTitle },
-						request.getLocale()));
+        
+        EditTabProject editT = getApplicationService().get(
+                EditTabProject.class, anagraficaObjectDTO.getTabId());
+        if (anagraficaObjectDTO.getNewTabId() != null)
+        {
+            exitPage += "&tabId=" + anagraficaObjectDTO.getNewTabId();
+        }
+        else
+        {
+            exitPage = "redirect:/cris/project/"
+                    + anagraficaObjectDTO
+                                    .getRgCode() + "/"
+                    + editT.getShortName().substring(4) + ".html";
+        }
+        if (request.getParameter("cancel") != null)
+        {
+            return new ModelAndView(exitPage);
+        }
+        
+        
+        Project grant = getApplicationService().get(Project.class,
+                anagraficaObjectDTO.getParentId());
+        ProjectAdditionalFieldStorage myObject = grant.getDynamicField();
+        
+        List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxProject box : editT.getDisplayTab().getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), anagraficaObjectDTO.getTabId());
+        }
 
-		return new ModelAndView(exitPage);
-	}
+        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-	@Override
-	protected Map referenceData(HttpServletRequest request, Object command,
-			Errors errors) throws Exception {
+        for (BoxProject iph : propertyHolders)
+        {
 
-		// call super method
-		Map<String, Object> map = super.referenceData(request);
+            tipProprietaInArea
+                    .addAll(getApplicationService()
+                            .<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
+                                    getClazzBox(), iph.getId()));
 
-		// this map contains key-values pairs, key = box shortname and values =
-		// collection of metadata
-		Map<String, List<IContainable>> mapBoxToContainables = new HashMap<String, List<IContainable>>();
+        }
 
-		AnagraficaObjectAreaDTO anagraficaObjectDTO = (AnagraficaObjectAreaDTO) command;
+        List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
+        List<IContainable> structuralField = new LinkedList<IContainable>();
+        for (IContainable c : tipProprietaInArea)
+        {
+            ProjectPropertiesDefinition rpPd = getApplicationService()
+                    .findPropertiesDefinitionByShortName(
+                            ProjectPropertiesDefinition.class, c.getShortName());
+            if (rpPd != null)
+            {
+                realTPS.add(((DecoratorProjectPropertiesDefinition) getApplicationService()
+                        .findContainableByDecorable(
+                                getClazzTipologiaProprieta().newInstance()
+                                        .getDecoratorClass(), c.getId()))
+                        .getReal());
+            }
+            else
+            {
+                structuralField.add(c);
+            }
+        }
 
-		// check admin authorization
-		boolean isAdmin = false;
-		Context context = UIUtil.obtainContext(request);
-		if (AuthorizeManager.isAdmin(context)) {
-			isAdmin = true;
-		}
+        AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, realTPS);
+        
+        myObject.pulisciAnagrafica();
+        grant.setSourceID(anagraficaObjectDTO.getRgCode());
+        
+        
+        String investigator = anagraficaObjectDTO.getInvestigator();
+        Investigator realInvestigator = new Investigator();
+        if (investigator != null && !investigator.isEmpty())
+        {
+            if (investigator.trim().matches("rp[0-9]{5}"))
+            {
+                ResearcherPage rp = getApplicationService().get(
+                        ResearcherPage.class,
+                        ResearcherPageUtils
+                                .getRealPersistentIdentifier(investigator
+                                        .trim()));
+                realInvestigator.setIntInvestigator(rp);
+            }
+            else
+            {
+                realInvestigator.setExtInvestigator(investigator.trim());
+            }
+        }
+        grant.setInvestigator(realInvestigator);
+        grant.setCoInvestigators(null);
 
-		// collection of edit tabs (all edit tabs created on system associate to
-		// visibility)
-		List<EditTabProject> tabs = getApplicationService()
-				.getTabsByVisibility(EditTabProject.class, isAdmin);
+        List<String> coinvestigators = anagraficaObjectDTO.getCoInvestigators();
+        for (String co : coinvestigators)
+        {
+            realInvestigator = new Investigator();
+            if (co != null && !co.isEmpty())
+            {
+                if (co.trim().matches("rp[0-9]{5}"))
+                {
+                    ResearcherPage rp = getApplicationService().get(
+                            ResearcherPage.class,
+                            ResearcherPageUtils.getRealPersistentIdentifier(co
+                                    .trim()));
+                    realInvestigator.setIntInvestigator(rp);
+                }
+                else
+                {
+                    realInvestigator.setExtInvestigator(co.trim());
+                }
+            }
+            grant.getCoInvestigators().add(realInvestigator);
+        }
+        getApplicationService().saveOrUpdate(Project.class, grant);
+        EditTabProject area = getApplicationService().get(getClazzTab(),
+                anagraficaObjectDTO.getTabId());
+        final String areaTitle = area.getTitle();
+        saveMessage(
+                request,
+                getText("action.anagrafica.edited", new Object[] { areaTitle },
+                        request.getLocale()));
 
-		// check if request tab from view is active (check on collection before)
-		EditTabProject editT = getApplicationService().get(
-				EditTabProject.class, anagraficaObjectDTO.getTabId());
-		if (!tabs.contains(editT)) {
-			throw new AuthorizeException(
-					"You not have needed authorization level to display this tab");
-		}
+        return new ModelAndView(exitPage);
+    }
 
-		// collection of boxs
-		List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
+    @Override
+    protected void onBindAndValidate(HttpServletRequest request,
+            Object command, BindException errors) throws Exception
+    {
 
-		// if edit tab got a display tab (edit tab is hookup to display tab)
-		// then edit box will be created from display box otherwise get all boxs
-		// in edit tab
-		if (editT.getDisplayTab() != null) {
-			for (BoxProject box : editT.getDisplayTab().getMask()) {
-				propertyHolders.add(box);
-			}
-		} else {
-			propertyHolders = getApplicationService().findPropertyHolderInTab(
-					getClazzTab(), anagraficaObjectDTO.getTabId());
-		}
+        AnagraficaObjectAreaDTO dto = (AnagraficaObjectAreaDTO) command;
+        Project researcher = getApplicationService().get(Project.class,
+                dto.getParentId());
+        ProjectAdditionalFieldStorage myObject = researcher.getDynamicField();
 
-		// clean boxs list with accesslevel
-		List<BoxProject> propertyHoldersCurrentAccessLevel = new LinkedList<BoxProject>();
-		for (BoxProject propertyHolder : propertyHolders) {
-			if (isAdmin) {
-				if (!propertyHolder.getVisibility().equals(
-						VisibilityTabConstant.LOW)) {
-					propertyHoldersCurrentAccessLevel.add(propertyHolder);
-				}
-			} else {
-				if (!propertyHolder.getVisibility().equals(
-						VisibilityTabConstant.ADMIN)) {
-					propertyHoldersCurrentAccessLevel.add(propertyHolder);
-				}
-			}
-		}
-		Collections.sort(propertyHoldersCurrentAccessLevel);
-		// this piece of code get containables object from boxs and put them on
-		// map
-		List<IContainable> pDInTab = new LinkedList<IContainable>();
-		for (BoxProject iph : propertyHoldersCurrentAccessLevel) {
-			List<IContainable> temp = getApplicationService()
-					.<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
-							getClazzBox(), iph.getId());
-			mapBoxToContainables.put(iph.getShortName(), temp);
-			pDInTab.addAll(temp);
-		}
+        EditTabProject editT = getApplicationService().get(
+                EditTabProject.class, dto.getTabId());
+        List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
+        if (editT.getDisplayTab() != null)
+        {
+            for (BoxProject box : editT.getDisplayTab().getMask())
+            {
+                propertyHolders.add(box);
+            }
+        }
+        else
+        {
+            propertyHolders = getApplicationService().findPropertyHolderInTab(
+                    getClazzTab(), dto.getTabId());
+        }
 
-		map.put("propertiesHolders", propertyHoldersCurrentAccessLevel);
-		map.put("propertiesDefinitionsInTab", pDInTab);
-		map.put("propertiesDefinitionsInHolder", mapBoxToContainables);
-		map.put("tabList", tabs);
-		map.put("simpleNameAnagraficaObject", getClazzAnagraficaObject()
-				.getSimpleName());
-		return map;
-	}
+        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
 
-	
-	  @Override
-	    protected void onBindAndValidate(HttpServletRequest request,
-	            Object command, BindException errors) throws Exception
-	    {
+        for (BoxProject iph : propertyHolders)
+        {
 
-	        AnagraficaObjectAreaDTO dto = (AnagraficaObjectAreaDTO) command;
-	        Project researcher = getApplicationService().get(
-	                Project.class, dto.getParentId());
-	        ProjectAdditionalFieldStorage myObject = researcher.getDynamicField();
+            tipProprietaInArea
+                    .addAll(getApplicationService()
+                            .<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
+                                    getClazzBox(), iph.getId()));
 
-	        EditTabProject editT = getApplicationService().get(
-	                EditTabProject.class, dto.getTabId());
-	        List<BoxProject> propertyHolders = new LinkedList<BoxProject>();
-	        if (editT.getDisplayTab() != null)
-	        {
-	            for (BoxProject box : editT.getDisplayTab()
-	                    .getMask())
-	            {
-	                propertyHolders.add(box);
-	            }
-	        }
-	        else
-	        {
-	            propertyHolders = getApplicationService().findPropertyHolderInTab(
-	                    getClazzTab(), dto.getTabId());
-	        }
+        }
 
-	        List<IContainable> tipProprietaInArea = new LinkedList<IContainable>();
+        List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
+        List<IContainable> structuralField = new LinkedList<IContainable>();
+        for (IContainable c : tipProprietaInArea)
+        {
+            ProjectPropertiesDefinition rpPd = getApplicationService()
+                    .findPropertiesDefinitionByShortName(
+                            ProjectPropertiesDefinition.class, c.getShortName());
+            if (rpPd != null)
+            {
+                realTPS.add(rpPd);
+            }
+            else
+            {
+                structuralField.add(c);
+            }
+        }
+        AnagraficaUtils.reverseDTO(dto, myObject, realTPS);
+        AnagraficaUtils.fillDTO(dto, myObject, realTPS);
+    }
 
-	        for (BoxProject iph : propertyHolders)
-	        {
-
-	            tipProprietaInArea
-	                    .addAll(getApplicationService()
-	                            .<BoxProject, it.cilea.osd.jdyna.web.Tab<BoxProject>> findContainableInPropertyHolder(
-	                                    getClazzBox(), iph.getId()));
-
-	        }
-
-	        List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
-	        List<IContainable> structuralField = new LinkedList<IContainable>();
-	        for (IContainable c : tipProprietaInArea)
-	        {
-	            ProjectPropertiesDefinition rpPd = getApplicationService()
-	                    .findPropertiesDefinitionByShortName(
-	                            ProjectPropertiesDefinition.class, c.getShortName());
-	            if (rpPd != null)
-	            {
-	                realTPS.add(rpPd);
-	            }
-	            else
-	            {
-	                structuralField.add(c);
-	            }
-	        }
-	        AnagraficaUtils.reverseDTO(dto, myObject, realTPS);
-	        AnagraficaUtils.fillDTO(dto, myObject, realTPS);
-	    }
 }

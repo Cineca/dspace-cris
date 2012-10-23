@@ -1,6 +1,8 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.hku.authority.model.OrganizationUnit;
+import it.cilea.hku.authority.model.UUIDSupport;
+import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
@@ -34,10 +36,13 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "OUNestedObject.findNestedObjectsByParentIDAndTypoID", query = "from OUNestedObject where parent.id = ? and typo.id = ?"),
         @NamedQuery(name = "OUNestedObject.paginateNestedObjectsByParentIDAndTypoID.asc.asc", query = "from OUNestedObject where parent.id = ? and typo.id = ?"),
         @NamedQuery(name = "OUNestedObject.countNestedObjectsByParentIDAndTypoID", query = "select count(*) from OUNestedObject where parent.id = ? and typo.id = ?"),
+        @NamedQuery(name = "OUNestedObject.findActiveNestedObjectsByParentIDAndTypoID", query = "from OUNestedObject where parent.id = ? and typo.id = ? and status = true"),
+        @NamedQuery(name = "OUNestedObject.paginateActiveNestedObjectsByParentIDAndTypoID.asc.asc", query = "from OUNestedObject where parent.id = ? and typo.id = ? and status = true"),
+        @NamedQuery(name = "OUNestedObject.countActiveNestedObjectsByParentIDAndTypoID", query = "select count(*) from OUNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "OUNestedObject.findNestedObjectsByTypoID", query = "from OUNestedObject where typo.id = ?"),
         @NamedQuery(name = "OUNestedObject.deleteNestedObjectsByTypoID", query = "delete from OUNestedObject where typo.id = ?")
         })
-public class OUNestedObject extends ANestedObjectWithTypeSupport<OUNestedProperty, OUNestedPropertiesDefinition> 
+public class OUNestedObject extends ANestedObjectWithTypeSupport<OUNestedProperty, OUNestedPropertiesDefinition> implements UUIDSupport, HasTimeStampInfo 
 {
     
     @OneToMany(mappedBy = "parent")

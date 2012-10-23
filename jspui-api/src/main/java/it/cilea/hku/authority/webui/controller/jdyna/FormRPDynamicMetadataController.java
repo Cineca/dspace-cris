@@ -44,6 +44,7 @@ import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.core.Context;
+import org.dspace.eperson.EPerson;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -140,9 +141,7 @@ public class FormRPDynamicMetadataController
         {
             List<IContainable> temp = getApplicationService()
                     .<BoxResearcherPage, it.cilea.osd.jdyna.web.Tab<BoxResearcherPage>> findContainableInPropertyHolder(
-                            getClazzBox(), iph.getId());
-            ((ExtendedTabService) getApplicationService()).findOtherContainablesInBoxByConfiguration(
-                    iph.getShortName(), temp,RPPropertiesDefinition.class.getName());
+                            getClazzBox(), iph.getId());            
             mapBoxToContainables.put(iph.getShortName(), temp);
             pDInTab.addAll(temp);
         }
@@ -174,9 +173,8 @@ public class FormRPDynamicMetadataController
         ResearcherPage researcher = getApplicationService().get(
                 ResearcherPage.class, id);
         Context context = UIUtil.obtainContext(request);
-        if (context.getCurrentUser()==null || (context.getCurrentUser().getNetid() != null && !context
-                .getCurrentUser().getNetid()
-                .equalsIgnoreCase(researcher.getStaffNo()))
+        EPerson currentUser = context.getCurrentUser();
+        if (currentUser==null || (researcher.getEpersonID()!=null && currentUser.getID()!=researcher.getEpersonID())
                 && !AuthorizeManager.isAdmin(context))
         {
             throw new AuthorizeException(
@@ -212,9 +210,7 @@ public class FormRPDynamicMetadataController
         {
             areaId = Integer.parseInt(paramTabId);
         }
-
-        RPAdditionalFieldStorage dynamicObject = researcher.getDynamicField();
-
+        
         EditTabResearcherPage editT = getApplicationService().get(
                 EditTabResearcherPage.class, areaId);
         List<BoxResearcherPage> propertyHolders = new LinkedList<BoxResearcherPage>();
@@ -253,6 +249,7 @@ public class FormRPDynamicMetadataController
             }
         }
 
+        RPAdditionalFieldStorage dynamicObject = researcher.getDynamicField();
         RPAnagraficaObjectDTO anagraficaObjectDTO = new RPAnagraficaObjectDTO(
                 researcher);
         anagraficaObjectDTO.setTabId(areaId);
@@ -286,7 +283,7 @@ public class FormRPDynamicMetadataController
     {
         RPAnagraficaObjectDTO anagraficaObjectDTO = (RPAnagraficaObjectDTO) object;
 
-        String exitPage = "redirect:/cris/rp/tools/editDynamicData.htm?id="
+        String exitPage = "redirect:/cris/tools/rp/editDynamicData.htm?id="
                 + +anagraficaObjectDTO.getParentId();
 
         EditTabResearcherPage editT = getApplicationService().get(
@@ -304,11 +301,11 @@ public class FormRPDynamicMetadataController
                                     .getParentId()) + "/"
                     + editT.getShortName().substring(4) + ".html";
         }
-
         if (request.getParameter("cancel") != null)
         {
             return new ModelAndView(exitPage);
         }
+
         ResearcherPage researcher = getApplicationService().get(
                 ResearcherPage.class, anagraficaObjectDTO.getParentId());
         RPAdditionalFieldStorage myObject = researcher.getDynamicField();
@@ -360,7 +357,7 @@ public class FormRPDynamicMetadataController
         AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, realTPS);
 
         myObject.pulisciAnagrafica();
-        researcher.setStaffNo(anagraficaObjectDTO.getStaffNo());
+        researcher.setSourceID(anagraficaObjectDTO.getStaffNo());
         
         
         getApplicationService().saveOrUpdate(ResearcherPage.class, researcher);

@@ -88,7 +88,7 @@
 	</table>	
 	</c:if>
 		
-	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}"/>
+	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificPartPath}"/>
 	</c:if>	
 	<c:if test="${(editmode && decoratorPropertyDefinition.repeatable) || (editmode && empty results)}">
 		<img id="add${decoratorPropertyDefinition.shortName}" src="<%= request.getContextPath() %>/image/jdyna/main_plus.gif" class="addNestedButton"/>
@@ -139,7 +139,7 @@
 					j("#log3").dialog("open");									
 					Loader.write("Loading form...");																	
 																						
-					var ajaxurlrelations = "<%= request.getContextPath() %>/rp/addNested.htm";
+					var ajaxurlrelations = "<%= request.getContextPath() %>/cris/${specificPartPath}/addNested.htm";
 					j.ajax( {
 						url : ajaxurlrelations,
 						data : {			

@@ -26,7 +26,7 @@ import java.util.List;
 public interface ResearcherPageDao extends
         PaginableObjectDao<ResearcherPage, Integer>
 {
-    public ResearcherPage uniqueResearcherPageByStaffNo(String staffNo);
+    public ResearcherPage uniqueBySourceID(String staffNo);
 
     public List<ResearcherPage> findAllResearcherPageByStatus(Boolean status);
 
@@ -57,11 +57,11 @@ public interface ResearcherPageDao extends
     public List<ResearcherPage> findAllResearcherInIDRange(Integer start,
             Integer end);
 
-    public List<ResearcherPage> findAllNextResearcherByStaffNoStart(String start);
+    public List<ResearcherPage> findAllNextResearcherBySourceIDStart(String start);
 
-    public List<ResearcherPage> findAllPrevResearcherByStaffNoEnd(String end);
+    public List<ResearcherPage> findAllPrevResearcherBySourceIDEnd(String end);
 
-    public List<ResearcherPage> findAllResearcherInStaffNoRange(String start,
+    public List<ResearcherPage> findAllResearcherInSourceIDRange(String start,
             String end);
     
     public List<RPProperty> findAnagraficaByRPID(Integer id);

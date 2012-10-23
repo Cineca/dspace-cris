@@ -76,7 +76,7 @@ public abstract class AFormDynamicRGController<P extends Property<TP>, TP extend
         if (AuthorizeManager.isAdmin(context))        
         {
             reference.put("grant_page_menu", new Boolean(true));
-            reference.put("grant", grant);         
+            reference.put("project", grant);         
         }
         
         reference.put("specificPartPath", getSpecificPartPath());      

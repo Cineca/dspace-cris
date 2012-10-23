@@ -72,7 +72,9 @@ public class OrganizationUnit implements Identifiable, UUIDSupport, HasTimeStamp
     /** True if grant is active */
     private Boolean status;
     
-   
+    @Column(nullable = true, unique = true)
+    private String sourceId;
+    
     /**
      * Getter method.
      * @return the timestamp of creation and last modify of this OrganizationUnit
@@ -234,6 +236,17 @@ public class OrganizationUnit implements Identifiable, UUIDSupport, HasTimeStamp
     public void setUuid(String uuid)
     {
         this.uuid = uuid;        
+    }
+
+
+    public void setSourceId(String rgCode)
+    {
+        this.sourceId = rgCode;
+    }
+
+    public String getSourceId()
+    {
+        return sourceId;
     }
 
 }

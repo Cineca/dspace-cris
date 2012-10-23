@@ -143,7 +143,7 @@ public class ScriptDeleteRP
                     
                     // interactive mode
                     System.out.println("Attempting to remove Researcher Page:");
-                    System.out.println("StaffNo:" + rp.getStaffNo());
+                    System.out.println("StaffNo:" + rp.getSourceID());
                     System.out.println("FullName:" + rp.getFullName());
                     System.out.println("the researcher has " + items.length + " relation(s) with item(s) in the HUB");
                     System.out.println();

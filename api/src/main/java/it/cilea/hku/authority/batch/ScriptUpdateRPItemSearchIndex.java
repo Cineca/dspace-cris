@@ -210,7 +210,7 @@ public class ScriptUpdateRPItemSearchIndex
                 String authKey = ResearcherPageUtils
                         .getPersistentIdentifier(rp);
                 log.debug("work on " + rp.getFullName() + "[staffno "
-                        + rp.getStaffNo() + "] with identifier " + authKey
+                        + rp.getSourceID() + "] with identifier " + authKey
                         + " (" + count + " of " + rps.size() + ")");
                 // set up a BrowseScope and start loading the values into it
                 BrowserScope scope = new BrowserScope(context);

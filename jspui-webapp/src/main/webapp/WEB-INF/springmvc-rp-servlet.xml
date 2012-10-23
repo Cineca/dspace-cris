@@ -116,6 +116,9 @@
 		</property>		
 		<property name="method">
 			<value>details</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
 		</property>	
 	</bean>
 	
@@ -667,7 +670,7 @@
 		<property name="validator" ref="anagraficaValidator" />		
 	</bean>
 
-	<bean id="viewRPNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.RPNestedDetailsController">
+	<bean id="viewRPNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -675,7 +678,12 @@
 		<constructor-arg index="0">
 			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
 		</constructor-arg>
-				
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>						
 		<property name="detailsView">
 			<value>nestedListPage</value>
 		</property>		
@@ -684,7 +692,7 @@
 		</property>			
 	</bean>
 
-	<bean id="deleteRPNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.RPNestedDetailsController">
+	<bean id="deleteRPNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -692,7 +700,12 @@
 		<constructor-arg index="0">
 			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
 		</constructor-arg>
-				
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>				
 		<property name="detailsView">
 			<value>nestedListPage</value>
 		</property>		
@@ -729,6 +742,9 @@
 		<property name="propertyDefinitionClass">
 			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition</value>
 		</property>		
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>			
 	</bean>
 	
 
@@ -928,6 +944,9 @@
 		<property name="method">
 			<value>details</value>
 		</property>	
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
 	</bean>		
 		
 	<bean id="adminProjectController"
@@ -1415,7 +1434,7 @@
 	
 	
 	
-	<bean id="viewProjectNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectNestedDetailsController">
+	<bean id="viewProjectNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1423,7 +1442,12 @@
 		<constructor-arg index="0">
 			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
 		</constructor-arg>
-				
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
 		<property name="detailsView">
 			<value>nestedListPage</value>
 		</property>		
@@ -1432,7 +1456,7 @@
 		</property>			
 	</bean>
 
-	<bean id="deleteProjectNestedDetailsController" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectNestedDetailsController">
+	<bean id="deleteProjectNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1440,7 +1464,12 @@
 		<constructor-arg index="0">
 			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
 		</constructor-arg>
-				
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
 		<property name="detailsView">
 			<value>nestedListPage</value>
 		</property>		
@@ -1467,7 +1496,9 @@
 		<property name="formView">
 			<value>/jdyna/nestedEditForm</value>
 		</property>				
-		
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>			
 		<property name="targetClass">
 			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
 		</property>

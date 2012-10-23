@@ -10,12 +10,113 @@
 <%@ page import="java.io.File"%>
 <%@ page import="org.dspace.core.ConfigurationManager"%>
 <%@ page import="org.dspace.browse.BrowseInfo"%>
+<%@ page import="org.dspace.app.webui.util.UIUtil" %>
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
 <%@ page import="it.cilea.hku.authority.util.ResearcherPageUtils"%>
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="entity" value="${project}" scope="request" />
+
+
+<%
+	// Is the logged in user an admin
+	Boolean admin = (Boolean)request.getAttribute("is.admin");
+	boolean isAdmin = (admin == null ? false : admin.booleanValue());
+    // Get the current page, minus query string
+    String currentPage = UIUtil.getOriginalURL(request);
+    int c = currentPage.indexOf( '?' );
+    if( c > -1 )
+    {
+        currentPage = currentPage.substring( 0, c );
+    }
+
+%>
+
+<c:set var="dspace.cris.navbar" scope="request">
+
+
+<c:if test="${grant_page_menu && !empty project}">
+
+
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td nowrap="nowrap" colspan="2" class="navigationBarSublabel"><fmt:message key="jsp.layout.navbar-hku.staffmode.title"/></td>
+  </tr>
+  
+
+  <c:if test="${!empty addModeType && addModeType=='display'}">
+  
+  <tr class="navigationBarItem">
+    <td>
+      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/editDynamicData" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+    </td>
+    <td nowrap="nowrap" class="navigationBarItem">
+      <a href="<%= request.getContextPath() %>/cris/tools/project/editDynamicData.htm?id=${project.id}&anagraficaId=${project.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar.entity.edit"/></a>
+    </td>
+  </tr>  
+ </c:if>
+  
+   <tr class="navigationBarItem">
+    <td>
+      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/help#Projects" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+    </td>
+    <td nowrap="nowrap" class="navigationBarItem">
+      <a href="<%= request.getContextPath() %>/help.jsp#Projects">Help</a>
+    </td>
+  </tr>
+ 
+ </c:if>
+
+
+<c:if test="${!empty entity && (!empty addModeType && addModeType=='display')}">    
+ <% if (!isAdmin) { %>
+ <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+<% } %>	
+ <tr> 
+  <td colspan="2">
+		
+	    <c:forEach items="${tabList}" var="tabfornavigation">				
+			
+				<div id="cris-tabs-navigation-${tabfornavigation.shortName}" class="navigation-tabs" style="display: none">		
+
+					<div id="menu-${tabfornavigation.shortName}" class="showMoreLessBox1-dark box">
+						<h3 class="showMoreLessControlElement control ${tabfornavigation.id != tabId?"":"expanded"}">
+						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif"  ${tabfornavigation.id != tabId?"":"class=\"hide\""}/>
+						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" ${tabfornavigation.id != tabId?"class=\"hide\"":""} />
+							${tabfornavigation.title}
+						</h3>		
+						<div class="collapsable expanded-content" ${tabfornavigation.id != tabId?"style=\"display: none;\"":""}>
+						<div id="nav-sublocal">
+						<ul>
+						<div id="snavmenu-${tabfornavigation.shortName}">
+							<div class="log">
+							<img
+								src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+			    				class="loader" />
+			    			</div>
+						</div>
+						</ul>
+						</div>
+						</div>
+					</div>
+		
+
+				</div>
+			
+		 </c:forEach>
+	   
+	</td>
+  </tr> 
+</c:if>
+ 
+
+</c:set>
 
 <c:set var="dspace.layout.head" scope="request">
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
@@ -122,7 +223,7 @@
 <td>
 
 <div id="content">
-<h1><fmt:message key="jsp.layout.project.detail.title-first" /> ${entity.code}</h1>
+<h1><fmt:message key="jsp.layout.project.detail.title-first" /> ${entity.sourceID}</h1>
 <div>&nbsp;</div>
 <table align="center" class="miscTable">
 	<c:if test="${!entity.status}">

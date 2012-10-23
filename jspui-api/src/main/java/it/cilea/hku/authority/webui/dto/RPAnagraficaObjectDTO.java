@@ -52,7 +52,7 @@ public class RPAnagraficaObjectDTO extends AnagraficaObjectAreaDTO {
 		setChineseName(rp.getTranslatedName());		
 		setEmail(rp.getEmail());
 		setFullName(rp.getFullName());		
-		setStaffNo(rp.getStaffNo());
+		setStaffNo(rp.getSourceID());
 		setStatus(rp.getStatus());		
 		setVariants(rp.getVariants());		
 	}

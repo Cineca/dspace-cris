@@ -43,7 +43,7 @@ import javax.persistence.Transient;
         @NamedQuery(name = "Project.count", query = "select count(*) from Project"),
         @NamedQuery(name = "Project.paginate.id.asc", query = "from Project order by id asc"),
         @NamedQuery(name = "Project.paginate.id.desc", query = "from Project order by id desc"),
-        @NamedQuery(name = "Project.uniqueRGByCode", query = "from Project where code = ? order by id desc") })
+        @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ? order by id desc") })
 public class Project
         implements
         Identifiable,
@@ -83,7 +83,8 @@ public class Project
     private Boolean status;
 
     /** Grant code */
-    private String code;
+    @Column(nullable = true, unique = true)
+    private String sourceID;
 
     public Project()
     {
@@ -138,14 +139,14 @@ public class Project
         this.status = status;
     }
 
-    public void setCode(String rgCode)
+    public void setSourceID(String rgCode)
     {
-        this.code = rgCode;
+        this.sourceID = rgCode;
     }
 
-    public String getCode()
+    public String getSourceID()
     {
-        return code;
+        return sourceID;
     }
 
     @Override
@@ -232,7 +233,7 @@ public class Project
     @Override
     public String getValueBusinessIDAttribute()
     {
-        return this.getCode();
+        return this.getSourceID();
     }
 
     @Override

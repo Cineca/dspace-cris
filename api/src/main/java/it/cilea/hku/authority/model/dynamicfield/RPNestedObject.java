@@ -32,6 +32,9 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "RPNestedObject.findNestedObjectsByParentIDAndTypoID", query = "from RPNestedObject where parent.id = ? and typo.id = ?"),
         @NamedQuery(name = "RPNestedObject.paginateNestedObjectsByParentIDAndTypoID.asc.asc", query = "from RPNestedObject where parent.id = ? and typo.id = ?"),
         @NamedQuery(name = "RPNestedObject.countNestedObjectsByParentIDAndTypoID", query = "select count(*) from RPNestedObject where parent.id = ? and typo.id = ?"),
+        @NamedQuery(name = "RPNestedObject.findActiveNestedObjectsByParentIDAndTypoID", query = "from RPNestedObject where parent.id = ? and typo.id = ? and status = true"),
+        @NamedQuery(name = "RPNestedObject.paginateActiveNestedObjectsByParentIDAndTypoID.asc.asc", query = "from RPNestedObject where parent.id = ? and typo.id = ? and status = true"),
+        @NamedQuery(name = "RPNestedObject.countActiveNestedObjectsByParentIDAndTypoID", query = "select count(*) from RPNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "RPNestedObject.findNestedObjectsByTypoID", query = "from RPNestedObject where typo.id = ?"),
         @NamedQuery(name = "RPNestedObject.deleteNestedObjectsByTypoID", query = "delete from RPNestedObject where typo.id = ?")
 })

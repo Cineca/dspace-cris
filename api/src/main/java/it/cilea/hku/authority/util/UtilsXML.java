@@ -179,7 +179,7 @@ public class UtilsXML
         List<String> attributes = new LinkedList<String>();
         List<String> valuesAttributes = new LinkedList<String>();
         attributes.add(NAMEATTRIBUTE_STAFF_NO);
-        valuesAttributes.add(rp.getStaffNo());
+        valuesAttributes.add(rp.getSourceID());
         attributes.add(NAMEATTRIBUTE_RPID);
         valuesAttributes.add(ResearcherPageUtils.getPersistentIdentifier(rp));
         Element element = ExportUtils.createCustomPropertyWithCustomAttributes(

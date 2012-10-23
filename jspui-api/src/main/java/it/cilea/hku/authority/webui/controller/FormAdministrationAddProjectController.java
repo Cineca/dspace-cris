@@ -47,7 +47,7 @@ public class FormAdministrationAddProjectController extends
 						+ "administrator/index.htm?error=true");
 			} else {
 				grant = new Project();
-				grant.setCode(code);
+				grant.setSourceID(code);
 				grant.setStatus(false);				
 				grant.getDynamicField().setProject(grant);
 				applicationService.saveOrUpdate(Project.class, grant);

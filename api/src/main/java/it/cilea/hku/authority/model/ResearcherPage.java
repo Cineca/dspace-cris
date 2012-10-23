@@ -76,16 +76,16 @@ import org.hibernate.annotations.FetchMode;
         @NamedQuery(name = "ResearcherPage.countAllResearcherByName", query = "select count(*) from ResearcherPage rp join rp.dynamicField.anagrafica vv where ((vv.typo.shortName = 'variants' or vv.typo.shortName = 'preferredName' or vv.typo.shortName = 'fullName' or vv.typo.shortName = 'translatedName') and vv.value = :par0)"),
         @NamedQuery(name = "ResearcherPage.countAllResearcherByNameExceptResearcher", query = "select count(*) from ResearcherPage rp join rp.dynamicField.anagrafica vv where ((vv.typo.shortName = 'variants' or vv.typo.shortName = 'preferredName' or vv.typo.shortName = 'fullName' or vv.typo.shortName = 'translatedName') and vv.value = :par0) and rp.id != :par1 "),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByNamesTimestampLastModified", query = "from ResearcherPage where namesModifiedTimeStamp.timestamp >= ?"),
-        @NamedQuery(name = "ResearcherPage.uniqueResearcherPageByStaffNo", query = "from ResearcherPage rp where rp.staffNo = ?"),
+        @NamedQuery(name = "ResearcherPage.uniqueBySourceID", query = "from ResearcherPage rp where rp.sourceID = ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInDateRange", query = "from ResearcherPage rp where rp.timeStampInfo.timestampCreated.timestamp between :par0 and :par1"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByCreationDateBefore", query = "from ResearcherPage rp where rp.timeStampInfo.timestampCreated.timestamp <= ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByCreationDateAfter", query = "from ResearcherPage rp where rp.timeStampInfo.timestampCreated.timestamp >= ?"),
         @NamedQuery(name = "ResearcherPage.findAllNextResearcherByIDStart", query = "from ResearcherPage rp where rp.id >= ?"),
         @NamedQuery(name = "ResearcherPage.findAllPrevResearcherByIDEnd", query = "from ResearcherPage rp where rp.id <= ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInIDRange", query = "from ResearcherPage rp where rp.id between :par0 and :par1"),
-        @NamedQuery(name = "ResearcherPage.findAllNextResearcherByStaffNoStart", query = "from ResearcherPage rp where rp.staffNo >= ?"),
-        @NamedQuery(name = "ResearcherPage.findAllPrevResearcherByStaffNoEnd", query = "from ResearcherPage rp where rp.staffNo <= ?"),
-        @NamedQuery(name = "ResearcherPage.findAllResearcherInStaffNoRange", query = "from ResearcherPage rp where rp.staffNo between :par0 and :par1"),
+        @NamedQuery(name = "ResearcherPage.findAllNextResearcherBysourceIDStart", query = "from ResearcherPage rp where rp.sourceID >= ?"),
+        @NamedQuery(name = "ResearcherPage.findAllPrevResearcherBysourceIDEnd", query = "from ResearcherPage rp where rp.sourceID <= ?"),
+        @NamedQuery(name = "ResearcherPage.findAllResearcherInsourceIDRange", query = "from ResearcherPage rp where rp.sourceID between :par0 and :par1"),
         @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?") })
 public class ResearcherPage
         implements
@@ -97,9 +97,9 @@ public class ResearcherPage
         AnagraficaSupport<RPProperty, RPPropertiesDefinition>
 {
 
-    @Transient
-    private Integer idEPerson;
-
+    
+    private Integer epersonID;
+    
     @Transient
     public static final int PUBLICATION_LIST_SECTION = -1;
 
@@ -140,8 +140,8 @@ public class ResearcherPage
     private Boolean status;
 
     /** HKU internal unique identifier of the ResearcherPage, must be not null */
-    @Column(nullable = false, unique = true)
-    private String staffNo;
+    @Column(nullable = true, unique = true)
+    private String sourceID;
 
     @Transient
     /**
@@ -202,22 +202,22 @@ public class ResearcherPage
     /**
      * Getter method.
      * 
-     * @return the staffNo
+     * @return the sourceID
      */
-    public String getStaffNo()
+    public String getSourceID()
     {
-        return staffNo;
+        return sourceID;
     }
 
     /**
      * Setter method.
      * 
-     * @param staffNo
-     *            the staffNo
+     * @param sourceID
+     *            the sourceID
      */
-    public void setStaffNo(String staffNo)
+    public void setSourceID(String sourceID)
     {
-        this.staffNo = staffNo;
+        this.sourceID = sourceID;
     }
 
     /**
@@ -568,7 +568,7 @@ public class ResearcherPage
     @Override
     public String getValueBusinessIDAttribute()
     {
-        return this.getStaffNo();
+        return this.getSourceID();
     }
 
     @Override
@@ -695,14 +695,14 @@ public class ResearcherPage
         try
         {
             context = new Context();
-            if (idEPerson == null)
+            if (epersonID == null)
             {
 
                 eperson = EPerson.findByEmail(context, getEmail().getValue());
             }
             else
             {
-                eperson = EPerson.find(context, idEPerson);
+                eperson = EPerson.find(context, epersonID);
             }
         }
         catch (SQLException e)
@@ -722,6 +722,16 @@ public class ResearcherPage
         }
 
         return eperson;
+    }
+
+    public Integer getEpersonID()
+    {
+        return epersonID;
+    }
+
+    public void setEpersonID(Integer idEPerson)
+    {
+        this.epersonID = idEPerson;
     }
 
 }

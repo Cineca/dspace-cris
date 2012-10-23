@@ -206,7 +206,7 @@ public class ImportExportUtils
             int y = 0;
             sheet.addCell(new Label(0, i, ""));
             Label label = (Label) sheet.getCell(0, i);
-            label.setString(rp.getStaffNo());
+            label.setString(rp.getSourceID());
             y++;
             sheet.addCell(new Label(1, i, ""));
             label = (Label) sheet.getCell(1, i);
@@ -432,7 +432,7 @@ public class ImportExportUtils
                         if (researcher == null)
                         {
                             researcher = new ResearcherPage();
-                            researcher.setStaffNo(nodeId);
+                            researcher.setSourceID(nodeId);
                             // added by Allen: all newly added researchers are
                             // inactive by default
                             // use -active in command line to change default
@@ -681,13 +681,13 @@ public class ImportExportUtils
                         {
                             throw new RuntimeException(
                                     "XML Row discarded STAFFNO : "
-                                            + researcher.getStaffNo()
+                                            + researcher.getSourceID()
                                             + " Find an eperson with email/netId '"
                                             + emailUser.getEmail()
                                             + "/"
                                             + emailUser.getNetid()
                                             + "' that not referred to the staffNo '"
-                                            + researcher.getStaffNo()
+                                            + researcher.getSourceID()
                                             + "' of researcher. Perhaps is it the same person?");
                         }
                         else
@@ -695,7 +695,7 @@ public class ImportExportUtils
                             dspaceUser = EPerson.create(dspaceContext);
                             DCPersonName personalName = new DCPersonName(
                                     researcher.getFullName());
-                            dspaceUser.setNetid(researcher.getStaffNo());
+                            dspaceUser.setNetid(researcher.getSourceID());
                             dspaceUser.setFirstName(personalName
                                     .getFirstNames());
                             dspaceUser.setLastName(personalName.getLastName());
@@ -710,14 +710,14 @@ public class ImportExportUtils
                     {
                         throw new RuntimeException(
                                 "XML Row discarded STAFFNO : "
-                                        + researcher.getStaffNo()
+                                        + researcher.getSourceID()
                                         + " Creation failure new eperson or researcher's mail has not been setted");
                     }
                     catch (AuthorizeException e)
                     {
                         throw new RuntimeException(
                                 "XML Row discarded STAFFNO : "
-                                        + researcher.getStaffNo()
+                                        + researcher.getSourceID()
                                         + " Authorize failure");
                     }
                     dspaceContext.commit();
@@ -726,7 +726,7 @@ public class ImportExportUtils
                 applicationService.saveOrUpdate(ResearcherPage.class,
                         researcher);
 
-                log.info("Import researcher " + researcher.getStaffNo()
+                log.info("Import researcher " + researcher.getSourceID()
                         + " (staffNo) / " + researcher.getId()
                         + " (id) - SUCCESS");
                 rows_imported++;
@@ -1370,7 +1370,7 @@ public class ImportExportUtils
                             log.info("Create new GRANT with code "
                                     + projectcode);
                             rg = new Project();
-                            rg.setCode(projectcode);
+                            rg.setSourceID(projectcode);
                             rg.setStatus(active);
                             newImported++;
                         }
@@ -1613,7 +1613,7 @@ public class ImportExportUtils
                         if (grant == null)
                         {
                             grant = new Project();
-                            grant.setCode(nodeId);
+                            grant.setSourceID(nodeId);
                             // use -active in command line to change default
                             // status to active.
                             grant.setStatus(status);
@@ -1729,7 +1729,7 @@ public class ImportExportUtils
 
                 applicationService.saveOrUpdate(Project.class, grant);
 
-                log.info("Import grant " + grant.getCode() + " (code) / "
+                log.info("Import grant " + grant.getSourceID() + " (code) / "
                         + grant.getId() + " (id) - SUCCESS");
                 rows_imported++;
             }

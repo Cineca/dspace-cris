@@ -10,21 +10,8 @@
  */
 package it.cilea.hku.authority.dao;
 
-import it.cilea.hku.authority.model.Project;
-import it.cilea.osd.common.dao.PaginableObjectDao;
+import it.cilea.osd.jdyna.dao.PropertiesDefinitionDao;
 
-/**
- * This interface define the methods available to retrieve Project
- * 
- * @author cilea
- * 
- */
-public interface ProjectDao extends
-        PaginableObjectDao<Project, Integer>
-{
-
-    public long count();
-
-	public Project uniqueBySourceID(String projectcode);
+public interface ProjectNestedPropertiesDefinitionDao extends PropertiesDefinitionDao<it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition> {
 
 }

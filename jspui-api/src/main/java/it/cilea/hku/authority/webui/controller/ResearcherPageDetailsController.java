@@ -155,8 +155,7 @@ public class ResearcherPageDetailsController
         }
 
         if (isAdmin
-                || (currUser != null && researcher.getStaffNo().equals(
-                        currUser.getNetid())))
+                || (currUser != null && (researcher.getEpersonID()!=null && currUser.getID()!=researcher.getEpersonID())))
         {
             model.put("researcher_page_menu", new Boolean(true));
             model.put("authority_key",
@@ -224,8 +223,8 @@ public class ResearcherPageDetailsController
         {
             isAdmin = true; // admin
         }
-        else if ((currUser != null && researcher.getStaffNo().equals(
-                currUser.getNetid())))
+        else if ((currUser != null && researcher.getId()==
+                currUser.getID()))
         {
             isAdmin = false; // owner
         }
@@ -308,8 +307,8 @@ public class ResearcherPageDetailsController
     protected void sendRedirect(HttpServletRequest request,
             HttpServletResponse response, Exception ex, String objectId) throws IOException, ServletException
     {
-        JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
-        //response.sendRedirect("/cris/rp/" + objectId);
+        //JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
+        response.sendRedirect("/cris/rp/" + objectId);
     }
 
 }

@@ -281,7 +281,9 @@
 				labelKey="jsp.layout.hku.label.propertiesdefinition.fieldminsize.row" size="5" visibility="false"/>
 		<div class="dynaClear">
 			&nbsp;
-		</div>				
+		</div>		
+
+		<dyna:hidden propertyPath="real.mask[${i.count - 1}].accessLevel" value="${propertiesdefinition.real.accessLevel}"/>
 		
 							<a class="jdynaremovebutton"
 								title="<fmt:message

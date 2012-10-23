@@ -63,6 +63,10 @@
 					key="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition">
 					<ref bean="grantPropertiesDefinitionDao" />
 				</entry>
+				<entry				         
+					key="it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition">
+					<ref bean="projectNestedPropertiesDefinitionDao" />
+				</entry>
 				<entry
 					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition">
 					<ref bean="rpDecoratorPropertiesDefinitionDao" />
@@ -517,6 +521,23 @@
 				<constructor-arg>
 					<value>
 						it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="projectNestedPropertiesDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.hku.authority.dao.ProjectNestedPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>

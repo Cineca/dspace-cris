@@ -231,7 +231,7 @@ public class ResearcherPageUtils implements TabUtils
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
                     getRealPersistentIdentifier(rpkey));            
-            return rp != null?rp.getStaffNo():null;
+            return rp != null?rp.getSourceID():null;
         }
         return null;
     }

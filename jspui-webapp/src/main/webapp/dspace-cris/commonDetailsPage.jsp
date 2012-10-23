@@ -117,7 +117,7 @@
 				
 													LoaderSnippet.write("Loading... ${tipologiaDaVisualizzare.label}", "logcontent1_${tipologiaDaVisualizzare.shortName}");												
 													var parameterId = this.id;																	
-													var ajaxurlrelations = "<%=request.getContextPath()%>/rp/viewNested.htm";
+													var ajaxurlrelations = "<%=request.getContextPath()%>/cris/${specificPartPath}/viewNested.htm";
 													j.ajax( {
 														url : ajaxurlrelations,
 														data : {																			

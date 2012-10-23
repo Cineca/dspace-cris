@@ -119,7 +119,7 @@ public class ProjectDetailsController
         {
             return null;
         }
-        request.setAttribute("authority", grant.getCode());
+        request.setAttribute("authority", grant.getSourceID());
         mvc.getModel().putAll(model);
         mvc.getModel().put("project", grant);
         return mvc;

@@ -10,11 +10,11 @@
  */
 package it.cilea.hku.authority.service;
 
-import it.cilea.hku.authority.dao.RPSubscriptionDao;
 import it.cilea.hku.authority.dao.ProjectDao;
+import it.cilea.hku.authority.dao.RPSubscriptionDao;
 import it.cilea.hku.authority.dao.ResearcherPageDao;
-import it.cilea.hku.authority.model.RPSubscription;
 import it.cilea.hku.authority.model.Project;
+import it.cilea.hku.authority.model.RPSubscription;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.common.dao.IApplicationDao;
@@ -111,7 +111,7 @@ public class ApplicationService extends ExtendedTabService
      */
     public ResearcherPage getResearcherPageByStaffNo(String staffNo)
     {
-        return researcherPageDao.uniqueResearcherPageByStaffNo(staffNo);
+        return researcherPageDao.uniqueBySourceID(staffNo);
     }
 
     /**
@@ -389,17 +389,17 @@ public class ApplicationService extends ExtendedTabService
      */
     private List<ResearcherPage> getRPNextStaffNo(String start)
     {
-        return researcherPageDao.findAllNextResearcherByStaffNoStart(start);
+        return researcherPageDao.findAllNextResearcherBySourceIDStart(start);
     }
 
     private List<ResearcherPage> getRPPrevStaffNo(String end)
     {
-        return researcherPageDao.findAllPrevResearcherByStaffNoEnd(end);
+        return researcherPageDao.findAllPrevResearcherBySourceIDEnd(end);
     }
 
     private List<ResearcherPage> getRPinStaffNoRange(String start, String end)
     {
-        return researcherPageDao.findAllResearcherInStaffNoRange(start, end);
+        return researcherPageDao.findAllResearcherInSourceIDRange(start, end);
     }
 
     public <T, PK extends Serializable> List<T> getList(Class<T> model,
@@ -410,7 +410,7 @@ public class ApplicationService extends ExtendedTabService
 
     public Project getResearcherGrantByCode(String projectcode)
     {
-        return projectDao.uniqueRGByCode(projectcode);
+        return projectDao.uniqueBySourceID(projectcode);
     }
 
     public ResearcherPage getResearcherPageByEPersonId(Integer id)

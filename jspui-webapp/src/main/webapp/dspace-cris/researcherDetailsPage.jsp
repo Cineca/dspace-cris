@@ -10,6 +10,7 @@
 <%@ page import="java.io.File"%>
 <%@ page import="org.dspace.core.ConfigurationManager"%>
 <%@ page import="org.dspace.browse.BrowseInfo"%>
+<%@ page import="org.dspace.app.webui.util.UIUtil" %>
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
@@ -28,7 +29,127 @@
 	{
 	    showUnSubMsg = true;
 	}
+	
+    // Is the logged in user an admin
+    Boolean admin = (Boolean)request.getAttribute("is.admin");
+    boolean isAdmin = (admin == null ? false : admin.booleanValue());
+    // Get the current page, minus query string
+    String currentPage = UIUtil.getOriginalURL(request);
+    int c = currentPage.indexOf( '?' );
+    if( c > -1 )
+    {
+        currentPage = currentPage.substring( 0, c );
+    }
+
 %>
+
+<c:set var="dspace.cris.navbar" scope="request">
+
+
+  <c:if test="${researcher_page_menu && !empty researcher}">
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td nowrap="nowrap" colspan="2" class="navigationBarSublabel"><fmt:message key="jsp.layout.navbar-hku.staffmode.title"/></td>
+  </tr>
+
+  <c:if test="${!empty addModeType && addModeType=='display'}">
+  <tr class="navigationBarItem">
+    <td>
+      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/editDynamicData" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+    </td>
+    <td nowrap="nowrap" class="navigationBarItem">
+      <a href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
+    </td>
+  </tr>  
+  </c:if>
+   <tr class="navigationBarItem">
+    <td>
+      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/rebindItemsToRP" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+    </td>
+    <td nowrap="nowrap" class="navigationBarItem">
+      <a href="<%= request.getContextPath() %>/cris/tools/rp/rebindItemsToRP.htm?id=${researcher.id}"><fmt:message key="jsp.layout.navbar-hku.staff-mode.bind.items"/></a>
+    </td>
+  </tr>
+   <tr class="navigationBarItem">
+    <td>
+      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/help#ResearcherPages" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+    </td>
+    <td nowrap="nowrap" class="navigationBarItem">
+      <a href="<%= request.getContextPath() %>/help.jsp#ResearcherPages">Help</a>
+    </td>
+  </tr>
+  </c:if>
+  
+  <% if (isAdmin) { %>
+  <tr> 
+  <td colspan="2">
+	<c:if test="${!empty researcher}">
+	
+		
+			<p><b>Staff no. ${researcher.sourceID} </b><br/>
+			<br />
+			record created at:
+			${researcher.timeStampInfo.timestampCreated.timestamp} <br/>
+			<br />
+			last updated at:
+			${researcher.timeStampInfo.timestampLastModified.timestamp}<br/>
+			</p>
+		
+	
+	</c:if>
+	</td>
+  </tr>
+<% } %>
+
+
+<c:if test="${!empty entity && (!empty addModeType && addModeType=='display')}">    
+ <% if (!isAdmin) { %>
+ <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+<% } %>	
+ <tr> 
+  <td colspan="2">
+		
+	    <c:forEach items="${tabList}" var="tabfornavigation">				
+			
+				<div id="cris-tabs-navigation-${tabfornavigation.shortName}" class="navigation-tabs" style="display: none">		
+
+					<div id="menu-${tabfornavigation.shortName}" class="showMoreLessBox1-dark box">
+						<h3 class="showMoreLessControlElement control ${tabfornavigation.id != tabId?"":"expanded"}">
+						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif"  ${tabfornavigation.id != tabId?"":"class=\"hide\""}/>
+						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" ${tabfornavigation.id != tabId?"class=\"hide\"":""} />
+							${tabfornavigation.title}
+						</h3>		
+						<div class="collapsable expanded-content" ${tabfornavigation.id != tabId?"style=\"display: none;\"":""}>
+						<div id="nav-sublocal">
+						<ul>
+						<div id="snavmenu-${tabfornavigation.shortName}">
+							<div class="log">
+							<img
+								src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+			    				class="loader" />
+			    			</div>
+						</div>
+						</ul>
+						</div>
+						</div>
+					</div>
+		
+
+				</div>
+			
+		 </c:forEach>
+	   
+	</td>
+  </tr> 
+</c:if>
+ 
+
+</c:set>
 <c:set var="dspace.layout.head" scope="request">
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui-1.8.24.custom.min.js"></script>
