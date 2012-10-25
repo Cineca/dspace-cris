@@ -182,8 +182,8 @@
 							</tasks>
 						</configuration>
 					</execution>
-					<!-- 
-
+					
+<!-- 
 					<execution>
 						<id>generate-drop-ddl</id>
 						<phase>process-classes</phase>
@@ -198,7 +198,7 @@
 								</ant>
 							</tasks>
 						</configuration>
-					</execution>
+					</execution> 
 					  
 			
 						<execution>

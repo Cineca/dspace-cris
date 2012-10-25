@@ -14,6 +14,7 @@ import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.osd.common.dao.PaginableObjectDao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * 
  */
 public interface ResearcherPageDao extends
-        PaginableObjectDao<ResearcherPage, Integer>
+        PaginableObjectDao<ResearcherPage, Serializable>
 {
     public ResearcherPage uniqueBySourceID(String staffNo);
 

@@ -28,32 +28,38 @@ import org.springframework.web.servlet.ModelAndView;
  * 
  */
 public class FormAdministrationAddProjectController extends
-		AFormResearcherPageController {
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request,
-			HttpServletResponse response, Object command, BindException errors)
-			throws Exception {
-		ProjectDTO grantDTO = (ProjectDTO) command;
-		String code = grantDTO.getCode();
-		Project grant = applicationService
-				.getResearcherGrantByCode(code);
-		if (code == null || code.isEmpty()) {
-			return new ModelAndView(getSuccessView()
-					+ "administrator/index.htm?error=true");
-		} else {
-			if (grant != null) {
+        AFormResearcherPageController
+{
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object command, BindException errors)
+            throws Exception
+    {
+        ProjectDTO grantDTO = (ProjectDTO) command;
+        String code = grantDTO.getCode();
+        Project grant = null;
+        if (code != null && !code.isEmpty())
+        {
+            grant = applicationService.getResearcherGrantByCode(code);
+            if (grant != null)
+            {
 
-				return new ModelAndView(getSuccessView()
-						+ "administrator/index.htm?error=true");
-			} else {
-				grant = new Project();
-				grant.setSourceID(code);
-				grant.setStatus(false);				
-				grant.getDynamicField().setProject(grant);
-				applicationService.saveOrUpdate(Project.class, grant);
-			}
-		}
-		return new ModelAndView(getSuccessView() + "details.htm?id="+grant.getId());
+                return new ModelAndView(getSuccessView()
+                        + "administrator/index.htm?error=true");
+            }
+        }
+        else
+        {
 
-	}
+            grant = new Project();
+            grant.setSourceID(code);
+            grant.setStatus(false);
+            grant.getDynamicField().setProject(grant);
+            applicationService.saveOrUpdate(Project.class, grant);
+
+        }
+        return new ModelAndView(getSuccessView() + "details.htm?id="
+                + grant.getId());
+
+    }
 }

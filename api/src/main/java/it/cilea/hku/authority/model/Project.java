@@ -13,7 +13,6 @@ package it.cilea.hku.authority.model;
 import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
-import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.model.export.ExportConstants;
 import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
@@ -25,7 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,11 +41,11 @@ import javax.persistence.Transient;
         @NamedQuery(name = "Project.count", query = "select count(*) from Project"),
         @NamedQuery(name = "Project.paginate.id.asc", query = "from Project order by id asc"),
         @NamedQuery(name = "Project.paginate.id.desc", query = "from Project order by id desc"),
-        @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ? order by id desc") })
-public class Project
-        implements
-        Identifiable,
-        UUIDSupport,
+        @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ? order by id desc"),
+        @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?")
+  })
+public class Project extends ACrisObject
+        implements                
         HasTimeStampInfo,
         Cloneable,
         IExportableDynamicObject<ProjectPropertiesDefinition, ProjectProperty, ProjectAdditionalFieldStorage>,
@@ -66,9 +64,6 @@ public class Project
     @SequenceGenerator(name = "CRIS_PROJECT_SEQ", sequenceName = "CRIS_PROJECT_SEQ")
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String uuid;
-
     /** timestamp info for creation and last modify */
     @Embedded
     private TimeStampInfo timeStampInfo;
@@ -81,10 +76,6 @@ public class Project
 
     /** True if grant is active */
     private Boolean status;
-
-    /** Grant code */
-    @Column(nullable = true, unique = true)
-    private String sourceID;
 
     public Project()
     {
@@ -139,17 +130,7 @@ public class Project
         this.status = status;
     }
 
-    public void setSourceID(String rgCode)
-    {
-        this.sourceID = rgCode;
-    }
-
-    public String getSourceID()
-    {
-        return sourceID;
-    }
-
-    @Override
+    
     public Object clone() throws CloneNotSupportedException
     {
         return super.clone();
@@ -196,25 +177,25 @@ public class Project
         return "";
     }
 
-    @Override
+    
     public String getNamePublicIDAttribute()
     {
         return ExportConstants.NAME_PUBLICID_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValuePublicIDAttribute()
     {
         return "" + this.getId();
     }
 
-    @Override
+    
     public String getNameIDAttribute()
     {
         return ExportConstants.NAME_ID_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValueIDAttribute()
     {
         if (this.getUuid() == null)
@@ -224,47 +205,36 @@ public class Project
         return "" + this.getUuid().toString();
     }
 
-    @Override
+    
     public String getNameBusinessIDAttribute()
     {
         return ExportConstants.NAME_BUSINESSID_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValueBusinessIDAttribute()
     {
         return this.getSourceID();
     }
 
-    @Override
+    
     public String getNameTypeIDAttribute()
     {
         return ExportConstants.NAME_TYPE_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValueTypeIDAttribute()
     {
         return "" + GRANT_TYPE_ID;
     }
-
-    public void setUuid(String uuid)
-    {
-        this.uuid = uuid;
-    }
-
-    public String getUuid()
-    {
-        return uuid;
-    }
-
-    @Override
+    
     public String getNameSingleRowElement()
     {
         return ExportConstants.ELEMENT_SINGLEROW;
     }
 
-    @Override
+    
     public ProjectAdditionalFieldStorage getDynamicField()
     {
         if (this.dynamicField == null)
@@ -289,37 +259,37 @@ public class Project
         return id;
     }
 
-    @Override
+    
     public String getIdentifyingValue()
     {
         return this.dynamicField.getIdentifyingValue();
     }
 
-    @Override
+    
     public String getDisplayValue()
     {
         return this.dynamicField.getDisplayValue();
     }
 
-    @Override
+    
     public List<ProjectProperty> getAnagrafica()
     {
         return this.dynamicField.getAnagrafica();
     }
 
-    @Override
+    
     public Map<String, List<ProjectProperty>> getAnagrafica4view()
     {
         return this.dynamicField.getAnagrafica4view();
     }
 
-    @Override
+    
     public void setAnagrafica(List<ProjectProperty> anagrafica)
     {
         this.dynamicField.setAnagrafica(anagrafica);
     }
 
-    @Override
+    
     public ProjectProperty createProprieta(
             ProjectPropertiesDefinition tipologiaProprieta)
             throws IllegalArgumentException
@@ -327,7 +297,7 @@ public class Project
         return this.dynamicField.createProprieta(tipologiaProprieta);
     }
 
-    @Override
+    
     public ProjectProperty createProprieta(
             ProjectPropertiesDefinition tipologiaProprieta, Integer posizione)
             throws IllegalArgumentException
@@ -335,44 +305,44 @@ public class Project
         return this.dynamicField.createProprieta(tipologiaProprieta, posizione);
     }
 
-    @Override
+    
     public boolean removeProprieta(ProjectProperty proprieta)
     {
         return this.dynamicField.removeProprieta(proprieta);
     }
 
-    @Override
+    
     public List<ProjectProperty> getProprietaDellaTipologia(
             ProjectPropertiesDefinition tipologiaProprieta)
     {
         return this.dynamicField.getProprietaDellaTipologia(tipologiaProprieta);
     }
 
-    @Override
+    
     public Class<ProjectProperty> getClassProperty()
     {
         return this.dynamicField.getClassProperty();
     }
 
-    @Override
+    
     public Class<ProjectPropertiesDefinition> getClassPropertiesDefinition()
     {
         return this.dynamicField.getClassPropertiesDefinition();
     }
 
-    @Override
+    
     public void inizializza()
     {
         this.dynamicField.inizializza();
     }
 
-    @Override
+    
     public void invalidateAnagraficaCache()
     {
         this.dynamicField.invalidateAnagraficaCache();
     }
 
-    @Override
+    
     public void pulisciAnagrafica()
     {
         this.dynamicField.pulisciAnagrafica();
@@ -416,6 +386,11 @@ public class Project
         }
 
         return result;
+    }
+
+    public String getPublicPath()
+    {        
+        return "/cris/project/";
     }
 
 }

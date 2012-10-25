@@ -44,8 +44,9 @@
 										
 		<display:table name="${dto}" cellspacing="0" cellpadding="0" 
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
-										
-			<display:column headerClass="code" class="code" titleKey="jsp.layout.table.hku.projects.code" property="code" url="/cris/project/details.htm" paramId="id" paramProperty="id" sortable="true"/>			
+			
+			<display:column headerClass="uuid" titleKey="jsp.layout.table.hku.projects.uuid" property="grant.uuid" url="/cris/project/details.htm" paramId="id" paramProperty="id" sortable="true"/>										
+			<display:column headerClass="code" class="code" titleKey="jsp.layout.table.hku.projects.code" property="code" url="/cris/project/details.htm" paramId="code" paramProperty="code" sortable="true"/>						
 			<display:column headerClass="investigators" class="investigators" titleKey="jsp.layout.table.hku.projects.investigators" property="investigators" sortable="true"/>						
 			<display:column headerClass="title" titleKey="jsp.layout.table.hku.projects.title" property="title" sortable="true"/>
 			<display:column headerClass="year" titleKey="jsp.layout.table.hku.projects.year" property="year" sortable="true"/>			

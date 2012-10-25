@@ -307,8 +307,8 @@ public class ResearcherPageDetailsController
     protected void sendRedirect(HttpServletRequest request,
             HttpServletResponse response, Exception ex, String objectId) throws IOException, ServletException
     {
-        //JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
-        response.sendRedirect("/cris/rp/" + objectId);
+        JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
+        //response.sendRedirect("/cris/rp/" + objectId);
     }
 
 }

@@ -47,7 +47,7 @@
 		<li>
 
 		<div style="padding: 0; margin: 0 10px;"><a
-			href="<%=request.getContextPath()%>/cris/administrator/organizationunit/index.htm"><fmt:message
+			href="<%=request.getContextPath()%>/cris/administrator/ou/index.htm"><fmt:message
 			key="jsp.dspace-admin.cris.organizationunit.index" /></a></div>	
 		
 		<div>&nbsp;</div>

@@ -7,6 +7,24 @@
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 
+<c:set var="dspace.layout.head" scope="request">
+    <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui-1.8.24.custom.min.js"></script>
+    
+    <script type="text/javascript"><!--
+
+		var j = jQuery.noConflict();
+    j(document).ready(function()
+			{
+    		j('#addentity').click(function() {
+    		  j('#dto').submit();
+    		});
+			}
+    );
+		-->
+	</script>
+    
+</c:set>
 <dspace:layout locbar="link" navbar="admin"	titlekey="jsp.dspace-admin.project">
 	<table width="95%">
 		<tr>
@@ -53,29 +71,23 @@
 		<div>&nbsp;</div>
 		</li>
 		<li>
+		<div style="padding: 0; margin: 0 10px;"><a id="addentity"
+			href="#"><fmt:message
+			key="jsp.dspace-admin.hku.add-project" /></a></div>	
 		
-		<div id="hidden_first" style="padding: 0; margin: 0 10px;"><a
-			onclick="Effect.toggle('hidden_appear', 'appear'); return false;"
-			href="#"> <span id="toggle_appear"> <fmt:message
-			key="jsp.dspace-admin.hku.add-project" /></span> </a>
-
-		<div id="hidden_appear" style="display: none; float: right;"><c:set
-			var="contextPath"><%=request.getContextPath()%></c:set> <form:form
+		
+		<div style="display: none; float: right;"><c:set
+			var="contextPath"><%=request.getContextPath()%></c:set> <form:form 
 			action="${contextPath}/cris/administrator/project/addProject.htm"
 			method="post" commandName="dto">
 
+			
 
-			<em class="bodyText"><fmt:message
-				key="jsp.dspace-admin.hku.add-project.message" /></em>
-			<form:input path="code" />
-
-			<input type="submit"
-				value="<fmt:message key="jsp.dspace-admin.hku.add-project.go"/>">
-		</form:form></div>
+		</form:form>
 		</div>
+		
 
 		<div>&nbsp;</div>
-
 		</li>
 
 		<li>

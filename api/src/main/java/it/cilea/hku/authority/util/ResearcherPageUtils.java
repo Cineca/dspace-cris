@@ -10,31 +10,12 @@
  */
 package it.cilea.hku.authority.util;
 
+import it.cilea.hku.authority.model.ACrisObject;
 import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.RestrictedField;
 import it.cilea.hku.authority.model.VisibilityConstants;
-import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.service.ApplicationService;
-import it.cilea.osd.jdyna.util.TabUtils;
-import it.cilea.osd.jdyna.web.Tab;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.activation.MimetypesFileTypeMap;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.WildcardFilter;
-import org.dspace.core.ConfigurationManager;
-import org.dspace.core.Utils;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * This class provides some static utility methods to extract information from
@@ -43,13 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
  * @author cilea
  * 
  */
-public class ResearcherPageUtils implements TabUtils
+public class ResearcherPageUtils
 {
-    public static final String DIRECTORY_TAB_ICON = "icon";
 
-	public static final String PREFIX_TAB_ICON = "tab_";
-
-	/**
+    /**
      * Formatter to build the rp identifier
      */
     private static DecimalFormat persIdentifierFormat = new DecimalFormat(
@@ -79,9 +57,9 @@ public class ResearcherPageUtils implements TabUtils
      *            the researcher page
      * @return the rp identifier of the supplied ResearhcerPage
      */
-    public static String getPersistentIdentifier(ResearcherPage rp)
+    public static String getPersistentIdentifier(ACrisObject rp)
     {
-        return "rp" + persIdentifierFormat.format(rp.getId());
+        return persIdentifierFormat.format(rp.getId());
     }
 
     /**
@@ -93,7 +71,7 @@ public class ResearcherPageUtils implements TabUtils
      */
     public static String getPersistentIdentifier(Integer rp)
     {
-        return "rp" + persIdentifierFormat.format(rp);
+        return persIdentifierFormat.format(rp);
     }
 
     /**
@@ -103,11 +81,11 @@ public class ResearcherPageUtils implements TabUtils
      *            the rp identifier
      * @return the db primary key
      */
-    public static Integer getRealPersistentIdentifier(String authorityKey) 
+    public static Integer getRealPersistentIdentifier(String authorityKey)
     {
         try
         {
-            return Integer.parseInt(authorityKey.substring(2));
+            return Integer.parseInt(authorityKey);
         }
         catch (NumberFormatException e)
         {
@@ -125,7 +103,7 @@ public class ResearcherPageUtils implements TabUtils
      * @return the label to use
      */
     public static String getLabel(String alternativeName, ResearcherPage rp)
-    {        
+    {
         if (alternativeName.equals(rp.getFullName()))
         {
             return rp.getFullName() + " " + rp.getTranslatedName().getValue();
@@ -147,7 +125,7 @@ public class ResearcherPageUtils implements TabUtils
      */
     public static String getLabel(String alternativeName, String rpkey)
     {
-        if (rpkey != null && rpkey.startsWith("rp"))
+        if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
                     Integer.parseInt(rpkey.substring(2)));
@@ -155,7 +133,7 @@ public class ResearcherPageUtils implements TabUtils
         }
         return alternativeName;
     }
-    
+
     /**
      * Check if the supplied form is the fullname of the ResearcherPage
      * 
@@ -168,10 +146,10 @@ public class ResearcherPageUtils implements TabUtils
      */
     public static boolean isFullName(String alternativeName, String rpkey)
     {
-        if (alternativeName != null && rpkey != null && rpkey.startsWith("rp"))
+        if (alternativeName != null && rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));            
+                    getRealPersistentIdentifier(rpkey));
             return alternativeName.equals(rp.getFullName());
         }
         return false;
@@ -189,15 +167,15 @@ public class ResearcherPageUtils implements TabUtils
      */
     public static boolean isChineseName(String alternativeName, String rpkey)
     {
-        if (alternativeName != null && rpkey != null && rpkey.startsWith("rp"))
+        if (alternativeName != null && rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));            
+                    getRealPersistentIdentifier(rpkey));
             return alternativeName.equals(rp.getTranslatedName().getValue());
         }
         return false;
     }
-    
+
     /**
      * Get the fullname of the ResearcherPage
      * 
@@ -207,17 +185,15 @@ public class ResearcherPageUtils implements TabUtils
      */
     public static String getFullName(String rpkey)
     {
-        if (rpkey != null && rpkey.startsWith("rp"))
+        if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));            
+                    getRealPersistentIdentifier(rpkey));
             return rp.getFullName();
         }
         return null;
     }
-    
-        
-    
+
     /**
      * Get the staff number of the ResearcherPage
      * 
@@ -227,11 +203,11 @@ public class ResearcherPageUtils implements TabUtils
      */
     public static String getStaffNumber(String rpkey)
     {
-        if (rpkey != null && rpkey.startsWith("rp"))
+        if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));            
-            return rp != null?rp.getSourceID():null;
+                    getRealPersistentIdentifier(rpkey));
+            return rp != null ? rp.getSourceID() : null;
         }
         return null;
     }
@@ -247,15 +223,16 @@ public class ResearcherPageUtils implements TabUtils
     {
         if (staffno != null)
         {
-            ResearcherPage rp = applicationService.getResearcherPageByStaffNo(staffno);
+            ResearcherPage rp = applicationService
+                    .getResearcherPageByStaffNo(staffno);
             if (rp != null)
             {
-            	return getPersistentIdentifier(rp);
+                return getPersistentIdentifier(rp);
             }
         }
         return null;
     }
-    
+
     /**
      * Get the ChineseName of the ResearcherPage
      * 
@@ -265,56 +242,15 @@ public class ResearcherPageUtils implements TabUtils
      */
     public static String getChineseName(String rpkey)
     {
-        if (rpkey != null && rpkey.startsWith("rp"))
+        if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));            
-            return VisibilityConstants.PUBLIC == rp.getTranslatedName().getVisibility()?
-                    rp.getTranslatedName().getValue():"";
+                    getRealPersistentIdentifier(rpkey));
+            return VisibilityConstants.PUBLIC == rp.getTranslatedName()
+                    .getVisibility() ? rp.getTranslatedName().getValue() : "";
         }
         return null;
     }
-	
-	/**
-	 * 
-	 * Load tab icon and copy to default directory.
-	 * 
-	 * @param researcher
-	 * @param rp
-	 * @param itemImage MultipartFile to use in webform
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 */
-	public void loadTabIcon(Tab tab, String iconName,
-			MultipartFile itemImage) throws IOException, FileNotFoundException {
-		String pathImage = ConfigurationManager
-		        .getProperty("researcherpage.file.path");
-		String ext = itemImage.getOriginalFilename().substring(
-		        itemImage.getOriginalFilename().lastIndexOf(".") + 1);
-		File dir = new File(pathImage + File.separatorChar + DIRECTORY_TAB_ICON);
-		dir.mkdir();
-		File file = new File(dir, PREFIX_TAB_ICON + iconName + "." + ext);
-		file.createNewFile();
-		FileOutputStream out = new FileOutputStream(file);
-		Utils.bufferedCopy(itemImage.getInputStream(), out);
-		out.close();
-		tab.setExt(ext);
-		tab.setMime(itemImage.getContentType());
-	}
-	
-	/**
-	 * Remove tab icon from the server.
-	 * 
-	 * @param researcher
-	 */
-	public void removeTabIcon(Tab tab) {
-		File image = new File(ConfigurationManager
-		        .getProperty("researcherpage.file.path")
-		        + File.separatorChar
-		        + DIRECTORY_TAB_ICON
-		        + File.separatorChar + PREFIX_TAB_ICON + tab.getId() + "." + tab.getExt());
-		image.delete();   
-		tab.setExt(null);
-		tab.setMime(null);
-	}
+
+  
 }

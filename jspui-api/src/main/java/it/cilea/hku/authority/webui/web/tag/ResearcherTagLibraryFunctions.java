@@ -10,11 +10,13 @@
  */
 package it.cilea.hku.authority.webui.web.tag;
 
+import it.cilea.hku.authority.model.OrganizationUnit;
 import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.RestrictedField;
-import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
+import it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
+import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested;
@@ -197,7 +199,11 @@ public class ResearcherTagLibraryFunctions
                 boxName);
             return isBoxHidden((Project)anagrafica, box);
         }
-        
+        if(anagrafica instanceof OrganizationUnit) {
+            BoxOrganizationUnit box = applicationService.getBoxByShortName(BoxOrganizationUnit.class,
+                boxName);
+            return isBoxHidden((OrganizationUnit)anagrafica, box);
+        }        
         BoxResearcherPage box = applicationService.getBoxByShortName(
                 BoxResearcherPage.class, boxName);
 
@@ -214,6 +220,11 @@ public class ResearcherTagLibraryFunctions
     }
 
     public static boolean isBoxHidden(Project anagrafica, BoxProject box)
+    {
+        return isBoxHiddenInternal(anagrafica, box);
+    }
+    
+    public static boolean isBoxHidden(OrganizationUnit anagrafica, BoxOrganizationUnit box)
     {
         return isBoxHiddenInternal(anagrafica, box);
     }

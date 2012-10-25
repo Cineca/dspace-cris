@@ -86,11 +86,11 @@ import org.hibernate.annotations.FetchMode;
         @NamedQuery(name = "ResearcherPage.findAllNextResearcherBysourceIDStart", query = "from ResearcherPage rp where rp.sourceID >= ?"),
         @NamedQuery(name = "ResearcherPage.findAllPrevResearcherBysourceIDEnd", query = "from ResearcherPage rp where rp.sourceID <= ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInsourceIDRange", query = "from ResearcherPage rp where rp.sourceID between :par0 and :par1"),
-        @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?") })
-public class ResearcherPage
+        @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?"),
+        @NamedQuery(name = "ResearcherPage.uniqueUUID", query = "from ResearcherPage where uuid = ?")
+})
+public class ResearcherPage extends ACrisObject
         implements
-        UUIDSupport,
-        Identifiable,
         HasTimeStampInfo,
         Cloneable,
         IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>,
@@ -133,15 +133,10 @@ public class ResearcherPage
     @SequenceGenerator(name = "CRIS_RESEARCHERPAGE_SEQ", sequenceName = "CRIS_RESEARCHERPAGE_SEQ")
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String uuid;
 
     /** True if researcher is active */
     private Boolean status;
 
-    /** HKU internal unique identifier of the ResearcherPage, must be not null */
-    @Column(nullable = true, unique = true)
-    private String sourceID;
 
     @Transient
     /**
@@ -199,26 +194,6 @@ public class ResearcherPage
         this.id = id;
     }
 
-    /**
-     * Getter method.
-     * 
-     * @return the sourceID
-     */
-    public String getSourceID()
-    {
-        return sourceID;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param sourceID
-     *            the sourceID
-     */
-    public void setSourceID(String sourceID)
-    {
-        this.sourceID = sourceID;
-    }
 
     /**
      * Wrapper method.
@@ -515,7 +490,7 @@ public class ResearcherPage
         return results;
     }
 
-    @Override
+    
     public Object clone() throws CloneNotSupportedException
     {
         return super.clone();
@@ -531,25 +506,25 @@ public class ResearcherPage
         return internalRP;
     }
 
-    @Override
+    
     public String getNamePublicIDAttribute()
     {
         return ExportConstants.NAME_PUBLICID_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValuePublicIDAttribute()
     {
         return "" + this.getId();
     }
 
-    @Override
+    
     public String getNameIDAttribute()
     {
         return ExportConstants.NAME_ID_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValueIDAttribute()
     {
         if (this.getUuid() == null)
@@ -559,84 +534,74 @@ public class ResearcherPage
         return "" + this.getUuid().toString();
     }
 
-    @Override
+    
     public String getNameBusinessIDAttribute()
     {
         return ExportConstants.NAME_BUSINESSID_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValueBusinessIDAttribute()
     {
         return this.getSourceID();
     }
 
-    @Override
+    
     public String getNameTypeIDAttribute()
     {
         return ExportConstants.NAME_TYPE_ATTRIBUTE;
     }
 
-    @Override
+    
     public String getValueTypeIDAttribute()
     {
         return "" + RP_TYPE_ID;
     }
 
-    public void setUuid(String uuid)
-    {
-        this.uuid = uuid;
-    }
-
-    public String getUuid()
-    {
-        return uuid;
-    }
-
-    @Override
+    
     public String getNameSingleRowElement()
     {
         return ExportConstants.ELEMENT_SINGLEROW;
     }
 
-    @Override
+    
     public String getIdentifyingValue()
     {
         return this.dynamicField.getIdentifyingValue();
     }
 
-    @Override
+    
     public String getDisplayValue()
     {
         return this.dynamicField.getDisplayValue();
     }
 
-    @Override
+    
     public List<RPProperty> getAnagrafica()
     {
         return this.dynamicField.getAnagrafica();
     }
 
-    @Override
+    
     public Map<String, List<RPProperty>> getAnagrafica4view()
     {
         return this.dynamicField.getAnagrafica4view();
     }
 
-    @Override
+    
     public void setAnagrafica(List<RPProperty> anagrafica)
     {
         this.dynamicField.setAnagrafica(anagrafica);
     }
 
-    @Override
+    
     public RPProperty createProprieta(RPPropertiesDefinition tipologiaProprieta)
             throws IllegalArgumentException
     {
         return this.dynamicField.createProprieta(tipologiaProprieta);
     }
 
-    @Override
+    
     public RPProperty createProprieta(
             RPPropertiesDefinition tipologiaProprieta, Integer posizione)
             throws IllegalArgumentException
@@ -644,44 +609,44 @@ public class ResearcherPage
         return this.dynamicField.createProprieta(tipologiaProprieta, posizione);
     }
 
-    @Override
+    
     public boolean removeProprieta(RPProperty proprieta)
     {
         return this.dynamicField.removeProprieta(proprieta);
     }
 
-    @Override
+    
     public List<RPProperty> getProprietaDellaTipologia(
             RPPropertiesDefinition tipologiaProprieta)
     {
         return this.dynamicField.getProprietaDellaTipologia(tipologiaProprieta);
     }
 
-    @Override
+    
     public Class<RPProperty> getClassProperty()
     {
         return this.dynamicField.getClassProperty();
     }
 
-    @Override
+    
     public Class<RPPropertiesDefinition> getClassPropertiesDefinition()
     {
         return this.dynamicField.getClassPropertiesDefinition();
     }
 
-    @Override
+    
     public void inizializza()
     {
         this.dynamicField.inizializza();
     }
 
-    @Override
+    
     public void invalidateAnagraficaCache()
     {
         this.dynamicField.invalidateAnagraficaCache();
     }
 
-    @Override
+    
     public void pulisciAnagrafica()
     {
         this.dynamicField.pulisciAnagrafica();
@@ -732,6 +697,12 @@ public class ResearcherPage
     public void setEpersonID(Integer idEPerson)
     {
         this.epersonID = idEPerson;
+    }
+
+
+    public String getPublicPath()
+    {        
+        return "/cris/rp/";
     }
 
 }

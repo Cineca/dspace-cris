@@ -2,17 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
-<%@ page import="it.cilea.hku.authority.dspace.HKUAuthority"%>
-<%@ page import="java.net.URL"%>
-<%@ page import="it.cilea.hku.authority.util.ResearcherPageUtils"%>
-<%@ page import="java.io.File"%>
-<%@ page import="org.dspace.core.ConfigurationManager"%>
-<%@ page import="org.dspace.browse.BrowseInfo"%>
-
 <%@ taglib uri="jdynatags" prefix="dyna"%>
-<%@ taglib uri="researchertags" prefix="researcher"%>
+
 <% 
 	Integer offset = (Integer)request.getAttribute("offset");
 	Integer limit = (Integer)request.getAttribute("limit");
@@ -31,6 +23,7 @@
 		
 	
 	<table>
+	<c:if test="${totalpage>1}">
 	<tr>
 	<td>	
 	<fmt:message key="jsp.layout.form.search.navigation">
@@ -44,6 +37,19 @@
 	
 	</td>
 	</tr>
+	</c:if>
+	<c:if test="${totalpage==1}">
+	<tr>
+	<td>	
+	
+	<fmt:message key="jsp.layout.form.search.navigation.minimal">	
+	<fmt:param>${totalHit}</fmt:param>	
+	<fmt:param>${decoratorPropertyDefinition.label}</fmt:param>	
+	</fmt:message>
+		
+	</td>
+	</tr>
+	</c:if>
 	</table>
 	
 	<c:if test="${totalpage>1}">
@@ -87,8 +93,8 @@
 	</tr>
 	</table>	
 	</c:if>
-		
-	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificPartPath}"/>
+
+	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificContextPath}${specificPartPath}"/>
 	</c:if>	
 	<c:if test="${(editmode && decoratorPropertyDefinition.repeatable) || (editmode && empty results)}">
 		<img id="add${decoratorPropertyDefinition.shortName}" src="<%= request.getContextPath() %>/image/jdyna/main_plus.gif" class="addNestedButton"/>
@@ -139,7 +145,7 @@
 					j("#log3").dialog("open");									
 					Loader.write("Loading form...");																	
 																						
-					var ajaxurlrelations = "<%= request.getContextPath() %>/cris/${specificPartPath}/addNested.htm";
+					var ajaxurlrelations = "<%= request.getContextPath() %>/cris/tools/${specificPartPath}/addNested.htm";
 					j.ajax( {
 						url : ajaxurlrelations,
 						data : {			

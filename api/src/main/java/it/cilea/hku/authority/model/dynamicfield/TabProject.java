@@ -22,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -63,4 +64,10 @@ public class TabProject extends AbstractTab<BoxProject> {
 	public void setMask(List<BoxProject> mask) {
 		this.mask = mask;
 	}
+	
+    @Override
+    public String getFileSystemPath()
+    {
+        return ConfigurationManager.getProperty("project.file.path");
+    }
 }

@@ -10,14 +10,17 @@
  */
 package it.cilea.hku.authority.service;
 
+import it.cilea.hku.authority.dao.ApplicationDao;
+import it.cilea.hku.authority.dao.OrganizationUnitDao;
 import it.cilea.hku.authority.dao.ProjectDao;
 import it.cilea.hku.authority.dao.RPSubscriptionDao;
 import it.cilea.hku.authority.dao.ResearcherPageDao;
+import it.cilea.hku.authority.model.ACrisObject;
+import it.cilea.hku.authority.model.OrganizationUnit;
 import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.RPSubscription;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
-import it.cilea.osd.common.dao.IApplicationDao;
 import it.cilea.osd.common.model.Identifiable;
 
 import java.io.Serializable;
@@ -36,14 +39,12 @@ import org.hibernate.Session;
  */
 public class ApplicationService extends ExtendedTabService
 {
-    protected IApplicationDao applicationDao;
 
     private ResearcherPageDao researcherPageDao;
-
     private ProjectDao projectDao;
+    private OrganizationUnitDao organizationUnitDao;
 
     private RPSubscriptionDao rpSubscriptionDao;
-
 
     /**
      * Initialization method
@@ -52,19 +53,19 @@ public class ApplicationService extends ExtendedTabService
     {
         researcherPageDao = (ResearcherPageDao) getDaoByModel(ResearcherPage.class);
         projectDao = (ProjectDao) getDaoByModel(Project.class);
+        organizationUnitDao = (OrganizationUnitDao) getDaoByModel(OrganizationUnit.class);
         rpSubscriptionDao = (RPSubscriptionDao) getDaoByModel(RPSubscription.class);
 
     }
 
-    /**
-     * Setter for the applicationDao
-     * 
-     * @param applicationDao
-     *            the dao to use for generic query
-     */
-    public void setApplicationDao(IApplicationDao applicationDao)
+    public <C extends ACrisObject> C getEntityByUUID(String uuid)
     {
-        this.applicationDao = applicationDao;
+        return ((ApplicationDao)getApplicationDao()).uniqueUUID(uuid);
+    }
+
+    public <C extends ACrisObject> C getEntityBySourceID(String sourceID)
+    {
+        return ((ApplicationDao)getApplicationDao()).uniqueBySourceID(sourceID);
     }
 
     /**
@@ -100,18 +101,6 @@ public class ApplicationService extends ExtendedTabService
     public void deleteRPSubscriptionByEPersonID(int id)
     {
         rpSubscriptionDao.deleteByEpersonID(id);
-    }
-
-    /**
-     * Lookup a ResearcherPage by the unique identifier StaffNo
-     * 
-     * @param staffNo
-     *            the staff number of the researcher
-     * @return the ResearcherPage
-     */
-    public ResearcherPage getResearcherPageByStaffNo(String staffNo)
-    {
-        return researcherPageDao.uniqueBySourceID(staffNo);
     }
 
     /**
@@ -188,7 +177,6 @@ public class ApplicationService extends ExtendedTabService
         return researcherPageDao.countAllResearcherByNameExceptResearcher(name,
                 id);
     }
-
 
     /**
      * Return the ReseacherPage related to the supplied autority key.
@@ -408,14 +396,27 @@ public class ApplicationService extends ExtendedTabService
         return applicationDao.getList(model, ids);
     }
 
-    public Project getResearcherGrantByCode(String projectcode)
-    {
-        return projectDao.uniqueBySourceID(projectcode);
-    }
-
     public ResearcherPage getResearcherPageByEPersonId(Integer id)
     {
         return researcherPageDao.uniqueResearcherPageByEPersonId(id);
     }
-  
+
+    public ResearcherPage getResearcherPageByStaffNo(String code)
+    {
+        //return (ResearcherPage) getEntityBySourceID(code);
+        return researcherPageDao.uniqueBySourceID(code);
+    }
+
+    public Project getResearcherGrantByCode(String code)
+    {
+        //return (Project) getEntityBySourceID(code);
+        return projectDao.uniqueBySourceID(code);
+    }
+
+    public OrganizationUnit getOrganizationUnitByCode(String code)
+    {
+        //return (OrganizationUnit) getEntityBySourceID(code);
+        return organizationUnitDao.uniqueBySourceID(code);
+    }
+
 }

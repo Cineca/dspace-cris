@@ -31,38 +31,48 @@ import org.springframework.web.servlet.ModelAndView;
  * 
  */
 public class FormAdministrationAddResearcherController extends
-		AFormResearcherPageController {
-	
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request,
-			HttpServletResponse response, Object command, BindException errors)
-			throws Exception {
-		ResearcherPageDTO researcherDTO = (ResearcherPageDTO) command;
-		String staffNo = researcherDTO.getStaffNo();
-		ResearcherPage researcher = applicationService
-				.getResearcherPageByStaffNo(researcherDTO.getStaffNo());
-		if (staffNo == null || staffNo.isEmpty()) {
-			return new ModelAndView(getSuccessView()
-					+ "administrator/index.htm?error=true");
-		} else {
-			if (researcher != null) {
+        AFormResearcherPageController
+{
 
-				return new ModelAndView(getSuccessView()
-						+ "administrator/index.htm?error=true");
-			} else {
-				researcher = new ResearcherPage();
-				researcher.setSourceID(staffNo);
-				researcher.setStatus(false);
-				researcher.getDynamicField().setResearcherPage(researcher);
-				RPProperty property = researcher.getDynamicField().createProprieta(applicationService.findPropertiesDefinitionByShortName(RPPropertiesDefinition.class, "fullName"));
-				property.getValue().setOggetto("Insert fullname here ("+ staffNo +")");
-				property.setVisibility(1);
-				applicationService.saveOrUpdate(ResearcherPage.class,
-						researcher);
-			}
-		}
-		return new ModelAndView(getSuccessView()
-				+ ResearcherPageUtils.getPersistentIdentifier(researcher));
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object command, BindException errors)
+            throws Exception
+    {
+        ResearcherPageDTO researcherDTO = (ResearcherPageDTO) command;
+        String staffNo = researcherDTO.getStaffNo();
+        ResearcherPage researcher = null;
+        if (staffNo != null && !staffNo.isEmpty())
+        {
+            researcher = applicationService
+                    .getResearcherPageByStaffNo(researcherDTO.getStaffNo());
 
-	}
+            if (researcher != null)
+            {
+
+                return new ModelAndView(getSuccessView()
+                        + "administrator/index.htm?error=true");
+            }
+
+        }
+
+        else
+        {
+            researcher = new ResearcherPage();
+            researcher.setSourceID(staffNo);
+            researcher.setStatus(false);
+            researcher.getDynamicField().setResearcherPage(researcher);
+            RPProperty property = researcher.getDynamicField().createProprieta(
+                    applicationService.findPropertiesDefinitionByShortName(
+                            RPPropertiesDefinition.class, "fullName"));
+            property.getValue().setOggetto(
+                    "Insert fullname here (" + staffNo + ")");
+            property.setVisibility(1);
+            applicationService.saveOrUpdate(ResearcherPage.class, researcher);
+
+        }
+        return new ModelAndView(getSuccessView()
+                + ResearcherPageUtils.getPersistentIdentifier(researcher));
+
+    }
 }

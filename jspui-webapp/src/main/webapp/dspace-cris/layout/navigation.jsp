@@ -9,7 +9,7 @@
 
 
 				<c:forEach var="snav" items="${navigation[areashortName]}">		
-					<li><a href="<%= request.getContextPath() %>/cris/${specificPath}/${authority}/${areashortName}.html?open=${snav[0]}#${snav[2]}">${snav[1]}</a></li>
+					<li><a href="<%= request.getContextPath() %>/cris/${specificPartPath}/${authority}/${areashortName}.html?open=${snav[0]}#${snav[2]}">${snav[1]}</a></li>
 				</c:forEach>
 
 			

@@ -5,9 +5,9 @@
 <script type="text/javascript">	
 	j('#cris-tabs-navigation-${areashortName}').show();	
 </script>
-<a href='<%=request.getContextPath()%>/cris/${specificPath}/${authority}/${areashortName}.html'><img
+<a href='<%=request.getContextPath()%>/cris/${specificPartPath}/${authority}/${areashortName}.html'><img
 		border="0"
-		src="<%=request.getContextPath()%>/researchertabimage/${areaid}"
+		src="<%=request.getContextPath()%>/cris/researchertabimage/${areaid}"
 		alt="X"> ${areatitle}</a>
 </c:when>
 <c:otherwise>

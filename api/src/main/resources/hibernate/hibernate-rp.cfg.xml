@@ -40,7 +40,7 @@
 						
 		<mapping class="it.cilea.osd.common.core.TimeStampInfo" />
 		<mapping class="it.cilea.osd.common.core.SingleTimeStampInfo" />
-		
+				
 		<mapping class="it.cilea.hku.authority.model.ResearcherPage" />
 		<mapping class="it.cilea.hku.authority.model.Project" />
 		<mapping class="it.cilea.hku.authority.model.OrganizationUnit" />		

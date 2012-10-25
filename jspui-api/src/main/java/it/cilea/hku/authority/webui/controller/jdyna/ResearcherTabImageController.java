@@ -12,6 +12,7 @@ package it.cilea.hku.authority.webui.controller.jdyna;
 
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
+import it.cilea.osd.jdyna.controller.AFormTabController;
 import it.cilea.osd.jdyna.web.Tab;
 
 import java.io.File;
@@ -75,12 +76,11 @@ public class ResearcherTabImageController implements Controller
                 && !contentType.isEmpty())
         {
             File image = new File(
-                    ConfigurationManager
-                            .getProperty("researcherpage.file.path")
+                    tab.getFileSystemPath()
                             + File.separatorChar
-                            + ResearcherPageUtils.DIRECTORY_TAB_ICON
+                            + AFormTabController.DIRECTORY_TAB_ICON
                             + File.separatorChar
-                            + ResearcherPageUtils.PREFIX_TAB_ICON
+                            + AFormTabController.PREFIX_TAB_ICON
                             + tabId
                             + "."
                             + ext);

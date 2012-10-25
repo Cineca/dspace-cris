@@ -11,6 +11,7 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.osd.jdyna.web.AbstractTab;
+import it.cilea.osd.jdyna.web.Tab;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CacheModeType;
@@ -68,4 +70,11 @@ public class TabResearcherPage extends AbstractTab<BoxResearcherPage> {
 	public void setMask(List<BoxResearcherPage> mask) {
 		this.mask = mask;
 	}
+
+
+    @Override
+    public String getFileSystemPath()
+    {
+        return ConfigurationManager.getProperty("researcherpage.file.path");
+    }
 }

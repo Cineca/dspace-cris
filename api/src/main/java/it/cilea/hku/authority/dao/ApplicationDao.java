@@ -10,11 +10,13 @@
  */
 package it.cilea.hku.authority.dao;
 
+import it.cilea.hku.authority.model.ACrisObject;
 import it.cilea.osd.common.model.Identifiable;
 
 import java.util.List;
 
 import org.hibernate.CacheMode;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 
 /**
@@ -43,6 +45,20 @@ public class ApplicationDao extends it.cilea.osd.common.dao.impl.ApplicationDao 
 		query.setParameter(0, "%"+token+"%");
 		return query.list();
 	}
+    
+	public <C extends ACrisObject> C uniqueUUID(String uuid)
+    {
+        Query query = getSession().createQuery("from ACrisObject where uuid = ?");
+        query.setParameter(0, uuid);
+        return (C)query.uniqueResult();            
+    }
+
+    public <C extends ACrisObject> C uniqueBySourceID(String sourceID)
+    {
+        Query query = getSession().createQuery("from ACrisObject where sourceID = ?");
+        query.setParameter(0, sourceID);
+        return (C)query.uniqueResult();
+    }
 
 
 }

@@ -11,7 +11,10 @@
 package it.cilea.hku.authority.dao;
 
 import it.cilea.hku.authority.model.Project;
+import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.osd.common.dao.PaginableObjectDao;
+
+import java.io.Serializable;
 
 /**
  * This interface define the methods available to retrieve Project
@@ -19,12 +22,9 @@ import it.cilea.osd.common.dao.PaginableObjectDao;
  * @author cilea
  * 
  */
-public interface ProjectDao extends
-        PaginableObjectDao<Project, Integer>
+public interface ProjectDao extends PaginableObjectDao<Project, Serializable>
 {
 
-    public long count();
-
-	public Project uniqueBySourceID(String projectcode);
-
+    public Project uniqueBySourceID(String staffNo);
+    
 }

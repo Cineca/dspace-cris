@@ -306,8 +306,8 @@ public class FormProjectDynamicMetadataController
     {
         ProjectAnagraficaObjectDTO anagraficaObjectDTO = (ProjectAnagraficaObjectDTO) object;
 
-        String exitPage = "redirect:/cris/project/details.htm?id="
-                + +anagraficaObjectDTO.getParentId();
+        String exitPage = "redirect:/cris/tools/project/editDynamicData.htm?id="
+                + anagraficaObjectDTO.getParentId();
 
         
         EditTabProject editT = getApplicationService().get(

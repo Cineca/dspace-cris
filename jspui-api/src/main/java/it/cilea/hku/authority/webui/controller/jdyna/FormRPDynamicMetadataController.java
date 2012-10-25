@@ -284,7 +284,7 @@ public class FormRPDynamicMetadataController
         RPAnagraficaObjectDTO anagraficaObjectDTO = (RPAnagraficaObjectDTO) object;
 
         String exitPage = "redirect:/cris/tools/rp/editDynamicData.htm?id="
-                + +anagraficaObjectDTO.getParentId();
+                + anagraficaObjectDTO.getParentId();
 
         EditTabResearcherPage editT = getApplicationService().get(
                 EditTabResearcherPage.class,

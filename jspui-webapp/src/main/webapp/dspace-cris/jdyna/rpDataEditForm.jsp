@@ -117,7 +117,7 @@
 	</script>
 	
 </c:set>
-<dspace:layout titlekey="jsp.researcher-page.primary-data-form">
+<dspace:layout titlekey="jsp.researcher-page.primary-data-form" navbar="off">
 
 <table align="center" class="miscTable">
 <tr>
@@ -283,7 +283,7 @@
 							</c:otherwise>
 							</c:choose>	
 							<c:if
-								test="${dyna:instanceOf(tipologiaDaVisualizzare,'it.cilea.osd.jdyna.model.ADecoratorTypeDefinition')}">
+								test="${show && dyna:instanceOf(tipologiaDaVisualizzare,'it.cilea.osd.jdyna.model.ADecoratorTypeDefinition')}">
 
 								<c:set var="totalHit" value="0"/>
 								<c:set var="limit" value="5"/>
@@ -332,7 +332,8 @@
 											"offset": ${offset},
 											"limit": ${limit},
 											"editmode": 'true',
-											"totalHit": ${totalHit}
+											"totalHit": ${totalHit},
+											"admin": ${admin}
 										},
 										success : function(data) {																										
 											j('#viewnested_${tipologiaDaVisualizzare.shortName}').html(data);								
@@ -429,8 +430,10 @@
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td colspan="3"><input type="submit"
-					value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" /></td>
+				<td><input type="submit"
+					value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
+				<input type="submit" name="cancel"
+					value="<fmt:message key="jsp.layout.hku.researcher.button.cancel"/>" /></td>
 			</tr>
 
 		</tbody>

@@ -11,13 +11,11 @@
 package it.cilea.hku.authority.webui.controller;
 
 import it.cilea.hku.authority.model.Project;
-import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
 import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 import it.cilea.hku.authority.model.dynamicfield.TabProject;
 import it.cilea.hku.authority.service.ApplicationService;
-import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.io.IOException;
@@ -26,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -188,9 +187,10 @@ public class ProjectDetailsController
     @Override
     protected void sendRedirect(HttpServletRequest request,
             HttpServletResponse response, Exception ex, String objectId)
-            throws IOException
+            throws IOException, ServletException
     {
-        response.sendRedirect("/cris/project/details?id=" + objectId);
+        //response.sendRedirect("/cris/project/details?id=" + objectId);
+        JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
     }
 
     @Override

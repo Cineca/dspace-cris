@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -83,4 +84,9 @@ public class EditTabResearcherPage extends
 		return TabResearcherPage.class;
 	}
 	
+    @Override
+    public String getFileSystemPath()
+    {
+        return ConfigurationManager.getProperty("researcherpage.file.path");
+    }
 }

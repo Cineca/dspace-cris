@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -82,7 +83,11 @@ public class EditTabProject extends
 		return TabProject.class;
 	}
 	
-	
+    @Override
+    public String getFileSystemPath()
+    {
+        return ConfigurationManager.getProperty("project.file.path");
+    }
 
 
 }

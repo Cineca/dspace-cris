@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -40,49 +41,53 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 	    @NamedQuery(name = "EditTabOrganizationUnit.findByAnonimous", query = "from EditTabOrganizationUnit tab where visibility = 3 order by priority")
 })
 public class EditTabOrganizationUnit extends
-		AbstractEditTab<BoxProject,TabProject> {
+		AbstractEditTab<BoxOrganizationUnit,TabOrganizationUnit> {
 
 	/** Showed holder in this tab */
 	@ManyToMany
 	@JoinTable(name = "cris_ou_edittab2box")
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private List<BoxProject> mask;
+	private List<BoxOrganizationUnit> mask;
 
 	@OneToOne
-	private TabProject displayTab;
+	private TabOrganizationUnit displayTab;
 
 	public EditTabOrganizationUnit() {
 		this.visibility = VisibilityTabConstant.ADMIN;
 	}
 	
 	@Override
-	public List<BoxProject> getMask() {
+	public List<BoxOrganizationUnit> getMask() {
 		if (this.mask == null) {
-			this.mask = new LinkedList<BoxProject>();
+			this.mask = new LinkedList<BoxOrganizationUnit>();
 		}
 		return this.mask;
 	}
 
 	@Override
-	public void setMask(List<BoxProject> mask) {
+	public void setMask(List<BoxOrganizationUnit> mask) {
 		this.mask = mask;
 	}
 
-	public void setDisplayTab(TabProject displayTab) {
+	public void setDisplayTab(TabOrganizationUnit displayTab) {
 		this.displayTab = displayTab;
 	}
 
-	public TabProject getDisplayTab() {
+	public TabOrganizationUnit getDisplayTab() {
 		return displayTab;
 	}
 
 
 	@Override
-	public Class<TabProject> getDisplayTabClass() {
-		return TabProject.class;
+	public Class<TabOrganizationUnit> getDisplayTabClass() {
+		return TabOrganizationUnit.class;
 	}
 	
 	
-
+    @Override
+    public String getFileSystemPath()
+    {
+        return ConfigurationManager.getProperty("organizationunit.file.path");
+    }
 
 }

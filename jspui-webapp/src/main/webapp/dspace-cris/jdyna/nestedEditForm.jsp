@@ -4,7 +4,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 
 <%@page import="java.util.List"%>
@@ -14,7 +13,6 @@
 	import="it.cilea.osd.jdyna.model.ANestedPropertiesDefinition"%>
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
-<%@ taglib uri="researchertags" prefix="researcher"%>
 
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="HIGH_ACCESS"><%=AccessLevelConstants.HIGH_ACCESS%></c:set>
@@ -60,12 +58,12 @@
 					<c:forEach
 							items="${maschera}"
 							var="tipologiaDaVisualizzare">
-							<c:set var="hideLabel">${empty nesteddto.anagraficaProperties[tipologiaDaVisualizzare.shortName]}</c:set>
+							
 						
 							<c:set var="show" value="true" />
 							<c:choose>							
 							<c:when
-								test="${(tipologiaDaVisualizzare.accessLevel eq HIGH_ACCESS)}">
+								test="${admin or (tipologiaDaVisualizzare.accessLevel eq HIGH_ACCESS)}">
 								<c:set var="disabled" value="" />
 								<c:set var="visibility" value="true" />
 							</c:when>
@@ -78,13 +76,13 @@
 								test="${(tipologiaDaVisualizzare.accessLevel eq STANDARD_ACCESS)}">
 								<c:set var="disabled" value="${disabledfield}" />
 								<c:set var="visibility" value="true" />
-							</c:when>
+							</c:when>							
 							<c:otherwise>
 								<c:set var="show" value="false" />
 							</c:otherwise>
 							</c:choose>	
 
-								
+		
 								<%
 								List<String> parameters = new ArrayList<String>();
 												parameters.add(pageContext.getAttribute(
@@ -95,18 +93,18 @@
 																.getShortName());
 												pageContext.setAttribute("parameters", parameters);
 								%>
-								
+									
 								<dyna:edit tipologia="${tipologiaDaVisualizzare}" disabled="${disabled}"
 									propertyPath="nesteddto.anagraficaProperties[${tipologiaDaVisualizzare.shortName}]"
-									ajaxValidation="validateAnagraficaProperties" hideLabel="${hideLabel}"
+									ajaxValidation="validateAnagraficaProperties" hideLabel="false"
 									validationParams="${parameters}" visibility="${visibility}"/>
-									
+		
 			
 				</c:forEach>
-				
+		<c:if test="${show}">		
 			<input type="submit" id="ajaxsubmit"
 					value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
-
+		</c:if>
 							
 	<script type="text/javascript">									
 	j(document).ready(function() { 
