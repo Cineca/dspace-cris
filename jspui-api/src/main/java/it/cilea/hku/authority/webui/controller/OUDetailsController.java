@@ -228,7 +228,7 @@ public class OUDetailsController
                                                                   // first /
                 String[] splitted = path.split("/");
                 ou = ((ApplicationService) applicationService)
-                        .getOrganizationUnitByCode(splitted[1]);
+                .get(OrganizationUnit.class, splitted[1]);
             }
 
         }

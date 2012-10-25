@@ -94,7 +94,7 @@
 	</table>	
 	</c:if>
 
-	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificContextPath}${specificPartPath}"/>
+	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificContextPath}${specificPartPath}" admin="${admin}"/>
 	</c:if>	
 	<c:if test="${(editmode && decoratorPropertyDefinition.repeatable) || (editmode && empty results)}">
 		<img id="add${decoratorPropertyDefinition.shortName}" src="<%= request.getContextPath() %>/image/jdyna/main_plus.gif" class="addNestedButton"/>
@@ -125,7 +125,8 @@
 									"pageCurrent": parameterId,
 									"offset": ${offset},
 									"limit": ${limit},
-									"editmode": ${editmode}
+									"editmode": ${editmode},
+									"admin": ${admin}
 								},
 								success : function(data) {									
 									j('#viewnested_${decoratorPropertyDefinition.shortName}').html(data);								
@@ -151,7 +152,8 @@
 						data : {			
 							
 							"parentID" : ${parentID},
-							"typeNestedID" : ${decoratorPropertyDefinition.real.id}
+							"typeNestedID" : ${decoratorPropertyDefinition.real.id},
+							"admin": ${admin}
 						},
 						success : function(data) {																
 							j('#nestedfragment_${decoratorPropertyDefinition.shortName}').dialog("open");		

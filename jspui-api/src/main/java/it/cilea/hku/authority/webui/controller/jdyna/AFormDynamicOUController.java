@@ -76,10 +76,8 @@ public abstract class AFormDynamicOUController<P extends Property<TP>, TP extend
         OrganizationUnit researcher = getApplicationService().get(
                     OrganizationUnit.class, id);
         Context context = UIUtil.obtainContext(request);
-        EPerson currUser = context.getCurrentUser();
-        if (AuthorizeManager.isAdmin(context)
-                || (currUser != null && researcher.getSourceID().equals(
-                        currUser.getNetid())))
+        
+        if (AuthorizeManager.isAdmin(context))
         {
             reference.put("ou_page_menu", new Boolean(true));
             reference.put("organizationunit", researcher);         

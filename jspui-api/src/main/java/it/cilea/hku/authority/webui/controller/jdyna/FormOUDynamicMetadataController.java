@@ -22,6 +22,7 @@ import it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.OUProperty;
 import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.OUAnagraficaObjectDTO;
 import it.cilea.osd.jdyna.dto.AnagraficaObjectAreaDTO;
 import it.cilea.osd.jdyna.model.AnagraficaObject;
@@ -47,7 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class FormOUDynamicMetadataController
         extends
-        AFormDynamicRGController<OUProperty, OUPropertiesDefinition, BoxOrganizationUnit, EditTabOrganizationUnit, AnagraficaObject<OUProperty, OUPropertiesDefinition>, OUNestedObject, OUNestedProperty, OUNestedPropertiesDefinition>
+        AFormDynamicOUController<OUProperty, OUPropertiesDefinition, BoxOrganizationUnit, EditTabOrganizationUnit, AnagraficaObject<OUProperty, OUPropertiesDefinition>, OUNestedObject, OUNestedProperty, OUNestedPropertiesDefinition>
 {
 
     @Override
@@ -285,8 +286,8 @@ public class FormOUDynamicMetadataController
         else
         {
             exitPage = "redirect:/cris/ou/"
-                    + anagraficaObjectDTO
-                                    .getSourceID() + "/"
+                    + ResearcherPageUtils.getPersistentIdentifier(anagraficaObjectDTO
+                                    .getParentId()) + "/"
                     + editT.getShortName().substring(4) + ".html";
         }
         if (request.getParameter("cancel") != null)

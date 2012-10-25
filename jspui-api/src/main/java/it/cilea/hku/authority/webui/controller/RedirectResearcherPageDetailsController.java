@@ -10,6 +10,8 @@
  */
 package it.cilea.hku.authority.webui.controller;
 
+import it.cilea.hku.authority.util.ResearcherPageUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +22,7 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
 /**
  * This SpringMVC controller has been added to handle RP details URL also with
  * the form:<br> 
- * [hub-url]/rp/rp/details.html?persistentIdentifier=[rpidentifier]
+ * [hub-url]/rp/rp/details.html?id=[rpidentifier]
  * <br>
  * doing a simple redirect to the canonical URL: [hub-url]/rp/[rpidentifier] 
  * 
@@ -39,8 +41,8 @@ public class RedirectResearcherPageDetailsController extends
     public ModelAndView handleRequest(HttpServletRequest request,
             HttpServletResponse response) throws Exception
     {        
-        String paramRPId = request.getParameter("persistentIdentifier");
-        return new ModelAndView("redirect:/cris/rp/"+paramRPId);     
+        String paramRPId = request.getParameter("id");
+        return new ModelAndView("redirect:/cris/rp/"+ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(paramRPId)));     
     }
 
  

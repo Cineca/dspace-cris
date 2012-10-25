@@ -37,7 +37,9 @@ import javax.persistence.Transient;
         @NamedQuery(name = "OrganizationUnit.count", query = "select count(*) from OrganizationUnit"),
         @NamedQuery(name = "OrganizationUnit.paginate.id.asc", query = "from OrganizationUnit order by id asc"),
         @NamedQuery(name = "OrganizationUnit.paginate.id.desc", query = "from OrganizationUnit order by id desc"),
-        @NamedQuery(name = "OrganizationUnit.uniqueUUID", query = "from OrganizationUnit where uuid = ?") })
+        @NamedQuery(name = "OrganizationUnit.uniqueUUID", query = "from OrganizationUnit where uuid = ?"),
+        @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceID = ?")        
+})
 public class OrganizationUnit extends ACrisObject implements HasTimeStampInfo,
         Cloneable, AnagraficaSupport<OUProperty, OUPropertiesDefinition>
 {

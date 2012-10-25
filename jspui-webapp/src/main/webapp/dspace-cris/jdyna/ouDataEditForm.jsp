@@ -127,7 +127,7 @@
 
 
 
-<h1>${ou.sourceID}</h1>
+<h1>${organizationunit.sourceID}</h1>
 
 
 <c:if test="${not empty messages}">
@@ -326,7 +326,7 @@
 										url : ajaxurlrelations,
 										data : {																			
 											"elementID" : parameterId,
-											"parentID" : ${ou.id},
+											"parentID" : ${organizationunit.id},
 											"typeNestedID" : ${tipologiaDaVisualizzare.real.id},
 											"pageCurrent": ${pageCurrent},
 											"offset": ${offset},

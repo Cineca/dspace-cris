@@ -228,7 +228,8 @@ public class ProjectDetailsController
                                                                   // first /
                 String[] splitted = path.split("/");
                 grant = ((ApplicationService) applicationService)
-                        .getResearcherGrantByCode(splitted[1]);
+                        .get(Project.class,splitted[1]);
+                 
             }
 
         }
