@@ -237,6 +237,11 @@
 						<c:choose>
 					<c:when test="${propertiesdefinition.rendering.triview eq 'pointer'}">
 						<fieldset>
+						<dyna:text propertyPath="real.rendering.display"  visibility="false"
+							labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.display" helpKey="help.jdyna.message.rendering.pointer.display"/>
+						<div class="dynaClear">
+							&nbsp;
+						</div>						
 						<dyna:text propertyPath="real.rendering.filtro"  visibility="false"
 							labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filter" helpKey="help.jdyna.message.rendering.pointer.filter"/>
 						<div class="dynaClear">

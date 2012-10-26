@@ -267,6 +267,11 @@
 					
 										<c:if test="${subtypo.rendering.triview eq 'pointer'}">
 											<fieldset>
+											<dyna:text propertyPath="real.mask[${i.count - 1}].rendering.display"  visibility="false"
+												labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.display" helpKey="help.jdyna.message.rendering.pointer.display"/>
+											<div class="dynaClear">
+												&nbsp;
+											</div>
 											<dyna:text propertyPath="real.mask[${i.count - 1}].rendering.filtro"  visibility="false"
 												labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filter" helpKey="help.jdyna.message.rendering.pointer.filter"/>
 											<div class="dynaClear">
