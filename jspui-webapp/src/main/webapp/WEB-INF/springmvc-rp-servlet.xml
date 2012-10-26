@@ -468,7 +468,7 @@
 	</bean>
 
 	<bean id="editRPPointerDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -482,6 +482,11 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.ResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
@@ -954,7 +959,7 @@
 	</bean>
 	
 	<bean id="addPointerToRPNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -971,6 +976,11 @@
 		</constructor-arg>
 		<constructor-arg index="3">			
 				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.ResearcherPage
+			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
@@ -1307,7 +1317,7 @@
 	</bean>
 
 	<bean id="editProjectPointerDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1322,6 +1332,11 @@
 		<constructor-arg index="2">
 			<value>
 				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.Project
 			</value>
 		</constructor-arg>
 		<property name="successView">
@@ -1800,7 +1815,7 @@
 	</bean>
 	
 	<bean id="addPointerToProjectNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1817,6 +1832,11 @@
 		</constructor-arg>
 		<constructor-arg index="3">			
 				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.Project
+			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
@@ -2220,7 +2240,7 @@
 	</bean>
 
 	<bean id="editOUPointerDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -2235,6 +2255,11 @@
 		<constructor-arg index="2">
 			<value>
 				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.OrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
@@ -2713,7 +2738,7 @@
 	</bean>
 	
 	<bean id="addPointerToOUNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -2730,6 +2755,11 @@
 		</constructor-arg>
 		<constructor-arg index="3">			
 				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.OrganizationUnit
+			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
