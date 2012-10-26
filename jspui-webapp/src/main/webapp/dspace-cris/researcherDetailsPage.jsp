@@ -42,7 +42,7 @@
     }
 
 %>
-
+<c:set var="admin" scope="request"><%= isAdmin %></c:set>
 <c:set var="dspace.cris.navbar" scope="request">
 
 

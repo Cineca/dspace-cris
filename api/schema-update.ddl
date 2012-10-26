@@ -1,2 +1,6 @@
-alter table cris_ou_edittab add constraint FKA92DB61844BD38DB foreign key (displayTab_id) references cris_ou_tab;
-alter table cris_ou_edittab2box add constraint FK50CD2271E406B118 foreign key (mask_id) references cris_ou_box;
+alter table jdyna_values add column rpvalue int4;
+alter table jdyna_values add column projectvalue int4;
+alter table jdyna_values add column ouvalue int4;
+alter table jdyna_values add constraint FK51AA118FE5220DBD foreign key (ouvalue) references cris_organizationunit;
+alter table jdyna_values add constraint FK51AA118F34F77D96 foreign key (projectvalue) references cris_project;
+alter table jdyna_values add constraint FK51AA118F3B074C05 foreign key (rpvalue) references cris_researcherpage;

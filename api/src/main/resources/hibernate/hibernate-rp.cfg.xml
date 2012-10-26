@@ -132,12 +132,24 @@
 		<mapping class="it.cilea.osd.jdyna.value.TextValue" />
 		<mapping class="it.cilea.osd.jdyna.value.LinkValue" />
 		<mapping class="it.cilea.osd.jdyna.value.FileValue" />
+			
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.value.RPPointer" />
+
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer" />
+			
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.value.OUPointer" />	
+		
 		
 		<mapping class="it.cilea.osd.jdyna.model.AWidget" />
 		<mapping class="it.cilea.osd.jdyna.widget.WidgetTesto" />
 		<mapping class="it.cilea.osd.jdyna.widget.WidgetLink" />
 		<mapping class="it.cilea.osd.jdyna.widget.WidgetDate" />
-		<mapping class="it.cilea.osd.jdyna.widget.WidgetFile" />		
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetFile" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetPointer" />
+				
 		<mapping class="it.cilea.osd.jdyna.widget.Size" />		
 		<mapping class="it.cilea.osd.jdyna.web.Box" />
 		<mapping class="it.cilea.osd.jdyna.web.Tab" />		
@@ -151,7 +163,7 @@
 			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject" />
 			
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU" />	
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU" />
 	</session-factory>
 
 </hibernate-configuration>

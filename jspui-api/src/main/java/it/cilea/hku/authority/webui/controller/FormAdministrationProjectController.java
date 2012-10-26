@@ -117,7 +117,7 @@ public class FormAdministrationProjectController extends
         for (ProjectDTO researcher : dto.getList())
         {
             Project realResearcher = applicationService
-                    .getResearcherGrantByCode(researcher.getCode());
+                    .get(Project.class, researcher.getId());
             if (realResearcher.getStatus() != null
                     && realResearcher.getStatus() != researcher.getStatus())
             {
@@ -130,7 +130,7 @@ public class FormAdministrationProjectController extends
                
         if(check_change) {
             Map<String, Object> model = new HashMap<String, Object>();        
-            model.put("message", "jsp.dspace-admin.hku.changestatus-researcher.message");        
+            model.put("message", "jsp.dspace-admin.hku.changestatus-project.message");        
             model.put("sort", request.getParameter("sort"));
             model.put("page", request.getParameter("page"));
             model.put("oldpage", request.getParameter("page")!=null?request.getParameter("page"):1);

@@ -128,7 +128,8 @@
 															"offset": ${offset},
 															"limit": ${limit},
 															"editmode": 'false',
-															"totalHit": ${totalHit}															
+															"totalHit": ${totalHit},
+															"admin": ${admin}
 														},
 														success : function(data) {																										
 															j('#viewnested_${tipologiaDaVisualizzare.shortName}').html(data);								

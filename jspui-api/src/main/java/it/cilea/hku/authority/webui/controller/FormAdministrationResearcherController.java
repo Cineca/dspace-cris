@@ -120,7 +120,7 @@ public class FormAdministrationResearcherController extends
         for (ResearcherPageDTO researcher : dto.getList())
         {
             ResearcherPage realResearcher = applicationService
-                    .getResearcherPageByStaffNo(researcher.getStaffNo());
+                    .get(ResearcherPage.class, researcher.getId());
             if (realResearcher.getStatus() != null
                     && realResearcher.getStatus() != researcher.getStatus())
             {

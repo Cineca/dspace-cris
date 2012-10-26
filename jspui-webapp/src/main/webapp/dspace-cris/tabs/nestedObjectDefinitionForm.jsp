@@ -173,7 +173,8 @@
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addlinknesteddynamicfield" />" />
 						<input type="submit" name="file"
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addfilenesteddynamicfield" />" />	
-							
+						<input type="submit" name="pointer"
+							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addpointernesteddynamicfield" />" />							
 
 						<c:forEach
 							items="${propertiesdefinition.real.mask}"
@@ -251,6 +252,29 @@
 											
 											</fieldset>
 
+										</c:if>
+										
+										<c:if
+											test="${subtypo.rendering.triview eq 'calendar'}">
+											<fieldset>
+											<dyna:text visibility="false" propertyPath="real.mask[${i.count - 1}].rendering.minYear"
+													labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.calendar.min" helpKey="help.jdyna.message.rendering.calendar.min"/>
+					
+											<dyna:text visibility="false" propertyPath="real.mask[${i.count - 1}].rendering.maxYear"
+													labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.calendar.max" helpKey="help.jdyna.message.rendering.calendar.max"/>
+											</fieldset>		
+										</c:if>
+					
+										<c:if test="${subtypo.rendering.triview eq 'pointer'}">
+											<fieldset>
+											<dyna:text propertyPath="real.mask[${i.count - 1}].rendering.filtro"  visibility="false"
+												labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filter" helpKey="help.jdyna.message.rendering.pointer.filter"/>
+											<div class="dynaClear">
+												&nbsp;
+											</div>
+											<dyna:text visibility="false" propertyPath="real.mask[${i.count - 1}].rendering.indexName"
+													labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.indexname" helpKey="help.jdyna.message.rendering.pointer.indexname"/>						
+											</fieldset>											
 										</c:if>
 								<dyna:text propertyPath="real.mask[${i.count - 1}].priority"  helpKey="help.jdyna.message.priority"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.priority" size="5" visibility="false"/>
