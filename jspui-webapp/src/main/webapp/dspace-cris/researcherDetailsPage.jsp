@@ -103,52 +103,6 @@
 	</td>
   </tr>
 <% } %>
-
-
-<c:if test="${!empty entity && (!empty addModeType && addModeType=='display')}">    
- <% if (!isAdmin) { %>
- <tr>
-    <td colspan="2">&nbsp;</td>
-  </tr>
-<% } %>	
- <tr> 
-  <td colspan="2">
-		
-	    <c:forEach items="${tabList}" var="tabfornavigation">				
-			
-				<div id="cris-tabs-navigation-${tabfornavigation.shortName}" class="navigation-tabs" style="display: none">		
-
-					<div id="menu-${tabfornavigation.shortName}" class="showMoreLessBox1-dark box">
-						<h3 class="showMoreLessControlElement control ${tabfornavigation.id != tabId?"":"expanded"}">
-						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif"  ${tabfornavigation.id != tabId?"":"class=\"hide\""}/>
-						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" ${tabfornavigation.id != tabId?"class=\"hide\"":""} />
-							${tabfornavigation.title}
-						</h3>		
-						<div class="collapsable expanded-content" ${tabfornavigation.id != tabId?"style=\"display: none;\"":""}>
-						<div id="nav-sublocal">
-						<ul>
-						<div id="snavmenu-${tabfornavigation.shortName}">
-							<div class="log">
-							<img
-								src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
-			    				class="loader" />
-			    			</div>
-						</div>
-						</ul>
-						</div>
-						</div>
-					</div>
-		
-
-				</div>
-			
-		 </c:forEach>
-	   
-	</td>
-  </tr> 
-</c:if>
- 
-
 </c:set>
 <c:set var="dspace.layout.head" scope="request">
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
@@ -159,20 +113,17 @@
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    	var ajaxurltabs = "<%=request.getContextPath()%>/cris/rp/loadTabs.htm";
-    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/rp/loadNavigation.htm";
+    	var ajaxurlnavigation = "<%=request.getContextPath()%>/json/cris/navigation";
     	
     	var LoaderSnippet = {    		
     		write : function(text, idelement) {
-    			var elem = document.getElementById(idelement);
-    			elem.innerHTML = text;		
+    			j('#'+element).html(text);		
     		}
     	};
 
     	var LoaderModal = {        		
        		write : function(text, idelement) {
-       			var elem = document.getElementById(idelement);
-       			elem.innerHTML = text;		
+       			j('#'+element).html(text);		
        		}
         };
     
@@ -186,64 +137,40 @@
         };
         	
 		j(document).ready(function()
-				{
-				  j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
-			
-				  j(".control").click(function()
-				  {
-					  j(this).toggleClass("expanded");
-					  j(this).children("img").toggleClass("hide");
-				      j(this).next(".collapsable").slideToggle(300);
-				  });
-		<% 
-			if (showSubMsg) {%>alert('Email Alert Now On');<%}
-			if (showUnSubMsg) {%>alert('Email Alert Now Off');<%}
-		%>
+		{
+			j('.navigation-tabs').accordion({
+				collapsible: true,
+				active: false
+			});
+			j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
 		
 			
-		<c:forEach items="${tabList}" var="tabnavigation">		
-		j.ajax( {
-			url : ajaxurlnavigation,
-			data : {																			
-				"tabId" : ${tabnavigation.id},
-				"currentOpenedTabId": ${tabId},
-				"objectId": ${entity.id},
-				"authority": '${authority}'
-			},
-			success : function(data) {				
-				j('#snavmenu-${tabnavigation.shortName}').html(data);				
-			},
-			error : function(data) {
-				//nothing				
-			}
-		});
-		
-		
-		<c:choose>
-		<c:when test="${tabnavigation.id == tabId}">
-			j('#cris-tabs-navigation-${tabnavigation.shortName}').show();	
-		</c:when>
-		<c:otherwise>
-		j.ajax( {
-			url : ajaxurltabs,
-			data : {																			
-				"tabId" : ${tabnavigation.id},
-				"currentOpenedTabId": ${tabId},
-				"objectId": ${entity.id},
-				"authority": '${authority}'
-			},
-			success : function(data) {				
-				j('#tb-head2-${tabnavigation.shortName}').html(data);						
-				
-			},
-			error : function(data) {
-				//nothing				
-			}
-		});		
-		</c:otherwise>
-		</c:choose>
-	
-		</c:forEach>
+			j.ajax( {
+				url : ajaxurlnavigation,
+				data : {																			
+					"currTabId": ${tabId},
+					"objectId": ${entity.id}
+				},
+				success : function(data) {
+					for (var i = 0; i < data.navigation.size(); i++)
+					{
+						if (data.navigation[i].boxes == null || data.navigation[i].boxes.size() == 0)
+						{
+							j('#bar-tab-'+data.navigation[i].id).remove();
+						}
+						else
+						{
+							j('#bar-tab-'+data.navigation[i].id+' a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
+							var img = j('#bar-tab-'+data.navigation[i].id+' a img');
+							j('#bar-tab-'+data.navigation[i].id+' a').html(imghtml + data.navigation[i].title);
+							j('#bar-tab-'+data.navigation[i].id+' a').add(img);
+						}
+					}
+				},
+				error : function(data) {
+					//nothing				
+				}
+			});
 		
 		});
 		-->
@@ -253,11 +180,20 @@
 
 <dspace:layout titlekey="jsp.researcher-page.details">
 
-<table align="center" class="miscTable">
-<tr>
-<td>
 
 <div id="content">
+
+<c:forEach items="${tabList}" var="tabfornavigation">				
+				<div id="cris-tabs-navigation-${tabfornavigation.shortName}" class="navigation-tabs">		
+					<h3>${tabfornavigation.title}</h3>
+					<ul id="snavmenu-${tabfornavigation.shortName}">
+						<li><img
+								src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+			    				class="loader" /></li>
+					</ul>
+				</div>	
+		 </c:forEach>
+		 
 <h1><fmt:message key="jsp.layout.hku.detail.title-first" /> <c:choose>
 	<c:when test="${!empty entity.preferredName.value}">
 	${entity.preferredName.value}
@@ -266,44 +202,34 @@
 	${entity.fullName}
 </c:otherwise>
 </c:choose></h1>
-<div>&nbsp;</div>
-<table align="center" class="miscTable">
-	
+
 	<c:if test="${!entity.status}">
-		<tr class="warning">
-			<td colspan="3"><fmt:message
+		<p class="warning">
+			<fmt:message
 				key="jsp.layout.hku.detail.researcher-disabled" /><a
 				target="_blank"
 				href="<%=request.getContextPath()%>/cris/administrator/rp/list.htm?id=${entity.id}&mode=position"><fmt:message
-				key="jsp.layout.hku.detail.researcher-disabled.fixit" /></a></td>
-		</tr>
+				key="jsp.layout.hku.detail.researcher-disabled.fixit" /></a>
+		</p>
 	</c:if>
 
 	<c:if test="${pendingItems > 0}">
-		<tr class="warning pending">
-			<td colspan="3"><fmt:message
+		<p class="warning pending">
+			<fmt:message
 				key="jsp.layout.hku.detail.researcher-pending-items">
 				<fmt:param>${pendingItems}</fmt:param>
 			</fmt:message> <fmt:message
 				key="jsp.layout.hku.detail.researcher-goto-pending-items">
 				<fmt:param><%=request.getContextPath()%>/dspace-admin/authority?authority=<%=HKUAuthority.HKU_AUTHORITY_MODE%>&key=${authority_key}</fmt:param>
-			</fmt:message></td>
-		</tr>
+			</fmt:message>
+		</p>	
 	</c:if>
 
-
-	<tr>
-
-		<td>
 
 		<div id="researcher">
 
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
-
-		</td>
-	</tr>
-</table>
 </div>
 <div id="log3" class="log">
 	<img
@@ -314,13 +240,4 @@
 
 
 
-
-
-
-
-
-
-</td>
-</tr>
-</table>
 </dspace:layout>

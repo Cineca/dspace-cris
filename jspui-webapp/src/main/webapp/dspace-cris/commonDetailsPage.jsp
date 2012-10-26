@@ -14,41 +14,34 @@
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
 
-		<table align="center" class="miscTable">
-			<tbody>
-
-				<tr>
+	<div id="tabs">
+		<ul>
 					<c:forEach items="${tabList}" var="area" varStatus="rowCounter">
-						
-
 						<c:set var="tablink"><c:choose>
 							<c:when test="${rowCounter.count == 1}">${root}/cris/${specificPartPath}/${authority}</c:when>
 							<c:otherwise>${root}/cris/${specificPartPath}/${authority}/${area.shortName}.html</c:otherwise>
 						</c:choose></c:set>
-
+			<li id="bar-tab-${area.id}"><a href="#tab-${area.id}">
 						<c:choose>
 							<c:when test="${area.id == tabId}">
-								<td align="center" class="tb-head0">&nbsp;</td>
-								<td nowrap="" align="center" class="tb-head1"><img
-									border="0" 
-									src="<%=request.getContextPath()%>/cris/researchertabimage/${area.id}" alt="X">
-								${area.title}</td>
+								<img style="width: 16px;vertical-align: middle;" border="0" 
+									src="<%=request.getContextPath()%>/cris/researchertabimage/${area.id}" alt="icon">
+								${area.title}
 							</c:when>
 							<c:otherwise>
-								<td nowrap="" align="center" class="tb-head2" id="tb-head2-${area.shortName}">
-									<img
+									<img style="width: 16px;vertical-align: middle;" border="0"
 										src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
-			    						class="loader" />
-								</td>							
+			    						alt="icon" />${area.title}
 							</c:otherwise>
-						</c:choose>
+						</c:choose></a></li>
 
 					</c:forEach>
-					<td align="center" class="tb-head0">&nbsp;</td>
-				</tr>
-				<tr>
-					<td bgcolor="#f9f9f9" valign="top" class="tb-body" colspan="0">
+		</ul>
+	
 
+<c:forEach items="${tabList}" var="area" varStatus="rowCounter">
+	<div id="tab-${area.id}">
+	<c:if test="${area.id == tabId}">
 					<c:forEach items="${propertiesHolders}" var="holder">
 					
 						<c:set
@@ -69,21 +62,15 @@
 										fileURL = pageContext.getServletContext().getResource(
 												filePath);
 							%>
-
+<div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
+  <h3><a href="#">${holder.title}</a></h3>
+  <div>
+    <p>
 							<%
 								if (fileURL == null) {
 							%>
 
-							<div id="${holder.shortName}" class="showMoreLessBox box">
-								<h2 class="showMoreLessControlElement control ${holder.collapsed?"":"expanded"}">
-								<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif"  ${holder.collapsed?"":"class=\"hide\""}/>
-								<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" ${holder.collapsed?"class=\"hide\"":""} />
-								${holder.title}</h2>
-    							<div class="collapsable expanded-content" ${holder.collapsed?"style=\"display: none;\"":""}>
-
-							<table width="100%" cellpadding="0" cellspacing="4">
-								<tr>
-									<td><c:set var="hideLabel">${fn:length(propertiesDefinitionsInHolder[holder.shortName]) le 1}</c:set>
+									<c:set var="hideLabel">${fn:length(propertiesDefinitionsInHolder[holder.shortName]) le 1}</c:set>
 									<c:forEach
 										items="${propertiesDefinitionsInHolder[holder.shortName]}"
 										var="tipologiaDaVisualizzare" varStatus="status">
@@ -152,41 +139,7 @@
 												values="${anagraficaObject.anagrafica4view[tipologiaDaVisualizzare.shortName]}" />
 
 										</c:if>
-										<c:if
-											test="${tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRestrictedField'}">
-
-
-											<c:set var="urljspcustom"
-												value="jdyna/custom/displaystructuralmetadata/${tipologiaDaVisualizzare.shortName}.jsp" scope="request" />
-										<%
-								 filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");
-
-										fileURL = pageContext.getServletContext().getResource(
-												filePath);
-							%>
-
-							<%
-								if (fileURL == null) {
-							%>
-								<c:import url="${urljspcustom}" />
-								
-								<% } %>
-										</c:if>
-
-									</c:forEach></td>
-								</tr>
-
-
-							</table>
-
-
-							</div>
-
-							</div>
-
-
-							<p></p>
-
+									</c:forEach>
 							<%
 								} else {
 							%>
@@ -205,9 +158,27 @@
 
 
 						</c:if>
-
-
-					</c:forEach></td>
-				</tr>
-			</tbody>
-		</table>
+				</p>
+		</div>	
+</div>
+					</c:forEach>
+		
+	</c:if>
+	</div>
+</c:forEach>
+</div>
+<script type="text/javascript">
+	j("#tabs").tabs();
+	j(".box:not(.expanded)").accordion({
+		autoHeight: false,
+		navigation: true,
+		collapsible: true,
+		active: false
+	});
+	j(".box.expanded").accordion({
+		autoHeight: false,
+		navigation: true,
+		collapsible: true,
+		active: 0
+	});
+</script>		
