@@ -213,6 +213,9 @@
 					<c:if test="${boxed.real.rendering.triview == 'file'}">
 						<c:set var="controller" value="File" />
 					</c:if>
+					<c:if test="${boxed.real.rendering.triview == 'pointer'}">
+						<c:set var="controller" value="Pointer" />
+					</c:if>
 					<a class="jdynaremovebutton"
 						title="<fmt:message
 				key="jsp.dspace-admin.hku.jdyna-configuration.deletedynamicfield" />"
@@ -339,6 +342,9 @@
 					</c:if>
 					<c:if test="${boxed.real.rendering.triview == 'link'}">
 						<c:set var="controller" value="Link" />
+					</c:if>
+					<c:if test="${boxed.real.rendering.triview == 'pointer'}">
+						<c:set var="controller" value="Pointer" />
 					</c:if>
 					<a class="jdynaremovebutton"
 						title="<fmt:message
@@ -471,6 +477,11 @@
 				href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/createFileDynamicField.htm?boxId=${box.id}&tabId=${tabId}">
 			<fmt:message
 				key="jsp.dspace-admin.hku.jdyna-configuration.newfiledynamicfield" />
+			</a></div>
+			<div style="padding: 0; margin: 0 10px;"><a
+				href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/createPointerDynamicField.htm?boxId=${box.id}&tabId=${tabId}">
+			<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.newpointerdynamicfield" />
 			</a></div>
 		</c:if>
 

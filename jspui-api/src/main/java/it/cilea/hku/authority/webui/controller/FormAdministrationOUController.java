@@ -116,7 +116,7 @@ public class FormAdministrationOUController extends
         for (OrganizationUnitDTO researcher : dto.getList())
         {
             OrganizationUnit realResearcher = applicationService
-                .getOrganizationUnitByCode(researcher.getCode());
+                .get(OrganizationUnit.class, researcher.getId());
             if (realResearcher.getStatus() != null
                     && realResearcher.getStatus() != researcher.getStatus())
             {
@@ -129,7 +129,7 @@ public class FormAdministrationOUController extends
                
         if(check_change) {
             Map<String, Object> model = new HashMap<String, Object>();        
-            model.put("message", "jsp.dspace-admin.hku.changestatus-researcher.message");        
+            model.put("message", "jsp.dspace-admin.hku.changestatus-organizationunit.message");        
             model.put("sort", request.getParameter("sort"));
             model.put("page", request.getParameter("page"));
             model.put("oldpage", request.getParameter("page")!=null?request.getParameter("page"):1);

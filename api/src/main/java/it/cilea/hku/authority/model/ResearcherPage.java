@@ -259,7 +259,7 @@ public class ResearcherPage extends ACrisObject
         List<RestrictedField> results = new ArrayList<RestrictedField>();
 
         for (RPProperty property : this.getDynamicField().getAnagrafica4view()
-                .get("fullname"))
+                .get("variants"))
         {
             RestrictedField result = new RestrictedField();
             result.setValue(property.getValue().getObject().toString());

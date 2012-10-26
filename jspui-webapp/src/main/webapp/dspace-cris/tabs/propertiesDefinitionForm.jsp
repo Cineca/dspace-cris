@@ -195,13 +195,13 @@
 				<c:choose>
 					<c:when
 						test="${propertiesdefinition.rendering.triview eq 'calendar'}">
-
+						<fieldset>
 						<dyna:text visibility="false" propertyPath="real.rendering.minYear"
 								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.calendar.min" helpKey="help.jdyna.message.rendering.calendar.min"/>
 
 						<dyna:text visibility="false" propertyPath="real.rendering.maxYear"
 								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.calendar.max" helpKey="help.jdyna.message.rendering.calendar.max"/>
-
+						</fieldset>		
 					</c:when>
 					<c:otherwise>
 					<c:choose>
@@ -234,7 +234,22 @@
 						</fieldset>											
 					</c:when>
 					<c:otherwise>
+						<c:choose>
+					<c:when test="${propertiesdefinition.rendering.triview eq 'pointer'}">
+						<fieldset>
+						<dyna:text propertyPath="real.rendering.filtro"  visibility="false"
+							labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filter" helpKey="help.jdyna.message.rendering.pointer.filter"/>
+						<div class="dynaClear">
+							&nbsp;
+						</div>
+						<dyna:text visibility="false" propertyPath="real.rendering.indexName"
+								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.indexname" helpKey="help.jdyna.message.rendering.pointer.indexname"/>						
+						</fieldset>											
+					</c:when>
+					<c:otherwise>
 					<%-- nothing --%>
+					</c:otherwise>
+					</c:choose>
 					</c:otherwise>
 					</c:choose>
 					</c:otherwise>
