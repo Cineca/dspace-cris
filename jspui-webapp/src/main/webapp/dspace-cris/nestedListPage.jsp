@@ -12,7 +12,7 @@
 	Integer hitPageSize = (Integer)request.getAttribute("hitPageSize");
 	Integer pageCurrent = (Integer)request.getAttribute("pageCurrent");
 %>
-<div id="nestedDetailDiv_${decoratorPropertyDefinition.shortName}">
+<div id="nestedDetailDiv_${decoratorPropertyDefinition.shortName}" class="dynaField">
 	<c:if test="${totalHit > 0 || editmode}">
 	<c:set var="totalpage" scope="request">
 	<c:choose>
@@ -21,7 +21,8 @@
 	</c:choose>
 	</c:set>
 		
-	
+	<span class="dynaLabel">${decoratorPropertyDefinition.label}</span>
+	<div class="dynaFieldValue">
 	<table>
 	<c:if test="${totalpage>1}">
 	<tr>
@@ -93,12 +94,13 @@
 	</tr>
 	</table>	
 	</c:if>
-
+	
 	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificContextPath}${specificPartPath}" admin="${admin}"/>
 	</c:if>	
 	<c:if test="${(editmode && decoratorPropertyDefinition.repeatable) || (editmode && empty results)}">
 		<img id="add${decoratorPropertyDefinition.shortName}" src="<%= request.getContextPath() %>/image/jdyna/main_plus.gif" class="addNestedButton"/>
 	</c:if>	
+	</div>
 	<c:if test="${decoratorPropertyDefinition.real.newline}">
 		<div class="dynaClear">&nbsp;</div>
 	</c:if>
