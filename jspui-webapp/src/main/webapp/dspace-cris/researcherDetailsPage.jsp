@@ -157,6 +157,7 @@
 						if (data.navigation[i].boxes == null || data.navigation[i].boxes.size() == 0)
 						{
 							j('#bar-tab-'+data.navigation[i].id).remove();
+							j('#cris-tabs-navigation-'+data.navigation[i].id).remove();
 						}
 						else
 						{
@@ -164,6 +165,11 @@
 							var img = j('#bar-tab-'+data.navigation[i].id+' a img');
 							j('#bar-tab-'+data.navigation[i].id+' a').html(imghtml + data.navigation[i].title);
 							j('#bar-tab-'+data.navigation[i].id+' a').add(img);
+							for (var j = 0; j < data.navigation[i].boxes.size(); j++)
+							{	
+								j('#cris-tabs-navigation-'+data.navigation[i].id)
+									.add('<li><a href="">'+data.navigation[i].boxes[j].title+'</a></li>');
+							}
 						}
 					}
 				},
@@ -182,18 +188,18 @@
 
 
 <div id="content">
-
+	<div id="cris-tabs-navigation">
 <c:forEach items="${tabList}" var="tabfornavigation">				
-				<div id="cris-tabs-navigation-${tabfornavigation.shortName}" class="navigation-tabs">		
+				<div id="cris-tabs-navigation-${tabfornavigation.id}" class="navigation-tabs">		
 					<h3>${tabfornavigation.title}</h3>
-					<ul id="snavmenu-${tabfornavigation.shortName}">
+					<ul id="cris-tabs-navigation-${tabfornavigation.id}-ul">
 						<li><img
 								src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
 			    				class="loader" /></li>
 					</ul>
 				</div>	
 		 </c:forEach>
-		 
+	 </div>
 <h1><fmt:message key="jsp.layout.hku.detail.title-first" /> <c:choose>
 	<c:when test="${!empty entity.preferredName.value}">
 	${entity.preferredName.value}
