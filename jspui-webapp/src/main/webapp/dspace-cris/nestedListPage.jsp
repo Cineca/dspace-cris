@@ -12,7 +12,12 @@
 	Integer hitPageSize = (Integer)request.getAttribute("hitPageSize");
 	Integer pageCurrent = (Integer)request.getAttribute("pageCurrent");
 %>
-<div id="nestedDetailDiv_${decoratorPropertyDefinition.shortName}" class="dynaField">
+<div id="nestedDetailDiv_${decoratorPropertyDefinition.real.id}" class="dynaField">
+			<span class="spandatabind nestedinfo">${decoratorPropertyDefinition.real.id}</span>
+			<span id="nested_${decoratorPropertyDefinition.real.id}_totalHit" class="spandatabind">${totalHit}</span>
+			<span id="nested_${decoratorPropertyDefinition.real.id}_limit" class="spandatabind">${limit}</span>
+			<span id="nested_${decoratorPropertyDefinition.real.id}_pageCurrent" class="spandatabind">${pageCurrent}</span>
+			<span id="nested_${decoratorPropertyDefinition.real.id}_editmode" class="spandatabind">false</span>
 	<c:if test="${totalHit > 0 || editmode}">
 	<c:set var="totalpage" scope="request">
 	<c:choose>
@@ -58,12 +63,12 @@
 	<tr>
 	<c:if test="${pageCurrent>0}">
 		<td>	
-			<input type="button" class="nextprev_${decoratorPropertyDefinition.real.shortName}" value="Prev" id="prev_${pageCurrent-1}"/>	
+			<input type="button" id="nested_${decoratorPropertyDefinition.real.id}_prev" value="Prev" />	
 		</td>
 		
 	<% for(int indexPrevious = (pageCurrent+1>5?pageCurrent-4:1); indexPrevious<pageCurrent+1; indexPrevious++) {%>
 		<td>			
-			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" class="nextprev_${decoratorPropertyDefinition.real.shortName}" id="prev_<%= indexPrevious - 1 %>"><%= indexPrevious %></a>			
+			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" class="nested_${decoratorPropertyDefinition.real.id}_nextprev" id="nested_${decoratorPropertyDefinition.real.id}_nextprev_<%= indexPrevious - 1 %>"><%= indexPrevious %></a>			
 		</td>
 	<% } %>			
 	</c:if>			
@@ -78,7 +83,7 @@
 		<% if(pageCurrent==indexNext) { %>
 		<b>
 		<% } %>			
-			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" class="nextprev_${decoratorPropertyDefinition.real.shortName}" id="next_<%=indexNext %>"><%= indexNext + 1%></a>
+			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" class="nested_${decoratorPropertyDefinition.real.id}_nextprev" id="nested_${decoratorPropertyDefinition.real.id}_nextprev_<%= indexNext %>"><%= indexNext +1%></a>
 		<% if(pageCurrent==indexNext) { %>
 		</b>
 		<% } %>		
@@ -88,7 +93,7 @@
 	
 	<c:if test="${(totalHit  - (limit * (pageCurrent+1))) > 0}">
 		<td>
-			<input type="button" class="nextprev_${decoratorPropertyDefinition.real.shortName}" value="Next" id="next_${pageCurrent+1}"/>
+			<input type="button" id="nested_${decoratorPropertyDefinition.real.id}_next" value="Next" />
 		</td>			
 	</c:if>
 	</tr>
@@ -104,77 +109,4 @@
 	<c:if test="${decoratorPropertyDefinition.real.newline}">
 		<div class="dynaClear">&nbsp;</div>
 	</c:if>
-	
-								
-	<script type="text/javascript">									
-	
-			
-		j(".nextprev_${decoratorPropertyDefinition.real.shortName}")
-				.click(
-						function() {	
-					    
-						    j("#log3").dialog("open");																			
-							var parameterId = this.id.substring(5, this.id.length);	
-							var pagefrom = parseInt(parameterId) + 1;
-							Loader.write("Loading ${decoratorPropertyDefinition.label}... Page "+ pagefrom  +" of ${totalpage}");
-							var ajaxurlrelations = "<%= request.getContextPath() %>/cris/${specificPartPath}/viewNested.htm";
-							j.ajax( {
-								url : ajaxurlrelations,
-								data : {																			
-									"elementID" : "${decoratorPropertyDefinition.real.shortName}",
-									"parentID" : ${parentID},
-									"typeNestedID" : ${decoratorPropertyDefinition.real.id},													
-									"pageCurrent": parameterId,
-									"offset": ${offset},
-									"limit": ${limit},
-									"editmode": ${editmode},
-									"admin": ${admin}
-								},
-								success : function(data) {									
-									j('#viewnested_${decoratorPropertyDefinition.shortName}').html(data);								
-									j("#log3").dialog("close");
-								},
-								error : function(data) {
-									
-									Loader.write(data.statusText);
-									
-								}
-						});
-	
-		});		
-		j("#add${decoratorPropertyDefinition.shortName}")
-		.click(
-				function() {						
-					j("#log3").dialog("open");									
-					Loader.write("Loading form...");																	
-																						
-					var ajaxurlrelations = "<%= request.getContextPath() %>/cris/tools/${specificPartPath}/addNested.htm";
-					j.ajax( {
-						url : ajaxurlrelations,
-						data : {			
-							
-							"parentID" : ${parentID},
-							"typeNestedID" : ${decoratorPropertyDefinition.real.id},
-							"admin": ${admin}
-						},
-						success : function(data) {																
-							j('#nestedfragment_${decoratorPropertyDefinition.shortName}').dialog("open");		
-							j(".ui-dialog-titlebar").html("${decoratorPropertyDefinition.label} &nbsp; <a class='ui-dialog-titlebar-close ui-corner-all' href='#' role='button'><span class='ui-icon ui-icon-closethick'>close</span></a>");j(".ui-dialog-titlebar").show();
-							j('#nestedfragmentcontent_${decoratorPropertyDefinition.shortName}').html(data);
-							j('#nestedfragment_${decoratorPropertyDefinition.shortName}').dialog('option', 'position', 'center');
-							j("#log3").dialog("close");
-						},
-						error : function(data) {
-																										
-							Loader.write(data.statusText);
-							
-						}
-					});
-
-				});								
-
-	</script>										
-
-	
-							
 </div>

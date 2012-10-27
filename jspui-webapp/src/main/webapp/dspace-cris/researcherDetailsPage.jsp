@@ -16,7 +16,16 @@
 <%@ taglib uri="researchertags" prefix="researcher"%>
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="entity" value="${researcher}" scope="request" />
-
+<c:choose>
+<c:when test="${param.onlytab}">
+<c:forEach items="${tabList}" var="areaIter" varStatus="rowCounter">
+	<c:if test="${areaIter.id == tabId}">
+	<c:set var="area" scope="request" value="${areaIter}"></c:set>
+	<jsp:include page="singleTabDetailsPage.jsp"></jsp:include>
+	</c:if>
+</c:forEach>
+</c:when>
+<c:otherwise>
 <%
 	String subscribe = request.getParameter("subscribe");
 	boolean showSubMsg = false;
@@ -117,13 +126,13 @@
     	
     	var LoaderSnippet = {    		
     		write : function(text, idelement) {
-    			j('#'+element).html(text);		
+    			j('#'+idelement).html(text);		
     		}
     	};
 
     	var LoaderModal = {        		
        		write : function(text, idelement) {
-       			j('#'+element).html(text);		
+       			j('#'+idelement).html(text);		
        		}
         };
     
@@ -131,19 +140,110 @@
        		elem : false,
        		write : function(text) {
        			if (!this.elem)
-       				this.elem = document.getElementById('logcontent3');
-       			this.elem.innerHTML = text;		
+       				this.elem = j('#logcontent3');
+       			this.elem.html(text);		
       		}
         };
-        	
+    	
+    	var activeTab = function(){
+    		j(".box:not(.expanded)").accordion({
+    			autoHeight: false,
+    			navigation: true,
+    			collapsible: true,
+    			active: false
+    		});
+    		j(".box.expanded").accordion({
+    			autoHeight: false,
+    			navigation: true,
+    			collapsible: true,
+    			active: 0
+    		});
+    		
+    		var ajaxurlrelations = "<%=request.getContextPath()%>/cris/${specificPartPath}/viewNested.htm";
+			j('.nestedinfo').each(function(){
+				var id = j(this).html();
+				j.ajax( {
+					url : ajaxurlrelations,
+					data : {																			
+						"parentID" : ${entity.id},
+						"typeNestedID" : id,
+						"pageCurrent": j('#nested_'+id+"_pageCurrent").html(),
+						"limit": j('#nested_'+id+"_limit").html(),
+						"editmode": j('#nested_'+id+"_editmode").html(),
+						"totalHit": j('#nested_'+id+"_totalHit").html(),
+						"admin": ${admin}
+					},
+					success : function(data) {																										
+						j('#viewnested_'+id).html(data);
+						var ajaxFunction = function(page){
+							j.ajax( {
+								url : ajaxurlrelations,
+								data : {																			
+									"parentID" : ${entity.id},
+									"typeNestedID" : id,													
+									"pageCurrent": page,
+									"limit": j('#nested_'+id+"_limit").html(),
+									"editmode": j('#nested_'+id+"_editmode").html(),
+									"totalHit": j('#nested_'+id+"_totalHit").html(),
+									"admin": ${admin}
+								},
+								success : function(data) {									
+									j('#viewnested_'+id).html(data);
+									postfunction();
+									//j("#log3").dialog("close");
+								},
+								error : function(data) {
+									
+									Loader.write(data.statusText);
+									
+								}
+							});		
+						};
+						var postfunction = function(){
+							j('#nested_'+id+'_next').click(
+									function() {
+								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
+									    //j("#log3").dialog("open");																			
+										//var parameterId = this.id.substring(5, this.id.length);	
+										//var pagefrom = parseInt(parameterId) + 1;
+										//Loader.write("Loading ${decoratorPropertyDefinition.label}... Page "+ pagefrom  +" of ${totalpage}");
+										
+							});
+							j('#nested_'+id+'_prev').click(
+									function() {
+										ajaxFunction(j('#nested_'+id+"_pageCurrent").html()-1);
+							});
+							j('.nested_'+id+'_nextprev').click(
+									function(){
+										ajaxFunction(j(this).attr('id').substr(('nested_'+id+'_nextprev_').length));
+							});
+						};
+						postfunction();
+					},
+					error : function(data) {
+						
+						LoaderSnippet.write(data.statusText, "logcontent1_${tipologiaDaVisualizzare.shortName}");
+						
+					}
+				});
+			});
+    	};
+    	
 		j(document).ready(function()
 		{
+			j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
+			
+			j("#tabs").tabs({
+				cache: true,
+				load: function(event, ui){
+					activeTab();
+					}
+			});
+			
 			j('.navigation-tabs').accordion({
 				collapsible: true,
 				active: false
 			});
-			j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
-		
 			
 			j.ajax( {
 				url : ajaxurlnavigation,
@@ -163,12 +263,12 @@
 						{
 							j('#bar-tab-'+data.navigation[i].id+' a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
 							var img = j('#bar-tab-'+data.navigation[i].id+' a img');
-							j('#bar-tab-'+data.navigation[i].id+' a').html(imghtml + data.navigation[i].title);
+							j('#bar-tab-'+data.navigation[i].id+' a').html(data.navigation[i].title);
 							j('#bar-tab-'+data.navigation[i].id+' a').add(img);
-							for (var j = 0; j < data.navigation[i].boxes.size(); j++)
+							for (var k = 0; k < data.navigation[i].boxes.size(); k++)
 							{	
 								j('#cris-tabs-navigation-'+data.navigation[i].id)
-									.add('<li><a href="">'+data.navigation[i].boxes[j].title+'</a></li>');
+									.add('<li><a href="">'+data.navigation[i].boxes[k].title+'</a></li>');
 							}
 						}
 					}
@@ -177,7 +277,8 @@
 					//nothing				
 				}
 			});
-		
+			
+			activeTab();
 		});
 		-->
 	</script>
@@ -247,3 +348,5 @@
 
 
 </dspace:layout>
+</c:otherwise>
+</c:choose>
