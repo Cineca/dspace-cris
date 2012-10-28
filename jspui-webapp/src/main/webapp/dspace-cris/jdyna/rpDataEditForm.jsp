@@ -37,7 +37,13 @@
 <c:set var="ADMIN_ACCESS"><%=AccessLevelConstants.ADMIN_ACCESS%></c:set>
 <c:set var="LOW_ACCESS"><%=AccessLevelConstants.LOW_ACCESS%></c:set>
 <c:set var="STANDARD_ACCESS"><%=AccessLevelConstants.STANDARD_ACCESS%></c:set>
+<c:set var="tabId" value="${anagraficadto.tabId}" />
 
+<c:forEach items="${tabList}" var="areaIter" varStatus="rowCounter">
+	<c:if test="${areaIter.id == tabId}">
+	<c:set var="currTabIdx" scope="request" value="${rowCounter.count}" />
+	</c:if>
+</c:forEach>
 	
 <c:set var="commandObject" value="${anagraficadto}" scope="request" />
 
@@ -47,10 +53,10 @@
 <c:set var="disabledfield" value=" disabled=\"disabled\" "></c:set>
 
 <c:set var="dspace.layout.head" scope="request">	
-	<link href="<%= request.getContextPath() %>/css/jdyna.css" type="text/css" rel="stylesheet" />
 	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
+	<link href="<%= request.getContextPath() %>/css/jdyna.css" type="text/css" rel="stylesheet" />
 	<link href="<%= request.getContextPath() %>/css/redmond/jquery-ui-1.8.24.custom.css" type="text/css" rel="stylesheet" />
-    <style type="text/css">@import url(<%=request.getContextPath()%>/js/jscalendar/calendar-blue.css );</style>
+    <link href="<%=request.getContextPath()%>/js/jscalendar/calendar-blue.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/lang/calendar-en.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar-setup.js"> </script>
@@ -58,74 +64,116 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui-1.8.24.custom.min.js"></script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.form.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jdyna/jdyna.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/utils.js"></script>
-	
-	
-	  <script type="text/javascript"><!--
+
+    <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    
-    	var LoaderSnippet = {    		
-    		write : function(text, idelement) {    			
-    			var elem = document.getElementById(idelement);
-    			elem.innerHTML = text;		
-    		}
-    	};
-
-    	var LoaderModal = {        		
-        		write : function(text, idelement) {
-        			var elem = document.getElementById(idelement);
-        			elem.innerHTML = text;		
-        		}
-        };
-
-    
-    	var Loader = {
-    		elem : false,
-    		write : function(text) {
-    			if (!this.elem)
-    				this.elem = document.getElementById('logcontent3');
-    			this.elem.innerHTML = text;		
-    			}
-    	};
+    	var ajaxurlnavigation = "<%=request.getContextPath()%>/json/cris/navigation";
     	
-  	
-    	
-    
+    	var activeTab = function(){
+    		j(".box:not(.expanded)").accordion({
+    			autoHeight: false,
+    			navigation: true,
+    			collapsible: true,
+    			active: 0
+    		});
+    		j(".box.expanded").accordion({
+    			autoHeight: false,
+    			navigation: true,
+    			collapsible: true,
+    			active: 0
+    		});
+    		
+    		var ajaxurlrelations = "<%=request.getContextPath()%>/cris/${specificPartPath}/viewNested.htm";
+			j('.nestedinfo').each(function(){
+				var id = j(this).html();
+				j.ajax( {
+					url : ajaxurlrelations,
+					data : {																			
+						"parentID" : ${anagraficadto.objectId},
+						"typeNestedID" : id,
+						"pageCurrent": j('#nested_'+id+"_pageCurrent").html(),
+						"limit": j('#nested_'+id+"_limit").html(),
+						"editmode": true,
+						"totalHit": j('#nested_'+id+"_totalHit").html(),
+						"admin": ${admin}
+					},
+					success : function(data) {																										
+						j('#viewnested_'+id).html(data);
+						var ajaxFunction = function(page){
+							j.ajax( {
+								url : ajaxurlrelations,
+								data : {																			
+									"parentID" : ${anagraficadto.objectId},
+									"typeNestedID" : id,													
+									"pageCurrent": page,
+									"limit": j('#nested_'+id+"_limit").html(),
+									"editmode": true,
+									"totalHit": j('#nested_'+id+"_totalHit").html(),
+									"admin": ${admin}
+								},
+								success : function(data) {									
+									j('#viewnested_'+id).html(data);
+									postfunction();
+								},
+								error : function(data) {
+								}
+							});		
+						};
+						var postfunction = function(){
+							j('#nested_'+id+'_next').click(
+									function() {
+								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
+										
+							});
+							j('#nested_'+id+'_prev').click(
+									function() {
+										ajaxFunction(j('#nested_'+id+"_pageCurrent").html()-1);
+							});
+							j('.nested_'+id+'_nextprev').click(
+									function(){
+										ajaxFunction(j(this).attr('id').substr(('nested_'+id+'_nextprev_').length));
+							});
+						};
+						postfunction();
+					},
+					error : function(data) {
+					}
+				});
+			});
+    	};
     	
 		j(document).ready(function()
-				{
+		{
+			j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
 			
-				  j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
-				  			
-				  j(".control").click(function()
-				  {
-					  j(this).toggleClass("expanded");
-					  j(this).children("img").toggleClass("hide");
-				      j(this).next(".collapsable").slideToggle(300);
-				  });
-	
+			j('input:submit').button();
+			j("#tabs").tabs({
+				selected: ${currTabIdx-1},
+				select: function(event, ui){
+					j('#newTabId').val(j(ui.tab).attr('href').substr(5));
+					j('#submit_save').click();
+				}
+			});
+			
+			j('.navigation-tabs:not(.expanded)').accordion({
+				collapsible: true,
+				active: 0,
+				event: "click mouseover"
+			});
+			j('.navigation-tabs.expanded').accordion({
+				collapsible: true,
+				active: 0,
+				event: "click mouseover"
+			});
+			
+			activeTab();
 		});
-		
-		
-		// post-submit callback 
-		function showResponse(responseText, statusText, xhr, $form)  {		 
-		    j(".dialogfragment").dialog("close");
-		}
-				
 		-->
 	</script>
 	
 </c:set>
 <dspace:layout titlekey="jsp.researcher-page.primary-data-form" navbar="off">
-
-<table align="center" class="miscTable">
-<tr>
-
-
-<td valign="top" align="left">
-
-
 
 <h1>${researcher.fullName}</h1>
 
@@ -154,7 +202,7 @@
 			<br />
 		</c:forEach>
 		<c:if test="${!empty status.errorMessages}">
-			<div id="errorMessages">
+			</div>
 		</c:if>
 	</spring:bind>
 
@@ -165,40 +213,26 @@
 	
 	<p style="color: red; text-decoration: underline; font-weight: bold; text-align: center;"><fmt:message key='jsp.rp.edit-tips'/></p>
 
-	<table width="98%" align="left" cellpadding="0" cellspacing="0">
-		<tbody>
+				<div id="tabs">
+		<ul>
+					<c:forEach items="${tabList}" var="area" varStatus="rowCounter">
+			<li id="bar-tab-${area.id}">
+				<a href="#tab-${area.id}"><img style="width: 16px;vertical-align: middle;" border="0" 
+					src="<%=request.getContextPath()%>/cris/researchertabimage/${area.id}" alt="icon">
+				${area.title}</a>
+			</li>
+					</c:forEach>
+		</ul>
 
-			<tr>
-				<c:forEach items="${tabList}" var="area">
-					<td align="center" class="tb-head0">&nbsp;</td>
-					
-						<c:choose>
-				<c:when test="${area.id == anagraficadto.tabId}">
-					<td nowrap="" align="center" class="tb-head1">
-							<img  border="0"  
-									
-									src="<%=request.getContextPath()%>/cris/researchertabimage/${area.id}"
-									title="${area.shortName} picture" alt="X"/>
-					
-						${area.title}</td>
-				</c:when>
-				<c:otherwise>
-					<td nowrap="" align="center" class="tb-head2">
-						<a onclick="changeArea(${area.id})"><img border="0"				
-						
-									src="<%=request.getContextPath()%>/cris/researchertabimage/${area.id}"
-									title="${area.shortName} picture" alt="X"> ${area.title}</a></td>
-				</c:otherwise>
-				</c:choose>
-				
-				</c:forEach>
-				<td align="center" class="tb-head0">&nbsp;</td>
-			</tr>
-			<tr>
-				<td bgcolor="#f9f9f9" valign="top" class="tb-body" colspan="9">
-
-				
-				
+<c:forEach items="${tabList}" var="area" varStatus="rowCounter">
+	<c:if test="${area.id != tabId}">
+	<div id="tab-${area.id}">
+	Saving data... tab data will be shown soon
+	</div>
+	</c:if>
+</c:forEach>		
+		<div id="tab-${tabId}">
+	
 				<c:forEach items="${propertiesHolders}" var="holder">
 				
 				<c:set value="${researcher:isThereMetadataNoEditable(holder.shortName, holder.class)}" var="isThereMetadataNoEditable"></c:set>
@@ -232,30 +266,13 @@
 								} else {
 							%>
 					
-						<div id="hidden_first${holder.shortName}">
-						<fieldset><legend> <a
-							onclick="Effect.toggle('hidden_appear${holder.shortName}', 'appear'); Effect.toggle('toggle_appear${holder.shortName}', 'blind'); Effect.toggle('hidden_first${holder.shortName}', 'blind'); return false;"
-							href="#"> <span id="toggle_appear${holder.shortName}"> <img
-							src="<%=request.getContextPath()%>/image/cris/collapse.gif"
-							border="0" /> </span></a> ${holder.title} </legend>
-						<label>
-						<!--c:if test="${!admin && isThereMetadataNoEditable eq true}"-->
-
-							<span class="green"><fmt:message
-								key='jsp.layout.hku.researcher.message.sendemail'>
-								<fmt:param>
-									<fmt:message
+						<div id="hidden_first${holder.shortName}">&nbsp;</div>
+						<div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
+						  <h3><a href="#">${holder.title}</a></h3>
+						  <div>
+								<fmt:message
 										key='jsp.layout.hku.researcher.message.personsandemail.${holder.shortName}' />
-								</fmt:param>
-							</fmt:message></span>
 
-						<!--/c:if--> </label>
-							
-	
-						<table width="98%" cellpadding="0" cellspacing="4">
-							<tr>
-							<td>
-								
 						<c:forEach
 							items="${propertiesDefinitionsInHolder[holder.shortName]}"
 							var="tipologiaDaVisualizzare">
@@ -292,67 +309,15 @@
 								<c:set var="editmode" value="true"/>
 								
 								<div
-									id="viewnested_${tipologiaDaVisualizzare.shortName}"
-									class="previewdialog">
-										
-										<div id="log1_${tipologiaDaVisualizzare.shortName}" class="log">
-											<img src="<%=request.getContextPath()%>/image/cris/bar-loader.gif" id="loader1_${tipologiaDaVisualizzare.shortName}" class="loader" />
-											<div id="logcontent1_${tipologiaDaVisualizzare.shortName}" class="logcontent"></div>
-										</div>
-									
+									id="viewnested_${tipologiaDaVisualizzare.real.id}" class="viewnested">
+										<img src="<%=request.getContextPath()%>/image/cris/bar-loader.gif" class="loader" />
+											<fmt:message key="jsp.jdyna.nestedloading" />
+								<span class="spandatabind nestedinfo">${tipologiaDaVisualizzare.real.id}</span>
+								<span id="nested_${tipologiaDaVisualizzare.real.id}_totalHit" class="spandatabind">0</span>
+								<span id="nested_${tipologiaDaVisualizzare.real.id}_limit" class="spandatabind">5</span>
+								<span id="nested_${tipologiaDaVisualizzare.real.id}_pageCurrent" class="spandatabind">0</span>
+								<span id="nested_${tipologiaDaVisualizzare.real.id}_editmode" class="spandatabind">false</span>
 								</div>
-
-								<div
-									id="nestedfragment_${tipologiaDaVisualizzare.shortName}"
-									class="dialogfragment">
-									<div
-										id="nestedfragmentcontent_${tipologiaDaVisualizzare.shortName}">
-										<div id="log2_${tipologiaDaVisualizzare.shortName}" class="log">
-											<img
-												src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
-												id="loader2_${tipologiaDaVisualizzare.shortName}" class="loader"/>
-											<div id="logcontent2_${tipologiaDaVisualizzare.shortName}" class="logcontent"></div>
-										</div>
-									</div>
-								</div>
-
-
-									<script type="text/javascript">		
-
-									LoaderSnippet.write("Loading... ${tipologiaDaVisualizzare.label}", "logcontent1_${tipologiaDaVisualizzare.shortName}");									
-									var parameterId = this.id;																	
-									var ajaxurlrelations = "<%=request.getContextPath()%>/cris/${specificPartPath}/viewNested.htm";
-									j.ajax( {
-										url : ajaxurlrelations,
-										data : {																			
-											"elementID" : parameterId,
-											"parentID" : ${researcher.id},
-											"typeNestedID" : ${tipologiaDaVisualizzare.real.id},
-											"pageCurrent": ${pageCurrent},
-											"offset": ${offset},
-											"limit": ${limit},
-											"editmode": 'true',
-											"totalHit": ${totalHit},
-											"admin": ${admin}
-										},
-										success : function(data) {																										
-											j('#viewnested_${tipologiaDaVisualizzare.shortName}').html(data);								
-											
-										},
-										error : function(data) {
-											
-											LoaderSnippet.write(data.statusText, "logcontent1_${tipologiaDaVisualizzare.shortName}");
-											
-										}
-									});
-								
-									j('#nestedfragment_${tipologiaDaVisualizzare.shortName}').dialog({width: '800', closeOnEscape: true, modal: true, autoOpen: false, resizable: true, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
-									j(".ui-dialog-titlebar").click(function() {	j('#nestedfragment_${tipologiaDaVisualizzare.shortName}').dialog("close");});
-								
-								
-									</script>
-
-								
 							</c:if>
 
 
@@ -374,83 +339,25 @@
 									ajaxValidation="validateAnagraficaProperties" hideLabel="${hideLabel}"
 									validationParams="${parameters}" visibility="${visibility}"/>
 									
-								</c:if>
-								<c:if
-								test="${show && (tipologiaDaVisualizzare.class.simpleName eq 'DecoratorRestrictedField')}">
+							</c:if>
 
-				
-										<c:set var="urljspcustom" value="/authority/jdyna/custom/editstructuralmetadata/${tipologiaDaVisualizzare.shortName}.jsp" scope="request"/>
-										
-
-								
-							<%
-								filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");
-
-										fileURL = pageContext.getServletContext().getResource(
-												filePath);
-							%>
-
-							<%
-								if (fileURL != null) {
-							%>
-							<c:import url="${urljspcustom}" />
-							<% } %>
-																
-										
-										
-									
-									
-								</c:if>
 						</c:forEach>
-						</td>
-						</tr>
-						</table>
-						</fieldset>
-						
-						</div>
-						
-						<div id="hidden_appear${holder.shortName}" style="display: none;">
-						<fieldset><legend> <a
-							onclick="Effect.toggle('hidden_appear${holder.shortName}', 'appear'); Effect.toggle('toggle_appear${holder.shortName}', 'appear'); Effect.toggle('hidden_first${holder.shortName}', 'slide');return false;"
-							href="#"> <span id="less_more${holder.shortName}"> <img
-							src="<%=request.getContextPath()%>/image/cris/expand.gif" border="0" />
-						</span> </a>${holder.title}</legend><label></label></fieldset>
-						</div>
-
-						<p></p>
+		</div>	
+</div>	
 				
 <% } %>
-
 				</c:forEach>
-				
-				
-				</td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td><input type="submit"
+<br/>
+<div class="jdyna-form-button">
+				<input id="submit_save" type="submit"
 					value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
 				<input type="submit" name="cancel"
-					value="<fmt:message key="jsp.layout.hku.researcher.button.cancel"/>" /></td>
-			</tr>
-
-		</tbody>
-	</table>
+					value="<fmt:message key="jsp.layout.hku.researcher.button.cancel"/>" />
+					</div>
+</div>			
+</div>				
+				
 </form:form>
 </div>
-
-<div id="log3" class="log">
-	<img
-		src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
-		id="loader3" class="loader"/>
-	<div id="logcontent3"></div>
-</div>
-
-</td>
-
-</tr>
-</table>
 
 </dspace:layout>

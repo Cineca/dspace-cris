@@ -228,7 +228,6 @@
 			j.ajax( {
 				url : ajaxurlnavigation,
 				data : {																			
-					"currTabId": ${tabId},
 					"objectId": ${entity.id}
 				},
 				success : function(data) {
