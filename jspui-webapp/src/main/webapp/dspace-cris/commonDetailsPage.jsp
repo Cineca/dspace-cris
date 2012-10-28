@@ -18,8 +18,8 @@
 		<ul>
 					<c:forEach items="${tabList}" var="area" varStatus="rowCounter">
 						<c:set var="tablink"><c:choose>
-							<c:when test="${rowCounter.count == 1}">${root}/cris/${specificPartPath}/${authority}</c:when>
-							<c:otherwise>${root}/cris/${specificPartPath}/${authority}/${area.shortName}.html</c:otherwise>
+							<c:when test="${rowCounter.count == 1}">${root}/cris/${specificPartPath}/${authority}?onlytab=true</c:when>
+							<c:otherwise>${root}/cris/${specificPartPath}/${authority}/${area.shortName}.html?onlytab=true</c:otherwise>
 						</c:choose></c:set>
 			<li id="bar-tab-${area.id}">
 						<c:choose>
@@ -29,7 +29,7 @@
 								${area.title}</a>
 							</c:when>
 							<c:otherwise>
-									<a href="${area.shortName}.html?onlytab=true"><img style="width: 16px;vertical-align: middle;" border="0"
+									<a href="${tablink}"><img style="width: 16px;vertical-align: middle;" border="0"
 										src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
 			    						alt="icon" />${area.title}</a>
 							</c:otherwise>

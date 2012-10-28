@@ -28,48 +28,20 @@
 		
 	<span class="dynaLabel">${decoratorPropertyDefinition.label}</span>
 	<div class="dynaFieldValue">
-	<table>
 	<c:if test="${totalpage>1}">
-	<tr>
-	<td>	
+	<span class="nestedPagination">
 	<fmt:message key="jsp.layout.form.search.navigation">
 	<fmt:param>${pageCurrent+1}</fmt:param>	
 	<fmt:param>${totalHit}</fmt:param>
 	<fmt:param>
 			${totalpage}
 	</fmt:param>
-	<fmt:param>${decoratorPropertyDefinition.label}</fmt:param>	
 	</fmt:message>
-	
-	</td>
-	</tr>
-	</c:if>
-	<c:if test="${totalpage==1}">
-	<tr>
-	<td>	
-	
-	<fmt:message key="jsp.layout.form.search.navigation.minimal">	
-	<fmt:param>${totalHit}</fmt:param>	
-	<fmt:param>${decoratorPropertyDefinition.label}</fmt:param>	
-	</fmt:message>
-		
-	</td>
-	</tr>
-	</c:if>
-	</table>
-	
-	<c:if test="${totalpage>1}">
-	<table>
-	<tr>
 	<c:if test="${pageCurrent>0}">
-		<td>	
-			<input type="button" id="nested_${decoratorPropertyDefinition.real.id}_prev" value="Prev" />	
-		</td>
+			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" id="nested_${decoratorPropertyDefinition.real.id}_prev">&lt; Previous</a>	
 		
 	<% for(int indexPrevious = (pageCurrent+1>5?pageCurrent-4:1); indexPrevious<pageCurrent+1; indexPrevious++) {%>
-		<td>			
 			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" class="nested_${decoratorPropertyDefinition.real.id}_nextprev" id="nested_${decoratorPropertyDefinition.real.id}_nextprev_<%= indexPrevious - 1 %>"><%= indexPrevious %></a>			
-		</td>
 	<% } %>			
 	</c:if>			
 	
@@ -77,27 +49,16 @@
 
 	<% int i = 0;
 	                                     
-	   for(int indexNext = pageCurrent; (totalHit  - (limit * (indexNext))) > 0 && i<5; indexNext++,i++) {%>
-			   
-		<td>		
-		<% if(pageCurrent==indexNext) { %>
-		<b>
-		<% } %>			
-			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" class="nested_${decoratorPropertyDefinition.real.id}_nextprev" id="nested_${decoratorPropertyDefinition.real.id}_nextprev_<%= indexNext %>"><%= indexNext +1%></a>
-		<% if(pageCurrent==indexNext) { %>
-		</b>
-		<% } %>		
-		</td>
+	   for (int indexNext = pageCurrent; (totalHit  - (limit * (indexNext))) > 0 && i<5; indexNext++,i++) {%>
+		<a href="#viewnested_${decoratorPropertyDefinition.shortName}" 
+			class="nested_${decoratorPropertyDefinition.real.id}_nextprev <%=pageCurrent==indexNext?"current":""%>" id="nested_${decoratorPropertyDefinition.real.id}_nextprev_<%= indexNext %>"><%= indexNext +1%></a>
 	<% } %>
 	
 	
 	<c:if test="${(totalHit  - (limit * (pageCurrent+1))) > 0}">
-		<td>
-			<input type="button" id="nested_${decoratorPropertyDefinition.real.id}_next" value="Next" />
-		</td>			
+			<a href="#viewnested_${decoratorPropertyDefinition.shortName}" id="nested_${decoratorPropertyDefinition.real.id}_next">Next &gt;</a>
 	</c:if>
-	</tr>
-	</table>	
+	</span>
 	</c:if>
 	
 	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificContextPath}${specificPartPath}" admin="${admin}"/>

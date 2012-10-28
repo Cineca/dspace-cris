@@ -60,7 +60,7 @@
 												<c:set var="editmode" value="false"/>
 												
 												<div
-													id="viewnested_${tipologiaDaVisualizzare.real.id}">
+													id="viewnested_${tipologiaDaVisualizzare.real.id}" class="viewnested">
 														<img src="<%=request.getContextPath()%>/image/cris/bar-loader.gif" class="loader" />
 															<fmt:message key="jsp.jdyna.nestedloading" />
 												<span class="spandatabind nestedinfo">${tipologiaDaVisualizzare.real.id}</span>

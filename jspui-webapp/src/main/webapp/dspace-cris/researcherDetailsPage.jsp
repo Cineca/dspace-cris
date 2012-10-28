@@ -14,18 +14,24 @@
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
-<c:set var="root"><%=request.getContextPath()%></c:set>
+<c:set var="root" scope="request"><%=request.getContextPath()%></c:set>
 <c:set var="entity" value="${researcher}" scope="request" />
 <c:choose>
 <c:when test="${param.onlytab}">
 <c:forEach items="${tabList}" var="areaIter" varStatus="rowCounter">
 	<c:if test="${areaIter.id == tabId}">
 	<c:set var="area" scope="request" value="${areaIter}"></c:set>
+	<c:set var="currTabIdx" scope="request" value="${rowCounter.count}" />
 	<jsp:include page="singleTabDetailsPage.jsp"></jsp:include>
 	</c:if>
 </c:forEach>
 </c:when>
 <c:otherwise>
+<c:forEach items="${tabList}" var="areaIter" varStatus="rowCounter">
+	<c:if test="${areaIter.id == tabId}">
+	<c:set var="currTabIdx" scope="request" value="${rowCounter.count}" />
+	</c:if>
+</c:forEach>
 <%
 	String subscribe = request.getParameter("subscribe");
 	boolean showSubMsg = false;
@@ -124,27 +130,6 @@
 		var j = jQuery.noConflict();
     	var ajaxurlnavigation = "<%=request.getContextPath()%>/json/cris/navigation";
     	
-    	var LoaderSnippet = {    		
-    		write : function(text, idelement) {
-    			j('#'+idelement).html(text);		
-    		}
-    	};
-
-    	var LoaderModal = {        		
-       		write : function(text, idelement) {
-       			j('#'+idelement).html(text);		
-       		}
-        };
-    
-    	var Loader = {
-       		elem : false,
-       		write : function(text) {
-       			if (!this.elem)
-       				this.elem = j('#logcontent3');
-       			this.elem.html(text);		
-      		}
-        };
-    	
     	var activeTab = function(){
     		j(".box:not(.expanded)").accordion({
     			autoHeight: false,
@@ -190,12 +175,8 @@
 								success : function(data) {									
 									j('#viewnested_'+id).html(data);
 									postfunction();
-									//j("#log3").dialog("close");
 								},
 								error : function(data) {
-									
-									Loader.write(data.statusText);
-									
 								}
 							});		
 						};
@@ -203,10 +184,6 @@
 							j('#nested_'+id+'_next').click(
 									function() {
 								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
-									    //j("#log3").dialog("open");																			
-										//var parameterId = this.id.substring(5, this.id.length);	
-										//var pagefrom = parseInt(parameterId) + 1;
-										//Loader.write("Loading ${decoratorPropertyDefinition.label}... Page "+ pagefrom  +" of ${totalpage}");
 										
 							});
 							j('#nested_'+id+'_prev').click(
@@ -221,9 +198,6 @@
 						postfunction();
 					},
 					error : function(data) {
-						
-						LoaderSnippet.write(data.statusText, "logcontent1_${tipologiaDaVisualizzare.shortName}");
-						
 					}
 				});
 			});
@@ -235,16 +209,22 @@
 			
 			j("#tabs").tabs({
 				cache: true,
+				selected: ${currTabIdx-1},
 				load: function(event, ui){
 					activeTab();
-					}
+					}							
 			});
 			
-			j('.navigation-tabs').accordion({
+			j('.navigation-tabs:not(.expanded)').accordion({
 				collapsible: true,
-				active: false
+				active: false,
+				event: "click mouseover"
 			});
-			
+			j('.navigation-tabs.expanded').accordion({
+				collapsible: true,
+				active: 0,
+				event: "click mouseover"
+			});
 			j.ajax( {
 				url : ajaxurlnavigation,
 				data : {																			
@@ -264,12 +244,17 @@
 							j('#bar-tab-'+data.navigation[i].id+' a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
 							var img = j('#bar-tab-'+data.navigation[i].id+' a img');
 							j('#bar-tab-'+data.navigation[i].id+' a').html(data.navigation[i].title);
-							j('#bar-tab-'+data.navigation[i].id+' a').add(img);
+							j('#bar-tab-'+data.navigation[i].id+' a').prepend(img);
+							img.after('&nbsp;');
+							j('#cris-tabs-navigation-'+data.navigation[i].id+' h3 a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
+							j('#cris-tabs-navigation-'+data.navigation[i].id+'-ul').html('');
 							for (var k = 0; k < data.navigation[i].boxes.size(); k++)
 							{	
-								j('#cris-tabs-navigation-'+data.navigation[i].id)
-									.add('<li><a href="">'+data.navigation[i].boxes[k].title+'</a></li>');
+								j('#cris-tabs-navigation-'+data.navigation[i].id+"-ul")
+									.append('<li class="ui-accordion ui-widget-content ui-state-default"><a href="${root}/cris/${specificPartPath}/${authority}/'
+											+data.navigation[i].shortName+'.html?open='+data.navigation[i].boxes[k].shortName+'">'+data.navigation[i].boxes[k].title+'</a></li>');
 							}
+							j('.navigation-tabs').accordion("resize");							
 						}
 					}
 				},
@@ -290,16 +275,21 @@
 
 <div id="content">
 	<div id="cris-tabs-navigation">
-<c:forEach items="${tabList}" var="tabfornavigation">				
-				<div id="cris-tabs-navigation-${tabfornavigation.id}" class="navigation-tabs">		
-					<h3>${tabfornavigation.title}</h3>
-					<ul id="cris-tabs-navigation-${tabfornavigation.id}-ul">
-						<li><img
-								src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
-			    				class="loader" /></li>
-					</ul>
-				</div>	
-		 </c:forEach>
+	<div class="internalmenu ui-helper-reset ui-widget ui-corner-all ui-widget-content">
+	<h2><fmt:message key="jsp.cris.detail.navigation-menu-heading" /></h2>
+		<c:forEach items="${tabList}" var="tabfornavigation" varStatus="rowCounter">
+			<div id="cris-tabs-navigation-${tabfornavigation.id}" class="navigation-tabs <c:if test="${tabfornavigation.id == tabId}">expanded</c:if>">
+			<h3><a href="${tablink}"><img style="width: 16px;vertical-align: middle;" border="0"
+					src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+  						alt="icon" />${tabfornavigation.title}</a></h3>
+			<ul id="cris-tabs-navigation-${tabfornavigation.id}-ul">
+					<li><img
+							src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+		    				class="loader" />Loading</li>
+			</ul>
+			</div>
+		</c:forEach>
+		</div>
 	 </div>
 <h1><fmt:message key="jsp.layout.hku.detail.title-first" /> <c:choose>
 	<c:when test="${!empty entity.preferredName.value}">
@@ -338,14 +328,6 @@
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 </div>
-<div id="log3" class="log">
-	<img
-		src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
-		id="loader3" class="loader"/>
-	<div id="logcontent3"></div>
-</div>
-
-
 
 </dspace:layout>
 </c:otherwise>
