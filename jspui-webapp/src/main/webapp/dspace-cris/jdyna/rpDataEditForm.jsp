@@ -121,6 +121,68 @@
 							});		
 						};
 						var postfunction = function(){
+							j('#viewnested_'+id+' .nested_edit_button').mouseover(function(){
+								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
+							});
+							j('#viewnested_'+id+' .nested_edit_button').mouseout(function(){
+								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
+							});
+							j('#viewnested_'+id+' .nested_delete_button').mouseover(function(){
+								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
+							});
+							j('#viewnested_'+id+' .nested_delete_button').mouseout(function(){
+								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
+							});
+							j('#viewnested_'+id+' .nested_edit_button').click(function(){
+								var ajaxurleditnested = 
+									"<%= request.getContextPath() %>/cris/tools/${specificPartPath}/editNested.htm";
+									j.ajax( {
+										url : ajaxurleditnested,
+										data : {
+											"elementID": j(this).attr('id').substr(('nested_'+id+'_edit_').length),
+											"parentID" : ${anagraficadto.objectId},
+											"typeNestedID" : id,
+											"editmode" : true,
+											"admin": ${admin}
+										},
+										success : function(data) {
+											j('#nested_edit_dialog').html(data);
+											j('#nested_edit_dialog input:submit').button();
+											var options = { 
+											        target: '#viewnested_'+id,   // target element(s) to be updated with server response 
+											        success: function(){ // post-submit callback
+											        	j('#nested_edit_dialog').dialog("close");        
+											        	postfunction();
+										        	}
+											};
+											j('#nested_edit_form').ajaxForm(options); 
+											j('#nested_edit_dialog').dialog("option",{title: 'Edit: '+j('#viewnested_'+id+' span.dynaLabel').html()});
+											j('#nested_edit_dialog').dialog("open");
+										},
+										error : function(data) {
+										}
+									});	
+							});
+							j('#viewnested_'+id+' .nested_delete_button').click(function(){
+								var ajaxurldeletenested = 
+									"<%= request.getContextPath() %>/cris/tools/${specificPartPath}/deleteNested.htm";
+									j.ajax( {
+										url : ajaxurldeletenested,
+										data : {
+											"elementID": j(this).attr('id').substr(('nested_'+id+'_delete_').length),
+											"parentID" : ${anagraficadto.objectId},
+											"typeNestedID" : id,
+											"editmode" : true,
+											"admin": ${admin}
+										},
+										success : function(data) {
+											j('#viewnested_'+id).html(data);
+											postfunction();
+										},
+										error : function(data) {
+										}
+									});	
+							});
 							j('#nested_'+id+'_addbutton').click(function(){
 								var ajaxurladdnested = 
 									"<%= request.getContextPath() %>/cris/tools/${specificPartPath}/addNested.htm";
