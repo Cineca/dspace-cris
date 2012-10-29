@@ -2872,76 +2872,34 @@
 
 
 	
-	<!-- Navigation and build tabs -->	
-	<bean id="loadRPNavigation" class="it.cilea.hku.authority.webui.controller.jdyna.RPNavigationController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<property name="specificPartPath">
-			<value>rp</value>
-		</property>				
-		<property name="detailsView">
-			<value>layout/navigation</value>
-		</property>		
-
-		<!-- 		<property name="components">
-			<map>
-				<entry key="dspaceitems">
-					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
-				</entry>				
-			</map>
-		</property>			 -->			
-	</bean>
-	
-	<bean id="loadRPTabs" class="it.cilea.hku.authority.webui.controller.jdyna.RPLoaderTabsController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<property name="specificPartPath">
-			<value>rp</value>
-		</property>								
-		<property name="detailsView">
-			<value>jdyna/loadtabs</value>
-		</property>		
-
-<!-- 		<property name="components">
-			<map>
-				<entry key="dspaceitems">
-					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
-				</entry>				
-			</map>
-		</property>			 -->
-		
-	</bean>	
-		
+	<!-- Navigation and build tabs -->
 	<bean id="loadTabIcon" class="it.cilea.hku.authority.webui.controller.jdyna.ResearcherTabImageController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>	
 	</bean>		
-	
-	<bean id="loadProjectTabs" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectLoaderTabsController">
+		
+	<bean id="loadRPNavigation" class="org.dspace.app.webui.cris.json.RPNavigationController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<property name="specificPartPath">
-			<value>project</value>
-		</property>								
+			<value>rp</value>
+		</property>				
 		<property name="detailsView">
-			<value>jdyna/loadtabs</value>
+			<value>layout/navigation</value>
 		</property>		
 
-<!-- 		<property name="components">
+		<!-- 		<property name="components">
 			<map>
 				<entry key="dspaceitems">
 					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
 				</entry>				
 			</map>
-		</property>			 -->
-		
-	</bean>	
-		
-	<bean id="loadProjectNavigation" class="it.cilea.hku.authority.webui.controller.jdyna.ProjectNavigationController">
+		</property>			 -->			
+	</bean>
+	
+	<bean id="loadProjectNavigation" class="org.dspace.app.webui.cris.json.ProjectNavigationController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -2961,28 +2919,8 @@
 		</property>			 -->			
 	</bean>
 	
-	<bean id="loadOUTabs" class="it.cilea.hku.authority.webui.controller.jdyna.OULoaderTabsController">
-		<property name="applicationService">
-			<ref bean="applicationService" />
-		</property>
-		<property name="specificPartPath">
-			<value>ou</value>
-		</property>								
-		<property name="detailsView">
-			<value>jdyna/loadtabs</value>
-		</property>		
-
-<!-- 		<property name="components">
-			<map>
-				<entry key="dspaceitems">
-					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
-				</entry>				
-			</map>
-		</property>			 -->
 		
-	</bean>	
-		
-	<bean id="loadOUNavigation" class="it.cilea.hku.authority.webui.controller.jdyna.OUNavigationController">
+	<bean id="loadOUNavigation" class="org.dspace.app.webui.cris.json.OUNavigationController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -3037,12 +2975,10 @@
 				<prop key="/tools/ou/deleteNested.htm">deleteOUNestedDetailsController</prop>				
 								
 				<!-- Controller to load embedded navigation and calculate if show or hidden the Tabs -->
-				<prop key="/rp/loadNavigation.htm">loadRPNavigation</prop>
-				<prop key="/rp/loadTabs.htm">loadRPTabs</prop>
-				<prop key="/project/loadNavigation.htm">loadProjectNavigation</prop>
-				<prop key="/project/loadTabs.htm">loadProjectTabs</prop>
-				<prop key="/ou/loadNavigation.htm">loadOUNavigation</prop>
-				<prop key="/ou/loadTabs.htm">loadOUTabs</prop>
+				<prop key="/rp/navigation.json">loadRPNavigation</prop>				
+				<prop key="/project/navigation.json">loadProjectNavigation</prop>				
+				<prop key="/ou/navigation.json">loadOUNavigation</prop>
+				
 				
 				<!-- RP tools -->
 				<prop key="/tools/rebindItemsToRP.htm">reBindItemToRpController</prop>

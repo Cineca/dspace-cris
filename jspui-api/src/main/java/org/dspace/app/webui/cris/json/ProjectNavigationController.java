@@ -1,4 +1,4 @@
-package it.cilea.hku.authority.webui.controller.jdyna;
+package org.dspace.app.webui.cris.json;
 
 import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
@@ -6,7 +6,7 @@ import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefin
 import it.cilea.hku.authority.model.dynamicfield.TabProject;
 import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
 import it.cilea.osd.jdyna.model.IContainable;
-import it.cilea.osd.jdyna.web.controller.AjaxNavigationController;
+import it.cilea.osd.jdyna.web.controller.json.AjaxJSONNavigationController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class ProjectNavigationController
         extends
-        AjaxNavigationController<BoxProject, TabProject>
+        AjaxJSONNavigationController<BoxProject, TabProject>
 {
 
     
@@ -23,18 +23,10 @@ public class ProjectNavigationController
     {
         super(TabProject.class);      
     }
-
-
-    @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request,
-            HttpServletResponse response) throws Exception
-    {
-
-        return super.loadNavigation(request, response);
-    }
+       
 
     @Override
-    public int countBoxPublicMetadata(HttpServletRequest request, Integer objectID,
+    public int countBoxPublicMetadata(Integer objectID,
             BoxProject box, boolean b)
     {        
         int result = 0;
@@ -57,7 +49,7 @@ public class ProjectNavigationController
     }
 
     @Override
-    public boolean isBoxHidden(HttpServletRequest request, Integer objectID,
+    public boolean isBoxHidden(Integer objectID,
             BoxProject box)
     {
         return ResearcherTagLibraryFunctions.isBoxHidden(
