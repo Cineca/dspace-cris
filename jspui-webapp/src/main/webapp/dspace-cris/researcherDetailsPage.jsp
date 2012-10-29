@@ -128,7 +128,7 @@
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    	var ajaxurlnavigation = "<%=request.getContextPath()%>/json/cris/navigation";
+    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/${specificPartPath}/navigation.json";
     	
     	var activeTab = function(){
     		j(".box:not(.expanded)").accordion({
