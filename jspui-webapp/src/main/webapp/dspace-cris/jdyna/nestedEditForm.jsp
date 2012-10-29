@@ -102,7 +102,6 @@
 				</c:forEach>
 		<div class="dynaClear">&nbsp;</div>
 		<div class="jdyna-form-button">		
-			<input type="submit" id="ajaxsubmit"
-					value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
+			<input type="submit" value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
 		</div>
 </form:form>
