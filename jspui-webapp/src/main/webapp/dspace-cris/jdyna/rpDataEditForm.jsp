@@ -121,17 +121,11 @@
 							});		
 						};
 						var postfunction = function(){
-							j('#viewnested_'+id+' .nested_edit_button').mouseover(function(){
-								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
+							j('#viewnested_'+id+' .nested_edit_button').parent().parent().mouseover(function(){
+								j(this).toggleClass('ui-state-hover');
 							});
-							j('#viewnested_'+id+' .nested_edit_button').mouseout(function(){
-								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
-							});
-							j('#viewnested_'+id+' .nested_delete_button').mouseover(function(){
-								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
-							});
-							j('#viewnested_'+id+' .nested_delete_button').mouseout(function(){
-								j(this).parents('tr:first, div:first').first().toggleClass('ui-state-hover');
+							j('#viewnested_'+id+' .nested_edit_button').parent().parent().mouseout(function(){
+								j(this).toggleClass('ui-state-hover');
 							});
 							j('#viewnested_'+id+' .nested_edit_button').click(function(){
 								var ajaxurleditnested = 
@@ -363,9 +357,6 @@
 						<div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
 						  <h3><a href="#">${holder.title}</a></h3>
 						  <div>
-								<fmt:message
-										key='jsp.layout.hku.researcher.message.personsandemail.${holder.shortName}' />
-
 						<c:forEach
 							items="${propertiesDefinitionsInHolder[holder.shortName]}"
 							var="tipologiaDaVisualizzare">
