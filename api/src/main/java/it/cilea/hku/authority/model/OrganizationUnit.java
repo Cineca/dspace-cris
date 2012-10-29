@@ -215,4 +215,14 @@ public class OrganizationUnit extends ACrisObject implements HasTimeStampInfo,
         return "/cris/ou/";
     }
 
+    public String getName() {
+        String result = "";
+        for (OUProperty title : this.getDynamicField()
+                .getAnagrafica4view().get("organizationunitname"))
+        {
+            result += title.getValue().getObject();
+            result += " ";
+        }
+        return result;
+    }
 }
