@@ -29,8 +29,7 @@
 <c:set var="disabledfield" value=" disabled=\"disabled\" "></c:set>
 
 
-<div id="researcher_nested${elementID}">
-<form:form commandName="nesteddto" id="nesteddto_${elementID}"
+<form:form commandName="nesteddto" id="nested_edit_form"
 	action="" method="post" enctype="multipart/form-data">
 	<%-- if you need to display all errors (both global and all field errors,
 		 use wildcard (*) in place of the property name --%>
@@ -101,36 +100,9 @@
 		
 			
 				</c:forEach>
-		<c:if test="${show}">		
+		<div class="dynaClear">&nbsp;</div>
+		<div class="jdyna-form-button">		
 			<input type="submit" id="ajaxsubmit"
 					value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
-		</c:if>
-							
-	<script type="text/javascript">									
-	j(document).ready(function() { 
-	    var options = { 
-	        target:        '#viewnested_${elementID}',   // target element(s) to be updated with server response 
-	        success:       showResponse // post-submit callback
-	        
-	        // other available options: 
-	        //url:       url         // override for form's 'action' attribute 
-	        //type:      type        // 'get' or 'post', override for form's 'method' attribute 
-	        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type) 
-	        //clearForm: true        // clear all form fields after successful submit 
-	        //resetForm: true        // reset the form after successful submit 
-	 
-	        // $.ajax options can be used here too, for example: 
-	        //timeout:   3000 
-	    }; 
-	 
-	    // bind form using 'ajaxForm' 
-	    j('#nesteddto_${elementID}').ajaxForm(options); 
-	}); 
-	 
-	
-
-	</script>										
-
-	
+		</div>
 </form:form>
-</div>

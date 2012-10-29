@@ -121,6 +121,34 @@
 							});		
 						};
 						var postfunction = function(){
+							j('#nested_'+id+'_addbutton').click(function(){
+								var ajaxurladdnested = 
+									"<%= request.getContextPath() %>/cris/tools/${specificPartPath}/addNested.htm";
+									j.ajax( {
+										url : ajaxurladdnested,
+										data : {			
+											"parentID" : ${anagraficadto.objectId},
+											"typeNestedID" : id,
+											"admin": ${admin}
+										},
+										success : function(data) {
+											j('#nested_edit_dialog').html(data);
+											j('#nested_edit_dialog input:submit').button();
+											var options = { 
+											        target: '#viewnested_'+id,   // target element(s) to be updated with server response 
+											        success: function(){ // post-submit callback
+											        	j('#nested_edit_dialog').dialog("close");        
+											        	postfunction();
+										        	}
+											};
+											j('#nested_edit_form').ajaxForm(options); 
+											j('#nested_edit_dialog').dialog("option",{title: 'Add new: '+j('#viewnested_'+id+' span.dynaLabel').html()});
+											j('#nested_edit_dialog').dialog("open");
+										},
+										error : function(data) {
+										}
+									});	
+							});
 							j('#nested_'+id+'_next').click(
 									function() {
 								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
@@ -145,8 +173,11 @@
     	
 		j(document).ready(function()
 		{
-			j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
-			
+			j('#nested_edit_dialog').dialog({
+				autoOpen: false,
+				modal: true,
+				width: 720
+			});			
 			j('input:submit').button();
 			j("#tabs").tabs({
 				selected: ${currTabIdx-1},
@@ -359,5 +390,5 @@
 				
 </form:form>
 </div>
-
+<div id="nested_edit_dialog">&nbsp;</div>
 </dspace:layout>

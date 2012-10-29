@@ -64,7 +64,7 @@
 	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificContextPath}${specificPartPath}" admin="${admin}"/>
 	</c:if>	
 	<c:if test="${(editmode && decoratorPropertyDefinition.repeatable) || (editmode && empty results)}">
-		<img id="add${decoratorPropertyDefinition.shortName}" src="<%= request.getContextPath() %>/image/jdyna/main_plus.gif" class="addNestedButton"/>
+		<img id="nested_${decoratorPropertyDefinition.real.id}_addbutton" src="<%= request.getContextPath() %>/image/jdyna/main_plus.gif" class="nested_add_button" />
 	</c:if>	
 	</div>
 	<c:if test="${decoratorPropertyDefinition.real.newline}">
