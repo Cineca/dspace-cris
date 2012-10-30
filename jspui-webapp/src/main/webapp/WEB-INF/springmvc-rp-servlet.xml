@@ -35,6 +35,23 @@
 		</property>
 	</bean>
 
+
+	<bean id="loadFileRP" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+		<property name="filePath">
+			<value>researcherpage.file.path</value>
+		</property>	
+	</bean>		
+	<bean id="loadFileProject" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+		<property name="filePath">
+			<value>project.file.path</value>
+		</property>	
+	</bean>	
+	<bean id="loadFileOU" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+		<property name="filePath">
+			<value>organizationunit.file.path</value>
+		</property>	
+	</bean>		
+		
 	<!--
 		the application context definition for the springapp DispatcherServlet
 	-->
@@ -2977,7 +2994,10 @@
 				<!-- Redirect to dspace login -->
 				<prop key="/login">myRPController</prop>
 
-				<prop key="/researchertabimage/*">loadTabIcon</prop>				
+				<prop key="/researchertabimage/*">loadTabIcon</prop>
+				<prop key="/rp/fileservice/**">loadFileRP</prop>				
+				<prop key="/project/fileservice/**">loadFileProject</prop>
+				<prop key="/ou/fileservice/**">loadFileOU</prop>
 											
 				<!-- <prop key="/uuid*">redirectDetailsController</prop>  -->
 				

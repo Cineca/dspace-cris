@@ -464,28 +464,8 @@
 	</servlet>
 	
 		
-	<!-- cris  -->
-  	<servlet>
-		<servlet-name>rpjdynafileservice</servlet-name>
-		<servlet-class>it.cilea.hku.authority.webui.servlet.RPFileServiceServlet</servlet-class>
-	</servlet>
-  	
-  	<servlet-mapping>
-    	<servlet-name>rpjdynafileservice</servlet-name>
-    	<url-pattern>/rpfileservice/*</url-pattern>
-  	</servlet-mapping>
-  	
-  	  <servlet>
-		<servlet-name>rgjdynafileservice</servlet-name>
-		<servlet-class>it.cilea.hku.authority.webui.servlet.RGFileServiceServlet</servlet-class>
-	</servlet>
-  	
-  	<servlet-mapping>
-    	<servlet-name>rgjdynafileservice</servlet-name>
-    	<url-pattern>/rgfileservice/*</url-pattern>
-  	</servlet-mapping>
-  	
-	<!-- spring mvc dspace -->
+	  	
+	<!-- spring mvc cris -->
 	<servlet>
 		<servlet-name>springmvc-rp</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
