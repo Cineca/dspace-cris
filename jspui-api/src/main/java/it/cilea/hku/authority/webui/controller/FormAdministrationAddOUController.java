@@ -11,6 +11,8 @@
 package it.cilea.hku.authority.webui.controller;
 
 import it.cilea.hku.authority.model.OrganizationUnit;
+import it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.OUProperty;
 import it.cilea.hku.authority.webui.dto.OrganizationUnitDTO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +57,12 @@ public class FormAdministrationAddOUController extends
             grant.setSourceID(code);
             grant.setStatus(false);
             grant.getDynamicField().setOrganizationUnit(grant);
+            OUProperty property = grant.getDynamicField().createProprieta(
+                    applicationService.findPropertiesDefinitionByShortName(
+                            OUPropertiesDefinition.class, "title"));
+            property.getValue().setOggetto(
+                    "Insert Organization Unit NAME here (" + code + ")");
+            property.setVisibility(1);
             applicationService.saveOrUpdate(OrganizationUnit.class, grant);
 
         }

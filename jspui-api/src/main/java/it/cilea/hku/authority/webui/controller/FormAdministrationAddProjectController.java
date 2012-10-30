@@ -11,6 +11,8 @@
 package it.cilea.hku.authority.webui.controller;
 
 import it.cilea.hku.authority.model.Project;
+import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 import it.cilea.hku.authority.webui.dto.ProjectDTO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +57,12 @@ public class FormAdministrationAddProjectController extends
             grant.setSourceID(code);
             grant.setStatus(false);
             grant.getDynamicField().setProject(grant);
+            ProjectProperty property = grant.getDynamicField().createProprieta(
+                    applicationService.findPropertiesDefinitionByShortName(
+                            ProjectPropertiesDefinition.class, "title"));
+            property.getValue().setOggetto(
+                    "Insert Project TITLE here (" + code + ")");
+            property.setVisibility(1);
             applicationService.saveOrUpdate(Project.class, grant);
 
         }

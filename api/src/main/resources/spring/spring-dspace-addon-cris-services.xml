@@ -33,7 +33,10 @@
 	<bean id="baseService" class="it.cilea.osd.common.service.PersistenceService"
 		abstract="true">		
 		<property name="modelDaos">
-			<map>
+			<map>			
+				<entry key="it.cilea.osd.jdyna.model.ANestedObject">
+					<ref bean="nestedObjectDao" />
+				</entry>
 				<entry key="it.cilea.osd.jdyna.web.Tab">
 					<ref bean="tabDao" />
 				</entry>
@@ -565,6 +568,23 @@
 				<constructor-arg>
 					<value>
 						it.cilea.hku.authority.model.dynamicfield.OUNestedProperty
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="nestedObjectDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.osd.jdyna.dao.NestedObjectDAO
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						it.cilea.osd.jdyna.model.ANestedObject
 					</value>
 				</constructor-arg>
 			</bean>

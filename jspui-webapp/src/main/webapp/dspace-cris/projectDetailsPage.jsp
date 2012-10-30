@@ -14,11 +14,24 @@
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
-<%@ page import="it.cilea.hku.authority.util.ResearcherPageUtils"%>
-<c:set var="root"><%=request.getContextPath()%></c:set>
+<c:set var="root" scope="request"><%=request.getContextPath()%></c:set>
 <c:set var="entity" value="${project}" scope="request" />
-
-
+<c:choose>
+<c:when test="${param.onlytab}">
+<c:forEach items="${tabList}" var="areaIter" varStatus="rowCounter">
+	<c:if test="${areaIter.id == tabId}">
+	<c:set var="area" scope="request" value="${areaIter}"></c:set>
+	<c:set var="currTabIdx" scope="request" value="${rowCounter.count}" />
+	<jsp:include page="singleTabDetailsPage.jsp"></jsp:include>
+	</c:if>
+</c:forEach>
+</c:when>
+<c:otherwise>
+<c:forEach items="${tabList}" var="areaIter" varStatus="rowCounter">
+	<c:if test="${areaIter.id == tabId}">
+	<c:set var="currTabIdx" scope="request" value="${rowCounter.count}" />
+	</c:if>
+</c:forEach>
 <%
 	// Is the logged in user an admin
 	Boolean admin = (Boolean)request.getAttribute("is.admin");
@@ -72,50 +85,6 @@
  </c:if>
 
 
-<c:if test="${!empty entity && (!empty addModeType && addModeType=='display')}">    
- <% if (!isAdmin) { %>
- <tr>
-    <td colspan="2">&nbsp;</td>
-  </tr>
-<% } %>	
- <tr> 
-  <td colspan="2">
-		
-	    <c:forEach items="${tabList}" var="tabfornavigation">				
-			
-				<div id="cris-tabs-navigation-${tabfornavigation.shortName}" class="navigation-tabs" style="display: none">		
-
-					<div id="menu-${tabfornavigation.shortName}" class="showMoreLessBox1-dark box">
-						<h3 class="showMoreLessControlElement control ${tabfornavigation.id != tabId?"":"expanded"}">
-						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif"  ${tabfornavigation.id != tabId?"":"class=\"hide\""}/>
-						<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" ${tabfornavigation.id != tabId?"class=\"hide\"":""} />
-							${tabfornavigation.title}
-						</h3>		
-						<div class="collapsable expanded-content" ${tabfornavigation.id != tabId?"style=\"display: none;\"":""}>
-						<div id="nav-sublocal">
-						<ul>
-						<div id="snavmenu-${tabfornavigation.shortName}">
-							<div class="log">
-							<img
-								src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
-			    				class="loader" />
-			    			</div>
-						</div>
-						</ul>
-						</div>
-						</div>
-					</div>
-		
-
-				</div>
-			
-		 </c:forEach>
-	   
-	</td>
-  </tr> 
-</c:if>
- 
-
 </c:set>
 
 <c:set var="dspace.layout.head" scope="request">
@@ -126,90 +95,142 @@
     <link href="<%= request.getContextPath() %>/css/redmond/jquery-ui-1.8.24.custom.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript"><!--
 
-		var j = jQuery.noConflict();
-    	var ajaxurltabs = "<%=request.getContextPath()%>/cris/project/loadTabs.htm";
-    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/project/loadNavigation.htm";
+		var j = jQuery.noConflict();    	
+    	var ajaxurlnavigation = "<%=request.getContextPath()%>/cris/${specificPartPath}/navigation.json";
     	
-    	var LoaderSnippet = {    		
-    		write : function(text, idelement) {
-    			var elem = document.getElementById(idelement);
-    			elem.innerHTML = text;		
-    		}
+    	var activeTab = function(){
+    		j(".box:not(.expanded)").accordion({
+    			autoHeight: false,
+    			navigation: true,
+    			collapsible: true,
+    			active: false
+    		});
+    		j(".box.expanded").accordion({
+    			autoHeight: false,
+    			navigation: true,
+    			collapsible: true,
+    			active: 0
+    		});
+    		
+    		var ajaxurlrelations = "<%=request.getContextPath()%>/cris/${specificPartPath}/viewNested.htm";
+			j('.nestedinfo').each(function(){
+				var id = j(this).html();
+				j.ajax( {
+					url : ajaxurlrelations,
+					data : {																			
+						"parentID" : ${entity.id},
+						"typeNestedID" : id,
+						"pageCurrent": j('#nested_'+id+"_pageCurrent").html(),
+						"limit": j('#nested_'+id+"_limit").html(),
+						"editmode": j('#nested_'+id+"_editmode").html(),
+						"totalHit": j('#nested_'+id+"_totalHit").html(),
+						"admin": ${admin}
+					},
+					success : function(data) {																										
+						j('#viewnested_'+id).html(data);
+						var ajaxFunction = function(page){
+							j.ajax( {
+								url : ajaxurlrelations,
+								data : {																			
+									"parentID" : ${entity.id},
+									"typeNestedID" : id,													
+									"pageCurrent": page,
+									"limit": j('#nested_'+id+"_limit").html(),
+									"editmode": j('#nested_'+id+"_editmode").html(),
+									"totalHit": j('#nested_'+id+"_totalHit").html(),
+									"admin": ${admin}
+								},
+								success : function(data) {									
+									j('#viewnested_'+id).html(data);
+									postfunction();
+								},
+								error : function(data) {
+								}
+							});		
+						};
+						var postfunction = function(){
+							j('#nested_'+id+'_next').click(
+									function() {
+								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
+										
+							});
+							j('#nested_'+id+'_prev').click(
+									function() {
+										ajaxFunction(j('#nested_'+id+"_pageCurrent").html()-1);
+							});
+							j('.nested_'+id+'_nextprev').click(
+									function(){
+										ajaxFunction(j(this).attr('id').substr(('nested_'+id+'_nextprev_').length));
+							});
+						};
+						postfunction();
+					},
+					error : function(data) {
+					}
+				});
+			});
     	};
-
-    	var LoaderModal = {        		
-       		write : function(text, idelement) {
-       			var elem = document.getElementById(idelement);
-       			elem.innerHTML = text;		
-       		}
-        };
-    
-    	var Loader = {
-       		elem : false,
-       		write : function(text) {
-       			if (!this.elem)
-       				this.elem = document.getElementById('logcontent3');
-       			this.elem.innerHTML = text;		
-      		}
-        };
-        	
+    	
 		j(document).ready(function()
-				{
-				  j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
+		{
+			j("#log3").dialog({closeOnEscape: true, modal: true, autoOpen: false, resizable: false, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
 			
-				  j(".control").click(function()
-				  {
-					  j(this).toggleClass("expanded");
-					  j(this).children("img").toggleClass("hide");
-				      j(this).next(".collapsable").slideToggle(300);
-				  });
-		
-		
+			j("#tabs").tabs({
+				cache: true,
+				selected: ${currTabIdx-1},
+				load: function(event, ui){
+					activeTab();
+					}							
+			});
 			
-		<c:forEach items="${tabList}" var="tabnavigation">		
-		j.ajax( {
-			url : ajaxurlnavigation,
-			data : {																			
-				"tabId" : ${tabnavigation.id},
-				"currentOpenedTabId": ${tabId},
-				"objectId": ${entity.id},
-				"authority": '${authority}'
-			},
-			success : function(data) {				
-				j('#snavmenu-${tabnavigation.shortName}').html(data);				
-			},
-			error : function(data) {
-				//nothing				
-			}
-		});
-		
-		
-		<c:choose>
-		<c:when test="${tabnavigation.id == tabId}">
-			j('#cris-tabs-navigation-${tabnavigation.shortName}').show();	
-		</c:when>
-		<c:otherwise>
-		j.ajax( {
-			url : ajaxurltabs,
-			data : {																			
-				"tabId" : ${tabnavigation.id},
-				"currentOpenedTabId": ${tabId},
-				"objectId": ${entity.id},
-				"authority": '${authority}'
-			},
-			success : function(data) {				
-				j('#tb-head2-${tabnavigation.shortName}').html(data);						
-				
-			},
-			error : function(data) {
-				//nothing				
-			}
-		});		
-		</c:otherwise>
-		</c:choose>
-	
-		</c:forEach>
-		
+			j('.navigation-tabs:not(.expanded)').accordion({
+				collapsible: true,
+				active: false,
+				event: "click mouseover"
+			});
+			j('.navigation-tabs.expanded').accordion({
+				collapsible: true,
+				active: 0,
+				event: "click mouseover"
+			});
+			j.ajax( {
+				url : ajaxurlnavigation,
+				data : {																			
+					"objectId": ${entity.id}
+				},
+				success : function(data) {
+					for (var i = 0; i < data.navigation.size(); i++)
+					{
+						if (data.navigation[i].boxes == null || data.navigation[i].boxes.size() == 0)
+						{
+							j('#bar-tab-'+data.navigation[i].id).remove();
+							j('#cris-tabs-navigation-'+data.navigation[i].id).remove();
+						}
+						else
+						{
+							j('#bar-tab-'+data.navigation[i].id+' a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
+							var img = j('#bar-tab-'+data.navigation[i].id+' a img');
+							j('#bar-tab-'+data.navigation[i].id+' a').html(data.navigation[i].title);
+							j('#bar-tab-'+data.navigation[i].id+' a').prepend(img);
+							img.after('&nbsp;');
+							j('#cris-tabs-navigation-'+data.navigation[i].id+' h3 a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
+							j('#cris-tabs-navigation-'+data.navigation[i].id+'-ul').html('');
+							for (var k = 0; k < data.navigation[i].boxes.size(); k++)
+							{	
+								j('#cris-tabs-navigation-'+data.navigation[i].id+"-ul")
+									.append('<li class="ui-accordion ui-widget-content ui-state-default"><a href="${root}/cris/${specificPartPath}/${authority}/'
+											+data.navigation[i].shortName+'.html?open='+data.navigation[i].boxes[k].shortName+'">'+data.navigation[i].boxes[k].title+'</a></li>');
+							}
+							j('.navigation-tabs').accordion("resize");							
+						}
+					}
+				},
+				error : function(data) {
+					//nothing				
+				}
+			});
+			
+			activeTab();
 		});
 		-->
 	</script>
@@ -218,11 +239,24 @@
 
 <dspace:layout titlekey="jsp.project.details">
 
-<table align="center" class="miscTable">
-<tr>
-<td>
-
 <div id="content">
+<div id="cris-tabs-navigation">
+	<div class="internalmenu ui-helper-reset ui-widget ui-corner-all ui-widget-content">
+	<h2><fmt:message key="jsp.cris.detail.navigation-menu-heading" /></h2>
+		<c:forEach items="${tabList}" var="tabfornavigation" varStatus="rowCounter">
+			<div id="cris-tabs-navigation-${tabfornavigation.id}" class="navigation-tabs <c:if test="${tabfornavigation.id == tabId}">expanded</c:if>">
+			<h3><a href="${tablink}"><img style="width: 16px;vertical-align: middle;" border="0"
+					src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+  						alt="icon" />${tabfornavigation.title}</a></h3>
+			<ul id="cris-tabs-navigation-${tabfornavigation.id}-ul">
+					<li><img
+							src="<%=request.getContextPath()%>/image/jdyna/indicator.gif"
+		    				class="loader" />Loading</li>
+			</ul>
+			</div>
+		</c:forEach>
+		</div>
+	 </div>
 <h1><fmt:message key="jsp.layout.project.detail.title-first" /> ${entity.sourceID}</h1>
 <div>&nbsp;</div>
 <table align="center" class="miscTable">
@@ -248,22 +282,7 @@
 	</tr>
 </table>
 </div>
-<div id="log3" class="log">
-	<img
-		src="<%=request.getContextPath()%>/image/cris/bar-loader.gif"
-		id="loader3" class="loader"/>
-	<div id="logcontent3"></div>
-</div>
 
-
-
-
-
-
-
-
-
-</td>
-</tr>
-</table>
 </dspace:layout>
+</c:otherwise>
+</c:choose>

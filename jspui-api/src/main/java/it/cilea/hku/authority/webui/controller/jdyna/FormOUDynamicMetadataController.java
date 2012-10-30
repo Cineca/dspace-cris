@@ -335,11 +335,7 @@ public class FormOUDynamicMetadataController
                             OUPropertiesDefinition.class, c.getShortName());
             if (rpPd != null)
             {
-                realTPS.add(((DecoratorOUPropertiesDefinition) getApplicationService()
-                        .findContainableByDecorable(
-                                getClazzTipologiaProprieta().newInstance()
-                                        .getDecoratorClass(), c.getId()))
-                        .getReal());
+                realTPS.add(rpPd);
             }
             else
             {

@@ -319,8 +319,8 @@ public class FormProjectDynamicMetadataController
         else
         {
             exitPage = "redirect:/cris/project/"
-                    + anagraficaObjectDTO
-                                    .getRgCode() + "/"
+                    + ResearcherPageUtils.getPersistentIdentifier(anagraficaObjectDTO
+                                    .getParentId()) + "/"
                     + editT.getShortName().substring(4) + ".html";
         }
         if (request.getParameter("cancel") != null)
@@ -368,11 +368,7 @@ public class FormProjectDynamicMetadataController
                             ProjectPropertiesDefinition.class, c.getShortName());
             if (rpPd != null)
             {
-                realTPS.add(((DecoratorProjectPropertiesDefinition) getApplicationService()
-                        .findContainableByDecorable(
-                                getClazzTipologiaProprieta().newInstance()
-                                        .getDecoratorClass(), c.getId()))
-                        .getReal());
+                realTPS.add(rpPd);
             }
             else
             {

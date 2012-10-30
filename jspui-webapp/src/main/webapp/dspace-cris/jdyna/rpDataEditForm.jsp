@@ -65,8 +65,7 @@
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    	var ajaxurlnavigation = "<%=request.getContextPath()%>/json/cris/navigation";
-    	
+    	    	
     	var activeTab = function(){
     		j(".box:not(.expanded)").accordion({
     			autoHeight: false,
@@ -252,7 +251,39 @@
 			});
 			
 			activeTab();
+			activePointer();
 		});
+
+		
+
+		var activePointer = function() {
+		
+			j(".pointersearchbox").click(function()
+			{
+				var id = j(this).attr('id');
+				var search = j(this).html();				
+				j('#pointerdialog_' + id).dialog({width: '800', closeOnEscape: true, modal: true, autoOpen: false, resizable: true, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
+				j(".ui-dialog-titlebar").click(function() {	j('#pointerdialog_'+ id).dialog("close");});
+														
+				var ajaxurlrelations = "searchPointer.htm";
+				j.ajax( {
+					url : ajaxurlrelations,
+					data : {																			
+						"elementID" : id,
+						"parentID" : ${anagraficadto.parentId},
+						"query": search						
+					},
+					success : function(data) {																										
+						j('#pointerfragmentcontent_' + id).html(data);								
+						
+					},
+					error : function(data) {					
+						
+					}
+				});						
+				
+		    });				
+		}
 		-->
 	</script>
 	

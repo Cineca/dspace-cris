@@ -60,7 +60,7 @@
 
 		<spring:bind path="propertiesdefinition.*">
 		<c:if test="${not empty status.errorMessages}">
-			<div class="error"><c:forEach var="error"
+			<div class="errorMessage"><c:forEach var="error"
 				items="${status.errorMessages}">
 	               ${error}<br />
 			</c:forEach></div>
@@ -68,7 +68,7 @@
 		</spring:bind>
 
 		<c:if test="${not empty status.errorMessages}">
-		<div class="error"><c:forEach var="error"
+		<div class="errorMessage"><c:forEach var="error"
 			items="${status.errorMessages}">
                  ${error}<br />
 		</c:forEach></div>

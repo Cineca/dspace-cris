@@ -1,6 +1,7 @@
 package it.cilea.hku.authority.model.dynamicfield;
 
 import it.cilea.osd.jdyna.model.ATypeNestedObject;
+import it.cilea.osd.jdyna.model.AWidget;
 
 import java.util.List;
 
@@ -46,6 +47,24 @@ public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedProp
     public Class getDecoratorClass()
     {
         return DecoratorProjectTypeNested.class;
+    }
+
+    @Override
+    public Class getAnagraficaHolderClass()
+    {
+        return ProjectNestedObject.class;
+    }
+
+    @Override
+    public Class getPropertyHolderClass()
+    {
+        return ProjectNestedProperty.class;
+    }
+
+    @Override
+    public AWidget getRendering()
+    {        
+        return null;
     }
 
 }

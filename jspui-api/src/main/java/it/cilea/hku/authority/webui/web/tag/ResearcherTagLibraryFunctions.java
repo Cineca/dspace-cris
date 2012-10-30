@@ -17,16 +17,22 @@ import it.cilea.hku.authority.model.RestrictedField;
 import it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit;
 import it.cilea.hku.authority.model.dynamicfield.BoxProject;
 import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedObject;
 import it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.RPNestedProperty;
 import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
+import it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
+import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ADecoratorTypeDefinition;
+import it.cilea.osd.jdyna.model.ANestedObject;
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.AWidget;
 import it.cilea.osd.jdyna.model.AccessLevelConstants;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
@@ -315,18 +321,18 @@ public class ResearcherTagLibraryFunctions
         for (IContainable cont : containables)
         {
 
-            if (cont instanceof DecoratorRPTypeNested)
+            if (cont instanceof ADecoratorTypeDefinition)
             {
-                DecoratorRPTypeNested decorator = (DecoratorRPTypeNested) cont;
-                List<RPNestedObject> results = applicationService
+                ADecoratorTypeDefinition decorator = (ADecoratorTypeDefinition) cont;
+                ATypeNestedObject<ANestedPropertiesDefinition> real = ((ATypeNestedObject<ANestedPropertiesDefinition>)decorator.getReal());
+                List<ANestedObject> results = applicationService
                         .getNestedObjectsByParentIDAndTypoID(Integer
                                 .parseInt(anagrafica.getIdentifyingValue()),
-                                ((DecoratorRPTypeNested) cont).getReal()
-                                        .getId(), RPNestedObject.class);
+                                (real.getId()), ANestedObject.class);
                 boolean resultPiece = true;
-                for (RPNestedObject object : results)
+                for (ANestedObject object : results)
                 {
-                    for (RPNestedPropertiesDefinition rpp : decorator.getReal()
+                    for (ANestedPropertiesDefinition rpp : real
                             .getMask())
                     {
                         resultPiece = checkDynamicVisibility(object,
@@ -340,9 +346,9 @@ public class ResearcherTagLibraryFunctions
 
             }
 
-            if (cont instanceof DecoratorRPPropertiesDefinition)
+            if (cont instanceof ADecoratorPropertiesDefinition)
             {
-                DecoratorRPPropertiesDefinition decorator = (DecoratorRPPropertiesDefinition) cont;
+                ADecoratorPropertiesDefinition decorator = (ADecoratorPropertiesDefinition) cont;
                 boolean resultPiece = checkDynamicVisibility(anagrafica,
                         decorator.getShortName(), decorator.getRendering(),
                         (TP) decorator.getReal());
@@ -351,19 +357,7 @@ public class ResearcherTagLibraryFunctions
                     return false;
                 }
             }
-
-            if (cont instanceof DecoratorProjectPropertiesDefinition)
-            {
-                DecoratorProjectPropertiesDefinition decorator = (DecoratorProjectPropertiesDefinition) cont;
-                boolean resultPiece = checkDynamicVisibility(anagrafica,
-                        decorator.getShortName(), decorator.getRendering(),
-                        (TP) decorator.getReal());
-                if (resultPiece == false)
-                {
-                    return false;
-                }
-            }
-
+         
         }
 
         return result;
@@ -434,7 +428,41 @@ public class ResearcherTagLibraryFunctions
 
         for (IContainable cont : containables)
         {
+            
 
+            if (cont instanceof DecoratorRPTypeNested)
+            {
+                DecoratorRPTypeNested decorator = (DecoratorRPTypeNested) cont;
+                RPTypeNestedObject real = (RPTypeNestedObject)decorator.getReal();
+                List<RPNestedObject> results = applicationService
+                        .getNestedObjectsByParentIDAndTypoID(Integer
+                                .parseInt(anagrafica.getIdentifyingValue()),
+                                (real.getId()), RPNestedObject.class);
+                
+                external: for (RPNestedObject object : results)
+                {
+                    for (RPNestedPropertiesDefinition rpp : real
+                            .getMask())
+                    {                   
+                        
+                        
+                            for (RPNestedProperty p : object.getAnagrafica4view().get(rpp.getShortName()))
+                            {
+                                if (p.getVisibility() == 1)
+                                {
+                                    result++;
+                                    break external;
+                                }
+                            } 
+
+                        
+                        
+                    }
+                }
+
+            }
+
+             
             if (cont instanceof DecoratorRPPropertiesDefinition)
             {
                 DecoratorRPPropertiesDefinition decorator = (DecoratorRPPropertiesDefinition) cont;

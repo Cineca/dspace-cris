@@ -16,6 +16,7 @@ import it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.OUProperty;
 import it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.io.IOException;
@@ -118,7 +119,7 @@ public class OUDetailsController
         {
             return null;
         }
-        request.setAttribute("authority", ou.getSourceID());
+        
         mvc.getModel().putAll(model);
         mvc.getModel().put("ou", ou);
         return mvc;
@@ -211,41 +212,13 @@ public class OUDetailsController
     private OrganizationUnit extractOrganizationUnit(HttpServletRequest request)
     {
 
-        OrganizationUnit ou = null;
-        String id = request.getParameter("id");
-        if (id == null || id.isEmpty())
-        {
 
-            String projectCode = request.getParameter("code");
-            if (projectCode != null && !projectCode.isEmpty())
-            {
-                ou = ((ApplicationService) applicationService)
-                        .getOrganizationUnitByCode(projectCode);
-            }
-            else
-            {
-                String path = request.getPathInfo().substring(1); // remove
-                                                                  // first /
-                String[] splitted = path.split("/");
-                ou = ((ApplicationService) applicationService)
-                .get(OrganizationUnit.class, splitted[1]);
-            }
-
-        }
-        else
-        {
-            try
-            {
-                ou = applicationService.get(OrganizationUnit.class,
-                        Integer.parseInt(id));
-            }
-            catch (NumberFormatException e)
-            {
-                log.error(e.getMessage(), e);
-            }
-        }
-
-        return ou;
+        String path = request.getPathInfo().substring(1); // remove
+        // first /
+        String[] splitted = path.split("/");
+        request.setAttribute("authority", splitted[1]);
+        return ((ApplicationService) applicationService).get(OrganizationUnit.class,
+                ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]));
 
     }
 }

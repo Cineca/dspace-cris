@@ -191,13 +191,19 @@ public class OrganizationUnit extends
         return "ou";
     }
 
-    @Override
     public String getName() {
-    	return null;
+        String result = "";
+        for (OUProperty title : this.getDynamicField()
+                .getAnagrafica4view().get("organizationunitname"))
+        {
+            result += title.getValue().getObject();
+            result += " ";
+        }
+        return result;
     }
     
     @Override
     public int getType() {
-    	return CrisConstants.OU_TYPE_ID;
+        return CrisConstants.OU_TYPE_ID;
     }
 }
