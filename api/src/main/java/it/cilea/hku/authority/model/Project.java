@@ -44,12 +44,11 @@ import javax.persistence.Transient;
         @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ? order by id desc"),
         @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?")
   })
-public class Project extends ACrisObject
+public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefinition>
         implements                
         HasTimeStampInfo,
         Cloneable,
-        IExportableDynamicObject<ProjectPropertiesDefinition, ProjectProperty, ProjectAdditionalFieldStorage>,
-        AnagraficaSupport<ProjectProperty, ProjectPropertiesDefinition>
+        IExportableDynamicObject<ProjectPropertiesDefinition, ProjectProperty, ProjectAdditionalFieldStorage>
 {
 
     @Transient
@@ -74,12 +73,8 @@ public class Project extends ACrisObject
     @Embedded
     private ProjectAdditionalFieldStorage dynamicField;
 
-    /** True if grant is active */
-    private Boolean status;
-
     public Project()
     {
-        this.status = true;
         this.dynamicField = new ProjectAdditionalFieldStorage();
     }
 
@@ -108,28 +103,6 @@ public class Project extends ACrisObject
         }
         return timeStampInfo;
     }
-
-    /**
-     * Getter method.
-     * 
-     * @return the status
-     */
-    public Boolean getStatus()
-    {
-        return status;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param id
-     *            the status of this Project
-     */
-    public void setStatus(Boolean status)
-    {
-        this.status = status;
-    }
-
     
     public Object clone() throws CloneNotSupportedException
     {
@@ -390,7 +363,16 @@ public class Project extends ACrisObject
 
     public String getPublicPath()
     {        
-        return "/cris/project/";
+        return "project";
     }
 
+    @Override
+    public String getName() {
+    	return getTitle();
+    }
+    
+    @Override
+    public int getType() {
+    	return CrisConstants.PROJECT_TYPE_ID;
+    }
 }

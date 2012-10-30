@@ -46,7 +46,7 @@ public class RedirectDetailsController extends
     {        
         String uuid = extractUUID(request);
         ACrisObject crisObject = getApplicationService().getEntityByUUID(uuid.substring(4));
-        return new ModelAndView("redirect:"+ crisObject.getPublicPath() + crisObject.getId());     
+        return new ModelAndView("redirect:/cris/"+ crisObject.getPublicPath() + "/" + crisObject.getId());     
     }
 
     private String extractUUID(HttpServletRequest request)

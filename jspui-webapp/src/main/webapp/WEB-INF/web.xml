@@ -822,12 +822,6 @@
 	</error-page>
 
 	<jsp-config>
-		<!-- JSTL Format tag, for i18n -->
-		<taglib>
-			<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
-			<taglib-location>/WEB-INF/fmt.tld</taglib-location>
-		</taglib>
-
 		<!-- DSpace JSP Tag Library -->
 		<taglib>
 			<taglib-uri>http://www.dspace.org/dspace-tags.tld</taglib-uri>
