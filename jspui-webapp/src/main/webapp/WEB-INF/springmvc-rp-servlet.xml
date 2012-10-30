@@ -438,7 +438,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
+		<property name="validator" ref="rpDynamicFieldValidator" />
 	</bean>
 
 	<bean id="editRPNestedDynamicFieldController" parent="baseFormController"
@@ -482,6 +482,7 @@
 		<property name="addPointerView">
 			<value>redirect:/cris/administrator/rp/addPointerToNestedDynamicField.htm</value>
 		</property>
+		<property name="validator" ref="rpNestedDynamicFieldValidator" />	
 	</bean>
 
 	<bean id="editRPPointerDynamicFieldController" parent="baseFormController"
@@ -522,7 +523,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
+		<property name="validator" ref="rpDynamicFieldValidator" />
 	</bean>
 	
 	<bean id="editRPDateDynamicFieldController" parent="baseFormController"
@@ -558,7 +559,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
+		<property name="validator" ref="rpDynamicFieldValidator" />
 	</bean>
 	
 	<bean id="editRPLinkDynamicFieldController" parent="baseFormController"
@@ -593,7 +594,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
+		<property name="validator" ref="rpDynamicFieldValidator" />
 	</bean>
 	
 	<bean id="editRPFileDynamicFieldController" parent="baseFormController"
@@ -628,7 +629,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>
-		<property name="validator" ref="dynamicFieldValidator" />
+		<property name="validator" ref="rpDynamicFieldValidator" />
 	</bean>
 			
 	<bean id="listRPEditTabController"
@@ -822,7 +823,7 @@
 		</property>
 		<property name="specificContextPath">
 			<value>/cris/tools/</value>
-		</property>						
+		</property>							
 	</bean>
 	
 
@@ -862,6 +863,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
 	</bean>
 
 	<bean id="addDateToRPNestedDynamicFieldController" parent="baseFormController"
@@ -899,6 +901,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="addLinkToRPNestedDynamicFieldController" parent="baseFormController"
@@ -935,7 +938,8 @@
 		</property>
 		<property name="specificPartPath">
 			<value>rp</value>
-		</property>		
+		</property>
+		<property name="validator" ref="rpNestedPDFieldValidator" />		
 	</bean>
 	
 	<bean id="addFileToRPNestedDynamicFieldController" parent="baseFormController"
@@ -973,6 +977,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="addPointerToRPNestedDynamicFieldController" parent="baseFormController"
@@ -1015,6 +1020,7 @@
 		<property name="specificPartPath">
 			<value>rp</value>
 		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
 	</bean>
 	
 	
@@ -1730,7 +1736,8 @@
 		</property>
 		<property name="specificPartPath">
 			<value>project</value>
-		</property>		
+		</property>	
+		<property name="validator" ref="grantNestedPDFieldValidator" />	
 	</bean>
 
 	<bean id="addDateToProjectNestedDynamicFieldController" parent="baseFormController"
@@ -1768,6 +1775,7 @@
 		<property name="specificPartPath">
 			<value>project</value>
 		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="addLinkToProjectNestedDynamicFieldController" parent="baseFormController"
@@ -1805,6 +1813,7 @@
 		<property name="specificPartPath">
 			<value>project</value>
 		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="addFileToProjectNestedDynamicFieldController" parent="baseFormController"
@@ -1842,6 +1851,7 @@
 		<property name="specificPartPath">
 			<value>project</value>
 		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="addPointerToProjectNestedDynamicFieldController" parent="baseFormController"
@@ -1884,6 +1894,7 @@
 		<property name="specificPartPath">
 			<value>project</value>
 		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="deleteProjectNestedFieldController"
@@ -1950,6 +1961,7 @@
 		<property name="addPointerView">
 			<value>redirect:/cris/administrator/project/addPointerToNestedDynamicField.htm</value>
 		</property>
+		<property name="validator" ref="grantNestedDynamicFieldValidator" />
 	</bean>
 	
  	<bean id="deleteProjectNestedFieldDefinitionController"
@@ -2667,6 +2679,7 @@
 		<property name="specificPartPath">
 			<value>ou</value>
 		</property>		
+		<property name="validator" ref="ouNestedPDFieldValidator" />
 	</bean>
 
 	<bean id="addDateToOUNestedDynamicFieldController" parent="baseFormController"
@@ -2703,7 +2716,8 @@
 		</property>
 		<property name="specificPartPath">
 			<value>ou</value>
-		</property>		
+		</property>
+		<property name="validator" ref="ouNestedPDFieldValidator" />		
 	</bean>
 	
 	<bean id="addLinkToOUNestedDynamicFieldController" parent="baseFormController"
@@ -2741,6 +2755,7 @@
 		<property name="specificPartPath">
 			<value>ou</value>
 		</property>		
+		<property name="validator" ref="ouNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="addFileToOUNestedDynamicFieldController" parent="baseFormController"
@@ -2778,6 +2793,7 @@
 		<property name="specificPartPath">
 			<value>ou</value>
 		</property>		
+		<property name="validator" ref="ouNestedPDFieldValidator" />
 	</bean>
 	
 	<bean id="addPointerToOUNestedDynamicFieldController" parent="baseFormController"
@@ -2819,7 +2835,8 @@
 		</property>
 		<property name="specificPartPath">
 			<value>ou</value>
-		</property>		
+		</property>	
+		<property name="validator" ref="ouNestedPDFieldValidator" />	
 	</bean>
 	
 	
@@ -2887,6 +2904,7 @@
 		<property name="addPointerView">
 			<value>redirect:/cris/administrator/ou/addPointerToNestedDynamicField.htm</value>
 		</property>
+		<property name="validator" ref="ouNestedDynamicFieldValidator" />
 	</bean>
 	
  	<bean id="deleteOUNestedFieldDefinitionController"
@@ -3348,7 +3366,7 @@
 		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
-	<bean id="dynamicFieldValidator"
+	<bean id="rpDynamicFieldValidator"
 		class="it.cilea.hku.authority.webui.validator.RPPropertiesDefinitionValidator">
 		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
@@ -3362,6 +3380,36 @@
 		class="it.cilea.hku.authority.webui.validator.OUPropertiesDefinitionValidator">
 		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="rpNestedDynamicFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>	
+	<bean id="rpNestedPDFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>	
+	<bean id="grantNestedDynamicFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>
+	<bean id="grantNestedPDFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>		
+	<bean id="ouNestedDynamicFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>	
+	<bean id="ouNestedPDFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
+		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="anagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
