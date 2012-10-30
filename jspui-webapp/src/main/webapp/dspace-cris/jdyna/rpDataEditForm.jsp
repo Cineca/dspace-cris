@@ -68,8 +68,7 @@
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
-    	var ajaxurlnavigation = "<%=request.getContextPath()%>/json/cris/navigation";
-    	
+    	    	
     	var activeTab = function(){
     		j(".box:not(.expanded)").accordion({
     			autoHeight: false,

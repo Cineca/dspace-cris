@@ -30,13 +30,13 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
  * @author cilea
  * 
  */
-public class RedirectDetailsController extends
+public class RedirectFromUUIDtoDetailsController extends
         ParameterizableViewController
 {
 
     /** log4j category */
     private static Logger log = Logger
-            .getLogger(RedirectDetailsController.class);
+            .getLogger(RedirectFromUUIDtoDetailsController.class);
 
     private ApplicationService applicationService;
     

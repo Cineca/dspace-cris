@@ -16,6 +16,7 @@ import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 import it.cilea.hku.authority.model.dynamicfield.TabProject;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.io.IOException;
@@ -118,7 +119,7 @@ public class ProjectDetailsController
         {
             return null;
         }
-        request.setAttribute("authority", grant.getSourceID());
+        
         mvc.getModel().putAll(model);
         mvc.getModel().put("project", grant);
         return mvc;
@@ -189,8 +190,9 @@ public class ProjectDetailsController
             HttpServletResponse response, Exception ex, String objectId)
             throws IOException, ServletException
     {
-        //response.sendRedirect("/cris/project/details?id=" + objectId);
-        JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
+        // response.sendRedirect("/cris/project/details?id=" + objectId);
+        JSPManager.showAuthorizeError(request, response,
+                new AuthorizeException(ex.getMessage()));
     }
 
     @Override
@@ -211,42 +213,12 @@ public class ProjectDetailsController
     private Project extractProject(HttpServletRequest request)
     {
 
-        Project grant = null;
-        String id = request.getParameter("id");
-        if (id == null || id.isEmpty())
-        {
-
-            String projectCode = request.getParameter("code");
-            if (projectCode != null && !projectCode.isEmpty())
-            {
-                grant = ((ApplicationService) applicationService)
-                        .getResearcherGrantByCode(projectCode);
-            }
-            else
-            {
-                String path = request.getPathInfo().substring(1); // remove
-                                                                  // first /
-                String[] splitted = path.split("/");
-                grant = ((ApplicationService) applicationService)
-                        .get(Project.class,splitted[1]);
-                 
-            }
-
-        }
-        else
-        {
-            try
-            {
-                grant = applicationService.get(Project.class,
-                        Integer.parseInt(id));
-            }
-            catch (NumberFormatException e)
-            {
-                log.error(e.getMessage(), e);
-            }
-        }
-
-        return grant;
+        String path = request.getPathInfo().substring(1); // remove
+        // first /
+        String[] splitted = path.split("/");
+        request.setAttribute("authority", splitted[1]);
+        return ((ApplicationService) applicationService).get(Project.class,
+                ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]));
 
     }
 }

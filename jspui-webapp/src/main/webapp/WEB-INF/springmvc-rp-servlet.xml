@@ -47,7 +47,7 @@
 
 
 	<bean id="redirectDetailsController"
-		class="it.cilea.hku.authority.webui.controller.RedirectDetailsController">
+		class="it.cilea.hku.authority.webui.controller.RedirectFromUUIDtoDetailsController">
 		<property name="applicationService" >
 			<ref bean="applicationService" />
 		</property>		
@@ -1053,6 +1053,19 @@
 		</property>
 	</bean>		
 		
+	<bean id="redirectDetailsProjectController"
+		class="it.cilea.hku.authority.webui.controller.RedirectEntityDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.Project</value>
+		</constructor-arg>
+		<property name="viewName">
+			<value>projectDetailsPage</value>
+		</property>
+	</bean>
+	
 	<bean id="adminProjectController"
 		class="it.cilea.hku.authority.webui.controller.ProjectAdminController">
 		<property name="applicationService">
@@ -1976,6 +1989,19 @@
 		</property>
 	</bean>		
 		
+	<bean id="redirectDetailsOUController"
+		class="it.cilea.hku.authority.webui.controller.RedirectEntityDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+		</constructor-arg>
+		<property name="viewName">
+			<value>ouDetailsPage</value>
+		</property>
+	</bean>
+	
 	<bean id="adminOUController"
 		class="it.cilea.hku.authority.webui.controller.OUAdminController">
 		<property name="applicationService">
@@ -3035,8 +3061,9 @@
 				
 				<!-- Project details URL -->
 				<prop key="/project/*">detailsProjectController</prop>								
-				<prop key="/project/*/*">detailsProjectController</prop>								
-		        <prop key="/project/details.htm">detailsProjectController</prop>		        
+				<prop key="/project/*/*">detailsProjectController</prop>		
+				<prop key="/project/details.htm">redirectDetailsProjectController</prop>						
+		                
 		        <!-- Administration add Project -->
 		        <prop key="/administrator/project/list.htm">adminListProjectController</prop>								
 		        <prop key="/administrator/project/addProject.htm">adminAddProjectController</prop>		        
@@ -3077,8 +3104,9 @@
 								
 				<!-- OrganizationUnit details URL -->
 				<prop key="/ou/*">detailsOUController</prop>								
-				<prop key="/ou/*/*">detailsOUController</prop>								
-		        <prop key="/ou/details.htm">detailsOUController</prop>		        
+				<prop key="/ou/*/*">detailsOUController</prop>	        		
+		        <prop key="/ou/details.htm">redirectDetailsOUController</prop>
+		        
 		        <!-- Administration add Project -->
 		        <prop key="/administrator/ou/list.htm">adminListOUController</prop>								
 		        <prop key="/administrator/ou/addOrganizationUnit.htm">adminAddOUController</prop>		        
