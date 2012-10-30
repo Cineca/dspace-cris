@@ -206,12 +206,12 @@
 							});
 							j('#nested_'+id+'_next').click(
 									function() {
-								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
+								    	ajaxFunction(parseInt(j('#nested_'+id+"_pageCurrent").html())+1);
 										
 							});
 							j('#nested_'+id+'_prev').click(
 									function() {
-										ajaxFunction(j('#nested_'+id+"_pageCurrent").html()-1);
+										ajaxFunction(parseInt(j('#nested_'+id+"_pageCurrent").html())-1);
 							});
 							j('.nested_'+id+'_nextprev').click(
 									function(){
@@ -261,12 +261,12 @@
 
 		var activePointer = function() {
 		
-			j(".pointersearchbox").click(function()
+			j(".pointersearchbutton").click(function()
 			{
 				var id = j(this).attr('id');
-				var search = j(this).html();				
-				j('#pointerdialog_' + id).dialog({width: '800', closeOnEscape: true, modal: true, autoOpen: false, resizable: true, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
-				j(".ui-dialog-titlebar").click(function() {	j('#pointerdialog_'+ id).dialog("close");});
+				var search = j('#pointersearchinput_' + id).val();				
+				j('#pointerdialog_' + id).dialog({width: '800', closeOnEscape: true, modal: true, autoOpen: false, resizable: true});
+				
 														
 				var ajaxurlrelations = "searchPointer.htm";
 				j.ajax( {
@@ -276,7 +276,8 @@
 						"parentID" : ${anagraficadto.parentId},
 						"query": search						
 					},
-					success : function(data) {																										
+					success : function(data) {			
+						j('#pointerdialog_' + id).dialog("open");
 						j('#pointerfragmentcontent_' + id).html(data);								
 						
 					},

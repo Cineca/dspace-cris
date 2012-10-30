@@ -150,12 +150,12 @@
 						var postfunction = function(){
 							j('#nested_'+id+'_next').click(
 									function() {
-								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
+								    	ajaxFunction(parseInt(j('#nested_'+id+"_pageCurrent").html())+1);
 										
 							});
 							j('#nested_'+id+'_prev').click(
 									function() {
-										ajaxFunction(j('#nested_'+id+"_pageCurrent").html()-1);
+										ajaxFunction(parseInt(j('#nested_'+id+"_pageCurrent").html())-1);
 							});
 							j('.nested_'+id+'_nextprev').click(
 									function(){

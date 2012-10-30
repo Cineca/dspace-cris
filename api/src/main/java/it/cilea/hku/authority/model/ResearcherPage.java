@@ -97,7 +97,7 @@ public class ResearcherPage extends ACrisObject
         AnagraficaSupport<RPProperty, RPPropertiesDefinition>
 {
 
-    
+    @Column(unique=true, nullable=true)
     private Integer epersonID;
     
     @Transient
