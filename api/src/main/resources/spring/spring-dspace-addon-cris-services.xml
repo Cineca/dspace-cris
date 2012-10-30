@@ -1203,14 +1203,32 @@
 				<entry key="post-load">
 					<ref local="RPListener" />
 				</entry>
+				<entry key="post-insert">
+					<list>
+						<ref local="crisIndexerListner" />
+					</list>
+				</entry>
+				<entry key="post-update">	
+					<list>
+						<ref local="crisIndexerListner" />
+					</list>				
+				</entry>				
+				<entry key="post-delete">
+					<list>
+						<ref local="crisIndexerListner" />
+					</list>
+				</entry>
 			</map>
 		</property>
 	</bean>
 
-		
-	<bean id="RPListener" class="it.cilea.hku.authority.model.listener.RPListener"/>
-	<bean id="UUIDListener" class="it.cilea.hku.authority.model.listener.UUIDListener"/>
+	<bean id="crisIndexerListner" class="it.cilea.hku.authority.discovery.CrisListenerSolrIndexer">
+		<property name="crisSearchService" ref="org.dspace.discovery.IndexingService" />
+	</bean>
 	
+	<bean id="RPListener" class="it.cilea.hku.authority.model.listener.RPListener"/>
+
+	<bean id="UUIDListener" class="it.cilea.hku.authority.model.listener.UUIDListener"/>
 	
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">

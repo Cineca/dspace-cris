@@ -89,12 +89,11 @@ import org.hibernate.annotations.FetchMode;
         @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?"),
         @NamedQuery(name = "ResearcherPage.uniqueUUID", query = "from ResearcherPage where uuid = ?")
 })
-public class ResearcherPage extends ACrisObject
+public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefinition>
         implements
         HasTimeStampInfo,
         Cloneable,
-        IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>,
-        AnagraficaSupport<RPProperty, RPPropertiesDefinition>
+        IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>
 {
 
     @Column(unique=true, nullable=true)
@@ -133,11 +132,6 @@ public class ResearcherPage extends ACrisObject
     @SequenceGenerator(name = "CRIS_RESEARCHERPAGE_SEQ", sequenceName = "CRIS_RESEARCHERPAGE_SEQ")
     private Integer id;
 
-
-    /** True if researcher is active */
-    private Boolean status;
-
-
     @Transient
     /**
      * The names that the ResearcherPage has when loaded from the db the first
@@ -169,7 +163,6 @@ public class ResearcherPage extends ACrisObject
      */
     public ResearcherPage()
     {
-        this.status = true;
         this.dynamicField = new RPAdditionalFieldStorage();
     }
 
@@ -300,27 +293,6 @@ public class ResearcherPage extends ACrisObject
             timeStampInfo = new TimeStampInfo();
         }
         return timeStampInfo;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the status
-     */
-    public Boolean getStatus()
-    {
-        return status;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param id
-     *            the status of this ResearcherPage
-     */
-    public void setStatus(Boolean status)
-    {
-        this.status = status;
     }
 
     /**
@@ -702,7 +674,16 @@ public class ResearcherPage extends ACrisObject
 
     public String getPublicPath()
     {        
-        return "/cris/rp/";
+        return "rp";
     }
 
+    @Override
+    public int getType() {
+    	return CrisConstants.RP_TYPE_ID;
+    }
+    
+    @Override
+    public String getName() {
+    	return getFullName();
+    }
 }

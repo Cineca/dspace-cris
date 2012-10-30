@@ -40,8 +40,9 @@ import javax.persistence.Transient;
         @NamedQuery(name = "OrganizationUnit.uniqueUUID", query = "from OrganizationUnit where uuid = ?"),
         @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceID = ?")        
 })
-public class OrganizationUnit extends ACrisObject implements HasTimeStampInfo,
-        Cloneable, AnagraficaSupport<OUProperty, OUPropertiesDefinition>
+public class OrganizationUnit extends
+		ACrisObject<OUProperty, OUPropertiesDefinition> implements
+		HasTimeStampInfo, Cloneable
 {
 
     @Transient
@@ -66,12 +67,8 @@ public class OrganizationUnit extends ACrisObject implements HasTimeStampInfo,
     @Embedded
     private OUAdditionalFieldStorage dynamicField;
 
-    /** True if grant is active */
-    private Boolean status;
-
     public OrganizationUnit()
     {
-        this.status = true;
         this.dynamicField = new OUAdditionalFieldStorage();
     }
 
@@ -88,27 +85,6 @@ public class OrganizationUnit extends ACrisObject implements HasTimeStampInfo,
             timeStampInfo = new TimeStampInfo();
         }
         return timeStampInfo;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the status
-     */
-    public Boolean getStatus()
-    {
-        return status;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param id
-     *            the status of this OrganizationUnit
-     */
-    public void setStatus(Boolean status)
-    {
-        this.status = status;
     }
 
     public Object clone() throws CloneNotSupportedException
@@ -212,7 +188,7 @@ public class OrganizationUnit extends ACrisObject implements HasTimeStampInfo,
 
     public String getPublicPath()
     {
-        return "/cris/ou/";
+        return "ou";
     }
 
     public String getName() {
@@ -224,5 +200,10 @@ public class OrganizationUnit extends ACrisObject implements HasTimeStampInfo,
             result += " ";
         }
         return result;
+    }
+    
+    @Override
+    public int getType() {
+        return CrisConstants.OU_TYPE_ID;
     }
 }
