@@ -33,6 +33,7 @@
 %>
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="admin"><%=isAdmin%></c:set>
+<c:set var="currentUser"><%=user%></c:set>
 <c:set var="HIGH_ACCESS"><%=AccessLevelConstants.HIGH_ACCESS%></c:set>
 <c:set var="ADMIN_ACCESS"><%=AccessLevelConstants.ADMIN_ACCESS%></c:set>
 <c:set var="LOW_ACCESS"><%=AccessLevelConstants.LOW_ACCESS%></c:set>
@@ -302,6 +303,24 @@
 	<c:remove var="messages" scope="session" />
 </c:if>
 
+
+<c:if test="${admin or (user.id eq entity.epersonID}">
+<div class="extra">
+<form:form commandName="anagraficadto"
+	action="" method="post" enctype="multipart/form-data">	
+	
+	
+	<c:if test="${admin}">
+	
+		
+	</c:if>
+	<div class="dynaClear">&nbsp;</div>
+		<div class="jdyna-form-button">		
+			<input type="submit" value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
+		</div>
+</form:form>
+</div>
+</c:if> 
 
 <div id="researcher">
 <form:form commandName="anagraficadto"

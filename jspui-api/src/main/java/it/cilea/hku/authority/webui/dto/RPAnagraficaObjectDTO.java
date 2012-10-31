@@ -32,6 +32,8 @@ public class RPAnagraficaObjectDTO extends AnagraficaObjectAreaDTO {
 	 */
 	protected final Log log = LogFactory.getLog(getClass());
 
+	private Integer epersonID;
+	
 	private Boolean status;
 
 	private String staffNo;
@@ -215,5 +217,17 @@ public class RPAnagraficaObjectDTO extends AnagraficaObjectAreaDTO {
 
 		return lazyList;
 	}
+
+
+    public void setEpersonID(Integer epersonID)
+    {
+        this.epersonID = epersonID;
+    }
+
+
+    public Integer getEpersonID()
+    {
+        return epersonID;
+    }
 
 }
