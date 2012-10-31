@@ -9,10 +9,6 @@
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 
-
-<c:set var="dspace.layout.head" scope="request">    
-	<link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
-</c:set>
 <dspace:layout locbar="link" navbar="admin" titlekey="jsp.dspace-admin.ous-list">
 
 	<table width="95%">

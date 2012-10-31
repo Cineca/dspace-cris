@@ -7,10 +7,7 @@
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 
-<c:set var="dspace.layout.head" scope="request">
-    <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-ui-1.8.24.custom.min.js"></script>
-    
+<c:set var="dspace.layout.head.last" scope="request">
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
