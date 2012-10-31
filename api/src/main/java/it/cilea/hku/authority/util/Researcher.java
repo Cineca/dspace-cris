@@ -10,6 +10,7 @@
  */
 package it.cilea.hku.authority.util;
 
+import it.cilea.hku.authority.discovery.CrisSearchService;
 import it.cilea.hku.authority.service.ApplicationService;
 
 import org.dspace.utils.DSpace;
@@ -24,6 +25,11 @@ public class Researcher
     {
         return dspace.getServiceManager().getServiceByName(
                 "applicationService", ApplicationService.class);
+    }
+    
+    public CrisSearchService getCrisSearchService() {
+        return dspace.getServiceManager().getServiceByName(
+                "org.dspace.discovery.SearchService", CrisSearchService.class);
     }
  
     public SessionFactory getSessionFactory()

@@ -13,6 +13,7 @@ import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.value.DateValue;
 import it.cilea.osd.jdyna.value.PointerValue;
 
+import java.beans.PropertyEditor;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
@@ -44,464 +46,584 @@ import org.dspace.discovery.configuration.DiscoverySortFieldConfiguration;
 import org.dspace.discovery.configuration.HierarchicalSidebarFacetConfiguration;
 import org.dspace.utils.DSpace;
 
-public class CrisSearchService extends SolrServiceImpl {
+public class CrisSearchService extends SolrServiceImpl
+{
 
-	private static final Logger log = Logger.getLogger(CrisSearchService.class);
+    private static final Logger log = Logger.getLogger(CrisSearchService.class);
 
-	public ApplicationService getApplicationService() {
-		
+    public ApplicationService getApplicationService()
+    {
+
         return new DSpace().getServiceManager().getServiceByName(
                 "applicationService", ApplicationService.class);
-	}
+    }
 
-	@Override
-	public void indexContent(Context context, DSpaceObject dso, boolean force)
-			throws SQLException {
-		if (dso != null && dso.getType() >= CrisConstants.CRIS_TYPE_ID_START) {
-			indexCrisObject((ACrisObject) dso, false);
-		} else {
-			super.indexContent(context, dso, force);
-		}
-	}
+    @Override
+    public void indexContent(Context context, DSpaceObject dso, boolean force)
+            throws SQLException
+    {
+        if (dso != null && dso.getType() >= CrisConstants.CRIS_TYPE_ID_START)
+        {
+            indexCrisObject((ACrisObject) dso, false);
+        }
+        else
+        {
+            super.indexContent(context, dso, force);
+        }
+    }
 
-	@Override
-	public void createIndex(Context context) throws SQLException, IOException {
-		createCrisIndex(context);
-		super.createIndex(context);
-	}
+    @Override
+    public void createIndex(Context context) throws SQLException, IOException
+    {
+        createCrisIndex(context);
+        super.createIndex(context);
+    }
 
-	@Override
-	public void updateIndex(Context context, boolean force) {
-		updateCrisIndex(context, force);
-		super.updateIndex(context, force);
-	}
+    @Override
+    public void updateIndex(Context context, boolean force)
+    {
+        updateCrisIndex(context, force);
+        super.updateIndex(context, force);
+    }
 
-	@Override
-	public void cleanIndex(boolean force) throws IOException, SQLException,
-			SearchServiceException {
-		super.cleanIndex(force);
-		try {
-			if (force) {
-				getSolr().deleteByQuery(
-						"search.resourcetype:["
-								+ CrisConstants.CRIS_TYPE_ID_START + " TO *]");
-			} else {
-				// TODO XXXX
-			}
-		} catch (Exception e) {
+    @Override
+    public void cleanIndex(boolean force) throws IOException, SQLException,
+            SearchServiceException
+    {
+        super.cleanIndex(force);
+        try
+        {
+            if (force)
+            {
+                getSolr().deleteByQuery(
+                        "search.resourcetype:["
+                                + CrisConstants.CRIS_TYPE_ID_START + " TO *]");
+            }
+            else
+            {
+                // TODO XXXX
+            }
+        }
+        catch (Exception e)
+        {
 
-			throw new SearchServiceException(e.getMessage(), e);
-		}
+            throw new SearchServiceException(e.getMessage(), e);
+        }
 
-	}
+    }
 
-	@Override
-	protected DSpaceObject findDSpaceObject(Context context, SolrDocument doc)
-			throws SQLException {
-		Integer type = (Integer) doc.getFirstValue("search.resourcetype");
-		if (type != null && type >= CrisConstants.CRIS_TYPE_ID_START) {
-			Integer id = (Integer) doc.getFirstValue("search.resourceid");
-			switch (type) {
-			case CrisConstants.RP_TYPE_ID:
-				return getApplicationService().get(ResearcherPage.class, id);
+    @Override
+    protected DSpaceObject findDSpaceObject(Context context, SolrDocument doc)
+            throws SQLException
+    {
+        Integer type = (Integer) doc.getFirstValue("search.resourcetype");
+        if (type != null && type >= CrisConstants.CRIS_TYPE_ID_START)
+        {
+            Integer id = (Integer) doc.getFirstValue("search.resourceid");
+            switch (type)
+            {
+            case CrisConstants.RP_TYPE_ID:
+                return getApplicationService().get(ResearcherPage.class, id);
 
-			case CrisConstants.PROJECT_TYPE_ID:
-				return getApplicationService().get(Project.class, id);
+            case CrisConstants.PROJECT_TYPE_ID:
+                return getApplicationService().get(Project.class, id);
 
-			case CrisConstants.OU_TYPE_ID:
-				return getApplicationService().get(OrganizationUnit.class, id);
+            case CrisConstants.OU_TYPE_ID:
+                return getApplicationService().get(OrganizationUnit.class, id);
 
-			default:
-				return null;
-			}
-		} else {
-			return super.findDSpaceObject(context, doc);
-		}
-	}
+            default:
+                return null;
+            }
+        }
+        else
+        {
+            return super.findDSpaceObject(context, doc);
+        }
+    }
 
-	public <P extends Property<TP>, TP extends PropertiesDefinition> void indexCrisObject(
-			ACrisObject<P, TP> dso, boolean b) {
-		SolrInputDocument doc = buildDocument(dso.getType(), dso.getID(), null,
-				null);
+    public <P extends Property<TP>, TP extends PropertiesDefinition> void indexCrisObject(
+            ACrisObject<P, TP> dso, boolean b)
+    {
+        SolrInputDocument doc = buildDocument(dso.getType(), dso.getID(), null,
+                null);
 
-		log.debug("Building Cris: " + dso.getUuid());
+        log.debug("Building Cris: " + dso.getUuid());
 
-		if (dso.getStatus() == null || !dso.getStatus()) {
-			// only admin can searh/browse disabled researcher page
-		    doc.addField("read", "g1");
-		    doc.addField("withdrawn", true);
-		}
-		else
-		{
-		    doc.addField("read", "g0");
-		    doc.addField("withdrawn", false);
-		}
-		
-		doc.addField("discoverable", true);// item.isDiscoverable());
-		doc.addField("cris-uuid", dso.getUuid());
-		
-		// Keep a list of our sort values which we added, sort values can only
-		// be added once
-		List<String> sortFieldsAdded = new ArrayList<String>();
-		Set<String> hitHighlightingFields = new HashSet<String>();
-		try {
-			List<DiscoveryConfiguration> discoveryConfigurations = new ArrayList<DiscoveryConfiguration>();
-			DiscoveryConfiguration generalConfiguration = SearchUtils
-					.getDiscoveryConfiguration();
-			if (generalConfiguration != null) {
-				discoveryConfigurations.add(generalConfiguration);
-			}
-			DiscoveryConfigurationService configurationService = SearchUtils
-					.getConfigurationService();
-			String schema = "cris" + dso.getPublicPath();
-			DiscoveryConfiguration crisConfiguration = configurationService
-					.getMap().get(schema);
-			if (crisConfiguration != null) {
-				discoveryConfigurations.add(crisConfiguration);
-			}
-			// A map used to save each sidebarFacet config by the metadata
-			// fields
-			Map<String, List<DiscoverySearchFilter>> searchFilters = new HashMap<String, List<DiscoverySearchFilter>>();
-			Map<String, DiscoverySortFieldConfiguration> sortFields = new HashMap<String, DiscoverySortFieldConfiguration>();
-			Map<String, DiscoveryRecentSubmissionsConfiguration> recentSubmissionsConfigurationMap = new HashMap<String, DiscoveryRecentSubmissionsConfiguration>();
-			Set<String> moreLikeThisFields = new HashSet<String>();
-			for (DiscoveryConfiguration discoveryConfiguration : discoveryConfigurations) {
-				for (int i = 0; i < discoveryConfiguration.getSearchFilters()
-						.size(); i++) {
-					DiscoverySearchFilter discoverySearchFilter = discoveryConfiguration
-							.getSearchFilters().get(i);
-					for (int j = 0; j < discoverySearchFilter
-							.getMetadataFields().size(); j++) {
-						String metadataField = discoverySearchFilter
-								.getMetadataFields().get(j);
-						List<DiscoverySearchFilter> resultingList;
-						if (searchFilters.get(metadataField) != null) {
-							resultingList = searchFilters.get(metadataField);
-						} else {
-							// New metadata field, create a new list for it
-							resultingList = new ArrayList<DiscoverySearchFilter>();
-						}
-						resultingList.add(discoverySearchFilter);
+        if (dso.getStatus() == null || !dso.getStatus())
+        {
+            // only admin can searh/browse disabled researcher page
+            doc.addField("read", "g1");
+            doc.addField("withdrawn", true);
+        }
+        else
+        {
+            doc.addField("read", "g0");
+            doc.addField("withdrawn", false);
+        }
 
-						searchFilters.put(metadataField, resultingList);
-					}
-				}
+        doc.addField("discoverable", true);// item.isDiscoverable());
+        doc.addField("cris-uuid", dso.getUuid());
 
-				DiscoverySortConfiguration sortConfiguration = discoveryConfiguration
-						.getSearchSortConfiguration();
-				if (sortConfiguration != null) {
-					for (DiscoverySortFieldConfiguration discoverySortConfiguration : sortConfiguration
-							.getSortFields()) {
-						sortFields.put(
-								discoverySortConfiguration.getMetadataField(),
-								discoverySortConfiguration);
-					}
-				}
-			}
+        // Keep a list of our sort values which we added, sort values can only
+        // be added once
+        List<String> sortFieldsAdded = new ArrayList<String>();
+        Set<String> hitHighlightingFields = new HashSet<String>();
+        try
+        {
+            List<DiscoveryConfiguration> discoveryConfigurations = new ArrayList<DiscoveryConfiguration>();
+            DiscoveryConfiguration generalConfiguration = SearchUtils
+                    .getDiscoveryConfiguration();
+            if (generalConfiguration != null)
+            {
+                discoveryConfigurations.add(generalConfiguration);
+            }
+            DiscoveryConfigurationService configurationService = SearchUtils
+                    .getConfigurationService();
+            String schema = "cris" + dso.getPublicPath();
+            DiscoveryConfiguration crisConfiguration = configurationService
+                    .getMap().get(schema);
+            if (crisConfiguration != null)
+            {
+                discoveryConfigurations.add(crisConfiguration);
+            }
+            // A map used to save each sidebarFacet config by the metadata
+            // fields
+            Map<String, List<DiscoverySearchFilter>> searchFilters = new HashMap<String, List<DiscoverySearchFilter>>();
+            Map<String, DiscoverySortFieldConfiguration> sortFields = new HashMap<String, DiscoverySortFieldConfiguration>();
+            Map<String, DiscoveryRecentSubmissionsConfiguration> recentSubmissionsConfigurationMap = new HashMap<String, DiscoveryRecentSubmissionsConfiguration>();
+            Set<String> moreLikeThisFields = new HashSet<String>();
+            for (DiscoveryConfiguration discoveryConfiguration : discoveryConfigurations)
+            {
+                for (int i = 0; i < discoveryConfiguration.getSearchFilters()
+                        .size(); i++)
+                {
+                    DiscoverySearchFilter discoverySearchFilter = discoveryConfiguration
+                            .getSearchFilters().get(i);
+                    for (int j = 0; j < discoverySearchFilter
+                            .getMetadataFields().size(); j++)
+                    {
+                        String metadataField = discoverySearchFilter
+                                .getMetadataFields().get(j);
+                        List<DiscoverySearchFilter> resultingList;
+                        if (searchFilters.get(metadataField) != null)
+                        {
+                            resultingList = searchFilters.get(metadataField);
+                        }
+                        else
+                        {
+                            // New metadata field, create a new list for it
+                            resultingList = new ArrayList<DiscoverySearchFilter>();
+                        }
+                        resultingList.add(discoverySearchFilter);
 
-			List<String> toIgnoreFields = new ArrayList<String>();
-			String ignoreFieldsString = new DSpace().getConfigurationService()
-					.getProperty("discovery.index.ignore");
-			if (ignoreFieldsString != null) {
-				if (ignoreFieldsString.contains(",")) {
-					for (int i = 0; i < ignoreFieldsString.split(",").length; i++) {
-						toIgnoreFields.add(ignoreFieldsString.split(",")[i]
-								.trim());
-					}
-				} else {
-					toIgnoreFields.add(ignoreFieldsString);
-				}
-			}
+                        searchFilters.put(metadataField, resultingList);
+                    }
+                }
 
-			List<String> toProjectionFields = new ArrayList<String>();
-			String projectionFieldsString = new DSpace()
-					.getConfigurationService().getProperty(
-							"discovery.index.projection");
-			if (projectionFieldsString != null) {
-				if (projectionFieldsString.indexOf(",") != -1) {
-					for (int i = 0; i < projectionFieldsString.split(",").length; i++) {
-						toProjectionFields.add(projectionFieldsString
-								.split(",")[i].trim());
-					}
-				} else {
-					toProjectionFields.add(projectionFieldsString);
-				}
-			}
+                DiscoverySortConfiguration sortConfiguration = discoveryConfiguration
+                        .getSearchSortConfiguration();
+                if (sortConfiguration != null)
+                {
+                    for (DiscoverySortFieldConfiguration discoverySortConfiguration : sortConfiguration
+                            .getSortFields())
+                    {
+                        sortFields.put(
+                                discoverySortConfiguration.getMetadataField(),
+                                discoverySortConfiguration);
+                    }
+                }
+            }
 
-			List<P> mydc = dso.getAnagrafica();
-			for (P meta : mydc) {
-				String field = schema + "." + meta.getTypo().getShortName();
+            List<String> toIgnoreFields = new ArrayList<String>();
+            String ignoreFieldsString = new DSpace().getConfigurationService()
+                    .getProperty("discovery.index.ignore");
+            if (ignoreFieldsString != null)
+            {
+                if (ignoreFieldsString.contains(","))
+                {
+                    for (int i = 0; i < ignoreFieldsString.split(",").length; i++)
+                    {
+                        toIgnoreFields.add(ignoreFieldsString.split(",")[i]
+                                .trim());
+                    }
+                }
+                else
+                {
+                    toIgnoreFields.add(ignoreFieldsString);
+                }
+            }
 
-				AValue value = meta.getValue();
+            List<String> toProjectionFields = new ArrayList<String>();
+            String projectionFieldsString = new DSpace()
+                    .getConfigurationService().getProperty(
+                            "discovery.index.projection");
+            if (projectionFieldsString != null)
+            {
+                if (projectionFieldsString.indexOf(",") != -1)
+                {
+                    for (int i = 0; i < projectionFieldsString.split(",").length; i++)
+                    {
+                        toProjectionFields.add(projectionFieldsString
+                                .split(",")[i].trim());
+                    }
+                }
+                else
+                {
+                    toProjectionFields.add(projectionFieldsString);
+                }
+            }
 
-				if (value == null
-						|| meta.getVisibility() != VisibilityConstants.PUBLIC) {
-					continue;
-				}
+            List<P> mydc = dso.getAnagrafica();
+            for (P meta : mydc)
+            {
+                String field = schema + "." + meta.getTypo().getShortName();
 
-				String svalue = value.toString();
-				Integer authority = null;
-				if (value instanceof PointerValue && value.getObject() instanceof ACrisObject) {
-					authority = ((ACrisObject) value.getObject()).getId();
-				}
+                AValue value = meta.getValue();
 
-				if (toIgnoreFields.contains(field)) {
-					continue;
-				}
+                if (value == null
+                        || meta.getVisibility() != VisibilityConstants.PUBLIC)
+                {
+                    continue;
+                }
 
-				if ((searchFilters.get(field) != null)) {
-					List<DiscoverySearchFilter> searchFilterConfigs = searchFilters
-							.get(field);
+                String svalue = value.toString();
+                if (StringUtils.isNotEmpty(svalue))
+                {
+                    PropertyEditor editor = meta.getTypo().getRendering()
+                            .getPropertyEditor(null);
+                    editor.setValue(value.getObject());
 
-					for (DiscoverySearchFilter searchFilter : searchFilterConfigs) {
-						String separator = new DSpace()
-								.getConfigurationService().getProperty(
-										"discovery.solr.facets.split.char");
-						if (separator == null) {
-							separator = FILTER_SEPARATOR;
-						}
-						if (searchFilter.getType().equals(
-								DiscoveryConfigurationParameters.TYPE_DATE)) {
-							if (value instanceof DateValue) {
-								// TODO: make this date format configurable !
-								svalue = DateFormatUtils.formatUTC(((DateValue) value).getObject(),
-										"yyyy-MM-dd");
-							}
-						}
-						doc.addField(searchFilter.getIndexFieldName(), svalue);
-						doc.addField(searchFilter.getIndexFieldName()
-								+ "_keyword", svalue);
-						if (authority != null) {
-							doc.addField(searchFilter.getIndexFieldName()
-									+ "_keyword", svalue + AUTHORITY_SEPARATOR
-									+ authority);
-							doc.addField(searchFilter.getIndexFieldName()
-									+ "_authority", authority);
-							doc.addField(searchFilter.getIndexFieldName()
-									+ "_acid", svalue.toLowerCase() + separator
-									+ svalue + AUTHORITY_SEPARATOR + authority);
-						}
+                    svalue = editor.getAsText();
 
-						// Add a dynamic fields for auto complete in search
-						doc.addField(searchFilter.getIndexFieldName() + "_ac",
-								svalue.toLowerCase() + separator + svalue);
+                }
 
-						if (searchFilter.getFilterType().equals(
-								DiscoverySearchFilterFacet.FILTER_TYPE_FACET)) {
-							if (searchFilter.getType().equals(
-									DiscoveryConfigurationParameters.TYPE_TEXT)) {
-								// Add a special filter
-								// We use a separator to split up the lowercase
-								// and regular case, this is needed to get our
-								// filters in regular case
-								// Solr has issues with facet prefix and cases
-								if (authority != null) {
-									String facetValue = svalue;
-									doc.addField(
-											searchFilter.getIndexFieldName()
-													+ "_filter",
-											facetValue.toLowerCase()
-													+ separator + facetValue
-													+ AUTHORITY_SEPARATOR
-													+ authority);
-								} else {
-									doc.addField(
-											searchFilter.getIndexFieldName()
-													+ "_filter",
-											svalue.toLowerCase() + separator
-													+ svalue);
-								}
-							} else if (searchFilter.getType().equals(
-									DiscoveryConfigurationParameters.TYPE_DATE)) {
-								if (value instanceof DateValue) {
-									String indexField = searchFilter
-											.getIndexFieldName() + ".year";
-									doc.addField(
-											searchFilter.getIndexFieldName()
-													+ "_keyword",
-											DateFormatUtils.formatUTC(
-													((DateValue) value).getObject(), "yyyy"));
-									doc.addField(indexField, DateFormatUtils
-											.formatUTC(((DateValue) value).getObject(), "yyyy"));
-									// Also save a sort value of this year, this
-									// is required for determining the upper &
-									// lower bound year of our facet
-									if (doc.getField(indexField + "_sort") == null) {
-										// We can only add one year so take the
-										// first one
-										doc.addField(indexField + "_sort",
-												DateFormatUtils.formatUTC(
-														((DateValue) value).getObject(), "yyyy"));
-									}
-								}
-							} else if (searchFilter
-									.getType()
-									.equals(DiscoveryConfigurationParameters.TYPE_HIERARCHICAL)) {
-								HierarchicalSidebarFacetConfiguration hierarchicalSidebarFacetConfiguration = (HierarchicalSidebarFacetConfiguration) searchFilter;
-								String[] subValues = svalue
-										.split(hierarchicalSidebarFacetConfiguration
-												.getSplitter());
-								if (hierarchicalSidebarFacetConfiguration
-										.isSkipFirstNodeLevel()
-										&& 1 < subValues.length) {
-									// Remove the first element of our array
-									subValues = (String[]) ArrayUtils.subarray(
-											subValues, 1, subValues.length);
-								}
-								for (int i = 0; i < subValues.length; i++) {
-									StringBuilder valueBuilder = new StringBuilder();
-									for (int j = 0; j <= i; j++) {
-										valueBuilder.append(subValues[j]);
-										if (j < i) {
-											valueBuilder
-													.append(hierarchicalSidebarFacetConfiguration
-															.getSplitter());
-										}
-									}
+                Integer authority = null;
+                if (value instanceof PointerValue
+                        && value.getObject() instanceof ACrisObject)
+                {
+                    authority = ((ACrisObject) value.getObject()).getId();
+                }
 
-									String indexValue = valueBuilder.toString()
-											.trim();
-									doc.addField(
-											searchFilter.getIndexFieldName()
-													+ "_tax_" + i + "_filter",
-											indexValue.toLowerCase()
-													+ separator + indexValue);
-									// We add the field x times that it has
-									// occurred
-									for (int j = i; j < subValues.length; j++) {
-										doc.addField(
-												searchFilter
-														.getIndexFieldName()
-														+ "_filter",
-												indexValue.toLowerCase()
-														+ separator
-														+ indexValue);
-										doc.addField(
-												searchFilter
-														.getIndexFieldName()
-														+ "_keyword",
-												indexValue);
-									}
-								}
-							}
-						}
-					}
-				}
+                if (toIgnoreFields.contains(field))
+                {
+                    continue;
+                }
 
-				if ((sortFields.get(field) != null || recentSubmissionsConfigurationMap
-						.get(field) != null)
-						&& !sortFieldsAdded.contains(field)) {
-					// Only add sort value once
-					String type;
-					if (sortFields.get(field) != null) {
-						type = sortFields.get(field).getType();
-					} else {
-						type = recentSubmissionsConfigurationMap.get(field)
-								.getType();
-					}
+                if ((searchFilters.get(field) != null))
+                {
+                    List<DiscoverySearchFilter> searchFilterConfigs = searchFilters
+                            .get(field);
 
-					if (type.equals(DiscoveryConfigurationParameters.TYPE_DATE)) {
-						Date date = null;
-						if (value instanceof DateValue) {
-							date = ((DateValue) value).getObject();
-						} else {
-							date = toDate(svalue);
-						}
-						if (date != null) {
-							doc.addField(field + "_dt", date);
-						} else {
-							log.warn("Error while indexing sort date field, cris: "
-									+ dso.getUuid()
-									+ " metadata field: "
-									+ field + " date value: " + value);
-						}
-					} else {
-						doc.addField(field + "_sort", value);
-					}
-					sortFieldsAdded.add(field);
-				}
+                    for (DiscoverySearchFilter searchFilter : searchFilterConfigs)
+                    {
+                        String separator = new DSpace()
+                                .getConfigurationService().getProperty(
+                                        "discovery.solr.facets.split.char");
+                        if (separator == null)
+                        {
+                            separator = FILTER_SEPARATOR;
+                        }
+                        if (searchFilter.getType().equals(
+                                DiscoveryConfigurationParameters.TYPE_DATE))
+                        {
+                            if (value instanceof DateValue)
+                            {
+                                // TODO: make this date format configurable !
+                                svalue = DateFormatUtils.formatUTC(
+                                        ((DateValue) value).getObject(),
+                                        "yyyy-MM-dd");
+                            }
+                        }
+                        doc.addField(searchFilter.getIndexFieldName(), svalue);
+                        doc.addField(searchFilter.getIndexFieldName()
+                                + "_keyword", svalue);
+                        if (authority != null)
+                        {
+                            doc.addField(searchFilter.getIndexFieldName()
+                                    + "_keyword", svalue + AUTHORITY_SEPARATOR
+                                    + authority);
+                            doc.addField(searchFilter.getIndexFieldName()
+                                    + "_authority", authority);
+                            doc.addField(searchFilter.getIndexFieldName()
+                                    + "_acid", svalue.toLowerCase() + separator
+                                    + svalue + AUTHORITY_SEPARATOR + authority);
+                        }
 
-				if (hitHighlightingFields.contains(field)
-						|| hitHighlightingFields.contains("*")) {
-					doc.addField(field + "_hl", svalue);
-				}
+                        // Add a dynamic fields for auto complete in search
+                        doc.addField(searchFilter.getIndexFieldName() + "_ac",
+                                svalue.toLowerCase() + separator + svalue);
 
-				if (moreLikeThisFields.contains(field)) {
-					doc.addField(field + "_mlt", svalue);
-				}
+                        if (searchFilter.getFilterType().equals(
+                                DiscoverySearchFilterFacet.FILTER_TYPE_FACET))
+                        {
+                            if (searchFilter.getType().equals(
+                                    DiscoveryConfigurationParameters.TYPE_TEXT))
+                            {
+                                // Add a special filter
+                                // We use a separator to split up the lowercase
+                                // and regular case, this is needed to get our
+                                // filters in regular case
+                                // Solr has issues with facet prefix and cases
+                                if (authority != null)
+                                {
+                                    String facetValue = svalue;
+                                    doc.addField(
+                                            searchFilter.getIndexFieldName()
+                                                    + "_filter",
+                                            facetValue.toLowerCase()
+                                                    + separator + facetValue
+                                                    + AUTHORITY_SEPARATOR
+                                                    + authority);
+                                }
+                                else
+                                {
+                                    doc.addField(
+                                            searchFilter.getIndexFieldName()
+                                                    + "_filter",
+                                            svalue.toLowerCase() + separator
+                                                    + svalue);
+                                }
+                            }
+                            else if (searchFilter.getType().equals(
+                                    DiscoveryConfigurationParameters.TYPE_DATE))
+                            {
+                                if (value instanceof DateValue)
+                                {
+                                    String indexField = searchFilter
+                                            .getIndexFieldName() + ".year";
+                                    doc.addField(
+                                            searchFilter.getIndexFieldName()
+                                                    + "_keyword",
+                                            DateFormatUtils.formatUTC(
+                                                    ((DateValue) value)
+                                                            .getObject(),
+                                                    "yyyy"));
+                                    doc.addField(indexField, DateFormatUtils
+                                            .formatUTC(((DateValue) value)
+                                                    .getObject(), "yyyy"));
+                                    // Also save a sort value of this year, this
+                                    // is required for determining the upper &
+                                    // lower bound year of our facet
+                                    if (doc.getField(indexField + "_sort") == null)
+                                    {
+                                        // We can only add one year so take the
+                                        // first one
+                                        doc.addField(indexField + "_sort",
+                                                DateFormatUtils.formatUTC(
+                                                        ((DateValue) value)
+                                                                .getObject(),
+                                                        "yyyy"));
+                                    }
+                                }
+                            }
+                            else if (searchFilter
+                                    .getType()
+                                    .equals(DiscoveryConfigurationParameters.TYPE_HIERARCHICAL))
+                            {
+                                HierarchicalSidebarFacetConfiguration hierarchicalSidebarFacetConfiguration = (HierarchicalSidebarFacetConfiguration) searchFilter;
+                                String[] subValues = svalue
+                                        .split(hierarchicalSidebarFacetConfiguration
+                                                .getSplitter());
+                                if (hierarchicalSidebarFacetConfiguration
+                                        .isSkipFirstNodeLevel()
+                                        && 1 < subValues.length)
+                                {
+                                    // Remove the first element of our array
+                                    subValues = (String[]) ArrayUtils.subarray(
+                                            subValues, 1, subValues.length);
+                                }
+                                for (int i = 0; i < subValues.length; i++)
+                                {
+                                    StringBuilder valueBuilder = new StringBuilder();
+                                    for (int j = 0; j <= i; j++)
+                                    {
+                                        valueBuilder.append(subValues[j]);
+                                        if (j < i)
+                                        {
+                                            valueBuilder
+                                                    .append(hierarchicalSidebarFacetConfiguration
+                                                            .getSplitter());
+                                        }
+                                    }
 
-				doc.addField(field, svalue);
-				if (toProjectionFields.contains(field)) {
-					doc.addField(field + "_stored", svalue + STORE_SEPARATOR
-							+ authority);
-				}
-			}
+                                    String indexValue = valueBuilder.toString()
+                                            .trim();
+                                    doc.addField(
+                                            searchFilter.getIndexFieldName()
+                                                    + "_tax_" + i + "_filter",
+                                            indexValue.toLowerCase()
+                                                    + separator + indexValue);
+                                    // We add the field x times that it has
+                                    // occurred
+                                    for (int j = i; j < subValues.length; j++)
+                                    {
+                                        doc.addField(
+                                                searchFilter
+                                                        .getIndexFieldName()
+                                                        + "_filter",
+                                                indexValue.toLowerCase()
+                                                        + separator
+                                                        + indexValue);
+                                        doc.addField(
+                                                searchFilter
+                                                        .getIndexFieldName()
+                                                        + "_keyword",
+                                                indexValue);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-		}
+                if ((sortFields.get(field) != null || recentSubmissionsConfigurationMap
+                        .get(field) != null)
+                        && !sortFieldsAdded.contains(field))
+                {
+                    // Only add sort value once
+                    String type;
+                    if (sortFields.get(field) != null)
+                    {
+                        type = sortFields.get(field).getType();
+                    }
+                    else
+                    {
+                        type = recentSubmissionsConfigurationMap.get(field)
+                                .getType();
+                    }
 
-		log.debug("  Added Metadata");
+                    if (type.equals(DiscoveryConfigurationParameters.TYPE_DATE))
+                    {
+                        Date date = null;
+                        if (value instanceof DateValue)
+                        {
+                            date = ((DateValue) value).getObject();
+                        }
+                        else
+                        {
+                            date = toDate(svalue);
+                        }
+                        if (date != null)
+                        {
+                            doc.addField(field + "_dt", date);
+                        }
+                        else
+                        {
+                            log.warn("Error while indexing sort date field, cris: "
+                                    + dso.getUuid()
+                                    + " metadata field: "
+                                    + field + " date value: " + value);
+                        }
+                    }
+                    else
+                    {
+                        doc.addField(field + "_sort", value);
+                    }
+                    sortFieldsAdded.add(field);
+                }
 
-		// Do any additional indexing, depends on the plugins
-		List<CrisServiceIndexPlugin> solrServiceIndexPlugins = new DSpace()
-				.getServiceManager().getServicesByType(
-						CrisServiceIndexPlugin.class);
-		for (CrisServiceIndexPlugin solrServiceIndexPlugin : solrServiceIndexPlugins) {
-			solrServiceIndexPlugin.additionalIndex(dso, doc);
-		}
+                if (hitHighlightingFields.contains(field)
+                        || hitHighlightingFields.contains("*"))
+                {
+                    doc.addField(field + "_hl", svalue);
+                }
 
-		// write the index and close the inputstreamreaders
-		try {
-			writeDocument(doc);
-			log.info("Wrote cris: " + dso.getUuid() + " to Index");
-		} catch (Exception e) {
-			log.error(
-					"Error while writing cris to discovery index: "
-							+ dso.getUuid() + " message:" + e.getMessage(), e);
-		}
+                if (moreLikeThisFields.contains(field))
+                {
+                    doc.addField(field + "_mlt", svalue);
+                }
 
-	}
+                doc.addField(field, svalue);
+                if (toProjectionFields.contains(field))
+                {
+                    doc.addField(field + "_stored", svalue + STORE_SEPARATOR
+                            + authority);
+                }
+            }
 
-	private void createCrisIndex(Context context) {
-		List<ResearcherPage> rpObjects = getApplicationService()
-				.getList(ResearcherPage.class);
-		if (rpObjects != null) {
-			for (ResearcherPage cris : rpObjects) {
-				indexCrisObject(cris, true);
-			}
-		}
-		
-		List<Project> projObjects = getApplicationService()
-                .getList(Project.class);
-        if (projObjects != null) {
-            for (Project cris : projObjects) {
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage(), e);
+        }
+
+        log.debug("  Added Metadata");
+
+        // Do any additional indexing, depends on the plugins
+        List<CrisServiceIndexPlugin> solrServiceIndexPlugins = new DSpace()
+                .getServiceManager().getServicesByType(
+                        CrisServiceIndexPlugin.class);
+        for (CrisServiceIndexPlugin solrServiceIndexPlugin : solrServiceIndexPlugins)
+        {
+            solrServiceIndexPlugin.additionalIndex(dso, doc);
+        }
+
+        // write the index and close the inputstreamreaders
+        try
+        {
+            writeDocument(doc);
+            log.info("Wrote cris: " + dso.getUuid() + " to Index");
+        }
+        catch (Exception e)
+        {
+            log.error(
+                    "Error while writing cris to discovery index: "
+                            + dso.getUuid() + " message:" + e.getMessage(), e);
+        }
+
+    }
+
+    private void createCrisIndex(Context context)
+    {
+        List<ResearcherPage> rpObjects = getApplicationService().getList(
+                ResearcherPage.class);
+        if (rpObjects != null)
+        {
+            for (ResearcherPage cris : rpObjects)
+            {
                 indexCrisObject(cris, true);
             }
         }
-        
-        List<OrganizationUnit> ouObjects = getApplicationService()
-                .getList(OrganizationUnit.class);
-        if (ouObjects != null) {
-            for (OrganizationUnit cris : ouObjects) {
+
+        List<Project> projObjects = getApplicationService().getList(
+                Project.class);
+        if (projObjects != null)
+        {
+            for (Project cris : projObjects)
+            {
                 indexCrisObject(cris, true);
             }
         }
-	}
 
-	private void updateCrisIndex(Context context, boolean force) {
-		cleanCrisIndex(context);
-		createCrisIndex(context);
-	}
+        List<OrganizationUnit> ouObjects = getApplicationService().getList(
+                OrganizationUnit.class);
+        if (ouObjects != null)
+        {
+            for (OrganizationUnit cris : ouObjects)
+            {
+                indexCrisObject(cris, true);
+            }
+        }
+    }
 
-	private void cleanCrisIndex(Context context) {
-		try {
-			getSolr().deleteByQuery(
-					"search.resourcetype:[" + CrisConstants.CRIS_TYPE_ID_START
-							+ " TO *]");
-		} catch (Exception e) {
-			log.error("Error cleaning cris discovery index: " + e.getMessage(),
-					e);
-		}
-	}
+    private void updateCrisIndex(Context context, boolean force)
+    {
+        cleanCrisIndex(context);
+        createCrisIndex(context);
+    }
+
+    private void cleanCrisIndex(Context context)
+    {
+        try
+        {
+            getSolr().deleteByQuery(
+                    "search.resourcetype:[" + CrisConstants.CRIS_TYPE_ID_START
+                            + " TO *]");
+        }
+        catch (Exception e)
+        {
+            log.error("Error cleaning cris discovery index: " + e.getMessage(),
+                    e);
+        }
+    }
 }

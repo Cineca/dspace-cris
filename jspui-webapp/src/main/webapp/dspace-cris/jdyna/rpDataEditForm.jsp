@@ -59,7 +59,23 @@
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/lang/calendar-en.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar-setup.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.form.js"></script>
-
+  	<style>
+    .ui-autocomplete-loading {
+        background: white url('../../../image/jdyna/indicator.gif') right center no-repeat;
+    }    
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+    /* IE 6 doesn't support max-height
+     * we use height instead, but this forces the menu to always be this tall
+     */
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+    </style>
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
@@ -253,36 +269,60 @@
 		});
 
 		
-
-		var activePointer = function() {
+		function addPointer( id, displayvalue, identifiervalue ) {
+			if(identifiervalue!=null) {
+            	
+				
+				var path = j('#pointer_'+id+'_path').html();
+				var count = 1;
+				var input = j( "<input type='hidden' name='"+path+"["+count+"]"+"'>" ).val( identifiervalue );
+            	var display = j( "<span>" ).text( displayvalue );
+            	j("#pointer_"+id+"_selected").append(input).append(display);
+			}
+        }
 		
-			j(".pointersearchbutton").click(function()
-			{
-				var id = j(this).attr('id');
-				var search = j('#pointersearchinput_' + id).val();				
-				j('#pointerdialog_' + id).dialog({width: '800', closeOnEscape: true, modal: true, autoOpen: false, resizable: true});
-				
-														
-				var ajaxurlrelations = "searchPointer.htm";
-				j.ajax( {
-					url : ajaxurlrelations,
-					data : {																			
-						"elementID" : id,
-						"parentID" : ${anagraficadto.parentId},
-						"query": search						
-					},
-					success : function(data) {			
-						j('#pointerdialog_' + id).dialog("open");
-						j('#pointerfragmentcontent_' + id).html(data);								
-						
-					},
-					error : function(data) {					
-						
-					}
-				});						
-				
-		    });				
-		}
+		var activePointer = function() {
+					 			
+			 j( ".searchboxpointer" ).each(function(){
+				 j(this).autocomplete({						 
+		            source: function( request, response ) {	
+		            	var id = j(".spandatabind pointerinfo").html().substr('searchboxpointer_'.length);
+		                j.ajax({
+		                    url: "searchPointer.htm",
+		                    dataType: "json", 
+		                    data : {																			
+								"elementID" : id,								
+								"query":  request.term						
+							},                  
+		                    success: function( data ) {
+		                        response( j.map( data.pointers, function( item ) {
+		                            return {
+		                                label: item.display,
+		                                value: item.id,
+		                                element: id
+		                            }
+		                        }));
+		                    }
+		                });
+		            },		            
+		            minLength: 2,
+		            select: function( event, ui ) {
+		                addPointer( ui.item.element, ui.item ?
+		                    "Selected: " + ui.item.label :
+		                    "Nothing selected, input was " + this.value, ui.item ? ui.item.value : null);
+		            },
+		            open: function() {
+		                j( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+		            },
+		            close: function() {
+		                j( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+		            }
+		        });
+		});
+	}
+		
+       
+    
 		-->
 	</script>
 	
@@ -301,7 +341,7 @@
 </c:if>
 
 
-<c:if test="${admin or (user.id eq entity.epersonID}">
+<c:if test="${admin}">
 <div class="extra">
 <form:form commandName="anagraficadto"
 	action="" method="post" enctype="multipart/form-data">	

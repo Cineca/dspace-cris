@@ -3008,9 +3008,12 @@
 	</bean>
 				
 			
-	<bean id="searchRPPointer" class="it.cilea.osd.jdyna.web.controller.SearchPointerController">
+	<bean id="searchRPPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
+		</property>
+		<property name="searchService">
+			<ref bean="crisSearchService" />
 		</property>
 		<property name="clazzPD">
 			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
