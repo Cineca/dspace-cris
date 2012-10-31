@@ -118,8 +118,8 @@
 	</bean>
 	
 	<!-- Controller to expose (via JSON) informations about the rp of the current user -->
-	<bean id="jsonRPStatusController"
-		class="it.cilea.hku.authority.webui.controller.json.RPStatusJSONController">
+	<bean id="jsonMyRPController"
+		class="it.cilea.hku.authority.webui.controller.json.MyRPJSONController">
 		<property name="applicationService" ref="applicationService" />
 	</bean>
 	
@@ -3017,7 +3017,7 @@
 			<props>
 				<!-- Redirect to dspace login -->
 				<prop key="/login">myRPController</prop>
-				<prop key="/rp/myStatus.json">jsonRPStatusController</prop>
+				<prop key="/rp/myRp.json">jsonMyRPController</prop>
 				<prop key="/researchertabimage/*">loadTabIcon</prop>
 				<prop key="/rp/fileservice/**">loadFileRP</prop>				
 				<prop key="/project/fileservice/**">loadFileProject</prop>
