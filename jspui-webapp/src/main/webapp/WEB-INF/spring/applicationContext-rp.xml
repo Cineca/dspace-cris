@@ -11,6 +11,9 @@
             
     <!-- Acquires reference to RP applicationService --> 
     <bean id="applicationService" factory-bean="researcher" factory-method="getApplicationService" />
+    
+    <!-- Acquires reference to Cris SearchService --> 
+    <bean id="crisSearchService" factory-bean="researcher" factory-method="getCrisSearchService" />
 	
 	<bean id="sessionFactory" factory-bean="researcher" factory-method="getSessionFactory"/>
 	

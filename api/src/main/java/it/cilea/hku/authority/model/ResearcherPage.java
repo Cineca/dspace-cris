@@ -97,7 +97,7 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
         IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>
 {
 
-    
+    @Column(unique=true, nullable=true)
     private Integer epersonID;
     
     @Transient

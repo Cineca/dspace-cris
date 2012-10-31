@@ -3007,7 +3007,21 @@
 		</property>			 -->			
 	</bean>
 				
-	
+			
+	<bean id="searchRPPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="searchService">
+			<ref bean="crisSearchService" />
+		</property>
+		<property name="clazzPD">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+		</property>				
+		<property name="viewName">
+			<value>resultSearchPointer</value>
+		</property>		
+	</bean>
 	
 	<!-- url mapping -->	
 	<bean id="urlMapping"
@@ -3029,6 +3043,7 @@
 				<prop key="/rp/*">detailsResearcherController</prop>
 				<prop key="/rp/*/*">detailsResearcherController</prop>
 				<prop key="/rp/details.htm">redirectDetailsResearcherController</prop>
+				<prop key="/tools/rp/searchPointer.htm">searchRPPointer</prop>
 				
 				<!-- Management of nested objects -->				
 				<prop key="/rp/viewNested.htm">viewRPNestedDetailsController</prop>

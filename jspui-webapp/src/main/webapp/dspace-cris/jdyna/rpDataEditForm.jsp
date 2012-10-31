@@ -33,6 +33,7 @@
 %>
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="admin"><%=isAdmin%></c:set>
+<c:set var="currentUser"><%=user%></c:set>
 <c:set var="HIGH_ACCESS"><%=AccessLevelConstants.HIGH_ACCESS%></c:set>
 <c:set var="ADMIN_ACCESS"><%=AccessLevelConstants.ADMIN_ACCESS%></c:set>
 <c:set var="LOW_ACCESS"><%=AccessLevelConstants.LOW_ACCESS%></c:set>
@@ -58,7 +59,23 @@
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/lang/calendar-en.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar-setup.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.form.js"></script>
-
+  	<style>
+    .ui-autocomplete-loading {
+        background: white url('../../../image/jdyna/indicator.gif') right center no-repeat;
+    }    
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+    /* IE 6 doesn't support max-height
+     * we use height instead, but this forces the menu to always be this tall
+     */
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+    </style>
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();
@@ -200,12 +217,12 @@
 							});
 							j('#nested_'+id+'_next').click(
 									function() {
-								    	ajaxFunction(j('#nested_'+id+"_pageCurrent").html()+1);
+								    	ajaxFunction(parseInt(j('#nested_'+id+"_pageCurrent").html())+1);
 										
 							});
 							j('#nested_'+id+'_prev').click(
 									function() {
-										ajaxFunction(j('#nested_'+id+"_pageCurrent").html()-1);
+										ajaxFunction(parseInt(j('#nested_'+id+"_pageCurrent").html())-1);
 							});
 							j('.nested_'+id+'_nextprev').click(
 									function(){
@@ -252,35 +269,60 @@
 		});
 
 		
-
-		var activePointer = function() {
-		
-			j(".pointersearchbox").click(function()
-			{
-				var id = j(this).attr('id');
-				var search = j(this).html();				
-				j('#pointerdialog_' + id).dialog({width: '800', closeOnEscape: true, modal: true, autoOpen: false, resizable: true, open: function(event, ui) { j(".ui-dialog-titlebar").hide();}});
-				j(".ui-dialog-titlebar").click(function() {	j('#pointerdialog_'+ id).dialog("close");});
-														
-				var ajaxurlrelations = "searchPointer.htm";
-				j.ajax( {
-					url : ajaxurlrelations,
-					data : {																			
-						"elementID" : id,
-						"parentID" : ${anagraficadto.parentId},
-						"query": search						
-					},
-					success : function(data) {																										
-						j('#pointerfragmentcontent_' + id).html(data);								
-						
-					},
-					error : function(data) {					
-						
-					}
-				});						
+		function addPointer( id, displayvalue, identifiervalue ) {
+			if(identifiervalue!=null) {
+            	
 				
-		    });				
-		}
+				var path = j('#pointer_'+id+'_path').html();
+				var count = 1;
+				var input = j( "<input type='hidden' name='"+path+"["+count+"]"+"'>" ).val( identifiervalue );
+            	var display = j( "<span>" ).text( displayvalue );
+            	j("#pointer_"+id+"_selected").append(input).append(display);
+			}
+        }
+		
+		var activePointer = function() {
+					 			
+			 j( ".searchboxpointer" ).each(function(){
+				 j(this).autocomplete({						 
+		            source: function( request, response ) {	
+		            	var id = j(".spandatabind pointerinfo").html().substr('searchboxpointer_'.length);
+		                j.ajax({
+		                    url: "searchPointer.htm",
+		                    dataType: "json", 
+		                    data : {																			
+								"elementID" : id,								
+								"query":  request.term						
+							},                  
+		                    success: function( data ) {
+		                        response( j.map( data.pointers, function( item ) {
+		                            return {
+		                                label: item.display,
+		                                value: item.id,
+		                                element: id
+		                            }
+		                        }));
+		                    }
+		                });
+		            },		            
+		            minLength: 2,
+		            select: function( event, ui ) {
+		                addPointer( ui.item.element, ui.item ?
+		                    "Selected: " + ui.item.label :
+		                    "Nothing selected, input was " + this.value, ui.item ? ui.item.value : null);
+		            },
+		            open: function() {
+		                j( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+		            },
+		            close: function() {
+		                j( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+		            }
+		        });
+		});
+	}
+		
+       
+    
 		-->
 	</script>
 	
@@ -298,6 +340,24 @@
 	<c:remove var="messages" scope="session" />
 </c:if>
 
+
+<c:if test="${admin}">
+<div class="extra">
+<form:form commandName="anagraficadto"
+	action="" method="post" enctype="multipart/form-data">	
+	
+	
+	<c:if test="${admin}">
+	
+		
+	</c:if>
+	<div class="dynaClear">&nbsp;</div>
+		<div class="jdyna-form-button">		
+			<input type="submit" value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
+		</div>
+</form:form>
+</div>
+</c:if> 
 
 <div id="researcher">
 <form:form commandName="anagraficadto"
