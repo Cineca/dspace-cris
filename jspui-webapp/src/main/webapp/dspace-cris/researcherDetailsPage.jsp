@@ -119,9 +119,7 @@
   </tr>
 <% } %>
 </c:set>
-<c:set var="dspace.layout.head" scope="request">
-    <link href="<%= request.getContextPath() %>/css/researcher.css" type="text/css" rel="stylesheet" />
-    <link href="<%= request.getContextPath() %>/css/jdyna.css" type="text/css" rel="stylesheet" />
+<c:set var="dspace.layout.head.last" scope="request">
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();

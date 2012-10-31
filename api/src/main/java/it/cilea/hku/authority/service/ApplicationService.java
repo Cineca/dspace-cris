@@ -398,7 +398,7 @@ public class ApplicationService extends ExtendedTabService
 
     public ResearcherPage getResearcherPageByEPersonId(Integer id)
     {
-        return researcherPageDao.uniqueResearcherPageByEPersonId(id);
+        return researcherPageDao.uniqueByEPersonId(id);
     }
 
     public ResearcherPage getResearcherPageByStaffNo(String code)

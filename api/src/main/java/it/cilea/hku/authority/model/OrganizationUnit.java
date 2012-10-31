@@ -192,14 +192,12 @@ public class OrganizationUnit extends
     }
 
     public String getName() {
-        String result = "";
         for (OUProperty title : this.getDynamicField()
-                .getAnagrafica4view().get("organizationunitname"))
+                .getAnagrafica4view().get("name"))
         {
-            result += title.getValue().getObject();
-            result += " ";
+            return title.toString();
         }
-        return result;
+        return null;
     }
     
     @Override
