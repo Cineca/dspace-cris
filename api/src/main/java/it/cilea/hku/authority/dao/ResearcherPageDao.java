@@ -67,5 +67,5 @@ public interface ResearcherPageDao extends
     
     public List<RPProperty> findAnagraficaByRPID(Integer id);
 
-    public ResearcherPage uniqueResearcherPageByEPersonId(Integer id);
+    public ResearcherPage uniqueByEPersonId(Integer id);
 }
