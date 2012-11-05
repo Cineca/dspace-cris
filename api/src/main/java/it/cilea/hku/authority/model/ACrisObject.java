@@ -33,7 +33,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     private String uuid;
     
     public ACrisObject() {
-		this.status = true;
+		this.status = false;
 	}
     
     public Boolean getStatus() {

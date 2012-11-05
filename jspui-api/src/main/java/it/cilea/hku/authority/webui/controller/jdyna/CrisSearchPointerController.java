@@ -26,7 +26,7 @@ public class CrisSearchPointerController extends SearchPointerController<Propert
         try {
             context = new Context();
           
-            List<DSpaceObject> objects = getSearchService().search(context, query, null, true, 0, Integer.MAX_VALUE, filtro);            
+            List<DSpaceObject> objects = getSearchService().search(context, query+"*", null, true, 0, Integer.MAX_VALUE, filtro);            
             for(DSpaceObject obj : objects) {
                 ACrisObject real = (ACrisObject)obj;
                 String display = (String)DisplayPointerTagLibrary.evaluate(obj, expression);

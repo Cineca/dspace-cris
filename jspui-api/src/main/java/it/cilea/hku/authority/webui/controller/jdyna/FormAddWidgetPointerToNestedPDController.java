@@ -13,25 +13,38 @@ import it.cilea.osd.jdyna.model.ADecoratorTypeDefinition;
 import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.Containable;
+import it.cilea.osd.jdyna.value.PointerValue;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 import it.cilea.osd.jdyna.widget.WidgetPointer;
 
-public class FormAddWidgetPointerToNestedPDController<TP extends ANestedPropertiesDefinition, DTP extends ADecoratorNestedPropertiesDefinition<TP>, ATN extends ATypeNestedObject<TP>, DTT extends ADecoratorTypeDefinition<ATN, TP>, H extends IPropertyHolder<Containable>, T extends Tab<H>, C extends ACrisObject>
+public class FormAddWidgetPointerToNestedPDController<TP extends ANestedPropertiesDefinition, DTP extends ADecoratorNestedPropertiesDefinition<TP>, 
+    ATN extends ATypeNestedObject<TP>, DTT extends ADecoratorTypeDefinition<ATN, TP>, 
+    H extends IPropertyHolder<Containable>, T extends Tab<H>, VPO extends PointerValue<? extends ACrisObject>>
         extends
         FormAddToNestedDefinitionController<WidgetPointer, TP, DTP, ATN, DTT, H, T>
 {
 
-    private Class<C> crisModel;
+    private Class<VPO> pValueClass;
     
     public FormAddWidgetPointerToNestedPDController(Class<TP> targetModel,
             Class<WidgetPointer> renderingModel, Class<H> boxModel,
-            Class<DTT> typeModel, Class<C> crisModel)
+            Class<DTT> typeModel, Class<VPO> pValueClass)
     {
         super(targetModel, renderingModel, boxModel, typeModel);
-        this.crisModel = crisModel;
+        this.pValueClass = pValueClass;
     }
 
+    @Override
+    protected DTP formBackingObject(HttpServletRequest request)
+            throws Exception
+    {
+        DTP tip = (DTP) super.formBackingObject(request);
+        ((WidgetPointer<VPO>) tip.getObject().getRendering())
+                .setTarget(pValueClass.getCanonicalName());
+        return tip;
+    }
+    
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request,
             HttpServletResponse response, Object command, BindException errors)
@@ -40,7 +53,7 @@ public class FormAddWidgetPointerToNestedPDController<TP extends ANestedProperti
         String boxId = request.getParameter("boxId");
         String tabId = request.getParameter("tabId");
         DTP object = (DTP)command;
-        ((WidgetPointer)(object.getReal().getRendering())).setTarget(crisModel.getCanonicalName());
+        ((WidgetPointer)(object.getReal().getRendering())).setTarget(pValueClass.getCanonicalName());
         DTT rPd = getApplicationService().get(getTypeModel(), Integer.parseInt(rendering));
         
         object.getReal().setAccessLevel(rPd.getAccessLevel());

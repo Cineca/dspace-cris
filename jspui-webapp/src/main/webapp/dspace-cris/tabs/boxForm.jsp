@@ -207,7 +207,7 @@
 						<c:set var="controller" value="File" />
 					</c:if>
 					<c:if test="${boxed.real.rendering.triview == 'pointer'}">
-						<c:set var="controller" value="Pointer" />
+						<c:set var="controller" value="${boxed.real.rendering.valoreClass.simpleName}" />
 					</c:if>
 					<a class="jdynaremovebutton"
 						title="<fmt:message
@@ -337,7 +337,7 @@
 						<c:set var="controller" value="Link" />
 					</c:if>
 					<c:if test="${boxed.real.rendering.triview == 'pointer'}">
-						<c:set var="controller" value="Pointer" />
+						<c:set var="controller" value="${boxed.real.rendering.valoreClass.simpleName}" />
 					</c:if>
 					<a class="jdynaremovebutton"
 						title="<fmt:message
@@ -472,9 +472,19 @@
 				key="jsp.dspace-admin.hku.jdyna-configuration.newfiledynamicfield" />
 			</a></div>
 			<div style="padding: 0; margin: 0 10px;"><a
-				href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/createPointerDynamicField.htm?boxId=${box.id}&tabId=${tabId}">
+				href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/createRPPointerDynamicField.htm?boxId=${box.id}&tabId=${tabId}">
 			<fmt:message
-				key="jsp.dspace-admin.hku.jdyna-configuration.newpointerdynamicfield" />
+				key="jsp.dspace-admin.hku.jdyna-configuration.newrppointerdynamicfield" />
+			</a></div>
+						<div style="padding: 0; margin: 0 10px;"><a
+				href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/createProjectPointerDynamicField.htm?boxId=${box.id}&tabId=${tabId}">
+			<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.newprojectpointerdynamicfield" />
+			</a></div>
+						<div style="padding: 0; margin: 0 10px;"><a
+				href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/createOUPointerDynamicField.htm?boxId=${box.id}&tabId=${tabId}">
+			<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.newoupointerdynamicfield" />
 			</a></div>
 		</c:if>
 

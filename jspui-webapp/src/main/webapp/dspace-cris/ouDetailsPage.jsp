@@ -233,8 +233,6 @@
 
 <dspace:layout titlekey="jsp.ou.details">
 
-<table align="center" class="miscTable">
-
 <div id="content">
 	<div id="cris-tabs-navigation">
 	<div class="internalmenu ui-helper-reset ui-widget ui-corner-all ui-widget-content">
@@ -255,7 +253,6 @@
 	 </div>
 <h1><fmt:message key="jsp.layout.ou.detail.title-first" /> ${entity.name}</h1>
 <div>&nbsp;</div>
-<table align="center" class="miscTable">
 	<c:if test="${!entity.status}">
 		<div class="warning">
 			<fmt:message key="jsp.layout.hku.detail.ou-disabled" />
@@ -266,17 +263,10 @@
 		</div>
 	</c:if>
 						
-	<tr>
-
-		<td>
-
 		<div id="researcher">
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 
-		</td>
-	</tr>
-</table>
 </div>
 </dspace:layout>
 </c:otherwise>

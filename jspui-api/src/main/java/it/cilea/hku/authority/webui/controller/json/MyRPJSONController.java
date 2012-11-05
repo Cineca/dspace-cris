@@ -15,8 +15,14 @@ import java.sql.SQLException;
 
 import flexjson.JSONSerializer;
 import it.cilea.hku.authority.model.ResearcherPage;
+import it.cilea.hku.authority.model.RestrictedField;
+import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
+import it.cilea.hku.authority.model.dynamicfield.RPProperty;
+import it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
+import it.cilea.osd.jdyna.model.AccessLevelConstants;
+import it.cilea.osd.jdyna.value.TextValue;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,26 +42,35 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
  * @author cilea
  * 
  */
-public class MyRPJSONController extends
-		MultiActionController {
+public class MyRPJSONController extends MultiActionController
+{
     /**
      * the applicationService for query the RP db, injected by Spring IoC
-     */   
+     */
     private ApplicationService applicationService;
-    
+
     public void setApplicationService(ApplicationService applicationService)
     {
         this.applicationService = applicationService;
     }
 
     public ModelAndView create(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+            HttpServletResponse response) throws Exception
+    {
         // authorization is checked by the getMyRP method
         ResearcherPage rp = getMyResearcherPage(request);
         if (rp == null)
         {
             rp = new ResearcherPage();
             rp.setEpersonID(getCurrentUser(request).getID());
+            RPPropertiesDefinition fN = applicationService
+                    .findPropertiesDefinitionByShortName(
+                            RPPropertiesDefinition.class, "fullName");
+            TextValue val = new TextValue();
+            val.setOggetto(getCurrentUser(request).getFullName());
+            RPProperty prop = rp.createProprieta(fN);
+            prop.setValue(val);
+            prop.setVisibility(1);
             applicationService.saveOrUpdate(ResearcherPage.class, rp);
         }
         returnStatusJSON(response, rp);
@@ -68,13 +83,14 @@ public class MyRPJSONController extends
         RPStatusInformation info = new RPStatusInformation();
         if (rp != null)
         {
-            info.setActive(rp.getStatus()!=null?rp.getStatus():false);
-            info.setUrl("/cris/" + rp.getPublicPath()+ "/" +ResearcherPageUtils.getPersistentIdentifier(rp));
+            info.setActive(rp.getStatus() != null ? rp.getStatus() : false);
+            info.setUrl("/cris/" + rp.getPublicPath() + "/"
+                    + ResearcherPageUtils.getPersistentIdentifier(rp));
         }
         JSONSerializer serializer = new JSONSerializer();
         serializer.rootName("myrp");
         serializer.exclude("class");
-        response.setContentType("application/json");       
+        response.setContentType("application/json");
         serializer.deepSerialize(info, response.getWriter());
     }
 
@@ -87,7 +103,7 @@ public class MyRPJSONController extends
             throw new ServletException(
                     "Wrong data or configuration: access to the my rp servlet without a valid user: there is no user logged in");
         }
-        
+
         int id = currUser.getID();
         ResearcherPage rp = applicationService.getResearcherPageByEPersonId(id);
         return rp;
@@ -98,38 +114,40 @@ public class MyRPJSONController extends
     {
         Context context = UIUtil.obtainContext(request);
         EPerson currUser = context.getCurrentUser();
-        context.abort();
         return currUser;
     }
 
     public ModelAndView activate(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+            HttpServletResponse response) throws Exception
+    {
         ResearcherPage rp = getMyResearcherPage(request);
         if (rp.getStatus() == null || rp.getStatus() == false)
         {
             rp.setStatus(true);
             applicationService.saveOrUpdate(ResearcherPage.class, rp);
         }
-        
+
         returnStatusJSON(response, rp);
         return null;
     }
 
     public ModelAndView hide(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+            HttpServletResponse response) throws Exception
+    {
         ResearcherPage rp = getMyResearcherPage(request);
         if (rp.getStatus() == null || rp.getStatus() == true)
         {
             rp.setStatus(false);
             applicationService.saveOrUpdate(ResearcherPage.class, rp);
         }
-        
+
         returnStatusJSON(response, rp);
         return null;
     }
-    
+
     public ModelAndView remove(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+            HttpServletResponse response) throws Exception
+    {
         ResearcherPage rp = getMyResearcherPage(request);
         if (rp != null)
         {
@@ -139,31 +157,38 @@ public class MyRPJSONController extends
         return null;
     }
 
-	public ModelAndView status(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-	    ResearcherPage rp = getMyResearcherPage(request);
+    public ModelAndView status(HttpServletRequest request,
+            HttpServletResponse response) throws Exception
+    {
+        ResearcherPage rp = getMyResearcherPage(request);
         returnStatusJSON(response, rp);
         return null;
-	}
-	
-	class RPStatusInformation {
-	    private boolean active;
-	    private String url;
+    }
+
+    class RPStatusInformation
+    {
+        private boolean active;
+
+        private String url;
+
         public boolean isActive()
         {
             return active;
         }
+
         public void setActive(boolean active)
         {
             this.active = active;
         }
+
         public String getUrl()
         {
             return url;
         }
+
         public void setUrl(String url)
         {
             this.url = url;
         }
-	}
+    }
 }

@@ -165,6 +165,7 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     public ResearcherPage()
     {
         this.dynamicField = new RPAdditionalFieldStorage();
+        this.dynamicField.setResearcherPage(this);
     }
 
     /**
@@ -196,14 +197,12 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
      */
     public String getFullName()
     {
-        String result = "";
         for (RPProperty property : this.getDynamicField().getAnagrafica4view()
                 .get("fullName"))
         {
-            result += property.getValue().getObject();
-            break;
+            return property.getValue().getObject().toString();
         }
-        return result;
+        return null;
     }
 
     /**

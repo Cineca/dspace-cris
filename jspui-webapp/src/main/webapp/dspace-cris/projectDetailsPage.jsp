@@ -252,9 +252,8 @@
 		</c:forEach>
 		</div>
 	 </div>
-<h1><fmt:message key="jsp.layout.project.detail.title-first" /> ${entity.sourceID}</h1>
+<h1><fmt:message key="jsp.layout.project.detail.title-first" /> ${entity.name}</h1>
 <div>&nbsp;</div>
-<table align="center" class="miscTable">
 	<c:if test="${!entity.status}">
 		<div class="warning">
 			<fmt:message key="jsp.layout.hku.detail.grant-disabled" />
@@ -265,17 +264,10 @@
 		</div>
 	</c:if>
 						
-	<tr>
-
-		<td>
-
 		<div id="researcher">
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 
-		</td>
-	</tr>
-</table>
 </div>
 
 </dspace:layout>

@@ -5,6 +5,7 @@ import it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.Containable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
+import it.cilea.osd.jdyna.value.PointerValue;
 import it.cilea.osd.jdyna.web.IPropertyHolder;
 import it.cilea.osd.jdyna.web.Tab;
 import it.cilea.osd.jdyna.widget.WidgetPointer;
@@ -15,19 +16,30 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-public class FormWidgetPointerDecoratorPDController<TP extends PropertiesDefinition, DTP extends ADecoratorPropertiesDefinition<TP>, H extends IPropertyHolder<Containable>, T extends Tab<H>, C extends ACrisObject>
+public class FormWidgetPointerDecoratorPDController<TP extends PropertiesDefinition, DTP extends ADecoratorPropertiesDefinition<TP>, 
+    H extends IPropertyHolder<Containable>, T extends Tab<H>, PV extends PointerValue<? extends ACrisObject>>
         extends FormDecoratorPropertiesDefinitionController<WidgetPointer, TP, DTP, H, T>
 {
 
-    private Class<C> crisModel;
+    private Class<PV> pValueClass;
     
     public FormWidgetPointerDecoratorPDController(Class<TP> targetModel,
-            Class<WidgetPointer> renderingModel, Class<H> boxModel, Class<C> crisModel)
+            Class<WidgetPointer> renderingModel, Class<H> boxModel, Class<PV> crisModel)
     {
         super(targetModel, renderingModel, boxModel);
-        this.crisModel = crisModel;
+        this.pValueClass = crisModel;
     }
 
+    @Override
+    protected DTP formBackingObject(HttpServletRequest request)
+            throws Exception
+    {
+        DTP tip = (DTP) super.formBackingObject(request);
+        ((WidgetPointer<PV>) tip.getObject().getRendering())
+                .setTarget(pValueClass.getCanonicalName());
+        return tip;
+    }
+    
     @Override
     protected ModelAndView onSubmit(HttpServletRequest request,
             HttpServletResponse response, Object command, BindException errors)
@@ -38,7 +50,6 @@ public class FormWidgetPointerDecoratorPDController<TP extends PropertiesDefinit
         String tabId = request.getParameter("tabId");
 
         DTP object = (DTP) command;
-        ((WidgetPointer)(object.getReal().getRendering())).setTarget(crisModel.getCanonicalName());
         getApplicationService().saveOrUpdate(object.getDecoratorClass(), object);
 
         if (boxId != null && !boxId.isEmpty())
