@@ -4,12 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
-<%@ page import="it.cilea.hku.authority.dspace.it.cilea.hku.authority.dspace.RPAuthority"%>
-<%@ page import="java.net.URL"%>
-<%@ page import="it.cilea.hku.authority.util.ResearcherPageUtils"%>
-<%@ page import="java.io.File"%>
-<%@ page import="org.dspace.core.ConfigurationManager"%>
-<%@ page import="org.dspace.browse.BrowseInfo"%>
+<%@ page import="it.cilea.hku.authority.dspace.RPAuthority"%>
+
 <%@ page import="org.dspace.app.webui.util.UIUtil" %>
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
@@ -314,7 +310,7 @@
 				<fmt:param>${pendingItems}</fmt:param>
 			</fmt:message> <fmt:message
 				key="jsp.layout.hku.detail.researcher-goto-pending-items">
-				<fmt:param><%=request.getContextPath()%>/dspace-admin/authority?authority=<%=RPAuthority.HKU_AUTHORITY_MODE%>&key=${authority_key}</fmt:param>
+				<fmt:param><%=request.getContextPath()%>/dspace-admin/authority?authority=<%=RPAuthority.RP_AUTHORITY_NAME%>&key=${authority_key}</fmt:param>
 			</fmt:message>
 		</p>	
 	</c:if>
