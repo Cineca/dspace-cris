@@ -14,6 +14,8 @@
     
     <!-- Acquires reference to Cris SearchService --> 
     <bean id="crisSearchService" factory-bean="researcher" factory-method="getCrisSearchService" />
+    
+    <bean id="rpComponents" factory-bean="researcher" factory-method="getRPComponents" />
 	
 	<bean id="sessionFactory" factory-bean="researcher" factory-method="getSessionFactory"/>
 	

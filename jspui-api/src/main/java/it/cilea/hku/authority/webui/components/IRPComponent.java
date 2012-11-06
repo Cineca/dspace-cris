@@ -20,6 +20,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface IRPComponent extends IComponent
 {
 
-  
 
 }

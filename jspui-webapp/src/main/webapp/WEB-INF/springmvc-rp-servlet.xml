@@ -155,7 +155,9 @@
 		</property>
 		<property name="specificPartPath">
 			<value>rp</value>
-		</property>	
+		</property>
+		<property name="components" ref="rpComponents"/>		
+		
 	</bean>
 	
 	<bean id="redirectDetailsResearcherController"
@@ -3465,15 +3467,8 @@
 		</property>				
 		<property name="detailsView">
 			<value>layout/navigation</value>
-		</property>		
-
-		<!-- 		<property name="components">
-			<map>
-				<entry key="dspaceitems">
-					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
-				</entry>				
-			</map>
-		</property>			 -->			
+		</property>
+		<property name="components" ref="rpComponents"/>		
 	</bean>
 	
 	<bean id="loadProjectNavigation" class="org.dspace.app.webui.cris.json.ProjectNavigationController">
@@ -3508,7 +3503,9 @@
 			<value>layout/navigation</value>
 		</property>		
 
-		<!-- 		<property name="components">
+		<!-- 		
+		
+		<property name="components">
 			<map>
 				<entry key="dspaceitems">
 					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />

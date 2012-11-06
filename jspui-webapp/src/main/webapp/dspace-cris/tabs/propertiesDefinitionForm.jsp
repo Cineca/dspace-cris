@@ -231,7 +231,7 @@
 					<c:when test="${propertiesdefinition.rendering.triview eq 'pointer'}">
 						<fieldset>
 						<legend><fmt:message key="jsp.dspace-admin.cris.jdyna.pointer.${propertiesdefinition.rendering.valoreClass.simpleName}" /></legend>
-						<dyna:textarea propertyPath="real.rendering.display"
+						<dyna:textarea toolbar="nessuna" propertyPath="real.rendering.display"
 							rows="4" cols="60"
 							labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.display" 
 							helpKey="help.jdyna.message.rendering.pointer.display"/>

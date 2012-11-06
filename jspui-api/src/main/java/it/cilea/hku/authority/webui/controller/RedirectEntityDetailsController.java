@@ -67,7 +67,7 @@ public class RedirectEntityDetailsController<T extends ACrisObject> extends
             }
         }
 
-        return new ModelAndView("redirect:"+ entity.getPublicPath() + ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(id)));     
+        return new ModelAndView("redirect:"+ ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(id)));     
     }
 
  
