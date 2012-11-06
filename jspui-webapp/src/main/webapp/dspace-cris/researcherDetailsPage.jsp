@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
-<%@ page import="it.cilea.hku.authority.dspace.HKUAuthority"%>
+<%@ page import="it.cilea.hku.authority.dspace.it.cilea.hku.authority.dspace.RPAuthority"%>
 <%@ page import="java.net.URL"%>
 <%@ page import="it.cilea.hku.authority.util.ResearcherPageUtils"%>
 <%@ page import="java.io.File"%>
@@ -33,7 +33,7 @@
 	</c:if>
 </c:forEach>
 <%
-	String subscribe = request.getParameter("subscribe");
+    String subscribe = request.getParameter("subscribe");
 	boolean showSubMsg = false;
 	boolean showUnSubMsg = false;
 	if (subscribe != null && subscribe.equalsIgnoreCase("true"))
@@ -55,9 +55,8 @@
     {
         currentPage = currentPage.substring( 0, c );
     }
-
 %>
-<c:set var="admin" scope="request"><%= isAdmin %></c:set>
+<c:set var="admin" scope="request"><%=isAdmin%></c:set>
 <c:set var="dspace.cris.navbar" scope="request">
 
 
@@ -73,7 +72,7 @@
   <c:if test="${!empty addModeType && addModeType=='display'}">
   <tr class="navigationBarItem">
     <td>
-      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/editDynamicData" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+      <img alt="" src="<%=request.getContextPath()%>/image/<%=( currentPage.endsWith( "/editDynamicData" ) ? "arrow-highlight" : "arrow" )%>.gif" width="16" height="16"/>
     </td>
     <td nowrap="nowrap" class="navigationBarItem">
       <a href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
@@ -82,7 +81,7 @@
   </c:if>
    <tr class="navigationBarItem">
     <td>
-      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/rebindItemsToRP" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+      <img alt="" src="<%=request.getContextPath()%>/image/<%=( currentPage.endsWith( "/rebindItemsToRP" ) ? "arrow-highlight" : "arrow" )%>.gif" width="16" height="16"/>
     </td>
     <td nowrap="nowrap" class="navigationBarItem">
       <a href="<%= request.getContextPath() %>/cris/tools/rp/rebindItemsToRP.htm?id=${researcher.id}"><fmt:message key="jsp.layout.navbar-hku.staff-mode.bind.items"/></a>
@@ -90,15 +89,17 @@
   </tr>
    <tr class="navigationBarItem">
     <td>
-      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/help#ResearcherPages" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
+      <img alt="" src="<%=request.getContextPath()%>/image/<%=( currentPage.endsWith( "/help#ResearcherPages" ) ? "arrow-highlight" : "arrow" )%>.gif" width="16" height="16"/>
     </td>
     <td nowrap="nowrap" class="navigationBarItem">
-      <a href="<%= request.getContextPath() %>/help.jsp#ResearcherPages">Help</a>
+      <a href="<%=request.getContextPath()%>/help.jsp#ResearcherPages">Help</a>
     </td>
   </tr>
   </c:if>
   
-  <% if (isAdmin) { %>
+  <%
+        if (isAdmin) {
+    %>
   <tr> 
   <td colspan="2">
 	<c:if test="${!empty researcher}">
@@ -117,7 +118,9 @@
 	</c:if>
 	</td>
   </tr>
-<% } %>
+<%
+    }
+%>
 </c:set>
 <c:set var="dspace.layout.head.last" scope="request">
     <script type="text/javascript"><!--
@@ -311,7 +314,7 @@
 				<fmt:param>${pendingItems}</fmt:param>
 			</fmt:message> <fmt:message
 				key="jsp.layout.hku.detail.researcher-goto-pending-items">
-				<fmt:param><%=request.getContextPath()%>/dspace-admin/authority?authority=<%=HKUAuthority.HKU_AUTHORITY_MODE%>&key=${authority_key}</fmt:param>
+				<fmt:param><%=request.getContextPath()%>/dspace-admin/authority?authority=<%=RPAuthority.HKU_AUTHORITY_MODE%>&key=${authority_key}</fmt:param>
 			</fmt:message>
 		</p>	
 	</c:if>

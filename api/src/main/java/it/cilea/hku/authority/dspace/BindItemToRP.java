@@ -142,7 +142,7 @@ public class BindItemToRP
                 {
                     choicesPlugin = choicesPlugin.trim();
                 }
-                if ((HKUAuthority.HKU_AUTHORITY_MODE.equals(choicesPlugin)))
+                if ((RPAuthority.RP_AUTHORITY_NAME.equals(choicesPlugin)))
                 {
                     fieldsWithAuthoritySupport.add(field);
                 }

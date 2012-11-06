@@ -32,6 +32,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
+import org.dspace.discovery.DiscoverResult;
 import org.dspace.discovery.SearchServiceException;
 import org.dspace.discovery.SearchUtils;
 import org.dspace.discovery.SolrServiceImpl;
@@ -140,7 +141,7 @@ public class CrisSearchService extends SolrServiceImpl
             return super.findDSpaceObject(context, doc);
         }
     }
-
+    
     public <P extends Property<TP>, TP extends PropertiesDefinition> void indexCrisObject(
             ACrisObject<P, TP> dso, boolean b)
     {

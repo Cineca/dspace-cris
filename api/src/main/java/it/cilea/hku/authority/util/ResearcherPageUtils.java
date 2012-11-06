@@ -106,11 +106,15 @@ public class ResearcherPageUtils
     {
         if (alternativeName.equals(rp.getFullName()))
         {
-            return rp.getFullName() + " " + rp.getTranslatedName().getValue();
+            return rp.getFullName() + 
+                    (rp.getTranslatedName() != null
+                        && rp.getTranslatedName().getVisibility() == VisibilityConstants.PUBLIC ? 
+                                " " + rp.getTranslatedName().getValue()
+                                : "");
         }
         else
         {
-            return alternativeName + " See \"" + rp.getFullName();
+            return alternativeName + " See \"" + rp.getFullName()+"\"";
         }
     }
 

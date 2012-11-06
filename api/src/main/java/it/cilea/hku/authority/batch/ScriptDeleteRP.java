@@ -10,7 +10,7 @@
  */
 package it.cilea.hku.authority.batch;
 
-import it.cilea.hku.authority.dspace.HKUAuthority;
+import it.cilea.hku.authority.dspace.RPAuthority;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
@@ -236,7 +236,7 @@ public class ScriptDeleteRP
             {
                 choicesPlugin = choicesPlugin.trim();
             }
-            if ((HKUAuthority.HKU_AUTHORITY_MODE.equals(choicesPlugin)))
+            if ((RPAuthority.RP_AUTHORITY_NAME.equals(choicesPlugin)))
             {
                 fieldsWithAuthoritySupport.add(field);
             }

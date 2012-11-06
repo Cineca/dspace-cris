@@ -10,7 +10,7 @@
  */
 package it.cilea.hku.authority.webui.controller;
 
-import it.cilea.hku.authority.dspace.HKUAuthority;
+import it.cilea.hku.authority.dspace.RPAuthority;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
 import it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage;
@@ -166,7 +166,7 @@ public class ResearcherPageDetailsController
                 AuthorityDAO dao = AuthorityDAOFactory.getInstance(context);
                 long pendingItems = dao
                         .countIssuedItemsByAuthorityValueInAuthority(
-                                HKUAuthority.HKU_AUTHORITY_MODE,
+                                RPAuthority.RP_AUTHORITY_NAME,
                                 ResearcherPageUtils
                                         .getPersistentIdentifier(researcher));
                 model.put("pendingItems", new Long(pendingItems));

@@ -111,14 +111,12 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
 
     public String getTitle()
     {
-        String result = "";
         for (ProjectProperty title : this.getDynamicField()
-                .getAnagrafica4view().get("projecttitle"))
+                .getAnagrafica4view().get("title"))
         {
-            result += title.getValue().getObject();
-            result += " ";
+            return title.toString();
         }
-        return result;
+        return null;
     }
 
     public String getYear()
