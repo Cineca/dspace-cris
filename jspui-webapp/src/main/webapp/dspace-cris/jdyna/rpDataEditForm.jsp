@@ -445,7 +445,7 @@
 							<%!public URL fileURL;%>
 
 							<c:set var="urljspcustom"
-								value="/authority/jdyna/custom/edit${holder.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/edit${holder.shortName}.jsp" scope="request" />
 								
 							<%
 								String filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");

@@ -11,7 +11,11 @@
 package it.cilea.hku.authority.util;
 
 import it.cilea.hku.authority.discovery.CrisSearchService;
+import it.cilea.hku.authority.dspace.CrisComponentsService;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.osd.jdyna.components.IComponent;
+
+import java.util.Map;
 
 import org.dspace.utils.DSpace;
 import org.hibernate.SessionFactory;
@@ -30,6 +34,10 @@ public class Researcher
     public CrisSearchService getCrisSearchService() {
         return dspace.getServiceManager().getServiceByName(
                 "org.dspace.discovery.SearchService", CrisSearchService.class);
+    }
+    
+    public Map<String, IComponent> getRPComponents() {
+        return dspace.getServiceManager().getServiceByName("rpComponentsService", CrisComponentsService.class).getComponents();
     }
  
     public SessionFactory getSessionFactory()

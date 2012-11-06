@@ -27,7 +27,7 @@
 							<%!public URL fileURL;%>
 
 							<c:set var="urljspcustom"
-								value="/authority/jdyna/custom/${holder.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/${holder.shortName}.jsp" scope="request" />
 								
 							<%
 								String filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");
@@ -35,13 +35,14 @@
 										fileURL = pageContext.getServletContext().getResource(
 												filePath);
 							%>
-<div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
-  <h3><a href="#">${holder.title}</a></h3>
-  <div>
-    <p>
 							<%
 								if (fileURL == null) {
 							%>
+							<div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
+								  <h3><a href="#">${holder.title}</a></h3>
+								  <div>
+								  <p>
+			
 
 									<c:set var="hideLabel">${fn:length(propertiesDefinitionsInHolder[holder.shortName]) le 1}</c:set>
 									<c:forEach
@@ -78,6 +79,10 @@
 
 										</c:if>
 									</c:forEach>
+									
+										</p>
+									</div>	
+								</div>
 							<%
 								} else {
 							%>
@@ -96,8 +101,6 @@
 
 
 						</c:if>
-				</p>
-		</div>	
-</div>
+			
 					</c:forEach>
 	</div>

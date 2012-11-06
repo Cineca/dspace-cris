@@ -217,8 +217,10 @@ public class OUDetailsController
         // first /
         String[] splitted = path.split("/");
         request.setAttribute("authority", splitted[1]);
+        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]);
+        request.setAttribute("entityID", id);
         return ((ApplicationService) applicationService).get(OrganizationUnit.class,
-                ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]));
+                id);
 
     }
 }

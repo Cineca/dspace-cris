@@ -27,7 +27,10 @@ import it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.RPProperty;
 import it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.Researcher;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
+import it.cilea.osd.jdyna.components.IBeanComponent;
+import it.cilea.osd.jdyna.components.IComponent;
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ADecoratorTypeDefinition;
 import it.cilea.osd.jdyna.model.ANestedObject;
@@ -48,6 +51,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -200,27 +204,55 @@ public class ResearcherTagLibraryFunctions
             throws IllegalArgumentException, IllegalAccessException,
             InvocationTargetException
     {
-        if(anagrafica instanceof Project) {
-            BoxProject box = applicationService.getBoxByShortName(BoxProject.class,
-                boxName);
-            return isBoxHidden((Project)anagrafica, box);
+        if (anagrafica instanceof Project)
+        {
+            BoxProject box = applicationService.getBoxByShortName(
+                    BoxProject.class, boxName);
+            return isBoxHidden((Project) anagrafica, box);
         }
-        if(anagrafica instanceof OrganizationUnit) {
-            BoxOrganizationUnit box = applicationService.getBoxByShortName(BoxOrganizationUnit.class,
-                boxName);
-            return isBoxHidden((OrganizationUnit)anagrafica, box);
-        }        
+        if (anagrafica instanceof OrganizationUnit)
+        {
+            BoxOrganizationUnit box = applicationService.getBoxByShortName(
+                    BoxOrganizationUnit.class, boxName);
+            return isBoxHidden((OrganizationUnit) anagrafica, box);
+        }
         BoxResearcherPage box = applicationService.getBoxByShortName(
                 BoxResearcherPage.class, boxName);
 
-        return isBoxHidden((ResearcherPage)anagrafica, box);
-
+        return isBoxHidden((ResearcherPage) anagrafica, box);
 
     }
 
     public static boolean isBoxHidden(ResearcherPage anagrafica,
             BoxResearcherPage box)
     {
+
+        Researcher researcher = new Researcher();
+
+        Map<String, IComponent> rpComponent = researcher.getRPComponents();
+        if (rpComponent != null && !rpComponent.isEmpty())
+        {
+            for (String key : rpComponent.keySet())
+            {
+                                
+                if (box.getShortName().equals(key))
+                {
+                    IComponent component = rpComponent.get(key);
+                    Map<String, IBeanComponent> comp = component.getTypes();
+
+                    for (String compp : comp.keySet())
+                    {
+                        if (component.count(comp.get(compp)
+                                .getComponentIdentifier(), anagrafica.getId()) > 0)
+                        {
+                            return false;
+                        }
+                    }
+
+                }
+            }
+
+        }
         return isBoxHiddenInternal(anagrafica.getDynamicField(), box)
                 && isBoxHiddenWithStructural(anagrafica, box);
     }
@@ -229,8 +261,9 @@ public class ResearcherTagLibraryFunctions
     {
         return isBoxHiddenInternal(anagrafica, box);
     }
-    
-    public static boolean isBoxHidden(OrganizationUnit anagrafica, BoxOrganizationUnit box)
+
+    public static boolean isBoxHidden(OrganizationUnit anagrafica,
+            BoxOrganizationUnit box)
     {
         return isBoxHiddenInternal(anagrafica, box);
     }
@@ -324,7 +357,8 @@ public class ResearcherTagLibraryFunctions
             if (cont instanceof ADecoratorTypeDefinition)
             {
                 ADecoratorTypeDefinition decorator = (ADecoratorTypeDefinition) cont;
-                ATypeNestedObject<ANestedPropertiesDefinition> real = ((ATypeNestedObject<ANestedPropertiesDefinition>)decorator.getReal());
+                ATypeNestedObject<ANestedPropertiesDefinition> real = ((ATypeNestedObject<ANestedPropertiesDefinition>) decorator
+                        .getReal());
                 List<ANestedObject> results = applicationService
                         .getNestedObjectsByParentIDAndTypoID(Integer
                                 .parseInt(anagrafica.getIdentifyingValue()),
@@ -332,8 +366,7 @@ public class ResearcherTagLibraryFunctions
                 boolean resultPiece = true;
                 for (ANestedObject object : results)
                 {
-                    for (ANestedPropertiesDefinition rpp : real
-                            .getMask())
+                    for (ANestedPropertiesDefinition rpp : real.getMask())
                     {
                         resultPiece = checkDynamicVisibility(object,
                                 rpp.getShortName(), rpp.getRendering(), rpp);
@@ -357,7 +390,7 @@ public class ResearcherTagLibraryFunctions
                     return false;
                 }
             }
-         
+
         }
 
         return result;
@@ -428,41 +461,37 @@ public class ResearcherTagLibraryFunctions
 
         for (IContainable cont : containables)
         {
-            
 
             if (cont instanceof DecoratorRPTypeNested)
             {
                 DecoratorRPTypeNested decorator = (DecoratorRPTypeNested) cont;
-                RPTypeNestedObject real = (RPTypeNestedObject)decorator.getReal();
+                RPTypeNestedObject real = (RPTypeNestedObject) decorator
+                        .getReal();
                 List<RPNestedObject> results = applicationService
                         .getNestedObjectsByParentIDAndTypoID(Integer
                                 .parseInt(anagrafica.getIdentifyingValue()),
                                 (real.getId()), RPNestedObject.class);
-                
+
                 external: for (RPNestedObject object : results)
                 {
-                    for (RPNestedPropertiesDefinition rpp : real
-                            .getMask())
-                    {                   
-                        
-                        
-                            for (RPNestedProperty p : object.getAnagrafica4view().get(rpp.getShortName()))
-                            {
-                                if (p.getVisibility() == 1)
-                                {
-                                    result++;
-                                    break external;
-                                }
-                            } 
+                    for (RPNestedPropertiesDefinition rpp : real.getMask())
+                    {
 
-                        
-                        
+                        for (RPNestedProperty p : object.getAnagrafica4view()
+                                .get(rpp.getShortName()))
+                        {
+                            if (p.getVisibility() == 1)
+                            {
+                                result++;
+                                break external;
+                            }
+                        }
+
                     }
                 }
 
             }
 
-             
             if (cont instanceof DecoratorRPPropertiesDefinition)
             {
                 DecoratorRPPropertiesDefinition decorator = (DecoratorRPPropertiesDefinition) cont;

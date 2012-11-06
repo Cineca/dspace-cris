@@ -21,6 +21,7 @@ import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.service.ExtendedTabService;
 import it.cilea.hku.authority.service.RPSubscribeService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
+import it.cilea.osd.jdyna.components.IBeanComponent;
 import it.cilea.osd.jdyna.components.IComponent;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
@@ -72,16 +73,7 @@ public class ResearcherPageDetailsController
             throws InstantiationException, IllegalAccessException
     {
         super(anagraficaObjectClass, classTP, classT, classH);
-        publistFilters = new ArrayList<String>();
-        String[] typesConf = ConfigurationManager.getProperty(
-                "researcherpage.publicationlist.menu").split(",");
-        for (String type : typesConf)
-        {
-            publistFilters.add(type.trim());
-        }
     }
-
-    private List<String> publistFilters;
 
     /** log4j category */
     private static Logger log = Logger
@@ -155,7 +147,8 @@ public class ResearcherPageDetailsController
         }
 
         if (isAdmin
-                || (currUser != null && (researcher.getEpersonID()!=null && currUser.getID()!=researcher.getEpersonID())))
+                || (currUser != null && (researcher.getEpersonID() != null && currUser
+                        .getID() != researcher.getEpersonID())))
         {
             model.put("researcher_page_menu", new Boolean(true));
             model.put("authority_key",
@@ -179,12 +172,14 @@ public class ResearcherPageDetailsController
             model.put("subscribed", subscribed);
         }
 
-        ModelAndView mvc = null; 
-        
-        try {
+        ModelAndView mvc = null;
+
+        try
+        {
             mvc = super.handleDetails(request, response);
         }
-        catch(RuntimeException e) {
+        catch (RuntimeException e)
+        {
             log.error(e.getMessage(), e);
             return null;
         }
@@ -193,8 +188,10 @@ public class ResearcherPageDetailsController
         mvc.getModel().put("researcher", researcher);
         mvc.getModel().put("exportscitations",
                 ConfigurationManager.getProperty("exportcitation.options"));
-        mvc.getModel().put("showStatsOnlyAdmin", ConfigurationManager
-                .getBooleanProperty("statistics.item.authorization.admin"));
+        mvc.getModel()
+                .put("showStatsOnlyAdmin",
+                        ConfigurationManager
+                                .getBooleanProperty("statistics.item.authorization.admin"));
 
         return mvc;
     }
@@ -223,8 +220,7 @@ public class ResearcherPageDetailsController
         {
             isAdmin = true; // admin
         }
-        else if ((currUser != null && researcher.getId()==
-                currUser.getID()))
+        else if ((currUser != null && researcher.getId() == currUser.getID()))
         {
             isAdmin = false; // owner
         }
@@ -270,7 +266,9 @@ public class ResearcherPageDetailsController
         String path = request.getPathInfo().substring(1); // remove first /
         String[] splitted = path.split("/");
         request.setAttribute("authority", splitted[1]);
-        return ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]);
+        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]);
+        request.setAttribute("entityID", id);
+        return id;
     }
 
     private String extractTabName(HttpServletRequest request)
@@ -289,26 +287,37 @@ public class ResearcherPageDetailsController
     protected String extractAnchorId(HttpServletRequest request)
     {
         String type = request.getParameter("open");
-        if (publistFilters.contains(type))
+        if (type != null && !type.isEmpty())
         {
-            return "dspaceitems";
-        }
-        else
-        {
-            if (type != null && !type.isEmpty())
+
+            if (getComponents() != null && !getComponents().isEmpty())
             {
-                return type;
+                for (String key : getComponents().keySet())
+                {
+                    IComponent component = getComponents().get(key);
+                    Map<String, IBeanComponent> comp = component.getTypes();
+
+                    if (comp.containsKey(type))
+                    {
+                        return key;
+                    }
+                }
             }
+
+            return type;
         }
+
         return "";
     }
 
     @Override
     protected void sendRedirect(HttpServletRequest request,
-            HttpServletResponse response, Exception ex, String objectId) throws IOException, ServletException
+            HttpServletResponse response, Exception ex, String objectId)
+            throws IOException, ServletException
     {
-        JSPManager.showAuthorizeError(request, response, new AuthorizeException(ex.getMessage()));
-        //response.sendRedirect("/cris/rp/" + objectId);
+        JSPManager.showAuthorizeError(request, response,
+                new AuthorizeException(ex.getMessage()));
+        // response.sendRedirect("/cris/rp/" + objectId);
     }
 
 }

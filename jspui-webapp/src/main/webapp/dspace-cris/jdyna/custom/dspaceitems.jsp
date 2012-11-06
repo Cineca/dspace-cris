@@ -8,42 +8,44 @@
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.Set" %>
 <%@page import="org.dspace.eperson.EPerson"%>
+<%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="jdynatags" prefix="dyna"%>
-<%@ taglib uri="researchertags" prefix="researcher"%>
+
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="researcher" value="${researcher}" scope="request" />
 
 <%
 	EPerson user = (EPerson) request.getAttribute("dspace.current.user");
-	String order = (String)request.getAttribute("order");
-	String type = (String)request.getAttribute("type");
-	SortOption so = (SortOption)request.getAttribute("sortedBy");
-	String sortedBy = (so == null) ? null : so.getName();
-	Item      [] items       = (Item[])request.getAttribute("items");
-	int pageTotal   = ((Integer)request.getAttribute("pagetotal"  )).intValue();
-	int pageCurrent = ((Integer)request.getAttribute("pagecurrent")).intValue();
-	int pageLast    = ((Integer)request.getAttribute("pagelast"   )).intValue();
-	int pageFirst   = ((Integer)request.getAttribute("pagefirst"  )).intValue();
-	int rpp         = ((Integer)request.getAttribute("rpp"  )).intValue();
-	int etAl        = ((Integer)request.getAttribute("etAl"  )).intValue();
-	int total		= ((Long)request.getAttribute("total"  )).intValue();
-	int start		= ((Integer)request.getAttribute("start"  )).intValue();
+	String orderpublicationlist = (String)request.getAttribute("orderpublicationlist");
+	String typepublicationlist = (String)request.getAttribute("typepublicationlist");
+	SortOption sopublicationlist = (SortOption)request.getAttribute("sortedBypublicationlist");
+	String sortedBypublicationlist = (sopublicationlist == null) ? null : sopublicationlist.getName();
+	Item[] itemspublicationlist   = (Item[])request.getAttribute("itemspublicationlist");	
+	int pagetotalpublicationlist   = ((Integer)request.getAttribute("pagetotalpublicationlist"  )).intValue();
+	int pagecurrentpublicationlist = ((Integer)request.getAttribute("pagecurrentpublicationlist")).intValue();
+	int pagelastpublicationlist    = ((Integer)request.getAttribute("pagelastpublicationlist"   )).intValue();
+	int pagefirstpublicationlist   = ((Integer)request.getAttribute("pagefirstpublicationlist"  )).intValue();
+	int rpppublicationlist         = ((Integer)request.getAttribute("rpppublicationlist"  )).intValue();
+	int etAlpublicationlist        = ((Integer)request.getAttribute("etAlpublicationlist"  )).intValue();
+	int totalpublicationlist		= ((Long)request.getAttribute("totalpublicationlist"  )).intValue();
+	int startpublicationlist		= ((Integer)request.getAttribute("startpublicationlist"  )).intValue();
 
-	if (items.length > 0) {
+	if (itemspublicationlist.length > 0) {
 %>
 
-<div id="${holder.shortName}" class="showMoreLessBox box">
-	<h2 class="showMoreLessControlElement control expanded">
-		<img src="<%=request.getContextPath() %>/image/cris/btn_lite_expand.gif" class="hide" />
-		<img src="<%=request.getContextPath() %>/image/cris/btn_lite_collapse.gif" />
-			<fmt:message key="jsp.layout.hku.detail.fieldset-legend.itemhub.${type}">
-				<fmt:param>${researcher.academicName.value}</fmt:param>
-			</fmt:message>
-	</h2>
-<div class="collapsable expanded-content" ${holder.collapsed?"style=\"display: none;\"":""}>
+	
+<div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
+	<h3>
+		<a href="#"><fmt:message
+				key="jsp.layout.dspace.detail.fieldset-legend.component.${typepublicationlist}">
+				<fmt:param>${researcher.preferredName.value}</fmt:param>
+			</fmt:message> </a>
+	</h3>
+<div>
+	<p>
 
 
 <!-- prepare pagination controls -->
@@ -53,46 +55,46 @@
 	sb.append("<tr><td align=\"center\" class=\"menuBar\">");
 	sb.append("Result pages:");
 	
-    String prevURL =  "?open=" + type
-                    + "&amp;sort_by=" + (so != null ? so.getNumber() : 0)
-                    + "&amp;order=" + order
-                    + "&amp;rpp=" + rpp
-                    + "&amp;etal=" + etAl
+    String prevURL =  "?open=" + typepublicationlist
+                    + "&amp;sort_by=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
+                    + "&amp;order=" + orderpublicationlist
+                    + "&amp;rpp=" + rpppublicationlist
+                    + "&amp;etal=" + etAlpublicationlist
                     + "&amp;start=";
 
     String nextURL = prevURL;
 
     prevURL = prevURL
-            + (pageCurrent-2) * rpp;
+            + (pagecurrentpublicationlist-2) * rpppublicationlist;
 
     nextURL = nextURL
-            + (pageCurrent) * rpp;
+            + (pagecurrentpublicationlist) * rpppublicationlist;
 
 
-if (pageFirst != pageCurrent) {
+if (pagefirstpublicationlist != pagecurrentpublicationlist) {
   sb.append(" <a class=\"pagination\" href=\"");
   sb.append(prevURL);
   sb.append("\">previous</a>");
 };
 
-for( int q = pageFirst; q <= pageLast; q++ )
+for( int q = pagefirstpublicationlist; q <= pagelastpublicationlist; q++ )
 {
     String myLink = "<a class='pagination' href=\""
-    				+ "?open=" + type
-                    + "&amp;sort_by=" + (so != null ? so.getNumber() : 0)
-                    + "&amp;order=" + order
-                    + "&amp;rpp=" + rpp
-                    + "&amp;etal=" + etAl
+    				+ "?open=" + typepublicationlist
+                    + "&amp;sort_by=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
+                    + "&amp;order=" + orderpublicationlist
+                    + "&amp;rpp=" + rpppublicationlist
+                    + "&amp;etal=" + etAlpublicationlist
                     + "&amp;start=";
 
-    if( q == pageCurrent )
+    if( q == pagecurrentpublicationlist )
     {
         myLink = "" + q;
     }
     else
     {
         myLink = myLink
-            + (q-1) * rpp
+            + (q-1) * rpppublicationlist
             + "\">"
             + q
             + "</a>";
@@ -100,7 +102,7 @@ for( int q = pageFirst; q <= pageLast; q++ )
     sb.append(" " + myLink);
 } // for
 
-if (pageTotal > pageCurrent) {
+if (pagetotalpublicationlist > pagecurrentpublicationlist) {
   sb.append(" <a class=\"pagination\" href=\"");
   sb.append(nextURL);
   sb.append("\">next</a>");
@@ -115,14 +117,14 @@ sb.append("</td></tr>");
 		<td width="100%" colspan="3">
 
 	<p align="center"><fmt:message key="jsp.search.results.results">
-        <fmt:param><%=start+1%></fmt:param>
-        <fmt:param><%=start+items.length%></fmt:param>
-        <fmt:param><%=total%></fmt:param>
+        <fmt:param><%=startpublicationlist+1%></fmt:param>
+        <fmt:param><%=startpublicationlist+itemspublicationlist.length%></fmt:param>
+        <fmt:param><%=totalpublicationlist%></fmt:param>
     </fmt:message></p>
 
 </td></tr>
 <%
-if (pageTotal > 1)
+if (pagetotalpublicationlist > 1)
 {
 %>
 <%= sb %>
@@ -130,7 +132,7 @@ if (pageTotal > 1)
 	}
 %>
 <tr><td>
-<form id="sortform" action="#<%= type %>" method="get">
+<form id="sortform" action="#<%= typepublicationlist %>" method="get">
 <input id="sort_by" type="hidden" name="sort_by"
 <%
 			Set<SortOption> sortOptions = SortOption.getSortOptions();
@@ -140,25 +142,24 @@ if (pageTotal > 1)
                {
                    if (sortBy.isVisible())
                    {
-                       String selected = (sortBy.getName().equals(sortedBy) ? "value=\""+ sortBy.getName()+"\"" : "");
+                       String selected = (sortBy.getName().equals(sortedBypublicationlist) ? "value=\""+ sortBy.getName()+"\"" : "");
                    }
                }
 			}
 %>
 />
 
-           <input id="order" type="hidden" name="order" value="<%= order %>" />
-		   <input type="hidden" name="open" value="<%= type %>" />
+           <input id="order" type="hidden" name="order" value="<%= orderpublicationlist %>" />
+		   <input type="hidden" name="open" value="<%= typepublicationlist %>" />
 </form>
 			
-<researcher:itemlist items="<%= items %>" sortOption="<%= so %>" order="<%= order.toUpperCase() %>" 
-	authorLimit="<%= etAl %>" itemStart="1"/>
+<dspace:itemlist items="<%= itemspublicationlist %>" sortOption="<%= sopublicationlist %>" authorLimit="<%= etAlpublicationlist %>" />
 
 			
 </td></tr>
 <%-- show pagniation controls at bottom --%>
 <%
-	if (pageTotal > 1)
+	if (pagetotalpublicationlist > 1)
 	{
 %>
 <%= sb %>
@@ -167,140 +168,8 @@ if (pageTotal > 1)
 %>
 </table>
 
-
+</p>
+</div>
 </div>
 
-<p></p>
-
-<div class="showMoreLessBox box" style="border: 1px solid gray; padding: 5px; margin:5px;">
-<form class="citationExportBottom" action="<%= request.getContextPath() %>/references/${authority}"
-	method="post">
-
-
-<table cellspacing="0" cellpadding="10">
-	<tbody>
-		<tr>
-			<td class="columnBody" colspan="6"><strong><fmt:message key="jsp.exportcitations.box.label"/></strong></td>
-		</tr>
-		<tr>
-			<td width="10"><img src="<%= request.getContextPath() %>/image/spacer.gif"></td>
-			<td nowrap="nowrap" valign="top" class="columnBody">
-			<div id="material" class="columnHead"><u><fmt:message key="jsp.exportcitations.box.selectmaterial"/></u></div>
-
-
-			
-				<c:forEach var="snav" items="${sublinktoexport}">
-					<input type="checkbox" value="${snav[0]}" name="recordtype" />
-                                ${snav[1]}<br />
-
-				</c:forEach>
-			
-			</td>		
-		
-		
-		
-			<td class="columnSeparator"><img height="50" border="1" width="1" src="<%= request.getContextPath() %>/image/spacer.gif"></td>
-			<td nowrap="nowrap" valign="top" class="columnBody">
-			<div class="columnHead"><u><fmt:message key="jsp.exportcitations.box.selectcontent"/></u></div>
-			<input type="radio" checked="checked" value="false" id="citation"
-				name="fulltext"> <fmt:message key="jsp.exportcitations.box.selectcontent.citationonly"/><br>
-			<input <% if(user==null) { %> disabled="disabled" <% } %>	type="radio" value="true" id="fulltext"
-				name="fulltext"> <fmt:message key="jsp.exportcitations.box.selectcontent.citationfulltext"/><br>
-			<% if(user==null) { %> <span style="font-size: small;"> <fmt:message key="jsp.exportcitations.box.messagelogin"/> </span> <% } %>
-			</td>
-			<td class="columnSeparator"><img height="50" border="1" width="1" src="../../image/spacer.gif"></td>
-			<td valign="top" class="columnBody">
-			<div class="columnHead"><u><fmt:message key="jsp.exportcitations.box.selectmode"/></u></div>
-			<br />
-			<div class="columnBody">
-			<select name="format">
-				<c:forEach items="${exportscitations}" var="citation">
-					<option value="${citation}"><fmt:message
-						key="exportcitation.option.${citation}"></fmt:message></option>
-				</c:forEach>
-			</select> <br />
-				&nbsp;&nbsp;&nbsp;
-										
-				<% if(user!=null) {%>
-				<input border="0" align="absmiddle" type="image"
-				title="E-mail the selected records" src="<%= request.getContextPath() %>/image/email.png"
-				name="submitemail" id="submitemail"/> 
-				
-				&nbsp;&nbsp;&nbsp;
-				<% } %>	
-				
-				<input
-				border="0" align="absmiddle" type="image"
-				title="Save the selected records" src="<%= request.getContextPath() %>/image/disk.png" 
-				name="submitsave" id="submitsave"/></div>
-				
-				<input type="hidden" name="email" id="email" value="false"/>
-				
-				
-			</td>
-		
-			
-		</tr>
-		<tr>
-		<td width="10"><img src="<%= request.getContextPath() %>/image/spacer.gif"></td>
-		</tr>
-	</tbody>
-</table>
-	
-</form>
-
-
-</div>
-<br/>
-<span id="message" style="display:none; font-size: small; font: red;"> Select a material type, please.</span>
 <% } %>
-
-<script type="text/javascript"><!--
-
-		var j = jQuery.noConflict();
-		j(document).ready(function()
-		{
-		var opt = {};
-	  	j("#submitemail").click(function() {
-	  		j("#email").val("true");
-	  		if(j("input[name='recordtype']").is(':checked')) {
-	  			j(this).submit();
-	  		}		    
-	  		else {
-	  			j("#message").show();
-	  				  			 	  			
-	  			return false;
-	  		}
-		});
-	  	j("#submitsave").click(function() {
-	  		j("#email").val("false");
-	  		if(j("input[name='recordtype']").is(':checked')) {
-	  			j(this).submit();
-	  		}		    
-	  		else {
-	  			j("#message").show();
-	  			 	  			
-	  			return false;
-	  		} 
-		});
-		
-    	  j("#fulltext").click(function()
-		  {
-			  j("#submitsave").hide();
-			  
-			  
-		  });
-		  j("#citation").click(function()
-		  {
-			  j("#submitsave").show();
-			  
-					  
-		  });
-
-		  j("input[name='recordtype']").click(function() {
-			  j("#message").hide();
-		  });
-
-});
--->
-</script>

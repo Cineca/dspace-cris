@@ -217,8 +217,9 @@ public class ProjectDetailsController
         // first /
         String[] splitted = path.split("/");
         request.setAttribute("authority", splitted[1]);
-        return ((ApplicationService) applicationService).get(Project.class,
-                ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]));
+        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]);
+        request.setAttribute("entityID", id);
+        return ((ApplicationService) applicationService).get(Project.class,id);
 
     }
 }
