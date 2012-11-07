@@ -90,12 +90,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         String type = getType(request);
         List<String[]> activeTypes = addActiveTypeInRequest(request);
 
-        int start = UIUtil.getIntParameter(request, "start");
-        // can't start earlier than 0 in the results!
-        if (start < 0)
-        {
-            start = 0;
-        }
+        int start = 0;
 
         int sortBy = -1;
         String order = "";
@@ -110,11 +105,17 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         
         if (types.keySet().contains(type))
         {
+            start = UIUtil.getIntParameter(request, "start" + getTypes().get(type).getComponentIdentifier());
+            // can't start earlier than 0 in the results!
+            if (start < 0)
+            {
+                start = 0;
+            }
             sortBy = getSortBy(request, type);
             order = getOrder(request, type);
             rpp = getRPP(request, type);
             etAl = getEtAl(request, type);
-            orderfield = sortBy != -1 ? "sort_" + sortBy : null;
+            orderfield = sortBy != -1 ? "bi_sort_" + sortBy +"_sort": null;
             ascending = SortOption.ASCENDING.equalsIgnoreCase(order);
 
             // Perform the search
@@ -134,7 +135,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
             order = getOrder(request, type);
             rpp = getRPP(request, type);
             etAl = getEtAl(request, type);
-            orderfield = sortBy != -1 ? "sort_" + sortBy : null;
+            orderfield = sortBy != -1 ? "bi_sort_" + sortBy +"_sort": null;
             ascending = SortOption.ASCENDING.equalsIgnoreCase(order);
             docs = search(context, type, authority, start, rpp, orderfield,
                     ascending);
@@ -248,7 +249,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
 
     public int getEtAl(HttpServletRequest request, String type)
     {
-        int etAl = UIUtil.getIntParameter(request, "etAl");
+        int etAl = UIUtil.getIntParameter(request, "etAl"+ getComponentIdentifier());
         if (etAl == -1)
         {
             etAl = types.get(type).getEtal();
@@ -258,7 +259,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
 
     public int getRPP(HttpServletRequest request, String type)
     {
-        int rpp = UIUtil.getIntParameter(request, "rpp");
+        int rpp = UIUtil.getIntParameter(request, "rpp"+ getComponentIdentifier());
         if (rpp == -1)
         {
             rpp = getTypes().get(type).getRpp();
@@ -268,7 +269,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
 
     public String getOrder(HttpServletRequest request, String type)
     {
-        String order = request.getParameter("order");
+        String order = request.getParameter("order"+ getComponentIdentifier());
         if (order == null)
         {
             order = getTypes().get(type).getOrder();
@@ -278,7 +279,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
 
     public int getSortBy(HttpServletRequest request, String type)
     {
-        int sortBy = UIUtil.getIntParameter(request, "sort_by");
+        int sortBy = UIUtil.getIntParameter(request, "sort_by"+ getComponentIdentifier());
         if (sortBy == -1)
         {
             sortBy = getTypes().get(type).getSortby();

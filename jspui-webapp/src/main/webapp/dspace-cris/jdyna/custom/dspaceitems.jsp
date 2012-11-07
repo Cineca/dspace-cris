@@ -52,15 +52,15 @@
 <%
     // create the URLs accessing the previous and next search result pages
     StringBuilder sb = new StringBuilder();
-	sb.append("<tr><td align=\"center\" class=\"menuBar\">");
+	sb.append("<div align=\"center\">");
 	sb.append("Result pages:");
 	
     String prevURL =  "?open=" + typepublicationlist
-                    + "&amp;sort_by=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
-                    + "&amp;order=" + orderpublicationlist
-                    + "&amp;rpp=" + rpppublicationlist
-                    + "&amp;etal=" + etAlpublicationlist
-                    + "&amp;start=";
+                    + "&amp;sort_by"+typepublicationlist+"=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
+                    + "&amp;order"+typepublicationlist+"=" + orderpublicationlist
+                    + "&amp;rpp"+typepublicationlist+"=" + rpppublicationlist
+                    + "&amp;etal"+typepublicationlist+"=" + etAlpublicationlist
+                    + "&amp;start"+typepublicationlist+"=";
 
     String nextURL = prevURL;
 
@@ -81,11 +81,11 @@ for( int q = pagefirstpublicationlist; q <= pagelastpublicationlist; q++ )
 {
     String myLink = "<a class='pagination' href=\""
     				+ "?open=" + typepublicationlist
-                    + "&amp;sort_by=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
-                    + "&amp;order=" + orderpublicationlist
-                    + "&amp;rpp=" + rpppublicationlist
-                    + "&amp;etal=" + etAlpublicationlist
-                    + "&amp;start=";
+                    + "&amp;sort_by"+typepublicationlist+"=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
+                    + "&amp;order"+typepublicationlist+"=" + orderpublicationlist
+                    + "&amp;rpp"+typepublicationlist+"=" + rpppublicationlist
+                    + "&amp;etal"+typepublicationlist+"=" + etAlpublicationlist
+                    + "&amp;start"+typepublicationlist+"=";
 
     if( q == pagecurrentpublicationlist )
     {
@@ -112,9 +112,8 @@ sb.append("</td></tr>");
 
 %>
 
-<table align="center" class="miscTable">
-	<tr>
-		<td width="100%" colspan="3">
+
+<div align="center" class="browse_range">
 
 	<p align="center"><fmt:message key="jsp.search.results.results">
         <fmt:param><%=startpublicationlist+1%></fmt:param>
@@ -122,7 +121,7 @@ sb.append("</td></tr>");
         <fmt:param><%=totalpublicationlist%></fmt:param>
     </fmt:message></p>
 
-</td></tr>
+</div>
 <%
 if (pagetotalpublicationlist > 1)
 {
@@ -131,32 +130,11 @@ if (pagetotalpublicationlist > 1)
 <%
 	}
 %>
-<tr><td>
-<form id="sortform" action="#<%= typepublicationlist %>" method="get">
-<input id="sort_by" type="hidden" name="sort_by"
-<%
-			Set<SortOption> sortOptions = SortOption.getSortOptions();
-			if (sortOptions.size() > 1)
-			{
-               for (SortOption sortBy : sortOptions)
-               {
-                   if (sortBy.isVisible())
-                   {
-                       String selected = (sortBy.getName().equals(sortedBypublicationlist) ? "value=\""+ sortBy.getName()+"\"" : "");
-                   }
-               }
-			}
-%>
-/>
-
-           <input id="order" type="hidden" name="order" value="<%= orderpublicationlist %>" />
-		   <input type="hidden" name="open" value="<%= typepublicationlist %>" />
-</form>
 			
 <dspace:itemlist items="<%= itemspublicationlist %>" sortOption="<%= sopublicationlist %>" authorLimit="<%= etAlpublicationlist %>" />
 
 			
-</td></tr>
+
 <%-- show pagniation controls at bottom --%>
 <%
 	if (pagetotalpublicationlist > 1)
@@ -166,7 +144,7 @@ if (pagetotalpublicationlist > 1)
 <%
 	}
 %>
-</table>
+
 
 </p>
 </div>

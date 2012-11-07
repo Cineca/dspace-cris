@@ -20,30 +20,33 @@ import org.dspace.content.authority.Choices;
 
 @MappedSuperclass
 public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesDefinition>
-		extends DSpaceObject implements UUIDSupport, Identifiable,
-		AnagraficaSupport<P, TP>, BrowsableDSpaceObject
+        extends DSpaceObject implements UUIDSupport, Identifiable,
+        AnagraficaSupport<P, TP>, BrowsableDSpaceObject
 {
     /** Cris internal unique identifier, must be null */
     @Column(nullable = true, unique = true)
     private String sourceID;
-    
+
     private Boolean status;
 
     @Column(nullable = false, unique = true)
     private String uuid;
-    
-    public ACrisObject() {
-		this.status = false;
-	}
-    
-    public Boolean getStatus() {
-		return status;
-	}
-    
-    public void setStatus(Boolean status) {
-		this.status = status;
-	}
-    
+
+    public ACrisObject()
+    {
+        this.status = false;
+    }
+
+    public Boolean getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(Boolean status)
+    {
+        this.status = status;
+    }
+
     public void setUuid(String uuid)
     {
         this.uuid = uuid;
@@ -65,29 +68,31 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     }
 
     public abstract String getPublicPath();
-    
+
     @Override
-    public String getHandle() {
-    	return null;
+    public String getHandle()
+    {
+        return null;
     }
-    
+
     @Override
-    public int getID() {
-    	return getId() != null?getId().intValue():-1;
+    public int getID()
+    {
+        return getId() != null ? getId().intValue() : -1;
     }
-    
+
     @Override
     public boolean isArchived()
     {
-        return getStatus()!=null?getStatus():false;
+        return getStatus() != null ? getStatus() : false;
     }
-    
+
     @Override
     public boolean isWithdrawn()
     {
-        return getStatus()!=null?!getStatus():false;
+        return getStatus() != null ? !getStatus() : false;
     }
-    
+
     @Override
     public DCValue[] getMetadata(String schema, String element,
             String qualifier, String lang)
@@ -96,9 +101,9 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         {
             return new DCValue[0];
         }
-        
+
         element = getCompatibleJDynAShortName(this, element);
-            
+
         List<P> proprieties = this.getAnagrafica4view().get(element);
         List values = new ArrayList();
         String authority = null;
@@ -111,7 +116,8 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
                         && val instanceof ACrisObject)
                 {
                     authority = ((ACrisObject) val).getId().toString();
-                    qualifier = getCompatibleJDynAShortName((ACrisObject) val, qualifier);
+                    qualifier = getCompatibleJDynAShortName((ACrisObject) val,
+                            qualifier);
                     List pointProps = (List) ((ACrisObject) val)
                             .getAnagrafica4view().get(qualifier);
                     if (pointProps != null && pointProps.size() > 0)
@@ -121,6 +127,11 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
                             values.add(((Property) pprop).getObject());
                         }
                     }
+                }
+                else if (val instanceof ACrisObject)
+                {
+                    authority = ((ACrisObject) val).getId().toString();
+                    values.add(((ACrisObject) val).getName());
                 }
                 else
                 {

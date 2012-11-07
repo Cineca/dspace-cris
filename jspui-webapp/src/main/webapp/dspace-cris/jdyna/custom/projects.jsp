@@ -54,15 +54,15 @@
 <%
     // create the URLs accessing the previous and next search result pages
     StringBuilder sb = new StringBuilder();
-	sb.append("<tr><td align=\"center\" class=\"menuBar\">");
+	sb.append("<div align=\"center\">");
 	sb.append("Result pages:");
 	
     String prevURL =  "?open=" + typeprojectlist
-                    + "&amp;sort_by=" + (soprojectlist != null ? soprojectlist.getNumber() : 0)
-                    + "&amp;order=" + orderpprojectlist
-                    + "&amp;rpp=" + rppprojectlist
-                    + "&amp;etal=" + etAlprojectlist
-                    + "&amp;start=";
+                    + "&amp;sort_by"+typeprojectlist+"=" + (soprojectlist != null ? soprojectlist.getNumber() : 0)
+                    + "&amp;order"+typeprojectlist+"=" + orderpprojectlist
+                    + "&amp;rpp"+typeprojectlist+"=" + rppprojectlist
+                    + "&amp;etal"+typeprojectlist+"=" + etAlprojectlist
+                    + "&amp;start"+typeprojectlist+"=";
 
     String nextURL = prevURL;
 
@@ -83,11 +83,11 @@ for( int q = pagefirstprojectlist; q <= pagelastprojectlist; q++ )
 {
     String myLink = "<a class='pagination' href=\""
     				+ "?open=" + typeprojectlist
-                    + "&amp;sort_by=" + (soprojectlist != null ? soprojectlist.getNumber() : 0)
-                    + "&amp;order=" + orderpprojectlist
-                    + "&amp;rpp=" + rppprojectlist
-                    + "&amp;etal=" + etAlprojectlist
-                    + "&amp;start=";
+                    + "&amp;sort_by"+typeprojectlist+"=" + (soprojectlist != null ? soprojectlist.getNumber() : 0)
+                    + "&amp;order"+typeprojectlist+"=" + orderpprojectlist
+                    + "&amp;rpp"+typeprojectlist+"=" + rppprojectlist
+                    + "&amp;etal"+typeprojectlist+"=" + etAlprojectlist
+                    + "&amp;start"+typeprojectlist+"=";
 
     if( q == pagecurrentprojectlist )
     {
@@ -110,13 +110,11 @@ if (pagetotalprojectlist > pagecurrentprojectlist) {
   sb.append("\">next</a>");
 }
 
-sb.append("</td></tr>");
+sb.append("</div>");
 
 %>
 
-<table align="center" class="miscTable">
-	<tr>
-		<td width="100%" colspan="3">
+<div align="center" class="browse_range">
 
 	<p align="center"><fmt:message key="jsp.search.results.results">
         <fmt:param><%=startprojectlist+1%></fmt:param>
@@ -124,7 +122,8 @@ sb.append("</td></tr>");
         <fmt:param><%=totalprojectlist%></fmt:param>
     </fmt:message></p>
 
-</td></tr>
+</div>
+
 <%
 if (pagetotalprojectlist > 1)
 {
@@ -133,32 +132,11 @@ if (pagetotalprojectlist > 1)
 <%
 	}
 %>
-<tr><td>
-<form id="sortform" action="#<%= typeprojectlist %>" method="get">
-<input id="sort_by" type="hidden" name="sort_by"
-<%
-			Set<SortOption> sortOptions = SortOption.getSortOptions();
-			if (sortOptions.size() > 1)
-			{
-               for (SortOption sortBy : sortOptions)
-               {
-                   if (sortBy.isVisible())
-                   {
-                       String selected = (sortBy.getName().equals(sortedByprojectlist) ? "value=\""+ sortBy.getName()+"\"" : "");
-                   }
-               }
-			}
-%>
-/>
-
-           <input id="order" type="hidden" name="order" value="<%= orderpprojectlist %>" />
-		   <input type="hidden" name="open" value="<%= typeprojectlist %>" />
-</form>
 			
-<dspace:browselist items="<%= itemsprojectlist %>" />
+<dspace:browselist items="<%= itemsprojectlist %>" config="crisproject" />
 
 			
-</td></tr>
+
 <%-- show pagniation controls at bottom --%>
 <%
 	if (pagetotalprojectlist > 1)
@@ -168,7 +146,6 @@ if (pagetotalprojectlist > 1)
 <%
 	}
 %>
-</table>
 
 </p>
 </div>
