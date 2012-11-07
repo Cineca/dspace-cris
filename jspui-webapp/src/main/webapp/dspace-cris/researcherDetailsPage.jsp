@@ -65,16 +65,6 @@
     <td nowrap="nowrap" colspan="2" class="navigationBarSublabel"><fmt:message key="jsp.layout.navbar-hku.staffmode.title"/></td>
   </tr>
 
-  <c:if test="${!empty addModeType && addModeType=='display'}">
-  <tr class="navigationBarItem">
-    <td>
-      <img alt="" src="<%=request.getContextPath()%>/image/<%=( currentPage.endsWith( "/editDynamicData" ) ? "arrow-highlight" : "arrow" )%>.gif" width="16" height="16"/>
-    </td>
-    <td nowrap="nowrap" class="navigationBarItem">
-      <a href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
-    </td>
-  </tr>  
-  </c:if>
    <tr class="navigationBarItem">
     <td>
       <img alt="" src="<%=request.getContextPath()%>/image/<%=( currentPage.endsWith( "/rebindItemsToRP" ) ? "arrow-highlight" : "arrow" )%>.gif" width="16" height="16"/>
@@ -83,40 +73,7 @@
       <a href="<%= request.getContextPath() %>/cris/tools/rp/rebindItemsToRP.htm?id=${researcher.id}"><fmt:message key="jsp.layout.navbar-hku.staff-mode.bind.items"/></a>
     </td>
   </tr>
-   <tr class="navigationBarItem">
-    <td>
-      <img alt="" src="<%=request.getContextPath()%>/image/<%=( currentPage.endsWith( "/help#ResearcherPages" ) ? "arrow-highlight" : "arrow" )%>.gif" width="16" height="16"/>
-    </td>
-    <td nowrap="nowrap" class="navigationBarItem">
-      <a href="<%=request.getContextPath()%>/help.jsp#ResearcherPages">Help</a>
-    </td>
-  </tr>
   </c:if>
-  
-  <%
-        if (isAdmin) {
-    %>
-  <tr> 
-  <td colspan="2">
-	<c:if test="${!empty researcher}">
-	
-		
-			<p><b>Staff no. ${researcher.sourceID} </b><br/>
-			<br />
-			record created at:
-			${researcher.timeStampInfo.timestampCreated.timestamp} <br/>
-			<br />
-			last updated at:
-			${researcher.timeStampInfo.timestampLastModified.timestamp}<br/>
-			</p>
-		
-	
-	</c:if>
-	</td>
-  </tr>
-<%
-    }
-%>
 </c:set>
 <c:set var="dspace.layout.head.last" scope="request">
     <script type="text/javascript"><!--
@@ -282,6 +239,18 @@
 			</ul>
 			</div>
 		</c:forEach>
+		<%
+    if (isAdmin) {
+%><hr/>
+	<fmt:message key="jsp.cris.detail.info.sourceid.none" var="i18nnone" />
+	<div class="cris-record-info">
+		<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /></b> ${!empty researcher.sourceID?researcher.sourceID:i18nnone}</span>
+		<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${researcher.timeStampInfo.timestampCreated.timestamp}</span>
+		<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${researcher.timeStampInfo.timestampLastModified.timestamp}</span>
+	</div>
+<%
+    }
+%>	
 		</div>
 	 </div>
 <h1><fmt:message key="jsp.layout.hku.detail.title-first" /> <c:choose>
@@ -298,7 +267,7 @@
 			<fmt:message
 				key="jsp.layout.hku.detail.researcher-disabled" /><a
 				target="_blank"
-				href="<%=request.getContextPath()%>/cris/administrator/rp/list.htm?id=${entity.id}&mode=position"><fmt:message
+				href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message
 				key="jsp.layout.hku.detail.researcher-disabled.fixit" /></a>
 		</p>
 	</c:if>
@@ -317,7 +286,13 @@
 
 
 		<div id="researcher">
-
+		<c:if test="${!empty addModeType && addModeType=='display'}">
+      		<div id="cris-edit-div">
+      			<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
+      		</div>
+  		</c:if>
+		
+		
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 </div>
