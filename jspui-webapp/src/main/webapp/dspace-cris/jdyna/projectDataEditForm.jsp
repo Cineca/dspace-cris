@@ -412,7 +412,7 @@
 							<%!public URL fileURL;%>
 
 							<c:set var="urljspcustom"
-								value="/dspace-cris/jdyna/custom/edit${holder.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/edit${holder.externalJSP}.jsp" scope="request" />
 								
 							<%
 								String filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");

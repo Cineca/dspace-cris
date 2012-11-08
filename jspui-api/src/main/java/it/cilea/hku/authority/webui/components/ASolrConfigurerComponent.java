@@ -1,6 +1,7 @@
 package it.cilea.hku.authority.webui.components;
 
 import it.cilea.hku.authority.discovery.CrisSearchService;
+import it.cilea.hku.authority.webui.dto.ComponentInfoDTO;
 import it.cilea.osd.jdyna.components.IBeanComponent;
 
 import java.text.MessageFormat;
@@ -44,6 +45,8 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
 
     private int objectType;
     
+    private String shortName;
+    
     public List<String[]> addActiveTypeInRequest(HttpServletRequest request)
             throws Exception
     {
@@ -51,7 +54,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         Context c = UIUtil.obtainContext(request);
         List<String[]> subLinks = new ArrayList<String[]>();
         for (String type : types.keySet())
-        {
+        {            
             DiscoverResult docs = search(c, type, authority, 0, 0, null, true);
             if (docs.getTotalSearchResults() > 0)
             {
@@ -144,8 +147,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
                 docsNumFound = docs.getTotalSearchResults();
             }
         }
-
-        T[] resultsItems = getObjectFromSolrResult(docs, context);
+       
 
         // Pass in some page qualities
         // total number of pages
@@ -172,26 +174,55 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         }
 
         // Pass the results to the display JSP
-        request.setAttribute("items"+ getComponentIdentifier(), resultsItems);
+           
+        
+        Map<String, ComponentInfoDTO<T>> componentInfoMap = (Map<String, ComponentInfoDTO<T>>)request.getAttribute("componentinfomap");
+        if(componentInfoMap==null || componentInfoMap.isEmpty()) {
+            componentInfoMap = new HashMap<String, ComponentInfoDTO<T>>();
+        }
+        else {
+            if(componentInfoMap.containsKey(getShortName())) {
+                componentInfoMap.remove(getShortName());
+            }
+        }
+               
+        ComponentInfoDTO<T> componentInfo = buildComponentInfo(docs, context, type, start,
+                order, rpp, etAl, docsNumFound, pageTotal,
+                pageCurrent, pageLast, pageFirst, sortOption);
 
-        request.setAttribute("pagetotal"+ getComponentIdentifier(), new Integer(pageTotal));
-        request.setAttribute("pagecurrent"+ getComponentIdentifier(), new Integer(pageCurrent));
-        request.setAttribute("pagelast"+ getComponentIdentifier(), new Integer(pageLast));
-        request.setAttribute("pagefirst"+ getComponentIdentifier(), new Integer(pageFirst));
-
-        request.setAttribute("order"+ getComponentIdentifier(), order);
-        request.setAttribute("sortedBy"+ getComponentIdentifier(), sortOption);
-        request.setAttribute("start"+ getComponentIdentifier(), start);
-        request.setAttribute("rpp"+ getComponentIdentifier(), rpp);
-        request.setAttribute("etAl"+ getComponentIdentifier(), etAl);
-        request.setAttribute("total"+ getComponentIdentifier(), docsNumFound);
-        request.setAttribute("type"+ getComponentIdentifier(), type);
-
+        componentInfoMap.put(getShortName(), componentInfo);
+        request.setAttribute("componentinfomap", componentInfoMap);
+        
         if (AuthorizeManager.isAdmin(context))
         {
             // Set a variable to create admin buttons
             request.setAttribute("admin_button", new Boolean(true));
         }
+    }
+
+    public ComponentInfoDTO<T> buildComponentInfo(DiscoverResult docs, Context context, String type, int start,
+            String order, int rpp, int etAl, long docsNumFound,
+            int pageTotal, int pageCurrent, int pageLast,
+            int pageFirst, SortOption sortOption) throws Exception
+    {
+        ComponentInfoDTO<T> componentInfo = new ComponentInfoDTO<T>();
+        if(docs!=null) {
+            componentInfo.setItems(getObjectFromSolrResult(docs, context));
+        }
+
+        componentInfo.setPagetotal(pageTotal);
+        componentInfo.setPagecurrent(pageCurrent);
+        componentInfo.setPagelast(pageLast);
+        componentInfo.setPagefirst(pageFirst);
+
+        componentInfo.setOrder(order);
+        componentInfo.setSo(sortOption);
+        componentInfo.setStart(start);
+        componentInfo.setRpp(rpp);
+        componentInfo.setEtAl(etAl);
+        componentInfo.setTotal(docsNumFound);
+        componentInfo.setType(type);
+        return componentInfo;
     }
 
     public abstract T[] getObjectFromSolrResult(DiscoverResult docs,
@@ -385,4 +416,17 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
 
     public abstract String getAuthority(HttpServletRequest request);
     public abstract String getAuthority(Integer id);
+    
+    @Override
+    public void setShortName(String shortName)
+    {
+        this.shortName = shortName;
+    }
+
+    @Override
+    public String getShortName()
+    {      
+        return this.shortName;
+    }
+
 }

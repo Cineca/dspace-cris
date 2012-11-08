@@ -30,9 +30,9 @@
 							<c:set var="hasCustomEditJSP" value="false" scope="request" />
 							<c:set var="hasCustomDisplayJSP" value="false" scope="request" />
 							<c:set var="urljspcustomone"
-								value="/authority/jdyna/custom/edit${box.shortName}.jsp" scope="request" />
+								value="/authority/jdyna/custom/edit${box.externalJSP}.jsp" scope="request" />
 							<c:set var="urljspcustomtwo"
-								value="/authority/jdyna/custom/${box.shortName}.jsp" scope="request" />
+								value="/authority/jdyna/custom/${box.externalJSP}.jsp" scope="request" />
 								
 							<%
 							 	URL fileDisplayURL = null;
@@ -160,6 +160,12 @@
 			</div>
 			</div>
 		</spring:bind>
+		<div class="dynaClear">
+			&nbsp;
+		</div>
+		
+		<dyna:text propertyPath="box.externalJSP"  helpKey="help.jdyna.message.box.externalJSP"
+			labelKey="jdyna.message.box.externalJSP" visibility="false"/>
 		<div class="dynaClear">
 			&nbsp;
 		</div>

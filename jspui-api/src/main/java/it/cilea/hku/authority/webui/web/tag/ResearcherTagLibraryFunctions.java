@@ -238,6 +238,7 @@ public class ResearcherTagLibraryFunctions
                 if (box.getShortName().equals(key))
                 {
                     IComponent component = rpComponent.get(key);
+                    component.setShortName(box.getShortName());
                     Map<String, IBeanComponent> comp = component.getTypes();
 
                     for (String compp : comp.keySet())

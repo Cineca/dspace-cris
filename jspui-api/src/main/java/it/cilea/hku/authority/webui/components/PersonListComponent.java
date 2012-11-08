@@ -10,11 +10,11 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
 import org.dspace.discovery.DiscoverResult;
 
-public class ProjectListComponent extends ASolrConfigurerComponent<BrowseItem>
+public class PersonListComponent extends ASolrConfigurerComponent<BrowseItem>
 {
 
     /** log4j logger */
-    private static Logger log = Logger.getLogger(ProjectListComponent.class);
+    private static Logger log = Logger.getLogger(PersonListComponent.class);
  
     @Override
     public BrowseItem[] getObjectFromSolrResult(DiscoverResult docs, Context context)

@@ -10,6 +10,9 @@
  */
 package it.cilea.hku.authority.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -86,4 +89,12 @@ public class VisibilityConstants
                 + "'");
         return null;
     }
+    
+    public static List<Integer> getValues() {
+        List<Integer> values = new LinkedList<Integer>();
+        values.add(HIDE);
+        values.add(PUBLIC);              
+        return values;
+    }
+    
 }

@@ -21,6 +21,7 @@
 <%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@ page import="java.net.URL"%>
 <%@ page import="org.dspace.eperson.EPerson" %>
+<%@page import="it.cilea.hku.authority.model.VisibilityConstants"%>
 
 <%
     // Is anyone logged in?
@@ -373,24 +374,6 @@
 </c:if>
 
 
-<c:if test="${admin}">
-<div class="extra">
-<form:form commandName="anagraficadto"
-	action="" method="post" enctype="multipart/form-data">	
-	
-	
-	<c:if test="${admin}">
-	
-		
-	</c:if>
-	<div class="dynaClear">&nbsp;</div>
-		<div class="jdyna-form-button">		
-			<input type="submit" value="<fmt:message key="jsp.layout.hku.researcher.button.save"/>" />
-		</div>
-</form:form>
-</div>
-</c:if> 
-
 <div id="researcher">
 <form:form commandName="anagraficadto"
 	action="" method="post" enctype="multipart/form-data">
@@ -410,6 +393,42 @@
 		</c:if>
 	</spring:bind>
 
+
+	<div class="extra">
+	
+		
+		<c:if test="${admin}">
+			<dyna:text propertyPath="anagraficadto.staffNo" />
+			
+			<spring:bind path="status">
+			<c:set var="inputValue">
+				<c:out value="${status.value}" escapeXml="true"></c:out>
+			</c:set>
+			<c:set var="inputName">
+				<c:out value="${status.expression}" escapeXml="false"></c:out>
+			</c:set>
+
+			<div class="dynaField"><span class="dynaLabel"><label for="${inputName}"><fmt:message
+				key="jsp.layout.hku.label.visibility" /></label></span>
+
+			<div class="dynaFieldValue">
+			<c:forEach items="<%= VisibilityConstant.getValues() %>" var="item">
+				<input ${disabled} id="${inputName}" name="${inputName}"
+					type="radio" value="${item}"
+					<c:if test="${inputValue==item}">checked="checked"</c:if> />
+				<fmt:message
+					key="jsp.layout.hku.label.visibility.${item}" />
+
+			</c:forEach>
+			<input ${disabled} name="_${inputName}" id="_${inputName}"
+				value="true" type="hidden" />
+			</div>
+			</div>
+		</spring:bind>
+		</c:if>
+		
+			
+	</div>
 
 	<dyna:hidden propertyPath="anagraficadto.objectId" />
 	<input type="hidden" id="newTabId" name="newTabId" />
@@ -445,7 +464,7 @@
 							<%!public URL fileURL;%>
 
 							<c:set var="urljspcustom"
-								value="/dspace-cris/jdyna/custom/edit${holder.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/edit${holder.externalJSP}.jsp" scope="request" />
 								
 							<%
 								String filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");

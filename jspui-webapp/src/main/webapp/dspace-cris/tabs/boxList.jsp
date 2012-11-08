@@ -38,9 +38,9 @@
 							<c:set var="hasCustomEditJSP" value="false" scope="request" />
 							<c:set var="hasCustomDisplayJSP" value="false" scope="request" />
 							<c:set var="urljspcustomone"
-								value="/authority/jdyna/custom/edit${box.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/edit${box.externalJSP}.jsp" scope="request" />
 							<c:set var="urljspcustomtwo"
-								value="/authority/jdyna/custom/${box.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/${box.externalJSP}.jsp" scope="request" />
 								
 							<%
 							 	URL fileDisplayURL = null;
