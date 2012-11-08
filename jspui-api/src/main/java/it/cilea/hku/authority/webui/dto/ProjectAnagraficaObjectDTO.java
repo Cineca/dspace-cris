@@ -22,74 +22,63 @@ import org.apache.commons.collections.list.LazyList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ProjectAnagraficaObjectDTO extends AnagraficaObjectAreaDTO {
+public class ProjectAnagraficaObjectDTO extends CrisAnagraficaObjectDTO
+{
 
-	/**
-	 * The log4j category
-	 */
-	protected final Log log = LogFactory.getLog(getClass());
+    /**
+     * The log4j category
+     */
+    protected final Log log = LogFactory.getLog(getClass());
 
-	private boolean status;
+    private String investigator;
 
-	private String rgCode;
-	
-	private String investigator;
-	
-	private List<String> coInvestigators;
+    private List<String> coInvestigators;
 
-	public ProjectAnagraficaObjectDTO(Project grant) {
-		super();
-		this.setStatus(grant.getStatus());
-		this.setRgCode(grant.getSourceID());
-	}
+    public ProjectAnagraficaObjectDTO(Project grant)
+    {
+        super(grant);
+        this.setTimeStampCreated(grant.getTimeStampInfo().getCreationTime());
+        this.setTimeStampModified(grant.getTimeStampInfo()
+                .getLastModificationTime());
+    }
+ 
+    public void setInvestigator(String investigator)
+    {
+        this.investigator = investigator;
+    }
 
-	public boolean getStatus() {
-		return status;
-	}
+    public String getInvestigator()
+    {
+        return investigator;
+    }
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
+    /**
+     * Decorate list for dynamic binding with spring mvc
+     * 
+     * @param list
+     * @return lazy list temporary
+     */
+    private List getLazyList(List<String> list)
+    {
+        log.debug("Decorate list for dynamic binding with spring mvc");
+        List lazyList = LazyList.decorate(list,
+                FactoryUtils.instantiateFactory(String.class));
 
-	public String getRgCode() {
-		return rgCode;
-	}
+        return lazyList;
+    }
 
-	public void setRgCode(String rgCode) {
-		this.rgCode = rgCode;
-	}
+    public void setCoInvestigators(List<String> coInvestigators)
+    {
+        this.coInvestigators = coInvestigators;
+    }
 
-	public void setInvestigator(String investigator) {
-		this.investigator = investigator;
-	}
-
-	public String getInvestigator() {
-		return investigator;
-	}
-
-	/**
-	 * Decorate list for dynamic binding with spring mvc
-	 * 
-	 * @param list
-	 * @return lazy list temporary
-	 */
-	private List getLazyList(List<String> list) {
-		log.debug("Decorate list for dynamic binding with spring mvc");
-		List lazyList = LazyList.decorate(list,
-				FactoryUtils.instantiateFactory(String.class));
-
-		return lazyList;
-	}
-
-	public void setCoInvestigators(List<String> coInvestigators) {
-		this.coInvestigators = coInvestigators;
-	}
-
-	public List<String> getCoInvestigators() {
-		if (this.coInvestigators == null) {
-			this.coInvestigators = new LinkedList<String>();			
-		}
-		setCoInvestigators(getLazyList(coInvestigators));		
-		return coInvestigators;
-	}
+    public List<String> getCoInvestigators()
+    {
+        if (this.coInvestigators == null)
+        {
+            this.coInvestigators = new LinkedList<String>();
+        }
+        setCoInvestigators(getLazyList(coInvestigators));
+        return coInvestigators;
+    }
 }

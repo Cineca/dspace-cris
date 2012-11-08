@@ -357,8 +357,8 @@ public class FormRPDynamicMetadataController
         AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, realTPS);
 
         myObject.pulisciAnagrafica();
-        researcher.setSourceID(anagraficaObjectDTO.getStaffNo());
-        
+        researcher.setSourceID(anagraficaObjectDTO.getSourceID());
+        researcher.setStatus(anagraficaObjectDTO.getStatus());
         
         getApplicationService().saveOrUpdate(ResearcherPage.class, researcher);
         EditTabResearcherPage area = getApplicationService().get(

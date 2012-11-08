@@ -59,7 +59,23 @@
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar-setup.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery.form.js"></script>
 	
-	
+	<style>
+    .ui-autocomplete-loading {
+        background: white url('../../../image/jdyna/indicator.gif') right center no-repeat;
+    }    
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+    /* IE 6 doesn't support max-height
+     * we use height instead, but this forces the menu to always be this tall
+     */
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+    </style>
 	
 	  <script type="text/javascript"><!--
 
@@ -376,7 +392,59 @@
 		</c:if>
 	</spring:bind>
 
+	<div class="extra">
+	
+		<fmt:message key="jsp.cris.detail.info.sourceid.none" var="i18nnone" />
+		
+		
+		<div class="cris-record-info">
+				<c:set var="disabled" value=" disabled='disabled'"/>
+		<c:choose>
+		<c:when test="${admin}">
+			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>			
+		</c:when>
+		<c:otherwise>
+			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /> ${!empty anagraficadto.staffNo?anagraficadto.staffNo:i18nnone}</span>
+		</c:otherwise>
+		</c:choose>		
+			<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${anagraficadto.timeStampCreated}</span>
+			<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${anagraficadto.timeStampModified}</span>
+		
+		
 
+		<spring:bind path="status">
+			<c:set var="inputValue">
+				<c:out value="${status.value}" escapeXml="true"></c:out>
+			</c:set>
+			<c:set var="inputName">
+				<c:out value="${status.expression}" escapeXml="false"></c:out>
+			</c:set>
+
+			<div class="dynaField"><span class="dynaLabel"><label for="${inputName}"><fmt:message
+				key="jsp.layout.hku.label.status" /></label></span>
+
+			<div class="dynaFieldValue">
+			
+			<input id="${inputName}" name="${inputName}"
+					type="radio" value="false"
+					<c:if test="${inputValue==false}">checked="checked"</c:if> />
+				<fmt:message
+					key="jsp.layout.hku.label.status.0" />
+			<input id="${inputName}" name="${inputName}"
+					type="radio" value="true"
+					<c:if test="${inputValue==true}">checked="checked"</c:if> />
+				<fmt:message
+					key="jsp.layout.hku.label.status.1" />
+			
+			<input name="_${inputName}" id="_${inputName}"
+				value="true" type="hidden" />
+			</div>
+			</div>
+		</spring:bind>
+		</div>
+		
+			
+	</div>
 	<dyna:hidden propertyPath="anagraficadto.objectId" />
 	<input type="hidden" id="newTabId" name="newTabId" />
 	

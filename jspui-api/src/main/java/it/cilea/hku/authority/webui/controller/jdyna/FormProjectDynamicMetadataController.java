@@ -379,8 +379,8 @@ public class FormProjectDynamicMetadataController
         AnagraficaUtils.reverseDTO(anagraficaObjectDTO, myObject, realTPS);
         
         myObject.pulisciAnagrafica();
-        grant.setSourceID(anagraficaObjectDTO.getRgCode());
-        
+        grant.setSourceID(anagraficaObjectDTO.getSourceID());
+        grant.setStatus(anagraficaObjectDTO.getStatus());
         
         String investigator = anagraficaObjectDTO.getInvestigator();
         Investigator realInvestigator = new Investigator();
