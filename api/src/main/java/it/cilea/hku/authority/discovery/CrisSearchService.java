@@ -154,12 +154,12 @@ public class CrisSearchService extends SolrServiceImpl
         {
             // only admin can searh/browse disabled researcher page
             doc.addField("read", "g1");
-            doc.addField("withdrawn", true);
+            doc.addField("disabled", true);
         }
         else
         {
             doc.addField("read", "g0");
-            doc.addField("withdrawn", false);
+            doc.addField("disabled", false);
         }
 
         doc.addField("discoverable", true);// item.isDiscoverable());
