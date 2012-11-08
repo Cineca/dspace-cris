@@ -46,36 +46,7 @@
 
 <c:if test="${grant_page_menu && !empty project}">
 
-
-  <tr>
-    <td colspan="2">&nbsp;</td>
-  </tr>
-  
-  <tr>
-    <td nowrap="nowrap" colspan="2" class="navigationBarSublabel"><fmt:message key="jsp.layout.navbar-hku.staffmode.title"/></td>
-  </tr>
-  
-
-  <c:if test="${!empty addModeType && addModeType=='display'}">
-  
-  <tr class="navigationBarItem">
-    <td>
-      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/editDynamicData" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
-    </td>
-    <td nowrap="nowrap" class="navigationBarItem">
-      <a href="<%= request.getContextPath() %>/cris/tools/project/editDynamicData.htm?id=${project.id}&anagraficaId=${project.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar.entity.edit"/></a>
-    </td>
-  </tr>  
- </c:if>
-  
-   <tr class="navigationBarItem">
-    <td>
-      <img alt="" src="<%= request.getContextPath() %>/image/<%= ( currentPage.endsWith( "/help#Projects" ) ? "arrow-highlight" : "arrow" ) %>.gif" width="16" height="16"/>
-    </td>
-    <td nowrap="nowrap" class="navigationBarItem">
-      <a href="<%= request.getContextPath() %>/help.jsp#Projects">Help</a>
-    </td>
-  </tr>
+ 
  
  </c:if>
 
@@ -245,6 +216,20 @@
 			</ul>
 			</div>
 		</c:forEach>
+		
+		<%
+    if (isAdmin) {
+%><hr/>
+	<fmt:message key="jsp.cris.detail.info.sourceid.none" var="i18nnone" />
+	<div class="cris-record-info">
+		<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /></b> ${!empty entity.sourceID?entity.sourceID:i18nnone}</span>
+		<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${entity.timeStampInfo.timestampCreated.timestamp}</span>
+		<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${entity.timeStampInfo.timestampLastModified.timestamp}</span>
+	</div>
+<%
+    }
+%>	
+		
 		</div>
 	 </div>
 <h1><fmt:message key="jsp.layout.project.detail.title-first" /> ${entity.name}</h1>
@@ -253,13 +238,20 @@
 		<div class="warning">
 			<fmt:message key="jsp.layout.hku.detail.grant-disabled" />
 			<a target="_blank"
-				href="<%=request.getContextPath()%>/cris/administrator/project/list.htm?id=${entity.id}&mode=position">
+				href="<%= request.getContextPath() %>/cris/tools/project/editDynamicData.htm?id=${entity.id}&anagraficaId=${entity.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>">
 				<fmt:message key="jsp.layout.hku.detail.grant-disabled.fixit" />
 			</a>
 		</div>
 	</c:if>
 						
 		<div id="researcher">
+		
+			<c:if test="${!empty addModeType && addModeType=='display'}">
+      			<div id="cris-edit-div">
+      				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/project/editDynamicData.htm?id=${entity.id}&anagraficaId=${entity.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.project"/></a>
+      			</div>
+  			</c:if>
+  			
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 

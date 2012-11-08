@@ -286,12 +286,12 @@
 
 
 		<div id="researcher">
-		<c:if test="${!empty addModeType && addModeType=='display'}">
-      		<div id="cris-edit-div">
-      			<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
-      		</div>
-  		</c:if>
 		
+			<c:if test="${!empty addModeType && addModeType=='display'}">
+      			<div id="cris-edit-div">
+      				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
+      			</div>
+  			</c:if>
 		
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>

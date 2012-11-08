@@ -20,55 +20,38 @@ import org.apache.commons.collections.list.LazyList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class OUAnagraficaObjectDTO extends AnagraficaObjectAreaDTO {
+public class OUAnagraficaObjectDTO extends CrisAnagraficaObjectDTO
+{
 
-	/**
-	 * The log4j category
-	 */
-	protected final Log log = LogFactory.getLog(getClass());
+    /**
+     * The log4j category
+     */
+    protected final Log log = LogFactory.getLog(getClass());
 
-	private boolean status;
 
-	private String sourceID;
-		
-	public OUAnagraficaObjectDTO(OrganizationUnit ou) {
-		super();
-		this.setStatus(ou.getStatus());
-		this.setSourceID(ou.getSourceID());
-	}
-
-	public boolean getStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	
-
-	/**
-	 * Decorate list for dynamic binding with spring mvc
-	 * 
-	 * @param list
-	 * @return lazy list temporary
-	 */
-	private List getLazyList(List<String> list) {
-		log.debug("Decorate list for dynamic binding with spring mvc");
-		List lazyList = LazyList.decorate(list,
-				FactoryUtils.instantiateFactory(String.class));
-
-		return lazyList;
-	}
-
-    public String getSourceID()
+    public OUAnagraficaObjectDTO(OrganizationUnit ou)
     {
-        return sourceID;
+        super(ou);
+        this.setTimeStampCreated(ou.getTimeStampInfo().getCreationTime());
+        this.setTimeStampModified(ou.getTimeStampInfo()
+                .getLastModificationTime());
     }
 
-    public void setSourceID(String sourceID)
+ 
+
+    /**
+     * Decorate list for dynamic binding with spring mvc
+     * 
+     * @param list
+     * @return lazy list temporary
+     */
+    private List getLazyList(List<String> list)
     {
-        this.sourceID = sourceID;
+        log.debug("Decorate list for dynamic binding with spring mvc");
+        List lazyList = LazyList.decorate(list,
+                FactoryUtils.instantiateFactory(String.class));
+
+        return lazyList;
     }
 
 }

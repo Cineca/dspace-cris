@@ -19,9 +19,9 @@
 	import="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField"%>
 	
 <%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
-<%@ page import="java.net.URL"%>
-<%@ page import="org.dspace.eperson.EPerson" %>
-<%@page import="it.cilea.hku.authority.model.VisibilityConstants"%>
+<%@page import="java.net.URL"%>
+<%@page import="org.dspace.eperson.EPerson" %>
+
 
 <%
     // Is anyone logged in?
@@ -396,11 +396,25 @@
 
 	<div class="extra">
 	
+		<fmt:message key="jsp.cris.detail.info.sourceid.none" var="i18nnone" />
 		
-		<c:if test="${admin}">
-			<dyna:text propertyPath="anagraficadto.staffNo" />
-			
-			<spring:bind path="status">
+		
+		<div class="cris-record-info">
+				<c:set var="disabled" value=" disabled='disabled'"/>
+		<c:choose>
+		<c:when test="${admin}">
+			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>			
+		</c:when>
+		<c:otherwise>
+			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /> ${!empty anagraficadto.staffNo?anagraficadto.staffNo:i18nnone}</span>
+		</c:otherwise>
+		</c:choose>		
+			<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${anagraficadto.timeStampCreated}</span>
+			<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${anagraficadto.timeStampModified}</span>
+		
+		
+
+		<spring:bind path="status">
 			<c:set var="inputValue">
 				<c:out value="${status.value}" escapeXml="true"></c:out>
 			</c:set>
@@ -409,23 +423,27 @@
 			</c:set>
 
 			<div class="dynaField"><span class="dynaLabel"><label for="${inputName}"><fmt:message
-				key="jsp.layout.hku.label.visibility" /></label></span>
+				key="jsp.layout.hku.label.status" /></label></span>
 
 			<div class="dynaFieldValue">
-			<c:forEach items="<%= VisibilityConstant.getValues() %>" var="item">
-				<input ${disabled} id="${inputName}" name="${inputName}"
-					type="radio" value="${item}"
-					<c:if test="${inputValue==item}">checked="checked"</c:if> />
+			
+			<input id="${inputName}" name="${inputName}"
+					type="radio" value="false"
+					<c:if test="${inputValue==false}">checked="checked"</c:if> />
 				<fmt:message
-					key="jsp.layout.hku.label.visibility.${item}" />
-
-			</c:forEach>
-			<input ${disabled} name="_${inputName}" id="_${inputName}"
+					key="jsp.layout.hku.label.status.0" />
+			<input id="${inputName}" name="${inputName}"
+					type="radio" value="true"
+					<c:if test="${inputValue==true}">checked="checked"</c:if> />
+				<fmt:message
+					key="jsp.layout.hku.label.status.1" />
+			
+			<input name="_${inputName}" id="_${inputName}"
 				value="true" type="hidden" />
 			</div>
 			</div>
 		</spring:bind>
-		</c:if>
+		</div>
 		
 			
 	</div>

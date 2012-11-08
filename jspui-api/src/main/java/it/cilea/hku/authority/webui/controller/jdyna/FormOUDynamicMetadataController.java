@@ -347,7 +347,7 @@ public class FormOUDynamicMetadataController
         
         myObject.pulisciAnagrafica();
         grant.setSourceID(anagraficaObjectDTO.getSourceID());
-        
+        grant.setStatus(anagraficaObjectDTO.getStatus());
         
         getApplicationService().saveOrUpdate(OrganizationUnit.class, grant);
         EditTabOrganizationUnit area = getApplicationService().get(getClazzTab(),
