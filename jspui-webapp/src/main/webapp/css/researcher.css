@@ -1078,7 +1078,7 @@ h4 img.hide {display: none;}
 	/* Fallback for web browsers that doesn't support RGBa */
 	background: rgb(255, 255, 255);
 	/* RGBa with 0.6 opacity */
-	background: rgba(255, 255, 255, 0.6);
+	background: rgba(255, 255, 255, 0.8);
 	/* For IE 5.5 - 7*/
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000, endColorstr=#00000000);
 	/* For IE 8*/
@@ -1096,3 +1096,38 @@ h4 img.hide {display: none;}
 }
 
 .ui-widget-content div {margin: 0px !important;}
+div.cris-record-info span {display: block; font-size: 8pt;margin-top:10px;}
+div#cris-edit-div {height: 0px;margin:0px;}
+a.cris-edit-anchor:hover {
+	border-color: #E17009;
+	color: #E17009;
+}
+a.cris-edit-anchor {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #013466;
+    border-color: -moz-use-text-color white white;
+    border-image: none;
+    border-radius: 0 0 5px 5px;
+    border-right: 2px solid white;
+    border-style: none solid solid;
+    border-width: medium 2px 2px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    display: block;
+    font-family: arial,FreeSans,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px;
+    position: fixed;
+    text-decoration: none;
+    white-space: nowrap;
+    left: 10px;
+    top: 20px;
+    width: 12em;
+    transform: rotate(90deg);
+    transform-origin: left top;
+    position: relative;
+}
