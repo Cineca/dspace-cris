@@ -2,12 +2,16 @@
 <%@page import="java.util.List"%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="java.net.URLEncoder"            %>
-<%@ page import="org.dspace.content.Item"        %>
 <%@ page import="org.dspace.search.QueryResults" %>
 <%@ page import="org.dspace.sort.SortOption" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.Set" %>
+<%@ page import="java.util.Map" %>
 <%@page import="org.dspace.eperson.EPerson"%>
+<%@ page import="org.dspace.content.Item"        %>
+<%@page import="it.cilea.hku.authority.webui.dto.ComponentInfoDTO"%>
+<%@page import="it.cilea.osd.jdyna.web.Box"%>
+
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -16,31 +20,20 @@
 
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="researcher" value="${researcher}" scope="request" />
-
+<c:set var="info" value="${componentinfomap}" scope="page" />
 <%
-	EPerson user = (EPerson) request.getAttribute("dspace.current.user");
-	String orderpublicationlist = (String)request.getAttribute("orderpublicationlist");
-	String typepublicationlist = (String)request.getAttribute("typepublicationlist");
-	SortOption sopublicationlist = (SortOption)request.getAttribute("sortedBypublicationlist");
-	String sortedBypublicationlist = (sopublicationlist == null) ? null : sopublicationlist.getName();
-	Item[] itemspublicationlist   = (Item[])request.getAttribute("itemspublicationlist");	
-	int pagetotalpublicationlist   = ((Integer)request.getAttribute("pagetotalpublicationlist"  )).intValue();
-	int pagecurrentpublicationlist = ((Integer)request.getAttribute("pagecurrentpublicationlist")).intValue();
-	int pagelastpublicationlist    = ((Integer)request.getAttribute("pagelastpublicationlist"   )).intValue();
-	int pagefirstpublicationlist   = ((Integer)request.getAttribute("pagefirstpublicationlist"  )).intValue();
-	int rpppublicationlist         = ((Integer)request.getAttribute("rpppublicationlist"  )).intValue();
-	int etAlpublicationlist        = ((Integer)request.getAttribute("etAlpublicationlist"  )).intValue();
-	int totalpublicationlist		= ((Long)request.getAttribute("totalpublicationlist"  )).intValue();
-	int startpublicationlist		= ((Integer)request.getAttribute("startpublicationlist"  )).intValue();
+	
+	Box holder = (Box)request.getAttribute("holder");
+	ComponentInfoDTO info = ((Map<String, ComponentInfoDTO>)(request.getAttribute("componentinfomap"))).get(holder.getShortName());
 
-	if (itemspublicationlist.length > 0) {
+	if (info.getItems().length > 0) {
 %>
-
+<c:set var="info" value="<%= info %>" scope="request" />
 	
 <div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
 	<h3>
 		<a href="#"><fmt:message
-				key="jsp.layout.dspace.detail.fieldset-legend.component.${typepublicationlist}">
+				key="jsp.layout.dspace.detail.fieldset-legend.component.${info[holder.shortName].type}">
 				<fmt:param>${researcher.preferredName.value}</fmt:param>
 			</fmt:message> </a>
 	</h3>
@@ -55,60 +48,29 @@
 	sb.append("<div align=\"center\">");
 	sb.append("Result pages:");
 	
-    String prevURL =  "?open=" + typepublicationlist
-                    + "&amp;sort_by"+typepublicationlist+"=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
-                    + "&amp;order"+typepublicationlist+"=" + orderpublicationlist
-                    + "&amp;rpp"+typepublicationlist+"=" + rpppublicationlist
-                    + "&amp;etal"+typepublicationlist+"=" + etAlpublicationlist
-                    + "&amp;start"+typepublicationlist+"=";
-
-    String nextURL = prevURL;
-
-    prevURL = prevURL
-            + (pagecurrentpublicationlist-2) * rpppublicationlist;
-
-    nextURL = nextURL
-            + (pagecurrentpublicationlist) * rpppublicationlist;
+    String prevURL = info.buildPrevURL(); 
+    String nextURL = info.buildNextURL();
 
 
-if (pagefirstpublicationlist != pagecurrentpublicationlist) {
+if (info.getPagefirst() != info.getPagecurrent()) {
   sb.append(" <a class=\"pagination\" href=\"");
   sb.append(prevURL);
   sb.append("\">previous</a>");
 };
 
-for( int q = pagefirstpublicationlist; q <= pagelastpublicationlist; q++ )
+for( int q = info.getPagefirst(); q <= info.getPagelast(); q++ )
 {
-    String myLink = "<a class='pagination' href=\""
-    				+ "?open=" + typepublicationlist
-                    + "&amp;sort_by"+typepublicationlist+"=" + (sopublicationlist != null ? sopublicationlist.getNumber() : 0)
-                    + "&amp;order"+typepublicationlist+"=" + orderpublicationlist
-                    + "&amp;rpp"+typepublicationlist+"=" + rpppublicationlist
-                    + "&amp;etal"+typepublicationlist+"=" + etAlpublicationlist
-                    + "&amp;start"+typepublicationlist+"=";
-
-    if( q == pagecurrentpublicationlist )
-    {
-        myLink = "" + q;
-    }
-    else
-    {
-        myLink = myLink
-            + (q-1) * rpppublicationlist
-            + "\">"
-            + q
-            + "</a>";
-    }
+   	String myLink = info.buildMyLink(q);
     sb.append(" " + myLink);
 } // for
 
-if (pagetotalpublicationlist > pagecurrentpublicationlist) {
+if (info.getPagetotal() > info.getPagecurrent()) {
   sb.append(" <a class=\"pagination\" href=\"");
   sb.append(nextURL);
   sb.append("\">next</a>");
 }
 
-sb.append("</td></tr>");
+sb.append("</div>");
 
 %>
 
@@ -116,14 +78,14 @@ sb.append("</td></tr>");
 <div align="center" class="browse_range">
 
 	<p align="center"><fmt:message key="jsp.search.results.results">
-        <fmt:param><%=startpublicationlist+1%></fmt:param>
-        <fmt:param><%=startpublicationlist+itemspublicationlist.length%></fmt:param>
-        <fmt:param><%=totalpublicationlist%></fmt:param>
+        <fmt:param><%=info.getStart()+1%></fmt:param>
+        <fmt:param><%=info.getStart()+info.getItems().length%></fmt:param>
+        <fmt:param><%=info.getTotal()%></fmt:param>
     </fmt:message></p>
 
 </div>
 <%
-if (pagetotalpublicationlist > 1)
+if (info.getPagetotal() > 1)
 {
 %>
 <%= sb %>
@@ -131,13 +93,13 @@ if (pagetotalpublicationlist > 1)
 	}
 %>
 			
-<dspace:itemlist items="<%= itemspublicationlist %>" sortOption="<%= sopublicationlist %>" authorLimit="<%= etAlpublicationlist %>" />
+<dspace:itemlist items="<%= (Item[])info.getItems() %>" sortOption="<%= info.getSo() %>" authorLimit="<%= info.getEtAl() %>" />
 
 			
 
 <%-- show pagniation controls at bottom --%>
 <%
-	if (pagetotalpublicationlist > 1)
+	if (info.getPagetotal() > 1)
 	{
 %>
 <%= sb %>

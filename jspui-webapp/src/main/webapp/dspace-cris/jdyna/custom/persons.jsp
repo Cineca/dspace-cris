@@ -92,7 +92,7 @@ if (info.getPagetotal() > 1)
 	}
 %>
 			
-<dspace:browselist items="<%= (BrowseItem[])info.getItems() %>" config="crisproject" />
+<dspace:browselist items="<%= (BrowseItem[])info.getItems() %>" config="crisrp" />
 
 <%-- show pagniation controls at bottom --%>
 <%

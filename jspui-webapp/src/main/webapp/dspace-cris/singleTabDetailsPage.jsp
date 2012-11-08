@@ -22,7 +22,7 @@
 							<%!public URL fileURL;%>
 
 							<c:set var="urljspcustom"
-								value="/dspace-cris/jdyna/custom/${holder.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/${holder.externalJSP}.jsp" scope="request" />
 								
 							<%
 								String filePath = (String)pageContext.getRequest().getAttribute("urljspcustom");
@@ -81,7 +81,7 @@
 							<%
 								} else {
 							%>
-							<c:set var="holder" value="${holder}" scope="request" />
+							<c:set var="holder" value="${holder}" scope="request" />							
 							<c:import url="${urljspcustom}" />
 
 							<%
