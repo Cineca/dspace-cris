@@ -42,10 +42,10 @@
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
 			
 			<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/ou/details.htm" paramId="id" paramProperty="id" sortable="true" />							
-			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="organizationUnit.uuid" url="/cris/ou/details.htm" paramId="id" paramProperty="id" sortable="true" />										
-			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="code" url="/cris/ou/details.htm" paramId="sourceID" paramProperty="sourceID" sortable="true"/>									
-			<display:column headerClass="name" titleKey="jsp.layout.table.cris.admin-list.name" property="name" sortable="true"/>					
-			<display:column headerClass="active" titleKey="jsp.layout.table.hku.ous.status" sortable="true" sortProperty="status">				
+			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="uuid" url="/cris/ou/details.htm" paramId="id" paramProperty="id" sortable="true" />										
+			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="sourceID" url="/cris/ou/details.htm" paramId="sourceID" paramProperty="sourceID" sortable="true"/>									
+			<display:column headerClass="name" titleKey="jsp.layout.table.cris.admin-list.name" property="name" sortable="false"/>					
+			<display:column headerClass="active" titleKey="jsp.layout.table.cris.admin-list.status" sortable="true" sortProperty="status">				
 				<form:checkbox cssClass="active" path="list[${objectList_rowNum-1}].status" value="1"/>				
 			</display:column>
 

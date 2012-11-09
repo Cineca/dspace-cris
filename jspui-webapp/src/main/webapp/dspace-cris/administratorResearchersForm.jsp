@@ -41,14 +41,14 @@
 		<display:table name="${dto}" cellspacing="0" cellpadding="0" 
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
 			
-			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>							
-			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="rp.uuid" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>		
+			<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>							
+			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="uuid" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>		
 			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="sourceID" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>			
-			<display:column headerClass="names" class="names" titleKey="jsp.layout.table.hku.researchers.fullName" property="fullName" sortable="true"/>			
-			<display:column headerClass="dept" class="dept" titleKey="jsp.layout.table.hku.researchers.department" sortable="true">
-				<a href="${dyna:getLinkValue(objectList.dept)}">${dyna:getLinkDescription(objectList.dept)}</a> 
+			<display:column headerClass="names" class="names" titleKey="jsp.layout.table.cris.admin-list.rp.fullName" property="fullName" sortable="false"/>			
+			<display:column headerClass="dept" class="dept" titleKey="jsp.layout.table.cris.admin-list.rp.department" sortable="false">				
+				<a href="<%=request.getContextPath()%>/cris/${objectList.rp.dynamicField.anagrafica4view['dept'][0].value.real.publicPath}/details.htm?id=${objectList.rp.dynamicField.anagrafica4view['dept'][0]}">${dyna:getDisplayValue(objectList.rp.dynamicField.anagrafica4view['dept'][0].value.real, objectList.rp.dynamicField.anagrafica4view['dept'][0].typo.rendering.display)}</a> 
 			</display:column>	
-			<display:column headerClass="active" titleKey="jsp.layout.table.hku.researchers.status" sortable="true" sortProperty="status">				
+			<display:column headerClass="active" titleKey="jsp.layout.table.cris.admin-list.status" sortable="true" sortProperty="status">				
 				<form:checkbox cssClass="active" path="list[${objectList_rowNum-1}].status" value="1"/>				
 			</display:column>
 			<display:column headerClass="internalnote" titleKey="jsp.layout.table.hku.researchers.iternalnote" sortable="false">				

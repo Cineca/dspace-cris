@@ -26,6 +26,7 @@ public class OrganizationUnitDTO {
 	
 	private Integer id;
 	private String sourceID;
+	private String uuid;
 	private Boolean status;
 	private String name;
 		
@@ -64,6 +65,14 @@ public class OrganizationUnitDTO {
     public OrganizationUnit getOrganizationUnit()
     {
         return organizationUnit;
+    }
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
+    public String getUuid()
+    {
+        return uuid;
     }
 
 }

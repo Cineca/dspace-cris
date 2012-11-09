@@ -37,8 +37,14 @@ import javax.persistence.Transient;
         @NamedQuery(name = "OrganizationUnit.count", query = "select count(*) from OrganizationUnit"),
         @NamedQuery(name = "OrganizationUnit.paginate.id.asc", query = "from OrganizationUnit order by id asc"),
         @NamedQuery(name = "OrganizationUnit.paginate.id.desc", query = "from OrganizationUnit order by id desc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.status.asc", query = "from OrganizationUnit order by status asc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.status.desc", query = "from OrganizationUnit order by status desc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.sourceID.asc", query = "from OrganizationUnit order by sourceID asc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.sourceID.desc", query = "from OrganizationUnit order by sourceID desc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.uuid.asc", query = "from OrganizationUnit order by uuid asc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.uuid.desc", query = "from OrganizationUnit order by uuid desc"),
         @NamedQuery(name = "OrganizationUnit.uniqueUUID", query = "from OrganizationUnit where uuid = ?"),
-        @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceID = ?")        
+        @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceID = ?")  
 })
 public class OrganizationUnit extends
 		ACrisObject<OUProperty, OUPropertiesDefinition> implements
