@@ -124,8 +124,29 @@ public class ResearcherPageDetailsController
         EPerson currUser = context.getCurrentUser();
 
         boolean isAdmin = AuthorizeManager.isAdmin(context);
-        if ((researcher.getStatus() == null || researcher.getStatus()
-                .booleanValue() == false) && !isAdmin)
+      
+        if (isAdmin
+                || (currUser != null && (researcher.getEpersonID() != null && currUser
+                        .getID() == researcher.getEpersonID())))
+        {
+            model.put("researcher_page_menu", new Boolean(true));
+            model.put("authority_key",
+                    ResearcherPageUtils.getPersistentIdentifier(researcher));
+
+            if (isAdmin)
+            {
+                AuthorityDAO dao = AuthorityDAOFactory.getInstance(context);
+                long pendingItems = dao
+                        .countIssuedItemsByAuthorityValueInAuthority(
+                                RPAuthority.RP_AUTHORITY_NAME,
+                                ResearcherPageUtils
+                                        .getPersistentIdentifier(researcher));
+                model.put("pendingItems", new Long(pendingItems));
+            }
+        }
+        
+        else if ((researcher.getStatus() == null || researcher.getStatus()
+                .booleanValue() == false))
         {
             if (context.getCurrentUser() != null
                     || Authenticate.startAuthentication(context, request,
@@ -146,25 +167,7 @@ public class ResearcherPageDetailsController
             return null;
         }
 
-        if (isAdmin
-                || (currUser != null && (researcher.getEpersonID() != null && currUser
-                        .getID() != researcher.getEpersonID())))
-        {
-            model.put("researcher_page_menu", new Boolean(true));
-            model.put("authority_key",
-                    ResearcherPageUtils.getPersistentIdentifier(researcher));
-
-            if (isAdmin)
-            {
-                AuthorityDAO dao = AuthorityDAOFactory.getInstance(context);
-                long pendingItems = dao
-                        .countIssuedItemsByAuthorityValueInAuthority(
-                                RPAuthority.RP_AUTHORITY_NAME,
-                                ResearcherPageUtils
-                                        .getPersistentIdentifier(researcher));
-                model.put("pendingItems", new Long(pendingItems));
-            }
-        }
+        
         if (rpSubscribeService != null)
         {
             boolean subscribed = rpSubscribeService.isSubscribed(currUser,

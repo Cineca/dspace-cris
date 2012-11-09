@@ -40,11 +40,11 @@
 										
 		<display:table name="${dto}" cellspacing="0" cellpadding="0" 
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
-										
-			<display:column headerClass="uuid" titleKey="jsp.layout.table.hku.researchers.uuid" property="rp.uuid" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>		
-			<display:column headerClass="staff" class="staff" titleKey="jsp.layout.table.hku.researchers.staffNo" property="staffNo" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>			
-			<display:column headerClass="names" class="names" titleKey="jsp.layout.table.hku.researchers.fullName" property="fullName" sortable="true"/>						
-			<display:column headerClass="chinese" titleKey="jsp.layout.table.hku.researchers.chineseName" property="chineseName" sortable="true"/>
+			
+			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>							
+			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="rp.uuid" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>		
+			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="sourceID" url="/cris/rp/details.htm" paramId="id" paramProperty="id" sortable="true"/>			
+			<display:column headerClass="names" class="names" titleKey="jsp.layout.table.hku.researchers.fullName" property="fullName" sortable="true"/>			
 			<display:column headerClass="dept" class="dept" titleKey="jsp.layout.table.hku.researchers.department" sortable="true">
 				<a href="${dyna:getLinkValue(objectList.dept)}">${dyna:getLinkDescription(objectList.dept)}</a> 
 			</display:column>	

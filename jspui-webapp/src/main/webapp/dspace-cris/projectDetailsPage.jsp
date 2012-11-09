@@ -247,9 +247,9 @@
 		<div id="researcher">
 		
 			<c:if test="${!empty addModeType && addModeType=='display'}">
-      			<div id="cris-edit-div">
+      			
       				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/project/editDynamicData.htm?id=${entity.id}&anagraficaId=${entity.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.project"/></a>
-      			</div>
+      			
   			</c:if>
   			
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>

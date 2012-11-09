@@ -84,10 +84,9 @@ public class FormAdministrationResearcherController extends
         for(ResearcherPage r : researchers) {             
             ResearcherPageDTO rpd = new ResearcherPageDTO();
             rpd.setId(r.getId());
-            rpd.setStaffNo(r.getSourceID());
+            rpd.setSourceID(r.getSourceID());
             rpd.setFullName(r.getFullName());
-            rpd.setAcademicName(r.getPreferredName().getValue());
-            rpd.setChineseName(r.getTranslatedName().getValue());
+            rpd.setEpersonID(r.getEpersonID());
             List<String> ss = r.getMetadata("dept");
             if(ss!=null && !ss.isEmpty()) {  
                 rpd.setDept(ss.get(0));

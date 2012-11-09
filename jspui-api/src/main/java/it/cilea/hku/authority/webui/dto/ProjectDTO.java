@@ -25,7 +25,7 @@ import it.cilea.hku.authority.util.ResearcherPageUtils;
 public class ProjectDTO {
 	
 	private Integer id;
-	private String code;
+	private String sourceID;
 	private Boolean status;
 	private String title;
 	private String year;
@@ -38,11 +38,11 @@ public class ProjectDTO {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getCode() {
-		return code;
+	public String getSourceID() {
+		return sourceID;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setSourceID(String code) {
+		this.sourceID = code;
 	}
 	    
   

@@ -86,7 +86,7 @@ public class FormAdministrationOUController extends
         for(OrganizationUnit r : researchers) {             
             OrganizationUnitDTO rpd = new OrganizationUnitDTO();
             rpd.setId(r.getId());
-            rpd.setCode(r.getSourceID());
+            rpd.setSourceID(r.getSourceID());
                                
             rpd.setStatus(r.getStatus());
             rpd.setOrganizationUnit(r); 

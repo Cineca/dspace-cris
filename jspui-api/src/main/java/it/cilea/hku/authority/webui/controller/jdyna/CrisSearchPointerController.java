@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
-import org.dspace.discovery.DiscoverQuery;
 
 public class CrisSearchPointerController extends SearchPointerController<PropertiesDefinition, ACrisObject>
 {

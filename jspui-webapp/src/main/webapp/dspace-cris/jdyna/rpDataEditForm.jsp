@@ -255,7 +255,7 @@
 		                    success: function( data ) {
 		                        response( j.map( data.epersons, function( item ) {
 		                            return {
-		                                label: item.lastName+","+ item.firstName +" (" + item.id + ")",
+		                                label: item.lastName+", "+ item.firstName +" (" + item.email + ")",
 		                                value: item.id
 		                            }
 		                        }));
@@ -418,7 +418,7 @@
                 success: function( data ) {      
                 	
                 	 var div = j('#epersonDIV');
-                     var span = j("<span>").text(data.epersons[0].lastName +", "+ data.epersons[0].firstName +" ("+data.epersons[0].id+")");
+                     var span = j("<span>").text(data.epersons[0].lastName +", "+ data.epersons[0].firstName +" ("+data.epersons[0].email+")");
                      var img = j('<img class="jdyna-icon jdyna-action-icon jdyna-delete-button" src="<%= request.getContextPath() %>/image/jdyna/delete_icon.gif">');
                      img.click(function(){                     	
                      	div.html(' ');

@@ -47,7 +47,7 @@ public class MyRPController extends
 			HttpServletResponse response) throws Exception {
 	    Context context = UIUtil.obtainContext(request);
 	    EPerson currUser = context.getCurrentUser();
-        if (currUser == null || currUser.getNetid() == null)
+        if (currUser == null)
         {
             throw new ServletException("Wrong data or configuration: access to the my rp servlet without a valid user: there is no user logged in or the user's netid is null");
         }
@@ -66,8 +66,7 @@ public class MyRPController extends
             }
             else
             {
-                // the researcher page is not active so redirect the user to the
-                // HUB home page
+                // the researcher page is not active so redirect the user to the home page
                 response.sendRedirect(request.getContextPath() + "/");
             }
         }

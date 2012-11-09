@@ -41,6 +41,7 @@
 		<display:table name="${dto}" cellspacing="0" cellpadding="0" 
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
 			
+			<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/project/details.htm" paramId="id" paramProperty="id" sortable="true"/>
 			<display:column headerClass="uuid" titleKey="jsp.layout.table.hku.projects.uuid" property="grant.uuid" url="/cris/project/details.htm" paramId="id" paramProperty="id" sortable="true"/>										
 			<display:column headerClass="code" class="code" titleKey="jsp.layout.table.hku.projects.code" property="code" url="/cris/project/details.htm" paramId="code" paramProperty="code" sortable="true"/>						
 			<display:column headerClass="investigators" class="investigators" titleKey="jsp.layout.table.hku.projects.investigators" property="investigators" sortable="true"/>						
