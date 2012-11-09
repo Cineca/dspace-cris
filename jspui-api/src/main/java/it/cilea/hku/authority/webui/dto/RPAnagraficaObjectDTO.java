@@ -53,6 +53,7 @@ public class RPAnagraficaObjectDTO extends CrisAnagraficaObjectDTO
         setEmail(rp.getEmail());
         setFullName(rp.getFullName());        
         setVariants(rp.getVariants());
+        setEpersonID(rp.getEpersonID());
         this.setTimeStampCreated(rp.getTimeStampInfo().getCreationTime());
         this.setTimeStampModified(rp.getTimeStampInfo()
                 .getLastModificationTime());

@@ -240,6 +240,57 @@
     	
 		j(document).ready(function()
 		{
+			
+				
+			 j("#eperson").autocomplete({
+					delay: 500,
+		            source: function( request, response ) {	
+		                j.ajax({
+		                    url: "epersons.json",
+		                    dataType: "json", 
+		                    data : {	
+											
+								"query":  request.term						
+							},                  
+		                    success: function( data ) {
+		                        response( j.map( data.epersons, function( item ) {
+		                            return {
+		                                label: item.lastName+","+ item.firstName +" (" + item.id + ")",
+		                                value: item.id
+		                            }
+		                        }));
+		                    }
+		                });
+		            },		            
+		            minLength: 2,
+		            select: function( event, ui ) {
+		            	if (ui == null || ui.item == null) return false;
+		            	var div = j('#epersonDIV');
+		            	div.html(' ');
+						var _input = j( "<input type='hidden' id='epersonID' name='epersonID'>" ).val(ui.item.value);
+		            	var display = j("<span>").text(ui.item.label);
+		            	var img = j('<img class="jdyna-icon jdyna-action-icon jdyna-delete-button" src="<%= request.getContextPath() %>/image/jdyna/delete_icon.gif">');
+	                     img.click(function(){                     	
+	                      	div.html(' ');
+	                      	var _input = j( "<input type='hidden' id='epersonID' name='epersonID'>" ).val("");                     	
+	                      	div.append(_input);                     	
+	                  	 });
+		            	 div.append(_input);
+		            	 div.append(display);	                     
+		            	 display.append("&nbsp;")
+	                     display.append(img);
+	                     div.effect('highlight');
+		            	j('#eperson').val('');
+		            	return false;
+		            },
+		            open: function() {
+		                j( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+		            },
+		            close: function() {
+		                j( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+		            }
+		        });
+			 
 			j('#nested_edit_dialog').dialog({
 				autoOpen: false,
 				modal: true,
@@ -352,10 +403,38 @@
 		            }
 		        });
 		});
+
 	}
 		
        
-    
+		 
+		var activeEperson = function(id) {
+			j.ajax({
+                url: "eperson.json",
+                dataType: "json", 
+                data : {									
+					"id":  id						
+				},                  
+                success: function( data ) {      
+                	
+                	 var div = j('#epersonDIV');
+                     var span = j("<span>").text(data.epersons[0].lastName +", "+ data.epersons[0].firstName +" ("+data.epersons[0].id+")");
+                     var img = j('<img class="jdyna-icon jdyna-action-icon jdyna-delete-button" src="<%= request.getContextPath() %>/image/jdyna/delete_icon.gif">');
+                     img.click(function(){                     	
+                     	div.html(' ');
+                     	var _input = j( "<input type='hidden' id='epersonID' name='epersonID'>" ).val("");                     	
+                     	div.append(_input);                     	
+                 	 });
+                     
+                     div.append(span); 
+                     span.append("&nbsp;")
+                     span.append(img);
+                     div.effect('highlight');
+                }
+            });			
+		}
+		
+		
 		-->
 	</script>
 	
@@ -394,19 +473,19 @@
 	</spring:bind>
 
 
-	<div class="extra">
+	
 	
 		<fmt:message key="jsp.cris.detail.info.sourceid.none" var="i18nnone" />
 		
-		
+	<div class="extra">	
 		<div class="cris-record-info">
-				<c:set var="disabled" value=" disabled='disabled'"/>
+		<c:set var="disabled" value=" disabled='disabled'"/>
 		<c:choose>
 		<c:when test="${admin}">
 			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>			
 		</c:when>
 		<c:otherwise>
-			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /> ${!empty anagraficadto.staffNo?anagraficadto.staffNo:i18nnone}</span>
+			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /></b> ${!empty anagraficadto.sourceID?anagraficadto.sourceID:i18nnone}</span>
 		</c:otherwise>
 		</c:choose>		
 			<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${anagraficadto.timeStampCreated}</span>
@@ -422,10 +501,10 @@
 				<c:out value="${status.expression}" escapeXml="false"></c:out>
 			</c:set>
 
-			<div class="dynaField"><span class="dynaLabel"><label for="${inputName}"><fmt:message
-				key="jsp.layout.hku.label.status" /></label></span>
+			<span class="cris-record-info-status"><b><fmt:message
+				key="jsp.layout.hku.label.status" /></b>
 
-			<div class="dynaFieldValue">
+			
 			
 			<input id="${inputName}" name="${inputName}"
 					type="radio" value="false"
@@ -440,13 +519,36 @@
 			
 			<input name="_${inputName}" id="_${inputName}"
 				value="true" type="hidden" />
+			</span>
+		</spring:bind>
+		
+
+		<spring:bind path="epersonID">
+			<c:set var="inputValue">
+				<c:out value="${status.value}" escapeXml="true"></c:out>
+			</c:set>
+			<c:set var="inputName">
+				<c:out value="${status.expression}" escapeXml="false"></c:out>
+			</c:set>
+			
+			<span class="cris-record-info-eperson"><b><fmt:message
+				key="jsp.layout.hku.label.eperson" /></b>				
+			 <input id="eperson" /></span>
+			 <div id="epersonDIV" class="jdyna-pointer-value">
+			 		<input name="epersonID" type="hidden" value="${inputValue}"/>			 		
+			 		<c:if test="${!empty inputValue}">
+					<script type="text/javascript">
+						activeEperson('${inputValue}');
+					</script>
+					</c:if>				
 			</div>
-			</div>
+			
+			
 		</spring:bind>
 		</div>
-		
-			
 	</div>
+			
+	
 
 	<dyna:hidden propertyPath="anagraficadto.objectId" />
 	<input type="hidden" id="newTabId" name="newTabId" />

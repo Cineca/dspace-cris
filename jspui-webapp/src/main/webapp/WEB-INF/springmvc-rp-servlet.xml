@@ -126,6 +126,11 @@
 		<property name="applicationService" ref="applicationService" />
 	</bean>
 	
+	<bean id="jsonEpersonController"
+		class="it.cilea.hku.authority.webui.controller.json.EPersonController"/>	
+		
+	
+	
 	<!-- Start Researcher controller configurations -->
 	<bean id="detailsResearcherController"
 		class="it.cilea.hku.authority.webui.controller.ResearcherPageDetailsController">
@@ -3579,6 +3584,9 @@
 				<prop key="/rp/*">detailsResearcherController</prop>
 				<prop key="/rp/*/*">detailsResearcherController</prop>
 				<prop key="/rp/details.htm">redirectDetailsResearcherController</prop>
+				<!-- autocomplete eperson -->
+				<prop key="/tools/rp/epersons.json">jsonEpersonController</prop>
+				<prop key="/tools/rp/eperson.json">jsonEpersonController</prop>
 				
 				<!-- autocomplete pointer -->
 				<prop key="/tools/rp/searchPointer.htm">searchRPPointer</prop>

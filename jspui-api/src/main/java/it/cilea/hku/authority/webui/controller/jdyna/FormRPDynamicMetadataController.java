@@ -359,6 +359,7 @@ public class FormRPDynamicMetadataController
         myObject.pulisciAnagrafica();
         researcher.setSourceID(anagraficaObjectDTO.getSourceID());
         researcher.setStatus(anagraficaObjectDTO.getStatus());
+        researcher.setEpersonID(anagraficaObjectDTO.getEpersonID());
         
         getApplicationService().saveOrUpdate(ResearcherPage.class, researcher);
         EditTabResearcherPage area = getApplicationService().get(
