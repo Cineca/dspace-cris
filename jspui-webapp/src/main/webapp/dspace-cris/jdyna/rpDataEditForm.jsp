@@ -522,7 +522,7 @@
 			</span>
 		</spring:bind>
 		
-
+		<c:if test="${admin}">
 		<spring:bind path="epersonID">
 			<c:set var="inputValue">
 				<c:out value="${status.value}" escapeXml="true"></c:out>
@@ -545,6 +545,7 @@
 			
 			
 		</spring:bind>
+		</c:if>
 		</div>
 	</div>
 			
