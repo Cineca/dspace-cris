@@ -1097,7 +1097,6 @@ h4 img.hide {display: none;}
 
 .ui-widget-content div {margin: 0px !important;}
 div.cris-record-info span {display: block; font-size: 8pt;margin-top:10px;}
-div#cris-edit-div {height: 0px;margin:0px;}
 a.cris-edit-anchor:hover {
 	border-color: #E17009;
 	color: #E17009;
@@ -1125,7 +1124,7 @@ a.cris-edit-anchor {
     text-decoration: none;
     white-space: nowrap;
     left: 10px;
-    top: 20px;
+    top: 40px;
     width: 12em;
     transform: rotate(90deg);
     transform-origin: left top;

@@ -53,6 +53,7 @@ public class EPersonController extends MultiActionController
             dto.setId(eperson.getID());
             dto.setLastName(eperson.getLastName());
             dto.setNetId(eperson.getNetid());
+            dto.setEmail(eperson.getEmail());
             epersons.add(dto);
         }
         return epersons;
@@ -100,6 +101,8 @@ public class EPersonController extends MultiActionController
         
         private String netId;
         
+        private String email;
+        
         public int getId()
         {
             return id;
@@ -138,6 +141,16 @@ public class EPersonController extends MultiActionController
         public void setNetId(String netId)
         {
             this.netId = netId;
+        }
+
+        public void setEmail(String email)
+        {
+            this.email = email;
+        }
+
+        public String getEmail()
+        {
+            return email;
         }
 
         

@@ -40,6 +40,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.dspace.app.webui.util.JSPManager;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
@@ -155,6 +156,24 @@ public class FormRPDynamicMetadataController
         map.put("addModeType", "edit");
         return map;
     }
+    
+    @Override
+    protected ModelAndView handleRequestInternal(HttpServletRequest request,
+            HttpServletResponse response) throws Exception
+    {
+        try {
+            return super.handleRequestInternal(request, response);
+        }
+        catch (AuthorizeException ex) {
+            JSPManager
+            .showAuthorizeError(
+                    request,
+                    response,
+                    new AuthorizeException(
+                            "Only system administrator can access to disabled researcher page"));
+        }
+        return null;
+    }
 
     @Override
     protected Object formBackingObject(HttpServletRequest request)
@@ -174,8 +193,8 @@ public class FormRPDynamicMetadataController
                 ResearcherPage.class, id);
         Context context = UIUtil.obtainContext(request);
         EPerson currentUser = context.getCurrentUser();
-        if (currentUser==null || (researcher.getEpersonID()!=null && currentUser.getID()!=researcher.getEpersonID())
-                && !AuthorizeManager.isAdmin(context))
+        if ((currentUser==null || (researcher.getEpersonID()!=null && currentUser.getID()!=researcher.getEpersonID()))
+               && !AuthorizeManager.isAdmin(context))
         {
             throw new AuthorizeException(
                     "Only system admin can edit not personal researcher page");

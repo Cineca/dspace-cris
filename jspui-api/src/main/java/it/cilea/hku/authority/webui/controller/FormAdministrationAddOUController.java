@@ -38,7 +38,7 @@ public class FormAdministrationAddOUController extends
             throws Exception
     {
         OrganizationUnitDTO grantDTO = (OrganizationUnitDTO) command;
-        String code = grantDTO.getCode();
+        String code = grantDTO.getSourceID();
         OrganizationUnit grant = null;
         if (code != null && !code.isEmpty())
         {

@@ -25,11 +25,10 @@ import it.cilea.hku.authority.util.ResearcherPageUtils;
 public class OrganizationUnitDTO {
 	
 	private Integer id;
-	private String code;
+	private String sourceID;
 	private Boolean status;
-	private String title;
-	private String year;
-	
+	private String name;
+		
 	private OrganizationUnit organizationUnit;
 	
 	public Integer getId() {
@@ -38,11 +37,11 @@ public class OrganizationUnitDTO {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getCode() {
-		return code;
+	public String getSourceID() {
+		return sourceID;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setSourceID(String code) {
+		this.sourceID = code;
 	}
 	
 	public Boolean getStatus() {
@@ -52,18 +51,12 @@ public class OrganizationUnitDTO {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getYear() {
-		return year;
-	}
-	public void setYear(String year) {
-		this.year = year;
-	}
+	public void setName(String title) {
+		this.name = title;
+	}	
     public void setOrganizationUnit(OrganizationUnit organizationUnit)
     {
         this.organizationUnit = organizationUnit;

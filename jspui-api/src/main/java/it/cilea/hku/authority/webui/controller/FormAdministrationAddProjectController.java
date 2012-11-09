@@ -38,7 +38,7 @@ public class FormAdministrationAddProjectController extends
             throws Exception
     {
         ProjectDTO grantDTO = (ProjectDTO) command;
-        String code = grantDTO.getCode();
+        String code = grantDTO.getSourceID();
         Project grant = null;
         if (code != null && !code.isEmpty())
         {

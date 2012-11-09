@@ -27,10 +27,9 @@ import java.util.List;
 public class ResearcherPageDTO  {
 	
 	private Integer id;
-	private String staffNo;
+	private String sourceID;
 	private String fullName;
-	private String academicName;
-	private String chineseName;
+	private Integer epersonID;	
 	private String dept;
 	private Boolean status;
 	private TimeStampInfo timeStampInfo;
@@ -50,12 +49,12 @@ public class ResearcherPageDTO  {
 		this.id = id;
 	}
 
-	public String getStaffNo() {
-		return staffNo;
+	public String getSourceID() {
+		return sourceID;
 	}
 
-	public void setStaffNo(String staffNo) {
-		this.staffNo = staffNo;
+	public void setSourceID(String staffNo) {
+		this.sourceID = staffNo;
 	}
 
 	public String getFullName() {
@@ -89,27 +88,7 @@ public class ResearcherPageDTO  {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-
-    public String getAcademicName()
-    {
-        return academicName;
-    }
-
-    public void setAcademicName(String academicName)
-    {
-        this.academicName = academicName;
-    }
-
-    public String getChineseName()
-    {
-        return chineseName;
-    }
-
-    public void setChineseName(String chineseName)
-    {
-        this.chineseName = chineseName;
-    }
-
+   
     public String getDept()
     {
         return dept;
@@ -142,4 +121,16 @@ public class ResearcherPageDTO  {
     {
         return rp;
     }
+
+    public void setEpersonID(Integer epersonID)
+    {
+        this.epersonID = epersonID;
+    }
+
+    public Integer getEpersonID()
+    {
+        return epersonID;
+    }
+
+  
 }

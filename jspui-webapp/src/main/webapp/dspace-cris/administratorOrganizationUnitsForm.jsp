@@ -9,16 +9,16 @@
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 
-<dspace:layout locbar="link" navbar="admin" titlekey="jsp.dspace-admin.ous-list">
+<dspace:layout locbar="link" navbar="admin" titlekey="jsp.dspace-admin.cris.ous-list">
 
 	<table width="95%">
 		<tr>
 			<td align="left">
-			<h1><fmt:message key="jsp.dspace-admin.ous-list" /></h1>
+			<h1><fmt:message key="jsp.dspace-admin.cris.ous-list" /></h1>
 			</td>
 			<td align="right" class="standard"><a target="_blank"
 				href='<%=LocaleSupport.getLocalizedMessage(pageContext,
-                                "help.site-admin.rp-list")%>'><fmt:message
+                                "help.site-admin.cris.ou-list")%>'><fmt:message
 				key="jsp.help" /></a></td>
 		</tr>
 	</table>
@@ -40,11 +40,11 @@
 										
 		<display:table name="${dto}" cellspacing="0" cellpadding="0" 
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
-										
-			<display:column headerClass="uuid" titleKey="jsp.layout.table.hku.ous.uuid" property="organizationUnit.uuid" url="/cris/ou/details.htm" paramId="id" paramProperty="id" sortable="true" />										
-			<display:column headerClass="code" class="code" titleKey="jsp.layout.table.hku.ous.code" property="code" url="/cris/ou/details.htm" paramId="code" paramProperty="code" sortable="true"/>									
-			<display:column headerClass="title" titleKey="jsp.layout.table.hku.ous.title" property="title" sortable="true"/>
-			<display:column headerClass="year" titleKey="jsp.layout.table.hku.ous.year" property="year" sortable="true"/>			
+			
+			<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/ou/details.htm" paramId="id" paramProperty="id" sortable="true" />							
+			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="organizationUnit.uuid" url="/cris/ou/details.htm" paramId="id" paramProperty="id" sortable="true" />										
+			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="code" url="/cris/ou/details.htm" paramId="sourceID" paramProperty="sourceID" sortable="true"/>									
+			<display:column headerClass="name" titleKey="jsp.layout.table.cris.admin-list.name" property="name" sortable="true"/>					
 			<display:column headerClass="active" titleKey="jsp.layout.table.hku.ous.status" sortable="true" sortProperty="status">				
 				<form:checkbox cssClass="active" path="list[${objectList_rowNum-1}].status" value="1"/>				
 			</display:column>

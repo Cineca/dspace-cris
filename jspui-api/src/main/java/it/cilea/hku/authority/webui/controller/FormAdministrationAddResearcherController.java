@@ -40,12 +40,12 @@ public class FormAdministrationAddResearcherController extends
             throws Exception
     {
         ResearcherPageDTO researcherDTO = (ResearcherPageDTO) command;
-        String staffNo = researcherDTO.getStaffNo();
+        String staffNo = researcherDTO.getSourceID();
         ResearcherPage researcher = null;
         if (staffNo != null && !staffNo.isEmpty())
         {
             researcher = applicationService
-                    .getResearcherPageByStaffNo(researcherDTO.getStaffNo());
+                    .getResearcherPageByStaffNo(researcherDTO.getSourceID());
 
             if (researcher != null)
             {
