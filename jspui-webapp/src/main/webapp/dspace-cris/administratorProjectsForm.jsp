@@ -42,12 +42,11 @@
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
 			
 			<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/project/details.htm" paramId="id" paramProperty="id" sortable="true"/>
-			<display:column headerClass="uuid" titleKey="jsp.layout.table.hku.projects.uuid" property="grant.uuid" url="/cris/project/details.htm" paramId="id" paramProperty="id" sortable="true"/>										
-			<display:column headerClass="code" class="code" titleKey="jsp.layout.table.hku.projects.code" property="code" url="/cris/project/details.htm" paramId="code" paramProperty="code" sortable="true"/>						
-			<display:column headerClass="investigators" class="investigators" titleKey="jsp.layout.table.hku.projects.investigators" property="investigators" sortable="true"/>						
-			<display:column headerClass="title" titleKey="jsp.layout.table.hku.projects.title" property="title" sortable="true"/>
-			<display:column headerClass="year" titleKey="jsp.layout.table.hku.projects.year" property="year" sortable="true"/>			
-			<display:column headerClass="active" titleKey="jsp.layout.table.hku.projects.status" sortable="true" sortProperty="status">				
+			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="grant.uuid" url="/cris/project/details.htm" paramId="id" paramProperty="id" sortable="true"/>										
+			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="sourceID" url="/cris/project/details.htm" paramId="sourceID" paramProperty="sourceID" sortable="true"/>						
+			<display:column headerClass="investigators" class="investigators" titleKey="jsp.layout.table.hku.projects.investigators" property="investigators" sortable="false"/>						
+			<display:column headerClass="title" titleKey="jsp.layout.table.hku.projects.title" property="title" sortable="false"/>						
+			<display:column headerClass="active" titleKey="jsp.layout.table.cris.admin-list.status" sortable="true" sortProperty="status">				
 				<form:checkbox cssClass="active" path="list[${objectList_rowNum-1}].status" value="1"/>				
 			</display:column>
 

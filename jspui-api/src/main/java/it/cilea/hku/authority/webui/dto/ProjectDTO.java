@@ -25,6 +25,7 @@ import it.cilea.hku.authority.util.ResearcherPageUtils;
 public class ProjectDTO {
 	
 	private Integer id;
+	private String uuid;
 	private String sourceID;
 	private Boolean status;
 	private String title;
@@ -78,6 +79,14 @@ public class ProjectDTO {
 	public void setInvestigators(String investigators) {
 		this.investigators = investigators;
 	}
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
+    public String getUuid()
+    {
+        return uuid;
+    }
 
 
 }

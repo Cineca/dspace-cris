@@ -27,10 +27,10 @@ import java.util.List;
 public class ResearcherPageDTO  {
 	
 	private Integer id;
+	private String uuid;
 	private String sourceID;
 	private String fullName;
 	private Integer epersonID;	
-	private String dept;
 	private Boolean status;
 	private TimeStampInfo timeStampInfo;
 	
@@ -88,16 +88,6 @@ public class ResearcherPageDTO  {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-   
-    public String getDept()
-    {
-        return dept;
-    }
-
-    public void setDept(String dept)
-    {
-        this.dept = dept;
-    }
 
     public String getPersistentIdentifier()
     {
@@ -130,6 +120,16 @@ public class ResearcherPageDTO  {
     public Integer getEpersonID()
     {
         return epersonID;
+    }
+
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
+
+    public String getUuid()
+    {
+        return uuid;
     }
 
   

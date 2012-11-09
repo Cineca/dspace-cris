@@ -68,6 +68,10 @@ import org.hibernate.annotations.FetchMode;
         @NamedQuery(name = "ResearcherPage.paginate.id.desc", query = "from ResearcherPage order by id desc"),
         @NamedQuery(name = "ResearcherPage.paginate.status.asc", query = "from ResearcherPage order by status asc"),
         @NamedQuery(name = "ResearcherPage.paginate.status.desc", query = "from ResearcherPage order by status desc"),
+        @NamedQuery(name = "ResearcherPage.paginate.sourceID.asc", query = "from ResearcherPage order by sourceID asc"),
+        @NamedQuery(name = "ResearcherPage.paginate.sourceID.desc", query = "from ResearcherPage order by sourceID desc"),
+        @NamedQuery(name = "ResearcherPage.paginate.uuid.asc", query = "from ResearcherPage order by uuid asc"),
+        @NamedQuery(name = "ResearcherPage.paginate.uuid.desc", query = "from ResearcherPage order by uuid desc"),
         @NamedQuery(name = "ResearcherPage.count", query = "select count(*) from ResearcherPage"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherPageByStatus", query = "from ResearcherPage where status = ? order by id"),
         // @NamedQuery(name = "ResearcherPage.findAllResearcherByField", query =

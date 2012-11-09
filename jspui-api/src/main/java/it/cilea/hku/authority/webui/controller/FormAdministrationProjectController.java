@@ -66,7 +66,7 @@ public class FormAdministrationProjectController extends
         String sort = paramSort != null ? paramSort : "id";
         String dir = paramDir != null ? paramDir : "asc";
         int page = paramPage != null ? Integer.parseInt(paramPage) : 1;
-        long count = applicationService.count(ResearcherPage.class);
+        long count = applicationService.count(Project.class);
         Integer pagesize = Integer.parseInt(ConfigurationManager
                 .getProperty("project.administration.table.pagesize"));
         
@@ -86,6 +86,7 @@ public class FormAdministrationProjectController extends
         for(Project r : researchers) {             
             ProjectDTO rpd = new ProjectDTO();
             rpd.setId(r.getId());
+            rpd.setUuid(r.getUuid());
             rpd.setSourceID(r.getSourceID());
             rpd.setTitle(r.getTitle());            
             rpd.setInvestigators(r.getInvestigatorToDisplay());            

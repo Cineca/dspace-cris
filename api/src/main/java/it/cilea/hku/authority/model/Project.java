@@ -14,6 +14,7 @@ import it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage;
 import it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition;
 import it.cilea.hku.authority.model.dynamicfield.ProjectProperty;
 import it.cilea.hku.authority.model.export.ExportConstants;
+import it.cilea.hku.authority.util.Researcher;
 import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
 import it.cilea.osd.common.model.Identifiable;
@@ -41,6 +42,12 @@ import javax.persistence.Transient;
         @NamedQuery(name = "Project.count", query = "select count(*) from Project"),
         @NamedQuery(name = "Project.paginate.id.asc", query = "from Project order by id asc"),
         @NamedQuery(name = "Project.paginate.id.desc", query = "from Project order by id desc"),
+        @NamedQuery(name = "Project.paginate.status.asc", query = "from Project order by status asc"),
+        @NamedQuery(name = "Project.paginate.status.desc", query = "from Project order by status desc"),
+        @NamedQuery(name = "Project.paginate.sourceID.asc", query = "from Project order by sourceID asc"),
+        @NamedQuery(name = "Project.paginate.sourceID.desc", query = "from Project order by sourceID desc"),
+        @NamedQuery(name = "Project.paginate.uuid.asc", query = "from Project order by uuid asc"),
+        @NamedQuery(name = "Project.paginate.uuid.desc", query = "from Project order by uuid desc"),
         @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ? order by id desc"),
         @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?")
   })
@@ -79,15 +86,30 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     }
 
     public Investigator getInvestigator()
-    {
-        // TODO return a JDynA pointer
-        return new Investigator();
+    {        
+        Investigator investigator = new Investigator();
+        Researcher researcher = new Researcher(); 
+        List<String> metadata = getMetadata("principalinvestigator");
+        
+        String s = "";
+        if(metadata!=null && !metadata.isEmpty()) {
+            s = metadata.get(0);
+            investigator.setIntInvestigator(researcher.getApplicationService().get(ResearcherPage.class, Integer.parseInt(s)));
+        }
+        return investigator;
+        
     }
 
     public List<Investigator> getCoInvestigators()
-    {
-        // TODO return a JDynA pointer
-        return new LinkedList<Investigator>();
+    {     
+        List<Investigator> result = new LinkedList<Investigator>();
+        for(String ss : getMetadata("coinvestigators")) {
+            Investigator investigator = new Investigator();
+            Researcher researcher = new Researcher(); 
+            investigator.setIntInvestigator(researcher.getApplicationService().get(ResearcherPage.class, Integer.parseInt(ss)));
+            result.add(investigator);
+        }
+        return result;
     }
 
     /**

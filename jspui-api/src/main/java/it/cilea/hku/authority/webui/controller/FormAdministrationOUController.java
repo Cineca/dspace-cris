@@ -66,7 +66,7 @@ public class FormAdministrationOUController extends
         String sort = paramSort != null ? paramSort : "id";
         String dir = paramDir != null ? paramDir : "asc";
         int page = paramPage != null ? Integer.parseInt(paramPage) : 1;
-        long count = applicationService.count(ResearcherPage.class);
+        long count = applicationService.count(OrganizationUnit.class);
         Integer pagesize = Integer.parseInt(ConfigurationManager
                 .getProperty("project.administration.table.pagesize"));
         
@@ -87,8 +87,9 @@ public class FormAdministrationOUController extends
             OrganizationUnitDTO rpd = new OrganizationUnitDTO();
             rpd.setId(r.getId());
             rpd.setSourceID(r.getSourceID());
-                               
+            rpd.setUuid(r.getUuid());
             rpd.setStatus(r.getStatus());
+            rpd.setName(r.getName());
             rpd.setOrganizationUnit(r); 
             if((r.getId()).equals(id)) {
                 objectList.addFirst(rpd);
