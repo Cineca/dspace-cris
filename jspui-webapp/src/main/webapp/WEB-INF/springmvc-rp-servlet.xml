@@ -1,0 +1,4050 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.directwebremoting.org/schema/spring-dwr
+           http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd
+           http://www.springframework.org/schema/util
+		   http://www.springframework.org/schema/util/spring-util-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+	<bean id="baseFormController" abstract="true"
+		class="it.cilea.osd.common.controller.BaseFormController">
+		<property name="customPropertyEditors">
+			<map>				
+				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" value-ref="decoratorRPPropertiesDefinitionEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" value-ref="decoratorProjectPropertiesDefinitionEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition" value-ref="decoratorOUPropertiesDefinitionEditor"/>
+				<entry key="it.cilea.osd.jdyna.model.Containable" value-ref="containableEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" value-ref="rpTabEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" value-ref="rpBoxEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.TabProject" value-ref="projectTabEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxProject" value-ref="projectBoxEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit" value-ref="ouTabEditor"/>
+				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" value-ref="ouBoxEditor"/>				
+				<entry key="java.util.Date" value-ref="dateUtilEditor"/>
+				<entry key="java.lang.String" value-ref="stringEditor"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="loadFileRP" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+		<property name="filePath">
+			<value>researcherpage.file.path</value>
+		</property>	
+	</bean>		
+	<bean id="loadFileProject" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+		<property name="filePath">
+			<value>project.file.path</value>
+		</property>	
+	</bean>	
+	<bean id="loadFileOU" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+		<property name="filePath">
+			<value>organizationunit.file.path</value>
+		</property>	
+	</bean>		
+		
+	<!--
+		the application context definition for the springapp DispatcherServlet
+	-->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>Messages</value>
+		</property>
+	</bean>
+
+
+	<bean id="redirectDetailsController"
+		class="it.cilea.hku.authority.webui.controller.RedirectFromUUIDtoDetailsController">
+		<property name="applicationService" >
+			<ref bean="applicationService" />
+		</property>		
+	</bean>
+		
+	<bean id="reBindItemToRpController"
+		class="it.cilea.hku.authority.webui.controller.ReBindItemToRPController">
+		<property name="applicationService" >
+			<ref bean="applicationService" />
+		</property>		
+		<property name="viewName">
+			<value>redirect:/cris/rp/</value>
+		</property>
+	</bean>
+	
+	<bean id="requestChangesController"
+		class="it.cilea.hku.authority.webui.controller.FormSendMailController">
+			<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/rp/</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.dto.MailDTO</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+		<property name="formView">
+			<value>mail</value>
+		</property>
+		<property name="validator" ref="mailValidator"/>
+	</bean>
+
+	<bean id="adminController"
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+
+		<property name="viewName">
+			<value>administrator</value>
+		</property>
+	</bean>
+	
+	<!-- Controller to redirect researcher into own profile after login -->
+	<bean id="myRPController"
+		class="it.cilea.hku.authority.webui.controller.MyRPController">
+		<property name="applicationService" ref="applicationService" />
+		<property name="viewName">
+			<value>researcherDetailsPage</value>
+		</property>
+	</bean>
+	
+	<!-- Controller to expose (via JSON) informations about the rp of the current user -->
+	<bean id="jsonMyRPController"
+		class="it.cilea.hku.authority.webui.controller.json.MyRPJSONController">
+		<property name="methodNameResolver">
+			<bean class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver" />
+		</property>
+		<property name="applicationService" ref="applicationService" />
+	</bean>
+	
+	<bean id="jsonEpersonController"
+		class="it.cilea.hku.authority.webui.controller.json.EPersonController"/>	
+		
+	
+	
+	<!-- Start Researcher controller configurations -->
+	<bean id="detailsResearcherController"
+		class="it.cilea.hku.authority.webui.controller.ResearcherPageDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.ResearcherPage</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="detailsView">
+			<value>researcherDetailsPage</value>
+		</property>		
+		<property name="method">
+			<value>details</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="components" ref="rpComponents"/>		
+		
+	</bean>
+	
+	<bean id="redirectDetailsResearcherController"
+		class="it.cilea.hku.authority.webui.controller.RedirectResearcherPageDetailsController">
+				<property name="viewName">
+			<value>researcherDetailsPage</value>
+		</property>		
+	</bean>
+	
+	<bean id="adminListResearcherPageController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationResearcherController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/list.htm</value>
+		</property>
+		<property name="formView">
+			<value>administratorResearchersForm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.util.RPDisplayTagData</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+	</bean>
+
+	
+	<bean id="adminAddResearcherPageController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddResearcherController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/rp/</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.dto.ResearcherPageDTO</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+		<property name="formView">
+			<value>rpAdministrator</value>
+		</property>
+	</bean>
+
+
+	<bean id="adminRPController"
+		class="it.cilea.hku.authority.webui.controller.RPAdminController">
+
+		<property name="viewName">
+			<value>rpAdministrator</value>
+		</property>
+	</bean>
+
+
+	<bean id="listRPTabController"
+		class="it.cilea.osd.jdyna.controller.TabController">
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/tabList</value>
+		</property>		
+	</bean>
+
+	<bean id="listRPBoxController"
+		class="it.cilea.osd.jdyna.controller.BoxsController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/boxList</value>
+		</property>
+	</bean>
+	
+	<bean id="editRPTabController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormTabController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/listTabs.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			</value>
+		</property>
+		<property name="commandName">
+			<value>tab</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/tabForm</value>
+		</property>		
+		<property name="validator" ref="tabValidator" />
+	</bean>
+
+	<bean id="deleteRPTabController"
+		class="it.cilea.osd.jdyna.controller.TabController">
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/rp/listTabs.htm</value>
+		</property>		
+	</bean>
+
+	<bean id="editRPBoxController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormBoxController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</property>
+		<property name="commandName">
+			<value>box</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/boxForm</value>
+		</property>
+		<property name="validator" ref="boxValidator" />
+	</bean>
+
+	<bean id="deleteRPBoxController"
+		class="it.cilea.osd.jdyna.controller.BoxsController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/rp/listBoxs.htm</value>
+		</property>
+	</bean>
+	
+	<bean id="deleteRPFieldDefinitionController"
+		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
+		<constructor-arg index="0">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+	</bean>
+ 
+ 	<bean id="deleteRPNestedFieldDefinitionController"
+		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
+		<constructor-arg index="0">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+	</bean>
+ 
+	<bean id="editRPTextDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetTesto
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormNestedObjectDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="targetClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>
+		</property>
+		<property name="decoratorClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/nestedObjectDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>						
+	    <property name="addTextView">
+			<value>redirect:/cris/administrator/rp/addTextToNestedDynamicField.htm</value>
+		</property>
+		<property name="addDateView">
+			<value>redirect:/cris/administrator/rp/addDateToNestedDynamicField.htm</value>
+		</property>
+		<property name="addLinkView">
+			<value>redirect:/cris/administrator/rp/addLinkToNestedDynamicField.htm</value>
+		</property>
+		<property name="addFileView">
+			<value>redirect:/cris/administrator/rp/addFileToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerView">
+			<value>redirect:/cris/administrator/rp/addPointerToNestedDynamicField.htm</value>
+		</property>
+		<property name="validator" ref="rpNestedDynamicFieldValidator" />	
+	</bean>
+
+	<bean id="editRPPointerRPDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editRPPointerProjectDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editRPPointerOUDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editRPDateDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetDate
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editRPLinkDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">				   		
+			<value>it.cilea.osd.jdyna.widget.WidgetLink</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editRPFileDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">				   		
+			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+			
+	<bean id="listRPEditTabController"
+		class="it.cilea.osd.jdyna.controller.EditTabController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/editTabList</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+	</bean>
+	
+	<bean id="editRPEditTabController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormEditTabController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/listEditTabs.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			</value>
+		</property>
+		<property name="commandName">
+			<value>tab</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/editTabForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="editTabValidator" />
+	</bean>
+
+	<bean id="deleteRPEditTabController"
+		class="it.cilea.osd.jdyna.controller.EditTabController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/rp/listEditTabs.htm</value>
+		</property>		
+	</bean>
+
+	<bean id="editRPDynamicDataController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPDynamicMetadataController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="clazzTab">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage</value>
+		</property>
+		<property name="clazzBox">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>
+		</property>
+		<property name="clazzTipologiaProprieta">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+		</property>
+		<property name="clazzAnagraficaObject">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage</value>
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/rp/</value>
+		</property>
+		<property name="formView">
+			<value>/jdyna/rpDataEditForm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.dto.RPAnagraficaObjectDTO</value>
+		</property>		
+		<property name="commandName">
+			<value>anagraficadto</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="anagraficaValidator" />		
+	</bean>
+
+	<bean id="viewRPNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>					
+		<property name="detailsView">
+			<value>nestedListPage</value>
+		</property>		
+		<property name="method">
+			<value>list</value>
+		</property>			
+	</bean>
+
+	<bean id="deleteRPNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>				
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>				
+		<property name="detailsView">
+			<value>nestedListPage</value>
+		</property>		
+		<property name="method">
+			<value>delete</value>
+		</property>			
+	</bean>
+
+
+	<bean id="editRPNestedDetailsController" class="it.cilea.osd.jdyna.controller.FormNestedObject" parent="baseFormController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<property name="successView">
+			<!-- <value>redirect:/rp/tools/editDynamicData.htm?id=</value> -->		
+			<value>nestedListPage</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.osd.jdyna.dto.AnagraficaObjectWithTypeDTO</value>			
+		</property>
+		<property name="commandName">
+			<value>nesteddto</value>
+		</property>
+		<property name="formView">
+			<value>/jdyna/nestedEditForm</value>
+		</property>	
+		
+		<property name="targetClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
+		</property>
+		<property name="typeClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>
+		</property>
+		<property name="propertyDefinitionClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition</value>
+		</property>		
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>							
+	</bean>
+	
+
+	
+	<bean id="addTextToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetTesto
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
+	</bean>
+
+	<bean id="addDateToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetDate
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addLinkToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetLink
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpNestedPDFieldValidator" />		
+	</bean>
+	
+	<bean id="addFileToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
+	</bean>
+
+	<bean id="addPointerRPToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addPointerProjectToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addPointerOUToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
+	</bean>
+	
+	
+	<bean id="deleteRPNestedFieldController"
+		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
+		<constructor-arg index="0">			
+				<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>			
+		</constructor-arg>
+		<constructor-arg index="1">			
+				<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>			
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+	</bean>
+	
+	
+	<!-- Start Project controller configurations -->
+	<bean id="detailsProjectController"
+		class="it.cilea.hku.authority.webui.controller.ProjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.Project</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+		</constructor-arg>		
+		<property name="detailsView">
+			<value>projectDetailsPage</value>
+		</property>		
+		<property name="method">
+			<value>details</value>
+		</property>	
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+	</bean>		
+		
+	<bean id="redirectDetailsProjectController"
+		class="it.cilea.hku.authority.webui.controller.RedirectEntityDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.Project</value>
+		</constructor-arg>
+		<property name="viewName">
+			<value>projectDetailsPage</value>
+		</property>
+	</bean>
+	
+	<bean id="adminProjectController"
+		class="it.cilea.hku.authority.webui.controller.ProjectAdminController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="viewName">
+			<value>projectAdministrator</value>
+		</property>
+	</bean>
+
+	
+	<bean id="adminAddProjectController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddProjectController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/project/</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.dto.ProjectDTO</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+		<property name="formView">
+			<value>administrator</value>
+		</property>
+	</bean>
+	
+	<bean id="adminListProjectController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationProjectController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/list.htm</value>
+		</property>
+		<property name="formView">
+			<value>administratorProjectsForm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.util.ProjectDisplayTagData</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="listProjectTabController"
+		class="it.cilea.osd.jdyna.controller.TabController">
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/tabList</value>
+		</property>		
+	</bean>
+
+	<bean id="listProjectBoxController"
+		class="it.cilea.osd.jdyna.controller.BoxsController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/boxList</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="editProjectTabController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormTabController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/listTabs.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			</value>
+		</property>
+		<property name="commandName">
+			<value>tab</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/tabForm</value>
+		</property>		
+		<property name="validator" ref="grantTabValidator" />
+	</bean>
+
+	<bean id="deleteProjectTabController"
+		class="it.cilea.osd.jdyna.controller.TabController">
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/project/listTabs.htm</value>
+		</property>		
+	</bean>
+
+	<bean id="editProjectBoxController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormBoxController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</property>
+		<property name="commandName">
+			<value>box</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/boxForm</value>
+		</property>
+		<property name="validator" ref="grantBoxValidator" />
+	</bean>
+
+	<bean id="deleteProjectBoxController"
+		class="it.cilea.osd.jdyna.controller.BoxsController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/project/listBoxs.htm</value>
+		</property>
+	</bean>
+	
+	<bean id="deleteProjectDynamicFieldController"
+		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
+		<constructor-arg index="0">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+	</bean>
+
+ 
+	<bean id="editProjectTextDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetTesto
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editProjectPointerRPDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editProjectPointerProjectDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editProjectPointerOUDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+		
+	<bean id="editProjectDateDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetDate
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editProjectLinkDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">				   		
+			<value>it.cilea.osd.jdyna.widget.WidgetLink</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editProjectFileDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">				   		
+			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+
+	<bean id="listProjectEditTabController"
+		class="it.cilea.osd.jdyna.controller.EditTabController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/editTabList</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+	</bean>
+	
+	<bean id="editProjectEditTabController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormEditTabController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/listEditTabs.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
+		</property>
+		<property name="commandName">
+			<value>tab</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/editTabForm</value>
+		</property>
+		<property name="validator" ref="grantEditTabValidator" />		
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+	</bean>
+
+	<bean id="deleteProjectEditTabController"
+		class="it.cilea.osd.jdyna.controller.EditTabController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/project/listEditTabs.htm</value>
+		</property>
+	</bean>
+
+	<bean id="editProjectDynamicDataController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectDynamicMetadataController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="clazzTab">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
+		</property>
+		<property name="clazzBox">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+		</property>
+		<property name="clazzTipologiaProprieta">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+		</property>
+		<property name="clazzAnagraficaObject">
+			<value>it.cilea.hku.authority.model.Project</value>
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/project/</value>
+		</property>
+		<property name="formView">
+			<value>/jdyna/projectDataEditForm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.dto.ProjectAnagraficaObjectDTO</value>
+		</property>		
+		<property name="commandName">
+			<value>anagraficadto</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantAnagraficaValidator" />		
+	</bean>
+	
+	
+	
+	
+	
+	<bean id="viewProjectNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>	
+		<property name="detailsView">
+			<value>nestedListPage</value>
+		</property>		
+		<property name="method">
+			<value>list</value>
+		</property>			
+	</bean>
+
+	<bean id="deleteProjectNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>	
+		<property name="detailsView">
+			<value>nestedListPage</value>
+		</property>		
+		<property name="method">
+			<value>delete</value>
+		</property>			
+	</bean>
+
+              
+	<bean id="editProjectNestedDetailsController" class="it.cilea.osd.jdyna.controller.FormNestedObject" parent="baseFormController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<property name="successView">
+			<!-- <value>redirect:/rp/tools/editDynamicData.htm?id=</value> -->		
+			<value>nestedListPage</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.osd.jdyna.dto.AnagraficaObjectWithTypeDTO</value>			
+		</property>
+		<property name="commandName">
+			<value>nesteddto</value>
+		</property>
+		<property name="formView">
+			<value>/jdyna/nestedEditForm</value>
+		</property>				
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>			
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>	
+		<property name="targetClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
+		</property>
+		<property name="typeClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>
+		</property>
+		<property name="propertyDefinitionClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition</value>
+		</property>		
+	</bean>
+	
+
+	
+	<bean id="addTextToProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetTesto
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>	
+		<property name="validator" ref="grantNestedPDFieldValidator" />	
+	</bean>
+
+	<bean id="addDateToProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetDate
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addLinkToProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetLink
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addFileToProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addPointerRPToProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
+	</bean>
+
+	<bean id="addPointerProjectToProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addPointerOUToProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="deleteProjectNestedFieldController"
+		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
+		<constructor-arg index="0">			
+				<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>			
+		</constructor-arg>
+		<constructor-arg index="1">			
+				<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>			
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="editProjectNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormNestedObjectDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="targetClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>
+		</property>
+		<property name="decoratorClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/nestedObjectDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>						
+	    <property name="addTextView">
+			<value>redirect:/cris/administrator/project/addTextToNestedDynamicField.htm</value>
+		</property>
+		<property name="addDateView">
+			<value>redirect:/cris/administrator/project/addDateToNestedDynamicField.htm</value>
+		</property>
+		<property name="addLinkView">
+			<value>redirect:/cris/administrator/project/addLinkToNestedDynamicField.htm</value>
+		</property>
+		<property name="addFileView">
+			<value>redirect:/cris/administrator/project/addFileToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerView">
+			<value>redirect:/cris/administrator/project/addPointerToNestedDynamicField.htm</value>
+		</property>
+		<property name="validator" ref="grantNestedDynamicFieldValidator" />
+	</bean>
+	
+ 	<bean id="deleteProjectNestedFieldDefinitionController"
+		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
+		<constructor-arg index="0">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+	</bean>
+
+
+
+	<!-- Start OrganizationUnit controller configurations -->
+	<bean id="detailsOUController"
+		class="it.cilea.hku.authority.webui.controller.OUDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+		</constructor-arg>		
+		<property name="detailsView">
+			<value>ouDetailsPage</value>
+		</property>		
+		<property name="method">
+			<value>details</value>
+		</property>	
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+	</bean>		
+		
+	<bean id="redirectDetailsOUController"
+		class="it.cilea.hku.authority.webui.controller.RedirectEntityDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+		</constructor-arg>
+		<property name="viewName">
+			<value>ouDetailsPage</value>
+		</property>
+	</bean>
+	
+	<bean id="adminOUController"
+		class="it.cilea.hku.authority.webui.controller.OUAdminController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="viewName">
+			<value>ouAdministrator</value>
+		</property>
+	</bean>
+
+	
+	<bean id="adminAddOUController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddOUController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/ou/</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.dto.OrganizationUnitDTO</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+		<property name="formView">
+			<value>administrator</value>
+		</property>
+	</bean>
+	
+	<bean id="adminListOUController"
+		class="it.cilea.hku.authority.webui.controller.FormAdministrationOUController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/list.htm</value>
+		</property>
+		<property name="formView">
+			<value>administratorOrganizationUnitsForm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.util.OUDisplayTagData</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="listOUTabController"
+		class="it.cilea.osd.jdyna.controller.TabController">
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/tabList</value>
+		</property>		
+	</bean>
+
+	<bean id="listOUBoxController"
+		class="it.cilea.osd.jdyna.controller.BoxsController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/boxList</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="editOUTabController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormTabController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/listTabs.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			</value>
+		</property>
+		<property name="commandName">
+			<value>tab</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/tabForm</value>
+		</property>		
+		<property name="validator" ref="ouTabValidator" />
+	</bean>
+
+	<bean id="deleteOUTabController"
+		class="it.cilea.osd.jdyna.controller.TabController">
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/ou/listTabs.htm</value>
+		</property>		
+	</bean>
+
+	<bean id="editOUBoxController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormBoxController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</property>
+		<property name="commandName">
+			<value>box</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/boxForm</value>
+		</property>
+		<property name="validator" ref="ouBoxValidator" />
+	</bean>
+
+	<bean id="deleteOUBoxController"
+		class="it.cilea.osd.jdyna.controller.BoxsController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/ou/listBoxs.htm</value>
+		</property>
+	</bean>
+	
+	<bean id="deleteOUDynamicFieldController"
+		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
+		<constructor-arg index="0">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+	</bean>
+
+ 
+	<bean id="editOUTextDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetTesto
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editOUPointerRPDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editOUPointerProjectDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
+
+	<bean id="editOUPointerOUDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
+	
+	
+	<bean id="editOUDateDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetDate
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editOULinkDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">				   		
+			<value>it.cilea.osd.jdyna.widget.WidgetLink</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editOUFileDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">				   		
+			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
+
+	<bean id="listOUEditTabController"
+		class="it.cilea.osd.jdyna.controller.EditTabController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>list</value>
+		</property>
+		<property name="listView">
+			<value>/tabs/editTabList</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>		
+	</bean>
+	
+	<bean id="editOUEditTabController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormEditTabController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/listEditTabs.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit</value>
+		</property>
+		<property name="commandName">
+			<value>tab</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/editTabForm</value>
+		</property>
+		<property name="validator" ref="ouEditTabValidator" />		
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+	</bean>
+
+	<bean id="deleteOUEditTabController"
+		class="it.cilea.osd.jdyna.controller.EditTabController">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/ou/listEditTabs.htm</value>
+		</property>
+	</bean>
+
+	<bean id="editOUDynamicDataController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormOUDynamicMetadataController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="clazzTab">
+			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit</value>
+		</property>
+		<property name="clazzBox">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+		</property>
+		<property name="clazzTipologiaProprieta">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+		</property>
+		<property name="clazzAnagraficaObject">
+			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/ou/</value>
+		</property>
+		<property name="formView">
+			<value>/jdyna/ouDataEditForm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.webui.dto.OUAnagraficaObjectDTO</value>
+		</property>		
+		<property name="commandName">
+			<value>anagraficadto</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouAnagraficaValidator" />		
+	</bean>
+	
+	
+	
+	
+	
+	<bean id="viewOUNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>	
+		<property name="detailsView">
+			<value>nestedListPage</value>
+		</property>		
+		<property name="method">
+			<value>list</value>
+		</property>			
+	</bean>
+
+	<bean id="deleteOUNestedDetailsController" class="it.cilea.osd.jdyna.controller.NestedObjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+		</constructor-arg>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>	
+		<property name="detailsView">
+			<value>nestedListPage</value>
+		</property>		
+		<property name="method">
+			<value>delete</value>
+		</property>			
+	</bean>
+
+              
+	<bean id="editOUNestedDetailsController" class="it.cilea.osd.jdyna.controller.FormNestedObject" parent="baseFormController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<property name="successView">
+			<!-- <value>redirect:/rp/tools/editDynamicData.htm?id=</value> -->		
+			<value>nestedListPage</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.osd.jdyna.dto.AnagraficaObjectWithTypeDTO</value>			
+		</property>
+		<property name="commandName">
+			<value>nesteddto</value>
+		</property>
+		<property name="formView">
+			<value>/jdyna/nestedEditForm</value>
+		</property>				
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>			
+		<property name="specificContextPath">
+			<value>/cris/tools/</value>
+		</property>	
+		<property name="targetClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>
+		</property>
+		<property name="typeClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject</value>
+		</property>
+		<property name="propertyDefinitionClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition</value>
+		</property>		
+	</bean>
+	
+
+	
+	<bean id="addTextToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetTesto
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>		
+		<property name="validator" ref="ouNestedPDFieldValidator" />
+	</bean>
+
+	<bean id="addDateToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetDate
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouNestedPDFieldValidator" />		
+	</bean>
+	
+	<bean id="addLinkToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetLink
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>		
+		<property name="validator" ref="ouNestedPDFieldValidator" />
+	</bean>
+	
+	<bean id="addFileToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>		
+		<property name="validator" ref="ouNestedPDFieldValidator" />
+	</bean>
+
+	<bean id="addPointerRPToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>	
+		<property name="validator" ref="ouNestedPDFieldValidator" />	
+	</bean>
+
+	<bean id="addPointerProjectToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>	
+		<property name="validator" ref="ouNestedPDFieldValidator" />	
+	</bean>
+	
+	<bean id="addPointerOUToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>	
+		<property name="validator" ref="ouNestedPDFieldValidator" />	
+	</bean>
+	
+	
+	<bean id="deleteOUNestedFieldController"
+		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
+		<constructor-arg index="0">			
+				<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject</value>			
+		</constructor-arg>
+		<constructor-arg index="1">			
+				<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>			
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="editOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormNestedObjectDefinitionController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="targetClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject</value>
+		</property>
+		<property name="decoratorClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+		</property>
+		<property name="commandClass">
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/nestedObjectDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>						
+	    <property name="addTextView">
+			<value>redirect:/cris/administrator/ou/addTextToNestedDynamicField.htm</value>
+		</property>
+		<property name="addDateView">
+			<value>redirect:/cris/administrator/ou/addDateToNestedDynamicField.htm</value>
+		</property>
+		<property name="addLinkView">
+			<value>redirect:/cris/administrator/ou/addLinkToNestedDynamicField.htm</value>
+		</property>
+		<property name="addFileView">
+			<value>redirect:/cris/administrator/ou/addFileToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerView">
+			<value>redirect:/cris/administrator/ou/addPointerToNestedDynamicField.htm</value>
+		</property>
+		<property name="validator" ref="ouNestedDynamicFieldValidator" />
+	</bean>
+	
+ 	<bean id="deleteOUNestedFieldDefinitionController"
+		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
+		<constructor-arg index="0">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>
+				it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject
+			</value>
+		</constructor-arg>
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+	</bean>
+
+
+
+	
+	<!-- Navigation and build tabs -->
+	<bean id="loadTabIcon" class="it.cilea.hku.authority.webui.controller.jdyna.ResearcherTabImageController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>	
+	</bean>		
+		
+	<bean id="loadRPNavigation" class="org.dspace.app.webui.cris.json.RPNavigationController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>				
+		<property name="detailsView">
+			<value>layout/navigation</value>
+		</property>
+		<property name="components" ref="rpComponents"/>		
+	</bean>
+	
+	<bean id="loadProjectNavigation" class="org.dspace.app.webui.cris.json.ProjectNavigationController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>				
+		<property name="detailsView">
+			<value>layout/navigation</value>
+		</property>		
+
+		<!-- 		<property name="components">
+			<map>
+				<entry key="dspaceitems">
+					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
+				</entry>				
+			</map>
+		</property>			 -->			
+	</bean>
+	
+		
+	<bean id="loadOUNavigation" class="org.dspace.app.webui.cris.json.OUNavigationController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>				
+		<property name="detailsView">
+			<value>layout/navigation</value>
+		</property>		
+
+		<!-- 		
+		
+		<property name="components">
+			<map>
+				<entry key="dspaceitems">
+					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
+				</entry>				
+			</map>
+		</property>			 -->			
+	</bean>
+				
+			
+	<bean id="searchRPPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="searchService">
+			<ref bean="crisSearchService" />
+		</property>
+		<property name="clazzPD">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+		</property>				
+		<property name="viewName">
+			<value>resultSearchPointer</value>
+		</property>		
+	</bean>
+	
+	<bean id="searchProjectPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="searchService">
+			<ref bean="crisSearchService" />
+		</property>
+		<property name="clazzPD">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+		</property>				
+		<property name="viewName">
+			<value>resultSearchPointer</value>
+		</property>		
+	</bean>
+	
+	<bean id="searchOUPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="searchService">
+			<ref bean="crisSearchService" />
+		</property>
+		<property name="clazzPD">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+		</property>				
+		<property name="viewName">
+			<value>resultSearchPointer</value>
+		</property>		
+	</bean>
+	<!-- url mapping -->	
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+
+		<property name="mappings">
+			<props>
+				<!-- Redirect to dspace login -->
+				<prop key="/login">myRPController</prop>
+				<prop key="/rp/myRp.json">jsonMyRPController</prop>
+				<prop key="/researchertabimage/*">loadTabIcon</prop>
+				<prop key="/rp/fileservice/**">loadFileRP</prop>				
+				<prop key="/project/fileservice/**">loadFileProject</prop>
+				<prop key="/ou/fileservice/**">loadFileOU</prop>
+											
+				<!-- <prop key="/uuid*">redirectDetailsController</prop>  -->
+				
+				<!-- RP details URLs -->								
+				<prop key="/rp/*">detailsResearcherController</prop>
+				<prop key="/rp/*/*">detailsResearcherController</prop>
+				<prop key="/rp/details.htm">redirectDetailsResearcherController</prop>
+				<!-- autocomplete eperson -->
+				<prop key="/tools/rp/epersons.json">jsonEpersonController</prop>
+				<prop key="/tools/rp/eperson.json">jsonEpersonController</prop>
+				
+				<!-- autocomplete pointer -->
+				<prop key="/tools/rp/searchPointer.htm">searchRPPointer</prop>
+				<prop key="/tools/project/searchPointer.htm">searchProjectPointer</prop>
+				<prop key="/tools/ou/searchPointer.htm">searchOUPointer</prop>
+				
+				<!-- Management of nested objects -->				
+				<prop key="/rp/viewNested.htm">viewRPNestedDetailsController</prop>
+				<prop key="/tools/rp/addNested.htm">editRPNestedDetailsController</prop>
+				<prop key="/tools/rp/editNested.htm">editRPNestedDetailsController</prop>				
+				<prop key="/tools/rp/deleteNested.htm">deleteRPNestedDetailsController</prop>
+				<prop key="/project/viewNested.htm">viewProjectNestedDetailsController</prop>
+				<prop key="/tools/project/addNested.htm">editProjectNestedDetailsController</prop>
+				<prop key="/tools/project/editNested.htm">editProjectNestedDetailsController</prop>				
+				<prop key="/tools/project/deleteNested.htm">deleteProjectNestedDetailsController</prop>
+				<prop key="/ou/viewNested.htm">viewOUNestedDetailsController</prop>
+				<prop key="/tools/ou/addNested.htm">editOUNestedDetailsController</prop>
+				<prop key="/tools/ou/editNested.htm">editOUNestedDetailsController</prop>				
+				<prop key="/tools/ou/deleteNested.htm">deleteOUNestedDetailsController</prop>				
+								
+				<!-- Controller to load embedded navigation and calculate if show or hidden the Tabs -->
+				<prop key="/rp/navigation.json">loadRPNavigation</prop>				
+				<prop key="/project/navigation.json">loadProjectNavigation</prop>				
+				<prop key="/ou/navigation.json">loadOUNavigation</prop>
+				
+				
+				<!-- RP tools -->
+				<prop key="/tools/rebindItemsToRP.htm">reBindItemToRpController</prop>
+				<prop key="/tools/requestChanges.htm">requestChangesController</prop>											
+				
+				<!-- Administration -->
+				<prop key="/administrator/index.htm">adminController</prop>
+				<prop key="/administrator/rp/index.htm">adminRPController</prop>
+				<prop key="/administrator/project/index.htm">adminProjectController</prop>
+				<prop key="/administrator/ou/index.htm">adminOUController</prop>
+				
+				<!-- Administration RP list and add functionality -->							
+				<prop key="/administrator/rp/list.htm">adminListResearcherPageController</prop>								
+				<prop key="/administrator/rp/addResearcherPage.htm">adminAddResearcherPageController</prop>			
+				
+				<!-- RP Tabs/Box and properties definitions -->
+				<prop key="/administrator/rp/listTabs.htm">listRPTabController</prop>
+				<prop key="/administrator/rp/editTabs.htm">editRPTabController</prop>
+				<prop key="/administrator/rp/deleteTabs.htm">deleteRPTabController</prop>
+				<prop key="/administrator/rp/createTabs.htm">editRPTabController</prop>
+				<prop key="/administrator/rp/createBox.htm">editRPBoxController</prop>				
+				<prop key="/administrator/rp/listBoxs.htm">listRPBoxController</prop>
+				<prop key="/administrator/rp/editBox.htm">editRPBoxController</prop>				
+				<prop key="/administrator/rp/deleteBox.htm">deleteRPBoxController</prop>
+			    <prop key="/administrator/rp/createRPPointerDynamicField.htm">editRPPointerRPDynamicFieldController</prop>
+				<prop key="/administrator/rp/editRPPointerDynamicField.htm">editRPPointerRPDynamicFieldController</prop>					
+				<prop key="/administrator/rp/createProjectPointerDynamicField.htm">editRPPointerProjectDynamicFieldController</prop>
+				<prop key="/administrator/rp/editProjectPointerDynamicField.htm">editRPPointerProjectDynamicFieldController</prop>
+				<prop key="/administrator/rp/createOUPointerDynamicField.htm">editRPPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/rp/editOUPointerDynamicField.htm">editRPPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/rp/createDateDynamicField.htm">editRPDateDynamicFieldController</prop>
+				<prop key="/administrator/rp/editDateDynamicField.htm">editRPDateDynamicFieldController</prop>
+				<prop key="/administrator/rp/createTextDynamicField.htm">editRPTextDynamicFieldController</prop>
+				<prop key="/administrator/rp/editTextDynamicField.htm">editRPTextDynamicFieldController</prop>
+				<prop key="/administrator/rp/createLinkDynamicField.htm">editRPLinkDynamicFieldController</prop>
+				<prop key="/administrator/rp/editLinkDynamicField.htm">editRPLinkDynamicFieldController</prop>
+				<prop key="/administrator/rp/createFileDynamicField.htm">editRPFileDynamicFieldController</prop>
+				<prop key="/administrator/rp/editFileDynamicField.htm">editRPFileDynamicFieldController</prop>
+				<prop key="/administrator/rp/deleteFieldDefinition.htm">deleteRPFieldDefinitionController</prop>
+				<prop key="/administrator/rp/listEditTabs.htm">listRPEditTabController</prop>
+				<prop key="/administrator/rp/createEditTabs.htm">editRPEditTabController</prop>
+				<prop key="/administrator/rp/editEditTabs.htm">editRPEditTabController</prop>
+				<prop key="/administrator/rp/deleteEditTabs.htm">deleteRPEditTabController</prop>				
+			    <prop key="/administrator/rp/createNestedDynamicField.htm">editRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/editNestedDynamicField.htm">editRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addDateToNestedDynamicField.htm">addDateToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addTextToNestedDynamicField.htm">addTextToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addLinkToNestedDynamicField.htm">addLinkToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addFileToNestedDynamicField.htm">addFileToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addPointerRPToNestedDynamicField.htm">addPointerRPToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addPointerProjectToNestedDynamicField.htm">addPointerProjectToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addPointerOUToNestedDynamicField.htm">addPointerOUToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/deleteNestedFieldDefinition.htm">deleteRPNestedFieldDefinitionController</prop>								
+				<prop key="/administrator/rp/deleteNestedField.htm">deleteRPNestedFieldController</prop>
+							
+				<!-- Edit Handlers for RP and Project dynamic object-->				
+				<prop key="/tools/rp/editDynamicData.htm">editRPDynamicDataController</prop>
+				<prop key="/tools/project/editDynamicData.htm">editProjectDynamicDataController</prop>
+				<prop key="/tools/ou/editDynamicData.htm">editOUDynamicDataController</prop>
+				
+				<!-- Project details URL -->
+				<prop key="/project/*">detailsProjectController</prop>								
+				<prop key="/project/*/*">detailsProjectController</prop>		
+				<prop key="/project/details.htm">redirectDetailsProjectController</prop>						
+		                
+		        <!-- Administration add Project -->
+		        <prop key="/administrator/project/list.htm">adminListProjectController</prop>								
+		        <prop key="/administrator/project/addProject.htm">adminAddProjectController</prop>		        
+		        
+		        <!-- Project Tabs/Box and properties definitions -->		        				
+				<prop key="/administrator/project/listTabs.htm">listProjectTabController</prop>
+				<prop key="/administrator/project/editTabs.htm">editProjectTabController</prop>
+				<prop key="/administrator/project/createTabs.htm">editProjectTabController</prop>
+				<prop key="/administrator/project/deleteTabs.htm">deleteProjectTabController</prop>
+				<prop key="/administrator/project/createBox.htm">editProjectBoxController</prop>				
+				<prop key="/administrator/project/listBoxs.htm">listProjectBoxController</prop>				
+				<prop key="/administrator/project/editBox.htm">editProjectBoxController</prop>				
+				<prop key="/administrator/project/deleteBox.htm">deleteProjectBoxController</prop>				
+				<prop key="/administrator/project/createRPPointerDynamicField.htm">editProjectPointerRPDynamicFieldController</prop>
+				<prop key="/administrator/project/editRPPointerDynamicField.htm">editProjectPointerRPDynamicFieldController</prop>
+				<prop key="/administrator/project/createProjectPointerDynamicField.htm">editProjectPointerProjectDynamicFieldController</prop>
+				<prop key="/administrator/project/editProjectPointerDynamicField.htm">editProjectPointerProjectDynamicFieldController</prop>
+				<prop key="/administrator/project/createOUPointerDynamicField.htm">editProjectPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/project/editOUPointerDynamicField.htm">editProjectPointerOUDynamicFieldController</prop>	
+				<prop key="/administrator/project/createDateDynamicField.htm">editProjectDateDynamicFieldController</prop>
+				<prop key="/administrator/project/editDateDynamicField.htm">editProjectDateDynamicFieldController</prop>
+				<prop key="/administrator/project/createTextDynamicField.htm">editProjectTextDynamicFieldController</prop>
+				<prop key="/administrator/project/editTextDynamicField.htm">editProjectTextDynamicFieldController</prop>
+				<prop key="/administrator/project/createLinkDynamicField.htm">editProjectLinkDynamicFieldController</prop>
+				<prop key="/administrator/project/editLinkDynamicField.htm">editProjectLinkDynamicFieldController</prop>
+				<prop key="/administrator/project/createFileDynamicField.htm">editProjectFileDynamicFieldController</prop>
+				<prop key="/administrator/project/editFileDynamicField.htm">editProjectFileDynamicFieldController</prop>
+				<prop key="/administrator/project/deleteFieldDefinition.htm">deleteProjectDynamicFieldController</prop>				
+				<prop key="/administrator/project/listEditTabs.htm">listProjectEditTabController</prop>
+				<prop key="/administrator/project/createEditTabs.htm">editProjectEditTabController</prop>
+				<prop key="/administrator/project/editEditTabs.htm">editProjectEditTabController</prop>
+				<prop key="/administrator/project/deleteEditTabs.htm">deleteProjectEditTabController</prop>				
+		        <prop key="/administrator/project/createNestedDynamicField.htm">editProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/editNestedDynamicField.htm">editProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addDateToNestedDynamicField.htm">addDateToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addTextToNestedDynamicField.htm">addTextToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addLinkToNestedDynamicField.htm">addLinkToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addFileToNestedDynamicField.htm">addFileToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addPointerRPToNestedDynamicField.htm">addPointerRPToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addPointerProjectToNestedDynamicField.htm">addPointerProjectToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addPointerOUToNestedDynamicField.htm">addPointerOUToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/deleteNestedFieldDefinition.htm">deleteProjectNestedFieldDefinitionController</prop>								
+				<prop key="/administrator/project/deleteNestedField.htm">deleteProjectNestedFieldController</prop>
+								
+				<!-- OrganizationUnit details URL -->
+				<prop key="/ou/*">detailsOUController</prop>								
+				<prop key="/ou/*/*">detailsOUController</prop>	        		
+		        <prop key="/ou/details.htm">redirectDetailsOUController</prop>
+		        
+		        <!-- Administration add Project -->
+		        <prop key="/administrator/ou/list.htm">adminListOUController</prop>								
+		        <prop key="/administrator/ou/addOrganizationUnit.htm">adminAddOUController</prop>		        
+		        
+		        <!-- Project Tabs/Box and properties definitions -->		        				
+				<prop key="/administrator/ou/listTabs.htm">listOUTabController</prop>
+				<prop key="/administrator/ou/editTabs.htm">editOUTabController</prop>
+				<prop key="/administrator/ou/createTabs.htm">editOUTabController</prop>
+				<prop key="/administrator/ou/deleteTabs.htm">deleteOUTabController</prop>
+				<prop key="/administrator/ou/createBox.htm">editOUBoxController</prop>				
+				<prop key="/administrator/ou/listBoxs.htm">listOUBoxController</prop>				
+				<prop key="/administrator/ou/editBox.htm">editOUBoxController</prop>				
+				<prop key="/administrator/ou/deleteBox.htm">deleteOUBoxController</prop>				
+				
+				<prop key="/administrator/ou/createRPPointerDynamicField.htm">editOUPointerRPDynamicFieldController</prop>
+				<prop key="/administrator/ou/editRPPointerDynamicField.htm">editOUPointerRPDynamicFieldController</prop>
+				<prop key="/administrator/ou/createProjectProjectPointerDynamicField.htm">editOUPointerProjectDynamicFieldController</prop>
+				<prop key="/administrator/ou/editProjectPointerDynamicField.htm">editOUPointerProjectDynamicFieldController</prop>				
+				<prop key="/administrator/ou/createOUPointerDynamicField.htm">editOUPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/ou/editOUPointerDynamicField.htm">editOUPointerOUDynamicFieldController</prop>				
+				<prop key="/administrator/ou/createDateDynamicField.htm">editOUDateDynamicFieldController</prop>
+				<prop key="/administrator/ou/editDateDynamicField.htm">editOUDateDynamicFieldController</prop>
+				<prop key="/administrator/ou/createTextDynamicField.htm">editOUTextDynamicFieldController</prop>
+				<prop key="/administrator/ou/editTextDynamicField.htm">editOUTextDynamicFieldController</prop>
+				<prop key="/administrator/ou/createLinkDynamicField.htm">editOULinkDynamicFieldController</prop>
+				<prop key="/administrator/ou/editLinkDynamicField.htm">editOULinkDynamicFieldController</prop>
+				<prop key="/administrator/ou/createFileDynamicField.htm">editOUFileDynamicFieldController</prop>
+				<prop key="/administrator/ou/editFileDynamicField.htm">editOUFileDynamicFieldController</prop>
+				<prop key="/administrator/ou/deleteFieldDefinition.htm">deleteOUDynamicFieldController</prop>				
+				<prop key="/administrator/ou/listEditTabs.htm">listOUEditTabController</prop>
+				<prop key="/administrator/ou/createEditTabs.htm">editOUEditTabController</prop>
+				<prop key="/administrator/ou/editEditTabs.htm">editOUEditTabController</prop>
+				<prop key="/administrator/ou/deleteEditTabs.htm">deleteOUEditTabController</prop>				
+		        <prop key="/administrator/ou/createNestedDynamicField.htm">editOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/editNestedDynamicField.htm">editOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addDateToNestedDynamicField.htm">addDateToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addTextToNestedDynamicField.htm">addTextToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addLinkToNestedDynamicField.htm">addLinkToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addFileToNestedDynamicField.htm">addFileToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addPointerRPToNestedDynamicField.htm">addPointerRPToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addPointerProjectToNestedDynamicField.htm">addPointerProjectToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addPointerOUToNestedDynamicField.htm">addPointerOUToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/deleteNestedFieldDefinition.htm">deleteOUNestedFieldDefinitionController</prop>								
+				<prop key="/administrator/ou/deleteNestedField.htm">deleteOUNestedFieldController</prop>
+			</props>
+		</property>
+		<property name="order" value="1" />
+		
+		<property name="interceptors">  
+  			<list>  
+    			<ref bean="openSessionInViewInterceptor" />  
+  			</list>  
+		</property>  
+	</bean>
+
+	<!-- View Resolver for JSPs -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="order" value="1" />
+		<property name="requestContextAttribute" value="rc" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix">
+			<value>/dspace-cris/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+	<bean id="stringEditor"
+		class="it.cilea.hku.authority.webui.editor.StringPropertyEditor">
+		<constructor-arg>
+			<value>java.lang.String</value>
+		</constructor-arg>		
+	</bean>
+
+	<bean id="containableEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.osd.jdyna.model.Containable</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+
+	<bean id="decoratorRPPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+	
+	<bean id="decoratorProjectPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+
+	<bean id="decoratorOUPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+	
+	<bean id="rpTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+	
+	<bean id="rpBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+
+	<bean id="projectTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+	
+	<bean id="projectBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+		
+	<bean id="ouTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+	
+	<bean id="ouBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
+		<constructor-arg>
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+		</constructor-arg>
+		<property name="applicationService" ref="applicationService">
+		</property>
+	</bean>
+		
+	<bean id="booleanEditor"
+		class="org.springframework.beans.propertyeditors.CustomBooleanEditor">
+		<constructor-arg index="0" value="true" />
+	</bean>
+	
+	<bean id="dateUtilEditor" class="it.cilea.osd.common.util.CustomDateTimeEditor">
+		<!-- Estende il property editor di Spring in modo da accettare anche date 
+			senza time (viene aggiunto 00:00) -->
+		<constructor-arg index="0">
+			<ref bean="dateFormat" />
+		</constructor-arg>
+		<!-- empty string is converted in null -->
+		<constructor-arg index="1">
+			<value>true</value>
+		</constructor-arg>
+		<!-- pattern lenght-->
+		<constructor-arg index="2" value="16" />
+	</bean>
+
+
+   <bean id="dateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg>
+            <value>dd-MM-yyyy HH:mm</value>
+        </constructor-arg>        
+   </bean>
+
+	<bean id="tabValidator"
+		class="it.cilea.hku.authority.webui.validator.TabValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="editTabValidator"
+		class="it.cilea.hku.authority.webui.validator.TabValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="boxValidator"
+		class="it.cilea.hku.authority.webui.validator.BoxValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="grantTabValidator"
+		class="it.cilea.hku.authority.webui.validator.TabValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabProject" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="grantEditTabValidator"
+		class="it.cilea.hku.authority.webui.validator.TabValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="grantBoxValidator"
+		class="it.cilea.hku.authority.webui.validator.BoxValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="ouTabValidator"
+		class="it.cilea.hku.authority.webui.validator.TabValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="ouEditTabValidator"
+		class="it.cilea.hku.authority.webui.validator.TabValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="ouBoxValidator"
+		class="it.cilea.hku.authority.webui.validator.BoxValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="rpDynamicFieldValidator"
+		class="it.cilea.hku.authority.webui.validator.RPPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>	
+	<bean id="grantDynamicFieldValidator"
+		class="it.cilea.hku.authority.webui.validator.ProjectPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>	
+	<bean id="ouDynamicFieldValidator"
+		class="it.cilea.hku.authority.webui.validator.OUPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition" />
+		<property name="validatorService" ref="validatorService" />
+	</bean>
+	<bean id="rpNestedDynamicFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>	
+	<bean id="rpNestedPDFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>	
+	<bean id="grantNestedDynamicFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>
+	<bean id="grantNestedPDFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>		
+	<bean id="ouNestedDynamicFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>	
+	<bean id="ouNestedPDFieldValidator"
+		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
+		<constructor-arg index="0" ref="validatorService" />
+	</bean>	
+	<bean id="anagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
+		<property name="applicationService" ref="applicationService" />		
+		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage" />
+		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
+		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
+	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition" />
+	</bean>
+	<bean id="grantAnagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
+		<property name="applicationService" ref="applicationService" />		
+		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.Project" />
+		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
+		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
+	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition" />
+	</bean>
+	<bean id="ouAnagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
+		<property name="applicationService" ref="applicationService" />		
+		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.OrganizationUnit" />
+		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit" />
+		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" />
+	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition" />
+	</bean>
+
+	
+	<bean id="researcherPageValidator"
+		class="it.cilea.hku.authority.webui.validator.ResearcherPageValidator">
+		<property name="clazz" value="it.cilea.hku.authority.model.ResearcherPage" />
+		<property name="applicationService" ref="applicationService"/>		
+	</bean>
+
+	<bean id="mailValidator" class="it.cilea.hku.authority.webui.validator.MailValidator">
+		<property name="clazz" value="it.cilea.hku.authority.webui.dto.MailDTO" />				
+	</bean>
+	
+	<bean id="exportValidator" class="it.cilea.hku.authority.webui.validator.ExportParametersValidator">
+		<property name="clazz" value="it.cilea.hku.authority.webui.dto.ExportParametersDTO" />				
+	</bean>
+	
+			
+	<bean id="multipartResolver"
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<!-- one of the properties available; the maximum file size in bytes -->
+    	<property name="maxUploadSize" value="10000000"/>
+	</bean>
+
+    <bean id="openSessionInViewInterceptor"  
+        class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">  
+        <property name="sessionFactory" ref="sessionFactory" />   
+    </bean>  
+</beans>
