@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+		
+		<!-- SEE HERE -> connection parameters in hibernate.properties -->
+		
+		<!--<property name="hbm2ddl.auto">create</property>-->
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.max_fetch_size">3</property>
+		<property name="hibernate.default_batch_fetch_size">16</property>
+
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.use_query_cache">true</property>								
+		<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>		
+
+				
+		<property name="hibernate.show_sql">false</property>
+		<property name="hibernate.generate_statistics">false</property>
+		
+		<property name="hibernate.connection.autoReconnect">true</property>
+		<property name="hibernate.connection.autoReconnectForPools">true</property>
+						
+		<!-- alternative to C3P0 -->
+		<property name="hibernate.connection.pool_size">30</property>	
+
+		<property name="hibernate.search.autoregister_listeners">false</property>
+
+		<!-- configuration pool via c3p0--> 
+		<property name="hibernate.c3p0.acquire_increment">1</property> 
+		<property name="hibernate.c3p0.idle_test_period">100</property> <!-- previous 300 seconds --> 
+		<property name="hibernate.c3p0.max_size">100</property> 
+		<property name="hibernate.c3p0.max_statements">0</property> 
+		<property name="hibernate.c3p0.min_size">10</property> 
+		<property name="hibernate.c3p0.timeout">100</property> <!-- seconds --> 
+						
+		<mapping class="it.cilea.osd.common.core.TimeStampInfo" />
+		<mapping class="it.cilea.osd.common.core.SingleTimeStampInfo" />
+				
+		<mapping class="it.cilea.hku.authority.model.ResearcherPage" />
+		<mapping class="it.cilea.hku.authority.model.Project" />
+		<mapping class="it.cilea.hku.authority.model.OrganizationUnit" />		
+		<mapping class="it.cilea.hku.authority.model.RestrictedField" />
+		<mapping class="it.cilea.hku.authority.model.RestrictedFieldFile" />
+		<mapping class="it.cilea.hku.authority.model.RestrictedFieldLocalOrRemoteFile" />
+		<mapping class="it.cilea.hku.authority.model.RPSubscription" />
+
+		<!-- Dynamic field -->
+		
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPProperty" />
+		
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectProperty" />
+		
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUProperty" />
+		
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPNestedObject" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPNestedProperty" />
+		
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty" />
+
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUNestedObject" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject" />
+		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUNestedProperty" />
+				
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition" />
+					
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.TabProject" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit" />
+		
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested" />
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested" />
+		<!-- JDynA mapping -->
+		<mapping class="it.cilea.osd.jdyna.model.ANestedObject" />
+		<mapping class="it.cilea.osd.jdyna.model.NestedObject" />		
+		<mapping class="it.cilea.osd.jdyna.model.TypeNestedObject" />
+		<mapping class="it.cilea.osd.jdyna.model.Property" />
+		<mapping class="it.cilea.osd.jdyna.model.PropertiesDefinition" />		
+		<mapping class="it.cilea.osd.jdyna.model.NestedProperty" />
+		<mapping class="it.cilea.osd.jdyna.model.NestedPropertiesDefinition" />				
+		<mapping class="it.cilea.osd.jdyna.model.AValue" />
+		<mapping class="it.cilea.osd.jdyna.value.DateValue" />
+		<mapping class="it.cilea.osd.jdyna.value.TextValue" />
+		<mapping class="it.cilea.osd.jdyna.value.LinkValue" />
+		<mapping class="it.cilea.osd.jdyna.value.FileValue" />
+			
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.value.RPPointer" />
+
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer" />
+			
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.value.OUPointer" />	
+		
+		
+		<mapping class="it.cilea.osd.jdyna.model.AWidget" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetTesto" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetLink" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetDate" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetFile" />
+		<mapping class="it.cilea.osd.jdyna.widget.WidgetPointer" />
+				
+		<mapping class="it.cilea.osd.jdyna.widget.Size" />		
+		<mapping class="it.cilea.osd.jdyna.web.Box" />
+		<mapping class="it.cilea.osd.jdyna.web.Tab" />		
+		<mapping class="it.cilea.osd.jdyna.model.DecoratorNestedPropertiesDefinition" />
+		<mapping class="it.cilea.osd.jdyna.model.Containable" />
+
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP" />
+
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject" />
+			
+		<mapping
+			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU" />
+	</session-factory>
+
+</hibernate-configuration>
+
