@@ -23,6 +23,8 @@
     <bean id="crisSearchService" factory-bean="researcher" factory-method="getCrisSearchService" />
     
     <bean id="rpComponents" factory-bean="researcher" factory-method="getRPComponents" />
+    <bean id="pjComponents" factory-bean="researcher" factory-method="getProjectComponents" />
+    <bean id="ouComponents" factory-bean="researcher" factory-method="getOUComponents" />
 	
 	<bean id="sessionFactory" factory-bean="researcher" factory-method="getSessionFactory"/>
 	

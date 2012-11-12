@@ -257,12 +257,66 @@ public class ResearcherTagLibraryFunctions
 
     public static boolean isBoxHidden(Project anagrafica, BoxProject box)
     {
+        Researcher researcher = new Researcher();
+
+        Map<String, IComponent> rpComponent = researcher.getProjectComponents();
+        if (rpComponent != null && !rpComponent.isEmpty())
+        {
+            for (String key : rpComponent.keySet())
+            {
+                                
+                if (box.getShortName().equals(key))
+                {
+                    IComponent component = rpComponent.get(key);
+                    component.setShortName(box.getShortName());
+                    Map<String, IBeanComponent> comp = component.getTypes();
+
+                    for (String compp : comp.keySet())
+                    {
+                        if (component.count(comp.get(compp)
+                                .getComponentIdentifier(), anagrafica.getId()) > 0)
+                        {
+                            return false;
+                        }
+                    }
+
+                }
+            }
+
+        }
         return isBoxHiddenInternal(anagrafica, box);
     }
 
     public static boolean isBoxHidden(OrganizationUnit anagrafica,
             BoxOrganizationUnit box)
     {
+        Researcher researcher = new Researcher();
+
+        Map<String, IComponent> rpComponent = researcher.getOUComponents();
+        if (rpComponent != null && !rpComponent.isEmpty())
+        {
+            for (String key : rpComponent.keySet())
+            {
+                                
+                if (box.getShortName().equals(key))
+                {
+                    IComponent component = rpComponent.get(key);
+                    component.setShortName(box.getShortName());
+                    Map<String, IBeanComponent> comp = component.getTypes();
+
+                    for (String compp : comp.keySet())
+                    {
+                        if (component.count(comp.get(compp)
+                                .getComponentIdentifier(), anagrafica.getId()) > 0)
+                        {
+                            return false;
+                        }
+                    }
+
+                }
+            }
+
+        }
         return isBoxHiddenInternal(anagrafica, box);
     }
 
