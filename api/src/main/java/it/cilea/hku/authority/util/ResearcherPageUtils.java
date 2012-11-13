@@ -75,13 +75,13 @@ public class ResearcherPageUtils
     /**
      * Build the cris identifier starting from the db internal primary key
     */
-    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getPersistentIdentifier(Integer rp, Class<T> clazz)
+    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getPersistentIdentifier(Integer crisID, Class<T> clazz)
     {
         T cris = null;
         try
         {
             cris = clazz.newInstance();
-            return cris.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + formatIdentifier(cris.getId());
+            return cris.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + formatIdentifier(crisID);
         }
         catch (InstantiationException e)
         {
