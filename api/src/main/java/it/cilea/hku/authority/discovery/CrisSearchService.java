@@ -17,6 +17,7 @@ import java.beans.PropertyEditor;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,15 +25,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
+import org.dspace.content.DCValue;
 import org.dspace.content.DSpaceObject;
+import org.dspace.content.Item;
+import org.dspace.content.authority.Choices;
 import org.dspace.core.Context;
-import org.dspace.discovery.DiscoverResult;
 import org.dspace.discovery.SearchServiceException;
 import org.dspace.discovery.SearchUtils;
 import org.dspace.discovery.SolrServiceImpl;
@@ -46,9 +51,77 @@ import org.dspace.discovery.configuration.DiscoverySortConfiguration;
 import org.dspace.discovery.configuration.DiscoverySortFieldConfiguration;
 import org.dspace.discovery.configuration.HierarchicalSidebarFacetConfiguration;
 import org.dspace.utils.DSpace;
+import org.springframework.aop.framework.ProxyFactory;
 
 public class CrisSearchService extends SolrServiceImpl
 {
+    private List<CrisItemEnhancer> enhancers;
+
+    private final class CrisItemWrapper implements MethodInterceptor
+    {
+        @Override
+        public Object invoke(MethodInvocation invocation) throws Throwable
+        {
+            
+            if (invocation.getMethod().getName().equals("getMetadata"))
+            {                
+                if (invocation.getArguments().length == 4)
+                {
+                    DCValue[] basic = (DCValue[]) invocation.proceed();
+                    String schema = (String) invocation.getArguments()[0];
+                    String element = (String) invocation.getArguments()[1];
+                    String qualifier = (String) invocation.getArguments()[2];
+                    String lang = (String) invocation.getArguments()[3];
+                    if (schema == Item.ANY || "crisitem".equals(schema))
+                    {
+                        DCValue[] dcvalues = addCrisEnhancedMetadata(
+                                (Item) invocation.getThis(), basic, schema,
+                                element, qualifier, lang);
+                        return dcvalues;
+                    }
+                }
+            }
+            return invocation.proceed();
+        }
+
+        private DCValue[] addCrisEnhancedMetadata(Item item, DCValue[] basic,
+                String schema, String element, String qualifier, String lang)
+        {
+            List<DCValue> extraMetadata = new ArrayList<DCValue>();
+            if (schema == Item.ANY)
+            {
+                List<String> crisMetadata = CrisItemEnhancerUtility
+                        .getAllCrisMetadata();
+                if (crisMetadata != null)
+                {
+                    for (String cM : crisMetadata)
+                    {
+                        extraMetadata = CrisItemEnhancerUtility
+                                .getCrisMetadata(item, cM);
+                    }
+                }
+            }
+            else if ("crisitem".equals(schema))
+            {
+                extraMetadata = CrisItemEnhancerUtility.getCrisMetadata(
+                        item, schema + "." + element + "." + qualifier);
+            }
+            if (extraMetadata.size() == 0)
+            {
+                return basic;
+            }
+            else
+            {
+                DCValue[] result = new DCValue[basic.length
+                        + extraMetadata.size()];
+                List<DCValue> resultList = new ArrayList<DCValue>();
+                resultList.addAll(Arrays.asList(basic));
+                resultList.addAll(extraMetadata);
+                result = resultList.toArray(result);
+                return result;
+            }
+        }
+    }
 
     private static final Logger log = Logger.getLogger(CrisSearchService.class);
 
@@ -141,7 +214,17 @@ public class CrisSearchService extends SolrServiceImpl
             return super.findDSpaceObject(context, doc);
         }
     }
-    
+
+    @Override
+    protected void buildDocument(Context context, Item item)
+            throws SQLException, IOException
+    {
+        ProxyFactory pf = new ProxyFactory(item);
+        pf.addAdvice(new CrisItemWrapper());
+
+        super.buildDocument(context, (Item) pf.getProxy());
+    }
+
     public <P extends Property<TP>, TP extends PropertiesDefinition> void indexCrisObject(
             ACrisObject<P, TP> dso, boolean b)
     {
@@ -278,269 +361,38 @@ public class CrisSearchService extends SolrServiceImpl
             for (P meta : mydc)
             {
                 String field = schema + "." + meta.getTypo().getShortName();
-
-                AValue value = meta.getValue();
-
-                if (value == null
-                        || meta.getVisibility() != VisibilityConstants.PUBLIC)
+                indexProperty(doc, dso.getUuid(), field, meta, toIgnoreFields,
+                        searchFilters, toProjectionFields, sortFields,
+                        recentSubmissionsConfigurationMap, sortFieldsAdded,
+                        hitHighlightingFields,
+                        moreLikeThisFields);
+                
+            }
+            
+            List<CrisEnhancer> crisEnhancers = new DSpace().getServiceManager()
+                    .getServicesByType(CrisEnhancer.class);
+            
+            for (CrisEnhancer cEnh : crisEnhancers)
+            {
+                if (cEnh.getClazz().isAssignableFrom(dso.getClass()))
                 {
-                    continue;
-                }
-
-                String svalue = value.toString();
-                if (StringUtils.isNotEmpty(svalue))
-                {
-                    PropertyEditor editor = meta.getTypo().getRendering()
-                            .getPropertyEditor(null);
-                    editor.setValue(value.getObject());
-
-                    svalue = editor.getAsText();
-
-                }
-
-                Integer authority = null;
-                if (value instanceof PointerValue
-                        && value.getObject() instanceof ACrisObject)
-                {
-                    authority = ((ACrisObject) value.getObject()).getId();
-                }
-
-                if (toIgnoreFields.contains(field))
-                {
-                    continue;
-                }
-
-                if ((searchFilters.get(field) != null))
-                {
-                    List<DiscoverySearchFilter> searchFilterConfigs = searchFilters
-                            .get(field);
-
-                    for (DiscoverySearchFilter searchFilter : searchFilterConfigs)
+                    for (String qual : cEnh.getQualifiers())
                     {
-                        String separator = new DSpace()
-                                .getConfigurationService().getProperty(
-                                        "discovery.solr.facets.split.char");
-                        if (separator == null)
+                        List<? extends Property> props = cEnh.getProperties(dso, qual);
+                        for (Property meta : props)
                         {
-                            separator = FILTER_SEPARATOR;
-                        }
-                        if (searchFilter.getType().equals(
-                                DiscoveryConfigurationParameters.TYPE_DATE))
-                        {
-                            if (value instanceof DateValue)
-                            {
-                                // TODO: make this date format configurable !
-                                svalue = DateFormatUtils.formatUTC(
-                                        ((DateValue) value).getObject(),
-                                        "yyyy-MM-dd");
-                            }
-                        }
-                        doc.addField(searchFilter.getIndexFieldName(), svalue);
-                        doc.addField(searchFilter.getIndexFieldName()
-                                + "_keyword", svalue);
-                        if (authority != null)
-                        {
-                            doc.addField(searchFilter.getIndexFieldName()
-                                    + "_keyword", svalue + AUTHORITY_SEPARATOR
-                                    + authority);
-                            doc.addField(searchFilter.getIndexFieldName()
-                                    + "_authority", authority);
-                            doc.addField(searchFilter.getIndexFieldName()
-                                    + "_acid", svalue.toLowerCase() + separator
-                                    + svalue + AUTHORITY_SEPARATOR + authority);
-                        }
-
-                        // Add a dynamic fields for auto complete in search
-                        doc.addField(searchFilter.getIndexFieldName() + "_ac",
-                                svalue.toLowerCase() + separator + svalue);
-
-                        if (searchFilter.getFilterType().equals(
-                                DiscoverySearchFilterFacet.FILTER_TYPE_FACET))
-                        {
-                            if (searchFilter.getType().equals(
-                                    DiscoveryConfigurationParameters.TYPE_TEXT))
-                            {
-                                // Add a special filter
-                                // We use a separator to split up the lowercase
-                                // and regular case, this is needed to get our
-                                // filters in regular case
-                                // Solr has issues with facet prefix and cases
-                                if (authority != null)
-                                {
-                                    String facetValue = svalue;
-                                    doc.addField(
-                                            searchFilter.getIndexFieldName()
-                                                    + "_filter",
-                                            facetValue.toLowerCase()
-                                                    + separator + facetValue
-                                                    + AUTHORITY_SEPARATOR
-                                                    + authority);
-                                }
-                                else
-                                {
-                                    doc.addField(
-                                            searchFilter.getIndexFieldName()
-                                                    + "_filter",
-                                            svalue.toLowerCase() + separator
-                                                    + svalue);
-                                }
-                            }
-                            else if (searchFilter.getType().equals(
-                                    DiscoveryConfigurationParameters.TYPE_DATE))
-                            {
-                                if (value instanceof DateValue)
-                                {
-                                    String indexField = searchFilter
-                                            .getIndexFieldName() + ".year";
-                                    doc.addField(
-                                            searchFilter.getIndexFieldName()
-                                                    + "_keyword",
-                                            DateFormatUtils.formatUTC(
-                                                    ((DateValue) value)
-                                                            .getObject(),
-                                                    "yyyy"));
-                                    doc.addField(indexField, DateFormatUtils
-                                            .formatUTC(((DateValue) value)
-                                                    .getObject(), "yyyy"));
-                                    // Also save a sort value of this year, this
-                                    // is required for determining the upper &
-                                    // lower bound year of our facet
-                                    if (doc.getField(indexField + "_sort") == null)
-                                    {
-                                        // We can only add one year so take the
-                                        // first one
-                                        doc.addField(indexField + "_sort",
-                                                DateFormatUtils.formatUTC(
-                                                        ((DateValue) value)
-                                                                .getObject(),
-                                                        "yyyy"));
-                                    }
-                                }
-                            }
-                            else if (searchFilter
-                                    .getType()
-                                    .equals(DiscoveryConfigurationParameters.TYPE_HIERARCHICAL))
-                            {
-                                HierarchicalSidebarFacetConfiguration hierarchicalSidebarFacetConfiguration = (HierarchicalSidebarFacetConfiguration) searchFilter;
-                                String[] subValues = svalue
-                                        .split(hierarchicalSidebarFacetConfiguration
-                                                .getSplitter());
-                                if (hierarchicalSidebarFacetConfiguration
-                                        .isSkipFirstNodeLevel()
-                                        && 1 < subValues.length)
-                                {
-                                    // Remove the first element of our array
-                                    subValues = (String[]) ArrayUtils.subarray(
-                                            subValues, 1, subValues.length);
-                                }
-                                for (int i = 0; i < subValues.length; i++)
-                                {
-                                    StringBuilder valueBuilder = new StringBuilder();
-                                    for (int j = 0; j <= i; j++)
-                                    {
-                                        valueBuilder.append(subValues[j]);
-                                        if (j < i)
-                                        {
-                                            valueBuilder
-                                                    .append(hierarchicalSidebarFacetConfiguration
-                                                            .getSplitter());
-                                        }
-                                    }
-
-                                    String indexValue = valueBuilder.toString()
-                                            .trim();
-                                    doc.addField(
-                                            searchFilter.getIndexFieldName()
-                                                    + "_tax_" + i + "_filter",
-                                            indexValue.toLowerCase()
-                                                    + separator + indexValue);
-                                    // We add the field x times that it has
-                                    // occurred
-                                    for (int j = i; j < subValues.length; j++)
-                                    {
-                                        doc.addField(
-                                                searchFilter
-                                                        .getIndexFieldName()
-                                                        + "_filter",
-                                                indexValue.toLowerCase()
-                                                        + separator
-                                                        + indexValue);
-                                        doc.addField(
-                                                searchFilter
-                                                        .getIndexFieldName()
-                                                        + "_keyword",
-                                                indexValue);
-                                    }
-                                }
-                            }
+                            String field = schema + "." + cEnh.getAlias()+"."+qual;
+                            indexProperty(doc, dso.getUuid(), field, meta, toIgnoreFields,
+                                    searchFilters, toProjectionFields, sortFields,
+                                    recentSubmissionsConfigurationMap, sortFieldsAdded,
+                                    hitHighlightingFields,
+                                    moreLikeThisFields);
+                            
                         }
                     }
-                }
-
-                if ((sortFields.get(field) != null || recentSubmissionsConfigurationMap
-                        .get(field) != null)
-                        && !sortFieldsAdded.contains(field))
-                {
-                    // Only add sort value once
-                    String type;
-                    if (sortFields.get(field) != null)
-                    {
-                        type = sortFields.get(field).getType();
-                    }
-                    else
-                    {
-                        type = recentSubmissionsConfigurationMap.get(field)
-                                .getType();
-                    }
-
-                    if (type.equals(DiscoveryConfigurationParameters.TYPE_DATE))
-                    {
-                        Date date = null;
-                        if (value instanceof DateValue)
-                        {
-                            date = ((DateValue) value).getObject();
-                        }
-                        else
-                        {
-                            date = toDate(svalue);
-                        }
-                        if (date != null)
-                        {
-                            doc.addField(field + "_dt", date);
-                        }
-                        else
-                        {
-                            log.warn("Error while indexing sort date field, cris: "
-                                    + dso.getUuid()
-                                    + " metadata field: "
-                                    + field + " date value: " + value);
-                        }
-                    }
-                    else
-                    {
-                        doc.addField(field + "_sort", value);
-                    }
-                    sortFieldsAdded.add(field);
-                }
-
-                if (hitHighlightingFields.contains(field)
-                        || hitHighlightingFields.contains("*"))
-                {
-                    doc.addField(field + "_hl", svalue);
-                }
-
-                if (moreLikeThisFields.contains(field))
-                {
-                    doc.addField(field + "_mlt", svalue);
-                }
-
-                doc.addField(field, svalue);
-                if (toProjectionFields.contains(field))
-                {
-                    doc.addField(field + "_stored", svalue + STORE_SEPARATOR
-                            + authority);
                 }
             }
+            
 
         }
         catch (Exception e)
@@ -625,6 +477,284 @@ public class CrisSearchService extends SolrServiceImpl
         {
             log.error("Error cleaning cris discovery index: " + e.getMessage(),
                     e);
+        }
+    }
+    
+    
+    private <P extends Property<TP>, TP extends PropertiesDefinition> void indexProperty(
+            SolrInputDocument doc,
+            String uuid,
+            String field,
+            P meta,
+            List<String> toIgnoreFields,
+            Map<String, List<DiscoverySearchFilter>> searchFilters,
+            List<String> toProjectionFields,
+            Map<String, DiscoverySortFieldConfiguration> sortFields,
+            Map<String, DiscoveryRecentSubmissionsConfiguration> recentSubmissionsConfigurationMap,
+            List<String> sortFieldsAdded,
+            Set<String> hitHighlightingFields,
+            Set<String> moreLikeThisFields)
+    {
+        AValue value = meta.getValue();
+
+        if (value == null
+                || meta.getVisibility() != VisibilityConstants.PUBLIC)
+        {
+            return;
+        }
+
+        String svalue = value.toString();
+        if (StringUtils.isNotEmpty(svalue))
+        {
+            PropertyEditor editor = meta.getTypo().getRendering()
+                    .getPropertyEditor(null);
+            editor.setValue(value.getObject());
+
+            svalue = editor.getAsText();
+
+        }
+
+        Integer authority = null;
+        if (value instanceof PointerValue
+                && value.getObject() instanceof ACrisObject)
+        {
+            authority = ((ACrisObject) value.getObject()).getId();
+        }
+
+        if (toIgnoreFields.contains(field))
+        {
+            return;
+        }
+
+        if ((searchFilters.get(field) != null))
+        {
+            List<DiscoverySearchFilter> searchFilterConfigs = searchFilters
+                    .get(field);
+
+            for (DiscoverySearchFilter searchFilter : searchFilterConfigs)
+            {
+                String separator = new DSpace()
+                        .getConfigurationService().getProperty(
+                                "discovery.solr.facets.split.char");
+                if (separator == null)
+                {
+                    separator = FILTER_SEPARATOR;
+                }
+                if (searchFilter.getType().equals(
+                        DiscoveryConfigurationParameters.TYPE_DATE))
+                {
+                    if (value instanceof DateValue)
+                    {
+                        // TODO: make this date format configurable !
+                        svalue = DateFormatUtils.formatUTC(
+                                ((DateValue) value).getObject(),
+                                "yyyy-MM-dd");
+                    }
+                }
+                doc.addField(searchFilter.getIndexFieldName(), svalue);
+                doc.addField(searchFilter.getIndexFieldName()
+                        + "_keyword", svalue);
+                if (authority != null)
+                {
+                    doc.addField(searchFilter.getIndexFieldName()
+                            + "_keyword", svalue + AUTHORITY_SEPARATOR
+                            + authority);
+                    doc.addField(searchFilter.getIndexFieldName()
+                            + "_authority", authority);
+                    doc.addField(searchFilter.getIndexFieldName()
+                            + "_acid", svalue.toLowerCase() + separator
+                            + svalue + AUTHORITY_SEPARATOR + authority);
+                }
+
+                // Add a dynamic fields for auto complete in search
+                doc.addField(searchFilter.getIndexFieldName() + "_ac",
+                        svalue.toLowerCase() + separator + svalue);
+
+                if (searchFilter.getFilterType().equals(
+                        DiscoverySearchFilterFacet.FILTER_TYPE_FACET))
+                {
+                    if (searchFilter.getType().equals(
+                            DiscoveryConfigurationParameters.TYPE_TEXT))
+                    {
+                        // Add a special filter
+                        // We use a separator to split up the lowercase
+                        // and regular case, this is needed to get our
+                        // filters in regular case
+                        // Solr has issues with facet prefix and cases
+                        if (authority != null)
+                        {
+                            String facetValue = svalue;
+                            doc.addField(
+                                    searchFilter.getIndexFieldName()
+                                            + "_filter",
+                                    facetValue.toLowerCase()
+                                            + separator + facetValue
+                                            + AUTHORITY_SEPARATOR
+                                            + authority);
+                        }
+                        else
+                        {
+                            doc.addField(
+                                    searchFilter.getIndexFieldName()
+                                            + "_filter",
+                                    svalue.toLowerCase() + separator
+                                            + svalue);
+                        }
+                    }
+                    else if (searchFilter.getType().equals(
+                            DiscoveryConfigurationParameters.TYPE_DATE))
+                    {
+                        if (value instanceof DateValue)
+                        {
+                            String indexField = searchFilter
+                                    .getIndexFieldName() + ".year";
+                            doc.addField(
+                                    searchFilter.getIndexFieldName()
+                                            + "_keyword",
+                                    DateFormatUtils.formatUTC(
+                                            ((DateValue) value)
+                                                    .getObject(),
+                                            "yyyy"));
+                            doc.addField(indexField, DateFormatUtils
+                                    .formatUTC(((DateValue) value)
+                                            .getObject(), "yyyy"));
+                            // Also save a sort value of this year, this
+                            // is required for determining the upper &
+                            // lower bound year of our facet
+                            if (doc.getField(indexField + "_sort") == null)
+                            {
+                                // We can only add one year so take the
+                                // first one
+                                doc.addField(indexField + "_sort",
+                                        DateFormatUtils.formatUTC(
+                                                ((DateValue) value)
+                                                        .getObject(),
+                                                "yyyy"));
+                            }
+                        }
+                    }
+                    else if (searchFilter
+                            .getType()
+                            .equals(DiscoveryConfigurationParameters.TYPE_HIERARCHICAL))
+                    {
+                        HierarchicalSidebarFacetConfiguration hierarchicalSidebarFacetConfiguration = (HierarchicalSidebarFacetConfiguration) searchFilter;
+                        String[] subValues = svalue
+                                .split(hierarchicalSidebarFacetConfiguration
+                                        .getSplitter());
+                        if (hierarchicalSidebarFacetConfiguration
+                                .isSkipFirstNodeLevel()
+                                && 1 < subValues.length)
+                        {
+                            // Remove the first element of our array
+                            subValues = (String[]) ArrayUtils.subarray(
+                                    subValues, 1, subValues.length);
+                        }
+                        for (int i = 0; i < subValues.length; i++)
+                        {
+                            StringBuilder valueBuilder = new StringBuilder();
+                            for (int j = 0; j <= i; j++)
+                            {
+                                valueBuilder.append(subValues[j]);
+                                if (j < i)
+                                {
+                                    valueBuilder
+                                            .append(hierarchicalSidebarFacetConfiguration
+                                                    .getSplitter());
+                                }
+                            }
+
+                            String indexValue = valueBuilder.toString()
+                                    .trim();
+                            doc.addField(
+                                    searchFilter.getIndexFieldName()
+                                            + "_tax_" + i + "_filter",
+                                    indexValue.toLowerCase()
+                                            + separator + indexValue);
+                            // We add the field x times that it has
+                            // occurred
+                            for (int j = i; j < subValues.length; j++)
+                            {
+                                doc.addField(
+                                        searchFilter
+                                                .getIndexFieldName()
+                                                + "_filter",
+                                        indexValue.toLowerCase()
+                                                + separator
+                                                + indexValue);
+                                doc.addField(
+                                        searchFilter
+                                                .getIndexFieldName()
+                                                + "_keyword",
+                                        indexValue);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if ((sortFields.get(field) != null || recentSubmissionsConfigurationMap
+                .get(field) != null)
+                && !sortFieldsAdded.contains(field))
+        {
+            // Only add sort value once
+            String type;
+            if (sortFields.get(field) != null)
+            {
+                type = sortFields.get(field).getType();
+            }
+            else
+            {
+                type = recentSubmissionsConfigurationMap.get(field)
+                        .getType();
+            }
+
+            if (type.equals(DiscoveryConfigurationParameters.TYPE_DATE))
+            {
+                Date date = null;
+                if (value instanceof DateValue)
+                {
+                    date = ((DateValue) value).getObject();
+                }
+                else
+                {
+                    date = toDate(svalue);
+                }
+                if (date != null)
+                {
+                    doc.addField(field + "_dt", date);
+                }
+                else
+                {
+                    log.warn("Error while indexing sort date field, cris: "
+                            + uuid
+                            + " metadata field: "
+                            + field + " date value: " + value);
+                }
+            }
+            else
+            {
+                doc.addField(field + "_sort", value);
+            }
+            sortFieldsAdded.add(field);
+        }
+
+        if (hitHighlightingFields.contains(field)
+                || hitHighlightingFields.contains("*"))
+        {
+            doc.addField(field + "_hl", svalue);
+        }
+
+        if (moreLikeThisFields.contains(field))
+        {
+            doc.addField(field + "_mlt", svalue);
+        }
+
+        doc.addField(field, svalue);
+        if (toProjectionFields.contains(field))
+        {
+            doc.addField(field + "_stored", svalue + STORE_SEPARATOR
+                    + authority);
         }
     }
 }
