@@ -369,13 +369,21 @@ public class RPAuthority implements ChoiceAuthority, AuthorityVariantsSupport,
         if (rp.getTranslatedName() != null
                 && rp.getTranslatedName().getVisibility() == VisibilityConstants.PUBLIC)
         {
-            publicNames.add(rp.getTranslatedName().getValue());
+            String value = rp.getTranslatedName().getValue();
+            if (StringUtils.isNotBlank(value))
+            {
+                publicNames.add(value);
+            }
         }
 
         if (rp.getPreferredName() != null
                 && rp.getPreferredName().getVisibility() == VisibilityConstants.PUBLIC)
         {
-            publicNames.add(rp.getPreferredName().getValue());
+            String value = rp.getPreferredName().getValue();
+            if (StringUtils.isNotBlank(value))
+            {
+                publicNames.add(value);
+            }
         }
 
         List<RestrictedField> variants = rp.getVariants();
@@ -385,7 +393,11 @@ public class RPAuthority implements ChoiceAuthority, AuthorityVariantsSupport,
             {
                 if (v.getVisibility() == VisibilityConstants.PUBLIC)
                 {
-                    publicNames.add(v.getValue());
+                    String value = v.getValue();
+                    if (StringUtils.isNotBlank(value))
+                    {
+                        publicNames.add(value);
+                    }
                 }
             }
         }

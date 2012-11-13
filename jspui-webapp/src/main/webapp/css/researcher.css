@@ -1138,3 +1138,5 @@ a.cris-edit-anchor {
     transform-origin: left top;
     position: relative;
 }
+a#cris-rp-changestatus {text-decoration: none;}
+span#cris-rp-status-value {text-decoration: underline;}
