@@ -1230,4 +1230,18 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="crisConstants" class="it.cilea.hku.authority.model.CrisConstants" scope="prototype">
+		<!-- example configuration -->
+		<property name="otherTypeMap">
+			<map>
+				<entry key="inserttyposhortnamefordynamicentity" value="assignedtype"/>
+			</map>
+		</property>
+		<property name="authorityPrefixMap">
+			<map>
+				<entry key="inserttyposhortnamefordynamicentity" value="assignedauthority"/>
+			</map>
+		</property>		
+	</bean>
 </beans>

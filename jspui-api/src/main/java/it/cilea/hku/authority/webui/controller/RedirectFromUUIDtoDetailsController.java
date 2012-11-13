@@ -9,6 +9,7 @@ package it.cilea.hku.authority.webui.controller;
 
 import it.cilea.hku.authority.model.ACrisObject;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,7 @@ public class RedirectFromUUIDtoDetailsController extends
     {        
         String uuid = extractUUID(request);
         ACrisObject crisObject = getApplicationService().getEntityByUUID(uuid.substring(4));
-        return new ModelAndView("redirect:/cris/"+ crisObject.getPublicPath() + "/" + crisObject.getId());     
+        return new ModelAndView("redirect:/cris/"+ crisObject.getPublicPath() + "/" + ResearcherPageUtils.getPersistentIdentifier(crisObject));     
     }
 
     private String extractUUID(HttpServletRequest request)

@@ -8,11 +8,16 @@
 package it.cilea.hku.authority.util;
 
 import it.cilea.hku.authority.model.ACrisObject;
+import it.cilea.hku.authority.model.CrisConstants;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.VisibilityConstants;
 import it.cilea.hku.authority.service.ApplicationService;
 
 import java.text.DecimalFormat;
+
+import javax.persistence.Transient;
+
+import org.apache.log4j.Logger;
 
 /**
  * This class provides some static utility methods to extract information from
@@ -23,7 +28,10 @@ import java.text.DecimalFormat;
  */
 public class ResearcherPageUtils
 {
-
+    /** log4j logger */
+    @Transient
+    private static Logger log = Logger.getLogger(ResearcherPageUtils.class);
+    
     /**
      * Formatter to build the rp identifier
      */
@@ -56,15 +64,15 @@ public class ResearcherPageUtils
      */
     public static String getPersistentIdentifier(ACrisObject rp)
     {
-        return persIdentifierFormat.format(rp.getId());
+        return rp.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + getPersistentIdentifier(rp.getId());
     }
 
     /**
-     * Build the rp identifier starting from the db internal primary key
+     * Build the cris identifier starting from the db internal primary key
      * 
      * @param rp
      *            the internal db primary key of the researcher page
-     * @return the rp identifier of the supplied ResearhcerPage
+     * @return the cris identifier of the supplied ResearhcerPage
      */
     public static String getPersistentIdentifier(Integer rp)
     {
@@ -72,20 +80,21 @@ public class ResearcherPageUtils
     }
 
     /**
-     * Extract the db primary key from a rp identifier
+     * Extract the db primary key from a cris identifier
      * 
      * @param authorityKey
-     *            the rp identifier
+     *            the cris identifier
      * @return the db primary key
      */
     public static Integer getRealPersistentIdentifier(String authorityKey)
     {
         try
         {
-            return Integer.parseInt(authorityKey);
+            return Integer.parseInt(authorityKey.substring(2));
         }
         catch (NumberFormatException e)
         {
+            log.error(e.getMessage());
             return null;
         }
     }
@@ -129,7 +138,7 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    Integer.parseInt(rpkey.substring(2)));
+                    getRealPersistentIdentifier(rpkey));
             return getLabel(alternativeName, rp);
         }
         return alternativeName;

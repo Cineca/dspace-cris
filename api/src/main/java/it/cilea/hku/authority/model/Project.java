@@ -392,4 +392,16 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     public int getType() {
     	return CrisConstants.PROJECT_TYPE_ID;
     }
+    
+    @Override
+    public int getEntityType(Map<String, Integer> map)
+    {
+        return getType();
+    }
+
+    @Override
+    public String getAuthorityPrefix(Map<String, String> map)
+    {
+        return "pj";
+    }
 }

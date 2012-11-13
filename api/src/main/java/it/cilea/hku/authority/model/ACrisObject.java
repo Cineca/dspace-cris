@@ -9,6 +9,7 @@ package it.cilea.hku.authority.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import it.cilea.osd.common.model.Identifiable;
@@ -75,6 +76,8 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     }
 
     public abstract String getPublicPath();
+    public abstract int getEntityType(Map<String,Integer> map);
+    public abstract String getAuthorityPrefix(Map<String, String> map);
 
     @Override
     public String getHandle()

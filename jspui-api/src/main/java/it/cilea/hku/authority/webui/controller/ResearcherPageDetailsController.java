@@ -90,7 +90,7 @@ public class ResearcherPageDetailsController
         log.debug("Start handleRequest");
         Map<String, Object> model = new HashMap<String, Object>();
 
-        Integer objectId = extractResearcherId(request);
+        Integer objectId = extractEntityId(request);
         if (objectId == -1)
         {
             response.sendError(HttpServletResponse.SC_NOT_FOUND,
@@ -201,7 +201,7 @@ public class ResearcherPageDetailsController
             HttpServletRequest request, Map<String, Object> model,
             HttpServletResponse response) throws Exception
     {
-        Integer researcherId = extractResearcherId(request);
+        Integer researcherId = extractEntityId(request);
         ResearcherPage researcher = null;
         try
         {
@@ -233,7 +233,7 @@ public class ResearcherPageDetailsController
     @Override
     protected Integer getAnagraficaId(HttpServletRequest request)
     {
-        Integer researcherId = extractResearcherId(request);
+        Integer researcherId = extractEntityId(request);
         ResearcherPage researcher = null;
         try
         {
@@ -263,12 +263,7 @@ public class ResearcherPageDetailsController
 
     private Integer extractResearcherId(HttpServletRequest request)
     {
-        String path = request.getPathInfo().substring(1); // remove first /
-        String[] splitted = path.split("/");
-        request.setAttribute("authority", splitted[1]);
-        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]);
-        request.setAttribute("entityID", id);
-        return id;
+        return extractEntityId(request);
     }
 
     private String extractTabName(HttpServletRequest request)
@@ -318,6 +313,12 @@ public class ResearcherPageDetailsController
         JSPManager.showAuthorizeError(request, response,
                 new AuthorizeException(ex.getMessage()));
         // response.sendRedirect("/cris/rp/" + objectId);
+    }
+
+    
+    protected Integer getRealPersistentIdentifier(String persistentIdentifier)
+    {
+        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier);
     }
 
 }
