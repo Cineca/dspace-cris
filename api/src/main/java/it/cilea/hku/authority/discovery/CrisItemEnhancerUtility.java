@@ -138,15 +138,26 @@ public class CrisItemEnhancerUtility
             DCValue[] dcvalues = item.getMetadata(md);
             for (DCValue dc : dcvalues)
             {
-                if (dc.authority != null
-                        && dc.authority.startsWith(ResearcherPageUtils
-                                .getPersistentIdentifierPrefix(enh.getClazz())))
+                try
                 {
-                    if (mam.getMinConfidence(dc.schema, dc.element,
-                            dc.qualifier) <= dc.confidence)
+                    if (dc.authority != null
+                            && dc.authority.startsWith(ResearcherPageUtils
+                                    .getPersistentIdentifier(enh.getClazz().newInstance())))
                     {
-                        validAuthorities.add(dc.authority);
+                        if (mam.getMinConfidence(dc.schema, dc.element,
+                                dc.qualifier) <= dc.confidence)
+                        {
+                            validAuthorities.add(dc.authority);
+                        }
                     }
+                }
+                catch (InstantiationException e)
+                {
+                   log.error(e.getMessage(), e);
+                }
+                catch (IllegalAccessException e)
+                {
+                    log.error(e.getMessage(), e);
                 }
             }
         }
