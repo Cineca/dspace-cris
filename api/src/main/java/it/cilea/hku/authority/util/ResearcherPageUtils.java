@@ -8,12 +8,9 @@
 package it.cilea.hku.authority.util;
 
 import it.cilea.hku.authority.model.ACrisObject;
-<<<<<<< HEAD
 import it.cilea.hku.authority.model.CrisConstants;
-=======
 import it.cilea.hku.authority.model.OrganizationUnit;
 import it.cilea.hku.authority.model.Project;
->>>>>>> ad00cb5778cad36bec7e8818db1c2dc58e7dd61d
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.VisibilityConstants;
 import it.cilea.hku.authority.service.ApplicationService;
@@ -69,31 +66,25 @@ public class ResearcherPageUtils
      */
     public static String getPersistentIdentifier(ACrisObject cris)
     {
-<<<<<<< HEAD
-        return rp.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + getPersistentIdentifier(rp.getId());
+        return cris.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + formatIdentifier(cris.getId());
     }
 
+    
     /**
      * Build the cris identifier starting from the db internal primary key
-=======
-        return getPersistentIdentifierPrefix(cris.getClass())
-                + persIdentifierFormat.format(cris.getId());
-    }
-
-    /**
-     * Use only with ReasercherPage doesn't work with other CRIS Object. Use
-     * instead {@link #getPersistentIdentifier(ACrisObject)}
->>>>>>> ad00cb5778cad36bec7e8818db1c2dc58e7dd61d
-     * 
-     * @param rp
-     *            the internal db primary key of the researcher page
-     * @return the cris identifier of the supplied ResearhcerPage
-     */
-    @Deprecated
+    */
     public static String getPersistentIdentifier(Integer rp)
     {
-        return getPersistentIdentifierPrefix(ResearcherPage.class)
-                + persIdentifierFormat.format(rp);
+        return persIdentifierFormat.format(rp);
+    }
+    
+    
+    /**
+     * Format the cris suffix identifier starting from the db internal primary key
+    */
+    private static String formatIdentifier(Integer rp)
+    {
+        return persIdentifierFormat.format(rp);
     }
 
     /**
@@ -278,17 +269,6 @@ public class ResearcherPageUtils
         }
         return null;
     }
-
-    public static String getPersistentIdentifierPrefix(
-            Class<? extends ACrisObject> clazz)
-    {
-        if (ResearcherPage.class.isAssignableFrom(clazz))
-            return "rp";
-        else if (Project.class.isAssignableFrom(clazz))
-            return "pj";
-        else if (OrganizationUnit.class.isAssignableFrom(clazz))
-            return "ou";
-        return null;
-    }
+  
 
 }
