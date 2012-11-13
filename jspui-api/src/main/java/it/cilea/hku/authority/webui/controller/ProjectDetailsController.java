@@ -210,13 +210,13 @@ public class ProjectDetailsController
     private Project extractProject(HttpServletRequest request)
     {
 
-        String path = request.getPathInfo().substring(1); // remove
-        // first /
-        String[] splitted = path.split("/");
-        request.setAttribute("authority", splitted[1]);
-        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]);
-        request.setAttribute("entityID", id);
+        Integer id = extractEntityId(request);        
         return ((ApplicationService) applicationService).get(Project.class,id);
 
+    }
+    
+    protected Integer getRealPersistentIdentifier(String persistentIdentifier)
+    {
+        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier);
     }
 }

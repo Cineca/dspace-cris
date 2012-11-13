@@ -1,3 +1,11 @@
+<%--
+The contents of this file are subject to the license and copyright
+ detailed in the LICENSE and NOTICE files at the root of the source
+ tree and available online at
+ 
+ https://github.com/CILEA/dspace-cris/wiki/License
+--%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -55,25 +63,6 @@
 <c:set var="admin" scope="request"><%=isAdmin%></c:set>
 <c:set var="dspace.cris.navbar" scope="request">
 
-
-  <c:if test="${researcher_page_menu && !empty researcher}">
-  <tr>
-    <td colspan="2">&nbsp;</td>
-  </tr>
-  
-  <tr>
-    <td nowrap="nowrap" colspan="2" class="navigationBarSublabel"><fmt:message key="jsp.layout.navbar-hku.staffmode.title"/></td>
-  </tr>
-
-   <tr class="navigationBarItem">
-    <td>
-      <img alt="" src="<%=request.getContextPath()%>/image/<%=( currentPage.endsWith( "/rebindItemsToRP" ) ? "arrow-highlight" : "arrow" )%>.gif" width="16" height="16"/>
-    </td>
-    <td nowrap="nowrap" class="navigationBarItem">
-      <a href="<%= request.getContextPath() %>/cris/tools/rp/rebindItemsToRP.htm?id=${researcher.id}"><fmt:message key="jsp.layout.navbar-hku.staff-mode.bind.items"/></a>
-    </td>
-  </tr>
-  </c:if>
 </c:set>
 <c:set var="dspace.layout.head.last" scope="request">
     <script type="text/javascript"><!--

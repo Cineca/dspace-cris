@@ -110,12 +110,6 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     @Transient
     public static final int COLLABORATION_NETWORK_SECTION = -3;
 
-    @Transient
-    /**
-     * Constant for resource type assigned to the RP
-     */
-    public static final int RP_TYPE_ID = 9;
-
     /** log4j logger */
     @Transient
     private static Logger log = Logger.getLogger(ResearcherPage.class);
@@ -528,7 +522,7 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     
     public String getValueTypeIDAttribute()
     {
-        return "" + RP_TYPE_ID;
+        return "" + getType();
     }
 
     
@@ -686,5 +680,17 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     @Override
     public String getName() {
     	return getFullName();
+    }
+
+    @Override
+    public int getEntityType(Map<String, Integer> map)
+    {
+        return getType();
+    }
+
+    @Override
+    public String getAuthorityPrefix(Map<String, String> map)
+    {
+        return "rp";
     }
 }

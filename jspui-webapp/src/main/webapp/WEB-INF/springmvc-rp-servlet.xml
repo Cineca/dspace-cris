@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!--
+  The contents of this file are subject to the license and copyright
+   detailed in the LICENSE and NOTICE files at the root of the source
+   tree and available online at
+   
+   https://github.com/CILEA/dspace-cris/wiki/License
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
@@ -1258,6 +1264,7 @@
 		<property name="specificPartPath">
 			<value>project</value>
 		</property>
+		<property name="components" ref="pjComponents"/>
 	</bean>		
 		
 	<bean id="redirectDetailsProjectController"
@@ -1640,7 +1647,7 @@
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
@@ -2369,6 +2376,7 @@
 		<property name="specificPartPath">
 			<value>ou</value>
 		</property>
+		<property name="components" ref="ouComponents"/>
 	</bean>		
 		
 	<bean id="redirectDetailsOUController"
@@ -3486,14 +3494,7 @@
 		<property name="detailsView">
 			<value>layout/navigation</value>
 		</property>		
-
-		<!-- 		<property name="components">
-			<map>
-				<entry key="dspaceitems">
-					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
-				</entry>				
-			</map>
-		</property>			 -->			
+		<property name="components" ref="pjComponents"/>		
 	</bean>
 	
 		
@@ -3507,16 +3508,7 @@
 		<property name="detailsView">
 			<value>layout/navigation</value>
 		</property>		
-
-		<!-- 		
-		
-		<property name="components">
-			<map>
-				<entry key="dspaceitems">
-					<bean class="it.cilea.hku.authority.webui.components.ItemsListComponent" />
-				</entry>				
-			</map>
-		</property>			 -->			
+		<property name="components" ref="ouComponents"/>		
 	</bean>
 				
 			

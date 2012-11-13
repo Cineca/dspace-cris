@@ -11,6 +11,7 @@ import it.cilea.hku.authority.util.ResearcherPageUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
@@ -44,7 +45,12 @@ public class ItemsListComponent extends ASolrConfigurerComponent<Item>
     @Override
     public String getAuthority(HttpServletRequest request)
     {
-        return (String) request.getAttribute("authority");
+        String result = (String) request.getAttribute("authority");
+        if(StringUtils.isEmpty(result)) {
+            Integer entityID = Integer.parseInt(String.valueOf(request.getAttribute("entityID")));
+            return getAuthority(entityID);
+        }
+        return result;
     }
 
 

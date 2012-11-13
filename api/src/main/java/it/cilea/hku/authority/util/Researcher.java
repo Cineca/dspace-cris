@@ -36,6 +36,14 @@ public class Researcher
     public Map<String, IComponent> getRPComponents() {
         return dspace.getServiceManager().getServiceByName("rpComponentsService", CrisComponentsService.class).getComponents();
     }
+    
+    public Map<String, IComponent> getProjectComponents() {
+        return dspace.getServiceManager().getServiceByName("projectComponentsService", CrisComponentsService.class).getComponents();
+    }
+    
+    public Map<String, IComponent> getOUComponents() {
+        return dspace.getServiceManager().getServiceByName("ouComponentsService", CrisComponentsService.class).getComponents();
+    }
  
     public SessionFactory getSessionFactory()
     {

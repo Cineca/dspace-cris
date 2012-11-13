@@ -1,3 +1,11 @@
+<%--
+The contents of this file are subject to the license and copyright
+ detailed in the LICENSE and NOTICE files at the root of the source
+ tree and available online at
+ 
+ https://github.com/CILEA/dspace-cris/wiki/License
+--%>
+
 <%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
