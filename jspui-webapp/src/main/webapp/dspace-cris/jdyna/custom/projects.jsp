@@ -1,3 +1,11 @@
+<%--
+The contents of this file are subject to the license and copyright
+ detailed in the LICENSE and NOTICE files at the root of the source
+ tree and available online at
+ 
+ https://github.com/CILEA/dspace-cris/wiki/License
+--%>
+
 <%@page import="org.apache.commons.lang.StringUtils"%>
 <%@page import="java.util.List"%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
@@ -19,7 +27,6 @@
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 
 <c:set var="root"><%=request.getContextPath()%></c:set>
-<c:set var="researcher" value="${researcher}" scope="request" />
 <c:set var="info" value="${componentinfomap}" scope="page" />
 <%
 	
@@ -33,7 +40,7 @@
 	<h3>
 		<a href="#"><fmt:message
 				key="jsp.layout.dspace.detail.fieldset-legend.component.${info[holder.shortName].type}">
-				<fmt:param>${researcher.preferredName.value}</fmt:param>
+				<fmt:param>${fn:length(info[holder.shortName].items)}</fmt:param>
 			</fmt:message> </a>
 	</h3>
 <div>

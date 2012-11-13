@@ -1,3 +1,10 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ *  detailed in the LICENSE and NOTICE files at the root of the source
+ *  tree and available online at
+ *  
+ *  https://github.com/CILEA/dspace-cris/wiki/License
+ */
 package it.cilea.hku.authority.webui.components;
 
 import it.cilea.hku.authority.webui.dto.ComponentInfoDTO;
@@ -47,29 +54,5 @@ public class BrowseItemListComponent extends
     {
         return String.valueOf(id);
     }
-
-    @Override
-    public ComponentInfoDTO<BrowseItem> buildComponentInfo(DiscoverResult docs,
-            Context context, String type, int start, String order, int rpp,
-            int etAl, long docsNumFound, int pageTotal, int pageCurrent,
-            int pageLast, int pageFirst, SortOption sortOption)
-            throws Exception
-    {
-        ComponentInfoDTO<BrowseItem> componentInfo = new ComponentInfoDTO<BrowseItem>();
-        componentInfo.setItems(getObjectFromSolrResult(docs, context));
-
-        componentInfo.setPagetotal(pageTotal);
-        componentInfo.setPagecurrent(pageCurrent);
-        componentInfo.setPagelast(pageLast);
-        componentInfo.setPagefirst(pageFirst);
-
-        componentInfo.setOrder(order);
-        componentInfo.setSo(sortOption);
-        componentInfo.setStart(start);
-        componentInfo.setRpp(rpp);
-        componentInfo.setEtAl(etAl);
-        componentInfo.setTotal(docsNumFound);
-        componentInfo.setType(type);
-        return componentInfo;
-    }
+  
 }

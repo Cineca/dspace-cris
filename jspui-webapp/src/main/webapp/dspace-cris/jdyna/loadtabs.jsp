@@ -1,3 +1,11 @@
+<%--
+The contents of this file are subject to the license and copyright
+ detailed in the LICENSE and NOTICE files at the root of the source
+ tree and available online at
+ 
+ https://github.com/CILEA/dspace-cris/wiki/License
+--%>
+
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:choose>

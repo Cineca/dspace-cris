@@ -1,3 +1,11 @@
+<%--
+The contents of this file are subject to the license and copyright
+ detailed in the LICENSE and NOTICE files at the root of the source
+ tree and available online at
+ 
+ https://github.com/CILEA/dspace-cris/wiki/License
+--%>
+
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -137,9 +145,9 @@
 							<c:set var="hasCustomEditJSP" value="false" scope="request" />
 							<c:set var="hasCustomDisplayJSP" value="false" scope="request" />
 							<c:set var="urljspcustomone"
-								value="/authority/jdyna/custom/edit${box.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/edit${box.externalJSP}.jsp" scope="request" />
 							<c:set var="urljspcustomtwo"
-								value="/authority/jdyna/custom/${box.shortName}.jsp" scope="request" />
+								value="/dspace-cris/jdyna/custom/${box.externalJSP}.jsp" scope="request" />
 								
 							<%
 							 	URL fileDisplayURL = null;
@@ -176,7 +184,7 @@
 			<a class="jdynaeditbutton" title="<fmt:message
 				key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
 			href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/editBox.htm?id=${box.id}&tabId=${tab.id}">		
-			<img src="<%= request.getContextPath() %>/image//authority/jdynaeditbutton.jpg"
+			<img src="<%= request.getContextPath() %>/image/authority/jdynaeditbutton.jpg"
 			border="0" alt="<fmt:message
 					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />" title="<fmt:message
 					key="jsp.dspace-admin.hku.jdyna-configuration.editdynamicfield" />"
