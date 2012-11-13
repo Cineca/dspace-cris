@@ -4,8 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 	<groupId>org.dspace</groupId>
-	<artifactId>dspace-cris-api</artifactId>
-	<version>1.8.2</version>
+	<artifactId>dspace-cris-api</artifactId>	
 	<name>Researcher Page :: API</name>
 	<parent>
 		<groupId>org.dspace</groupId>
@@ -17,7 +16,7 @@
 		<dependency>
 			<groupId>org.dspace</groupId>
 			<artifactId>dspace-api</artifactId>
-			<version>1.8.2</version>
+			<version>1.8.3-SNAPSHOT</version>			
 		</dependency>
 
 		<dependency>

@@ -251,7 +251,7 @@ public class FormProjectDynamicMetadataController
             {
                 anagraficaObjectDTO.setInvestigator(ResearcherPageUtils
                         .getPersistentIdentifier(grant.getInvestigator()
-                                .getIntInvestigator().getId()));
+                                .getIntInvestigator().getId(), Project.class));
             }
             else
             {
@@ -317,7 +317,7 @@ public class FormProjectDynamicMetadataController
         {
             exitPage = "redirect:/cris/project/"
                     + ResearcherPageUtils.getPersistentIdentifier(anagraficaObjectDTO
-                                    .getParentId()) + "/"
+                                    .getParentId(), Project.class) + "/"
                     + editT.getShortName().substring(4) + ".html";
         }
         if (request.getParameter("cancel") != null)

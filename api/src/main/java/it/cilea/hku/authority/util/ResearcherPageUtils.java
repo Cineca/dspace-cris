@@ -14,6 +14,8 @@ import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.VisibilityConstants;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.osd.jdyna.model.PropertiesDefinition;
+import it.cilea.osd.jdyna.model.Property;
 
 import java.text.DecimalFormat;
 
@@ -73,9 +75,23 @@ public class ResearcherPageUtils
     /**
      * Build the cris identifier starting from the db internal primary key
     */
-    public static String getPersistentIdentifier(Integer rp)
+    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getPersistentIdentifier(Integer rp, Class<T> clazz)
     {
-        return persIdentifierFormat.format(rp);
+        T cris = null;
+        try
+        {
+            cris = clazz.newInstance();
+            return cris.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + formatIdentifier(cris.getId());
+        }
+        catch (InstantiationException e)
+        {
+            log.error(e.getMessage());
+        }
+        catch (IllegalAccessException e)
+        {
+            log.error(e.getMessage());
+        }
+        return "";
     }
     
     

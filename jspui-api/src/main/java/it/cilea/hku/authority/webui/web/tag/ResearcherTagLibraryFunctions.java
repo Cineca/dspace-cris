@@ -652,7 +652,7 @@ public class ResearcherTagLibraryFunctions
 
     public static String rpkey(Integer id)
     {
-        return ResearcherPageUtils.getPersistentIdentifier(id);
+        return ResearcherPageUtils.getPersistentIdentifier(id, ResearcherPage.class);
     }
 
     public static <TP extends PropertiesDefinition, P extends Property<TP>> List<Containable<P>> sortContainableByComparator(

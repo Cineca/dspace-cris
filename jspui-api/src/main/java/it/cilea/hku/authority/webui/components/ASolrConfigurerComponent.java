@@ -8,6 +8,7 @@
 package it.cilea.hku.authority.webui.components;
 
 import it.cilea.hku.authority.discovery.CrisSearchService;
+import it.cilea.hku.authority.model.ACrisObject;
 import it.cilea.hku.authority.webui.dto.ComponentInfoDTO;
 import it.cilea.osd.jdyna.components.IBeanComponent;
 
@@ -53,6 +54,8 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
     private int objectType;
     
     private String shortName;
+    
+    private Class<ACrisObject> target;
     
     public List<String[]> addActiveTypeInRequest(HttpServletRequest request)
             throws Exception
@@ -435,5 +438,17 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
     {      
         return this.shortName;
     }
+
+    public Class<ACrisObject> getTarget()
+    {
+        return target;
+    }
+
+    public void setTarget(Class<ACrisObject> target)
+    {
+        this.target = target;
+    }
+
+
 
 }

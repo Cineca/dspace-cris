@@ -7,6 +7,7 @@
  */
 package it.cilea.hku.authority.model.dynamicfield.widget;
 
+import it.cilea.hku.authority.model.OrganizationUnit;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.jdyna.editor.FilePropertyEditor;
 import it.cilea.osd.jdyna.service.IPersistenceDynaService;
@@ -69,6 +70,6 @@ public class WidgetFileOU extends WidgetFile
     public String getCustomFolderByAuthority(String intAuth, String extAuth)
     {
         return ResearcherPageUtils.getPersistentIdentifier(Integer
-                .parseInt(intAuth)) + "/" + extAuth;
+                .parseInt(intAuth), OrganizationUnit.class) + "/" + extAuth;
     }
 }

@@ -89,7 +89,7 @@ public class ResearcherPageDTO  {
     public String getPersistentIdentifier()
     {
         if(persistentIdentifier==null || persistentIdentifier.isEmpty()) {
-            persistentIdentifier = ResearcherPageUtils.getPersistentIdentifier(getId());
+            persistentIdentifier = ResearcherPageUtils.getPersistentIdentifier(getId(), ResearcherPage.class);
         }
         return persistentIdentifier;
     }

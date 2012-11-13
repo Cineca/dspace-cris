@@ -7,6 +7,7 @@
  */
 package it.cilea.hku.authority.webui.validator;
 
+import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.ExportParametersDTO;
@@ -44,11 +45,11 @@ public class ExportParametersValidator implements Validator
                 // check sulla lunghezza e fix a rp00000
                 if (param.getRpIdStart().toLowerCase().startsWith("rp"))
                 {
-                    param.setRpIdStart(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdStart().substring(2))));
+                    param.setRpIdStart(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdStart().substring(2)),ResearcherPage.class));
                 }
                 else
                 {
-                    param.setRpIdStart(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdStart())));
+                    param.setRpIdStart(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdStart()),ResearcherPage.class));
                 }
             }
         }
@@ -66,11 +67,11 @@ public class ExportParametersValidator implements Validator
                 // check sulla lunghezza e fix a rp00000
                 if (param.getRpIdEnd().toLowerCase().startsWith("rp"))
                 {
-                    param.setRpIdEnd(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdEnd().substring(2))));
+                    param.setRpIdEnd(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdEnd().substring(2)),ResearcherPage.class));
                 }
                 else
                 {
-                    param.setRpIdEnd(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdEnd())));
+                    param.setRpIdEnd(ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(param.getRpIdEnd()),ResearcherPage.class));
                 }
             }
         }

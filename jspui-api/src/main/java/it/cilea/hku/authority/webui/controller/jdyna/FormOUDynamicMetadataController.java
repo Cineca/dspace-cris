@@ -284,7 +284,7 @@ public class FormOUDynamicMetadataController
         {
             exitPage = "redirect:/cris/ou/"
                     + ResearcherPageUtils.getPersistentIdentifier(anagraficaObjectDTO
-                                    .getParentId()) + "/"
+                                    .getParentId(), OrganizationUnit.class) + "/"
                     + editT.getShortName().substring(4) + ".html";
         }
         if (request.getParameter("cancel") != null)

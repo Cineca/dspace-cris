@@ -314,7 +314,7 @@ public class FormRPDynamicMetadataController
             exitPage = "redirect:/cris/rp/"
                     + ResearcherPageUtils
                             .getPersistentIdentifier(anagraficaObjectDTO
-                                    .getParentId()) + "/"
+                                    .getParentId(), ResearcherPage.class) + "/"
                     + editT.getShortName().substring(4) + ".html";
         }
         if (request.getParameter("cancel") != null)

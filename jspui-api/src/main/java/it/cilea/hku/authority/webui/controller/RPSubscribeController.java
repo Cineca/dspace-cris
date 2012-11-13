@@ -7,6 +7,7 @@
  */
 package it.cilea.hku.authority.webui.controller;
 
+import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.service.ApplicationService;
 import it.cilea.hku.authority.service.RPSubscribeService;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
@@ -60,7 +61,7 @@ public class RPSubscribeController extends MultiActionController
             return null;
         }
         rpSubService.subscribe(UIUtil.obtainContext(arg0).getCurrentUser(), id);
-        return new ModelAndView(getViewName()+ ResearcherPageUtils.getPersistentIdentifier(id)+"?subscribe=true");
+        return new ModelAndView(getViewName()+ ResearcherPageUtils.getPersistentIdentifier(id, ResearcherPage.class)+"?subscribe=true");
     }
 
     public ModelAndView unsubscribe(HttpServletRequest arg0,
@@ -76,7 +77,7 @@ public class RPSubscribeController extends MultiActionController
             return null;
         }
         rpSubService.unsubscribe(UIUtil.obtainContext(arg0).getCurrentUser(), id);
-        return new ModelAndView(getViewName()+ ResearcherPageUtils.getPersistentIdentifier(id)+"?subscribe=false");
+        return new ModelAndView(getViewName()+ ResearcherPageUtils.getPersistentIdentifier(id, ResearcherPage.class)+"?subscribe=false");
     }
 
     public ApplicationService getApplicationService()

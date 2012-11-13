@@ -7,6 +7,7 @@
  */
 package it.cilea.hku.authority.webui.components;
 
+import it.cilea.hku.authority.model.ACrisObject;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,7 @@ public class ItemsListComponent extends ASolrConfigurerComponent<Item>
     @Override
     public String getAuthority(Integer id)
     {      
-        return ResearcherPageUtils.getPersistentIdentifier(id);
+        return ResearcherPageUtils.getPersistentIdentifier(id, getTarget());
     }
 
   

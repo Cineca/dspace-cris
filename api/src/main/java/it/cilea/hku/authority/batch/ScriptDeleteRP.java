@@ -239,7 +239,7 @@ public class ScriptDeleteRP
             }
         }
 
-        String authorityKey = ResearcherPageUtils.getPersistentIdentifier(rpId);
+        String authorityKey = ResearcherPageUtils.getPersistentIdentifier(rpId, ResearcherPage.class);
         for (Item item : items)
         {
             DCValue[] values = null;

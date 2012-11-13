@@ -7,7 +7,7 @@
  */
 package it.cilea.hku.authority.webui.controller;
 
-import it.cilea.hku.authority.model.CrisConstants;
+import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.util.ResearcherPageUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +40,7 @@ public class RedirectResearcherPageDetailsController extends
             HttpServletResponse response) throws Exception
     {        
         String paramRPId = request.getParameter("id");
-        return new ModelAndView("redirect:/cris/rp/"+"rp"+ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(paramRPId)));     
+        return new ModelAndView("redirect:/cris/rp/"+ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(paramRPId), ResearcherPage.class));     
     }
 
  

@@ -12,7 +12,7 @@
 	<parent>
 		<artifactId>dspace-parent</artifactId>
 		<groupId>org.dspace</groupId>
-		<version>1.8.2</version>
+		<version>1.8.3-SNAPSHOT</version>
 	</parent>
 
 	<modules>
