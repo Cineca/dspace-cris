@@ -61,7 +61,7 @@ The contents of this file are subject to the license and copyright
 	value="${simpleNameAnagraficaObject}" scope="page" />
 
 <c:set var="disabledfield" value=" disabled=\"disabled\" "></c:set>
-
+<fmt:message key="jsp.layout.hku.researcher.alert.eperson" var="messagealerteperson"/>
 <c:set var="dspace.layout.head.last" scope="request">	
     <link href="<%=request.getContextPath()%>/js/jscalendar/calendar-blue.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar.js"> </script>
@@ -248,7 +248,7 @@ The contents of this file are subject to the license and copyright
     	
 		j(document).ready(function()
 		{
-			
+			j("#alert_eperson_dialog").dialog({ autoOpen: false });
 				
 			 j("#eperson").autocomplete({
 					delay: 500,
@@ -256,15 +256,16 @@ The contents of this file are subject to the license and copyright
 		                j.ajax({
 		                    url: "epersons.json",
 		                    dataType: "json", 
-		                    data : {	
-											
+		                    data : {												
 								"query":  request.term						
 							},                  
 		                    success: function( data ) {
 		                        response( j.map( data.epersons, function( item ) {
 		                            return {
 		                                label: item.lastName+", "+ item.firstName +" (" + item.email + ")",
-		                                value: item.id
+		                                value: item.id,
+		                                owneredRP: item.rpID,
+		                                fullNameRP: item.fullNameRPOwnered
 		                            }
 		                        }));
 		                    }
@@ -273,22 +274,33 @@ The contents of this file are subject to the license and copyright
 		            minLength: 2,
 		            select: function( event, ui ) {
 		            	if (ui == null || ui.item == null) return false;
-		            	var div = j('#epersonDIV');
-		            	div.html(' ');
-						var _input = j( "<input type='hidden' id='epersonID' name='epersonID'>" ).val(ui.item.value);
-		            	var display = j("<span>").text(ui.item.label);
-		            	var img = j('<img class="jdyna-icon jdyna-action-icon jdyna-delete-button" src="<%= request.getContextPath() %>/image/jdyna/delete_icon.gif">');
-	                     img.click(function(){                     	
-	                      	div.html(' ');
-	                      	var _input = j( "<input type='hidden' id='epersonID' name='epersonID'>" ).val("");                     	
-	                      	div.append(_input);                     	
-	                  	 });
-		            	 div.append(_input);
-		            	 div.append(display);	                     
-		            	 display.append("&nbsp;")
-	                     display.append(img);
-	                     div.effect('highlight');
-		            	j('#eperson').val('');
+		            	
+		            	var valueCurrentEperson = j("#epersonID").val();
+		            	
+		            	if(ui.item.owneredRP!=0 && (ui.item.owneredRP!=${researcher.id} && ui.item.owneredRP!=valueCurrentEperson) ) {
+		            		j("#alert_eperson_dialog").dialog("open");
+		            		j("#alert_eperson_dialog").html(" ");
+		            		j("#alert_eperson_dialog").append("${messagealerteperson}");
+		            		j("#alert_eperson_dialog").append("<a target=\"_blank\" href=\"${root}/cris/rp/details.htm?id=" + ui.item.owneredRP + "\">"+ ui.item.fullNameRP +"</a>");
+		            	}
+		            	else {
+			            	var div = j('#epersonDIV');
+			            	div.html(' ');
+							var _input = j( "<input type='hidden' id='epersonID' name='epersonID'>" ).val(ui.item.value);
+			            	var display = j("<span>").text(ui.item.label);
+			            	var img = j('<img class="jdyna-icon jdyna-action-icon jdyna-delete-button" src="<%=request.getContextPath()%>/image/jdyna/delete_icon.gif">');
+		                     img.click(function(){                     	
+		                      	div.html(' ');
+		                      	var _input = j( "<input type='hidden' id='epersonID' name='epersonID'>" ).val("");                     	
+		                      	div.append(_input);                     	
+		                  	 });
+			            	 div.append(_input);
+			            	 div.append(display);	                     
+			            	 display.append("&nbsp;")
+		                     display.append(img);
+		                     div.effect('highlight');
+			            	j('#eperson').val('');
+		            	}
 		            	return false;
 		            },
 		            open: function() {
@@ -427,6 +439,7 @@ The contents of this file are subject to the license and copyright
                 	
                 	 var div = j('#epersonDIV');
                      var span = j("<span>").text(data.epersons[0].lastName +", "+ data.epersons[0].firstName +" ("+data.epersons[0].email+")");
+                     
                      var img = j('<img class="jdyna-icon jdyna-action-icon jdyna-delete-button" src="<%= request.getContextPath() %>/image/jdyna/delete_icon.gif">');
                      img.click(function(){                     	
                      	div.html(' ');
@@ -441,8 +454,7 @@ The contents of this file are subject to the license and copyright
                 }
             });			
 		}
-		
-		
+
 		-->
 	</script>
 	
@@ -500,7 +512,7 @@ The contents of this file are subject to the license and copyright
 				key="jsp.layout.hku.label.eperson" /></b>				
 			 <input id="eperson" /></span>
 			 <div id="epersonDIV" class="jdyna-pointer-value">
-			 		<input name="epersonID" type="hidden" value="${inputValue}"/>			 		
+			 		<input name="epersonID" id="epersonID" type="hidden" value="${inputValue}"/>			 		
 			 		<c:if test="${!empty inputValue}">
 					<script type="text/javascript">
 						activeEperson('${inputValue}');
@@ -711,5 +723,6 @@ The contents of this file are subject to the license and copyright
 				
 </form:form>
 </div>
+<div id="alert_eperson_dialog"></div>
 <div id="nested_edit_dialog">&nbsp;</div>
 </dspace:layout>

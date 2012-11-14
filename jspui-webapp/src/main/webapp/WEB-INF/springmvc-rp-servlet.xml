@@ -133,7 +133,9 @@
 	</bean>
 	
 	<bean id="jsonEpersonController"
-		class="it.cilea.hku.authority.webui.controller.json.EPersonController"/>	
+		class="it.cilea.hku.authority.webui.controller.json.EPersonController">
+		<property name="applicationService" ref="applicationService" />
+	</bean>	
 		
 	
 	
@@ -204,7 +206,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="successView">
-			<value>redirect:/cris/rp/</value>
+			<value>redirect:/cris/tools/rp/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.ResearcherPageDTO</value>
@@ -1297,7 +1299,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="successView">
-			<value>redirect:/cris/project/</value>
+			<value>redirect:/cris/tools/project/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.ProjectDTO</value>
@@ -2409,7 +2411,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="successView">
-			<value>redirect:/cris/ou/</value>
+			<value>redirect:/cris/tools/ou/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.OrganizationUnitDTO</value>
@@ -3576,7 +3578,7 @@
 				<prop key="/rp/*">detailsResearcherController</prop>
 				<prop key="/rp/*/*">detailsResearcherController</prop>
 				<prop key="/rp/details.htm">redirectDetailsResearcherController</prop>
-				<!-- autocomplete eperson -->
+				<!-- autocomplete eperson -->				
 				<prop key="/tools/rp/epersons.json">jsonEpersonController</prop>
 				<prop key="/tools/rp/eperson.json">jsonEpersonController</prop>
 				

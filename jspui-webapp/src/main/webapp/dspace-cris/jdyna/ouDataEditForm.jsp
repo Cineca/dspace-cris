@@ -403,24 +403,7 @@ The contents of this file are subject to the license and copyright
 
 <div class="extra">
 	
-		<fmt:message key="jsp.cris.detail.info.sourceid.none" var="i18nnone" />
-		
-		
-		<div class="cris-record-info">
-				<c:set var="disabled" value=" disabled='disabled'"/>
-		<c:choose>
-		<c:when test="${admin}">
-			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>			
-		</c:when>
-		<c:otherwise>
-			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /> ${!empty anagraficadto.staffNo?anagraficadto.staffNo:i18nnone}</span>
-		</c:otherwise>
-		</c:choose>		
-			<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${anagraficadto.timeStampCreated}</span>
-			<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${anagraficadto.timeStampModified}</span>
-		
-		
-
+		<div class="cris-edit-status">
 		<spring:bind path="status">
 			<c:set var="inputValue">
 				<c:out value="${status.value}" escapeXml="true"></c:out>
@@ -429,10 +412,10 @@ The contents of this file are subject to the license and copyright
 				<c:out value="${status.expression}" escapeXml="false"></c:out>
 			</c:set>
 
-			<div class="dynaField"><span class="dynaLabel"><label for="${inputName}"><fmt:message
-				key="jsp.layout.hku.label.status" /></label></span>
+			<span class="cris-record-info-status"><b><fmt:message
+				key="jsp.layout.hku.label.status" /></b>
 
-			<div class="dynaFieldValue">
+			
 			
 			<input id="${inputName}" name="${inputName}"
 					type="radio" value="false"
@@ -447,9 +430,24 @@ The contents of this file are subject to the license and copyright
 			
 			<input name="_${inputName}" id="_${inputName}"
 				value="true" type="hidden" />
-			</div>
-			</div>
+			</span>
 		</spring:bind>
+		</div>
+		
+		
+		<div class="cris-edit-record-info">
+		<c:set var="disabled" value=" disabled='disabled'"/>
+		<c:choose>
+		<c:when test="${admin}">
+			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>
+			<div class="dynaClear">&nbsp;</div>			
+		</c:when>
+		<c:otherwise>
+			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /></b> ${!empty anagraficadto.sourceID?anagraficadto.sourceID:i18nnone}</span>
+		</c:otherwise>
+		</c:choose>
+			<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${anagraficadto.timeStampCreated}</span>
+			<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${anagraficadto.timeStampModified}</span>
 		</div>
 		
 			

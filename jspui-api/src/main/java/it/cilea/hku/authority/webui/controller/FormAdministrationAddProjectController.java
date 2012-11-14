@@ -43,7 +43,7 @@ public class FormAdministrationAddProjectController extends
             if (grant != null)
             {
 
-                return new ModelAndView(getSuccessView()
+                return new ModelAndView("redirect:/cris/ou/"
                         + "administrator/index.htm?error=true");
             }
         }
@@ -53,18 +53,11 @@ public class FormAdministrationAddProjectController extends
             grant = new Project();
             grant.setSourceID(code);
             grant.setStatus(false);
-            grant.getDynamicField().setProject(grant);
-            ProjectProperty property = grant.getDynamicField().createProprieta(
-                    applicationService.findPropertiesDefinitionByShortName(
-                            ProjectPropertiesDefinition.class, "title"));
-            property.getValue().setOggetto(
-                    "Insert Project TITLE here (" + code + ")");
-            property.setVisibility(1);
+            grant.getDynamicField().setProject(grant);         
             applicationService.saveOrUpdate(Project.class, grant);
 
         }
-        return new ModelAndView(getSuccessView() + "details.htm?id="
-                + grant.getId());
+        return new ModelAndView(getSuccessView()+ grant.getId());
 
     }
 }
