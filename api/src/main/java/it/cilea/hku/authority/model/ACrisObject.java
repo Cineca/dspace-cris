@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.common.model.Identifiable;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
@@ -77,7 +78,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
 
     public abstract String getPublicPath();
     public abstract int getEntityType(Map<String,Integer> map);
-    public abstract String getAuthorityPrefix(Map<String, String> map);
+    public abstract String getAuthorityPrefix();
 
     @Override
     public String getHandle()
@@ -125,7 +126,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
                 if (StringUtils.isNotEmpty(qualifier)
                         && val instanceof ACrisObject)
                 {
-                    authority = ((ACrisObject) val).getId().toString();
+                    authority = ResearcherPageUtils.getPersistentIdentifier((ACrisObject) val);
                     qualifier = getCompatibleJDynAShortName((ACrisObject) val,
                             qualifier);
                     List pointProps = (List) ((ACrisObject) val)
@@ -140,7 +141,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
                 }
                 else if (val instanceof ACrisObject)
                 {
-                    authority = ((ACrisObject) val).getId().toString();
+                    authority = ResearcherPageUtils.getPersistentIdentifier((ACrisObject) val);
                     values.add(((ACrisObject) val).getName());
                 }
                 else
@@ -183,4 +184,9 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         return element;
     }
 
+    @Override
+    public String toString()
+    {
+        return getName();
+    }
 }

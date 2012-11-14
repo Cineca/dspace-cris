@@ -336,11 +336,7 @@ public class RPAuthority implements ChoiceAuthority, AuthorityVariantsSupport,
             return null;
         }
         ResearcherPage rp = applicationService.get(ResearcherPage.class, id);
-        if (rp.getPreferredName() != null
-                && rp.getPreferredName().getVisibility() == VisibilityConstants.PUBLIC)
-            return rp.getPreferredName().getValue();
-        else
-            return rp.getFullName();
+        return rp.getName();
     }
 
     /**

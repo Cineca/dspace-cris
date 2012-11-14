@@ -68,7 +68,7 @@ public class ResearcherPageUtils
      */
     public static String getPersistentIdentifier(ACrisObject cris)
     {
-        return cris.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + formatIdentifier(cris.getId());
+        return cris.getAuthorityPrefix() + formatIdentifier(cris.getId());
     }
 
     
@@ -81,7 +81,7 @@ public class ResearcherPageUtils
         try
         {
             cris = clazz.newInstance();
-            return cris.getAuthorityPrefix(CrisConstants.authorityPrefixMap) + formatIdentifier(crisID);
+            return cris.getAuthorityPrefix() + formatIdentifier(crisID);
         }
         catch (InstantiationException e)
         {

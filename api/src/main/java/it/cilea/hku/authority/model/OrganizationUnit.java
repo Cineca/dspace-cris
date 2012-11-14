@@ -215,7 +215,7 @@ public class OrganizationUnit extends
     }
 
     @Override
-    public String getAuthorityPrefix(Map<String, String> map)
+    public String getAuthorityPrefix()
     {
         return "ou";
     }

@@ -14,6 +14,7 @@ import it.cilea.hku.authority.model.Project;
 import it.cilea.hku.authority.model.ResearcherPage;
 import it.cilea.hku.authority.model.VisibilityConstants;
 import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.osd.jdyna.model.AValue;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
@@ -373,8 +374,16 @@ public class CrisSearchService extends SolrServiceImpl
                         recentSubmissionsConfigurationMap, sortFieldsAdded,
                         hitHighlightingFields,
                         moreLikeThisFields);
-                
             }
+            
+            // add the special crisXX.this metadata
+            indexProperty(doc, dso.getUuid(), schema + ".this", dso.getName(),
+                    ResearcherPageUtils.getPersistentIdentifier(dso),
+                    toIgnoreFields,
+                    searchFilters, toProjectionFields, sortFields,
+                    recentSubmissionsConfigurationMap, sortFieldsAdded,
+                    hitHighlightingFields,
+                    moreLikeThisFields);
             
             List<CrisEnhancer> crisEnhancers = new DSpace().getServiceManager()
                     .getServicesByType(CrisEnhancer.class);
@@ -510,34 +519,61 @@ public class CrisSearchService extends SolrServiceImpl
             return;
         }
 
-        String svalue = value.toString();
-        if (StringUtils.isNotEmpty(svalue))
-        {
-            PropertyEditor editor = meta.getTypo().getRendering()
-                    .getPropertyEditor(null);
-            editor.setValue(value.getObject());
-
-            svalue = editor.getAsText();
-
-        }
-
-        Integer authority = null;
+        String svalue = meta.toString();
+        String authority = null;
         if (value instanceof PointerValue
                 && value.getObject() instanceof ACrisObject)
         {
-            authority = ((ACrisObject) value.getObject()).getId();
+            authority = ResearcherPageUtils.getPersistentIdentifier((ACrisObject) value.getObject());
+        }
+        
+        if (value instanceof DateValue)
+        {
+            // TODO: make this date format configurable !
+            svalue = DateFormatUtils.formatUTC(
+                    ((DateValue) value).getObject(),
+                    "yyyy-MM-dd");
         }
 
+        indexProperty(
+                doc,
+                uuid,
+                field,
+                svalue, authority,
+                toIgnoreFields,
+                searchFilters,
+                toProjectionFields,
+                sortFields,
+                recentSubmissionsConfigurationMap,
+                sortFieldsAdded,
+                hitHighlightingFields,
+                moreLikeThisFields);
+    }
+    
+    private <P extends Property<TP>, TP extends PropertiesDefinition> void indexProperty(
+            SolrInputDocument doc,
+            String uuid,
+            String field,
+            String svalue, String authority,
+            List<String> toIgnoreFields,
+            Map<String, List<DiscoverySearchFilter>> searchFilters,
+            List<String> toProjectionFields,
+            Map<String, DiscoverySortFieldConfiguration> sortFields,
+            Map<String, DiscoveryRecentSubmissionsConfiguration> recentSubmissionsConfigurationMap,
+            List<String> sortFieldsAdded,
+            Set<String> hitHighlightingFields,
+            Set<String> moreLikeThisFields)
+    {
         if (toIgnoreFields.contains(field))
         {
             return;
         }
-
+    
         if ((searchFilters.get(field) != null))
         {
             List<DiscoverySearchFilter> searchFilterConfigs = searchFilters
                     .get(field);
-
+    
             for (DiscoverySearchFilter searchFilter : searchFilterConfigs)
             {
                 String separator = new DSpace()
@@ -546,17 +582,6 @@ public class CrisSearchService extends SolrServiceImpl
                 if (separator == null)
                 {
                     separator = FILTER_SEPARATOR;
-                }
-                if (searchFilter.getType().equals(
-                        DiscoveryConfigurationParameters.TYPE_DATE))
-                {
-                    if (value instanceof DateValue)
-                    {
-                        // TODO: make this date format configurable !
-                        svalue = DateFormatUtils.formatUTC(
-                                ((DateValue) value).getObject(),
-                                "yyyy-MM-dd");
-                    }
                 }
                 doc.addField(searchFilter.getIndexFieldName(), svalue);
                 doc.addField(searchFilter.getIndexFieldName()
@@ -572,11 +597,11 @@ public class CrisSearchService extends SolrServiceImpl
                             + "_acid", svalue.toLowerCase() + separator
                             + svalue + AUTHORITY_SEPARATOR + authority);
                 }
-
+    
                 // Add a dynamic fields for auto complete in search
                 doc.addField(searchFilter.getIndexFieldName() + "_ac",
                         svalue.toLowerCase() + separator + svalue);
-
+    
                 if (searchFilter.getFilterType().equals(
                         DiscoverySearchFilterFacet.FILTER_TYPE_FACET))
                 {
@@ -611,7 +636,8 @@ public class CrisSearchService extends SolrServiceImpl
                     else if (searchFilter.getType().equals(
                             DiscoveryConfigurationParameters.TYPE_DATE))
                     {
-                        if (value instanceof DateValue)
+                        Date date = toDate(svalue);
+                        if (date != null)
                         {
                             String indexField = searchFilter
                                     .getIndexFieldName() + ".year";
@@ -619,12 +645,10 @@ public class CrisSearchService extends SolrServiceImpl
                                     searchFilter.getIndexFieldName()
                                             + "_keyword",
                                     DateFormatUtils.formatUTC(
-                                            ((DateValue) value)
-                                                    .getObject(),
+                                            date,
                                             "yyyy"));
                             doc.addField(indexField, DateFormatUtils
-                                    .formatUTC(((DateValue) value)
-                                            .getObject(), "yyyy"));
+                                    .formatUTC(date, "yyyy"));
                             // Also save a sort value of this year, this
                             // is required for determining the upper &
                             // lower bound year of our facet
@@ -634,8 +658,7 @@ public class CrisSearchService extends SolrServiceImpl
                                 // first one
                                 doc.addField(indexField + "_sort",
                                         DateFormatUtils.formatUTC(
-                                                ((DateValue) value)
-                                                        .getObject(),
+                                                date,
                                                 "yyyy"));
                             }
                         }
@@ -669,7 +692,7 @@ public class CrisSearchService extends SolrServiceImpl
                                                     .getSplitter());
                                 }
                             }
-
+    
                             String indexValue = valueBuilder.toString()
                                     .trim();
                             doc.addField(
@@ -699,7 +722,7 @@ public class CrisSearchService extends SolrServiceImpl
                 }
             }
         }
-
+    
         if ((sortFields.get(field) != null || recentSubmissionsConfigurationMap
                 .get(field) != null)
                 && !sortFieldsAdded.contains(field))
@@ -715,18 +738,10 @@ public class CrisSearchService extends SolrServiceImpl
                 type = recentSubmissionsConfigurationMap.get(field)
                         .getType();
             }
-
+    
             if (type.equals(DiscoveryConfigurationParameters.TYPE_DATE))
             {
-                Date date = null;
-                if (value instanceof DateValue)
-                {
-                    date = ((DateValue) value).getObject();
-                }
-                else
-                {
-                    date = toDate(svalue);
-                }
+                Date date = toDate(svalue);
                 if (date != null)
                 {
                     doc.addField(field + "_dt", date);
@@ -736,27 +751,27 @@ public class CrisSearchService extends SolrServiceImpl
                     log.warn("Error while indexing sort date field, cris: "
                             + uuid
                             + " metadata field: "
-                            + field + " date value: " + value);
+                            + field + " date value: " + svalue);
                 }
             }
             else
             {
-                doc.addField(field + "_sort", value);
+                doc.addField(field + "_sort", svalue);
             }
             sortFieldsAdded.add(field);
         }
-
+    
         if (hitHighlightingFields.contains(field)
                 || hitHighlightingFields.contains("*"))
         {
             doc.addField(field + "_hl", svalue);
         }
-
+    
         if (moreLikeThisFields.contains(field))
         {
             doc.addField(field + "_mlt", svalue);
         }
-
+    
         doc.addField(field, svalue);
         if (toProjectionFields.contains(field))
         {
