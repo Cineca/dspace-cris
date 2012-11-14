@@ -485,22 +485,34 @@ The contents of this file are subject to the license and copyright
 	
 		<fmt:message key="jsp.cris.detail.info.sourceid.none" var="i18nnone" />
 		
-	<div class="extra">	
-		<div class="cris-record-info">
-		<c:set var="disabled" value=" disabled='disabled'"/>
-		<c:choose>
-		<c:when test="${admin}">
-			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>			
-		</c:when>
-		<c:otherwise>
-			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /></b> ${!empty anagraficadto.sourceID?anagraficadto.sourceID:i18nnone}</span>
-		</c:otherwise>
-		</c:choose>		
-			<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${anagraficadto.timeStampCreated}</span>
-			<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${anagraficadto.timeStampModified}</span>
+	<div class="cris-edit-extra">
+			<c:if test="${admin}">
+			<div class="cris-edit-eperson">
+				<spring:bind path="epersonID">
+			<c:set var="inputValue">
+				<c:out value="${status.value}" escapeXml="true"></c:out>
+			</c:set>
+			<c:set var="inputName">
+				<c:out value="${status.expression}" escapeXml="false"></c:out>
+			</c:set>
+			
+			<span class="cris-record-info-eperson"><b><fmt:message
+				key="jsp.layout.hku.label.eperson" /></b>				
+			 <input id="eperson" /></span>
+			 <div id="epersonDIV" class="jdyna-pointer-value">
+			 		<input name="epersonID" type="hidden" value="${inputValue}"/>			 		
+			 		<c:if test="${!empty inputValue}">
+					<script type="text/javascript">
+						activeEperson('${inputValue}');
+					</script>
+					</c:if>				
+			</div>
+			</div>
+			
+		</spring:bind>
+		</c:if>
 		
-		
-
+		<div class="cris-edit-status">
 		<spring:bind path="status">
 			<c:set var="inputValue">
 				<c:out value="${status.value}" escapeXml="true"></c:out>
@@ -529,31 +541,22 @@ The contents of this file are subject to the license and copyright
 				value="true" type="hidden" />
 			</span>
 		</spring:bind>
+		</div>
 		
-		<c:if test="${admin}">
-		<spring:bind path="epersonID">
-			<c:set var="inputValue">
-				<c:out value="${status.value}" escapeXml="true"></c:out>
-			</c:set>
-			<c:set var="inputName">
-				<c:out value="${status.expression}" escapeXml="false"></c:out>
-			</c:set>
-			
-			<span class="cris-record-info-eperson"><b><fmt:message
-				key="jsp.layout.hku.label.eperson" /></b>				
-			 <input id="eperson" /></span>
-			 <div id="epersonDIV" class="jdyna-pointer-value">
-			 		<input name="epersonID" type="hidden" value="${inputValue}"/>			 		
-			 		<c:if test="${!empty inputValue}">
-					<script type="text/javascript">
-						activeEperson('${inputValue}');
-					</script>
-					</c:if>				
-			</div>
-			
-			
-		</spring:bind>
-		</c:if>
+		
+		<div class="cris-edit-record-info">
+		<c:set var="disabled" value=" disabled='disabled'"/>
+		<c:choose>
+		<c:when test="${admin}">
+			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>
+			<div class="dynaClear">&nbsp;</div>			
+		</c:when>
+		<c:otherwise>
+			<span class="cris-record-info-sourceid"><b><fmt:message key="jsp.cris.detail.info.sourceid" /></b> ${!empty anagraficadto.sourceID?anagraficadto.sourceID:i18nnone}</span>
+		</c:otherwise>
+		</c:choose>
+			<span class="cris-record-info-created"><b><fmt:message key="jsp.cris.detail.info.created" /></b> ${anagraficadto.timeStampCreated}</span>
+			<span class="cris-record-info-updated"><b><fmt:message key="jsp.cris.detail.info.updated" /></b> ${anagraficadto.timeStampModified}</span>
 		</div>
 	</div>
 			

@@ -1097,10 +1097,11 @@ h4 img.hide {display: none;}
 	padding: 5px;
 	margin: 0px !important;
 }
-#cris-tabs-navigation ul li {
+#cris-tabs-navigation div div ul {overflow:hidden;}
+#cris-tabs-navigation div div ul li {
 	border-left: none !important;
 	border-right: none !important;
-	padding: 3px 10px 3px 10px;
+	padding: 3px 10px 3px 10px;	
 }
 
 .ui-widget-content div {margin: 0px !important;}
@@ -1114,6 +1115,11 @@ a.cris-edit-anchor {
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: top left;    
+    -ms-transform-origin-x: left;
+    -ms-transform-origin-y: top;
+    -ms-transform: rotate(90deg);
     background: none repeat scroll 0 0 #013466;
     border-color: -moz-use-text-color white white;
     border-image: none;
@@ -1137,6 +1143,11 @@ a.cris-edit-anchor {
     transform: rotate(90deg);
     transform-origin: left top;
     position: relative;
+    z-index: 1000;
 }
 a#cris-rp-changestatus {text-decoration: none;}
 span#cris-rp-status-value {text-decoration: underline;}
+.cris-edit-eperson, .cris-edit-status {display: inline-block; padding: 10px;float: left;}
+.cris-edit-record-info {display: inline-block; padding: 10px;}
+.cris-edit-record-info span {padding: 0.3em;}
+.cris-edit-record-info span {display:block;}
