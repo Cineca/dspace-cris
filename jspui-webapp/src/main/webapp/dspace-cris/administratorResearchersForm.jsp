@@ -30,12 +30,19 @@ The contents of this file are subject to the license and copyright
 				key="jsp.help" /></a></td>
 		</tr>
 	</table>
-	
-	
+
+
 	<form:form commandName="dto" method="post">
 	<c:set value="${message}" var="message" scope="request"/>	
 	<c:if test="${!empty message}">		
     <div id="authority-message"><fmt:message key="${message}"/></div>    
+	</c:if>
+	<c:if test="${not empty messages}">
+	<div class="message" id="successMessages"><c:forEach var="msg"
+		items="${messages}">
+		<div id="authority-message">${msg}</div>
+	</c:forEach></div>
+	<c:remove var="messages" scope="session" />
 	</c:if>
 	
 		<%--  first bind on the object itself to display global errors - if available  --%>

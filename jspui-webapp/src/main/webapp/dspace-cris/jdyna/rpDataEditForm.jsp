@@ -461,7 +461,7 @@ The contents of this file are subject to the license and copyright
 </c:set>
 <dspace:layout titlekey="jsp.researcher-page.primary-data-form" navbar="off">
 
-<h1>${researcher.fullName}</h1>
+<h1>${researcher.fullName} <c:if test="${admin}"><a href="delete.htm?id=${researcher.id}"> <img class="jdyna-icon jdyna-icon-action jdyna-delete-button" src="/jspui/image/jdyna/delete_icon.gif"/> </a></c:if></h1>
 
 
 <c:if test="${not empty messages}">

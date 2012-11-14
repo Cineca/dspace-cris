@@ -63,7 +63,7 @@ public class ProjectDetailsController
             .getLogger(ProjectDetailsController.class);
 
     @Override
-    public ModelAndView handleRequest(HttpServletRequest request,
+    public ModelAndView handleDetails(HttpServletRequest request,
             HttpServletResponse response) throws Exception
     {
         Map<String, Object> model = new HashMap<String, Object>();
