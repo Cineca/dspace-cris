@@ -105,6 +105,7 @@ public abstract class CRISAuthority implements ChoiceAuthority
             if (query != null && query.length() > 2)
             {
                 String luceneQuery = ClientUtils.escapeQueryChars(query.toLowerCase()) + "*";
+                luceneQuery = luceneQuery.replaceAll("\\\\ "," ");
                 DiscoverQuery discoverQuery = new DiscoverQuery();
                 discoverQuery.setDSpaceObjectFilter(getCRISTargetTypeID());
                 String filter = configurationService.getProperty("cris."

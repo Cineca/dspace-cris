@@ -144,6 +144,7 @@ public class RPAuthority implements ChoiceAuthority, AuthorityVariantsSupport,
                             + ClientUtils.escapeQueryChars(tmpPersonName
                                     .getFirstNames().trim()) + "*";
                 }
+                luceneQuery = luceneQuery.replaceAll("\\\\ "," ");
                 DiscoverQuery discoverQuery = new DiscoverQuery();
                 discoverQuery.setDSpaceObjectFilter(CrisConstants.RP_TYPE_ID);
                 String filter = configurationService.getProperty("cris."
