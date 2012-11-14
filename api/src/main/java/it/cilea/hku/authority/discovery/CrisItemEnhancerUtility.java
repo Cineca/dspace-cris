@@ -141,8 +141,8 @@ public class CrisItemEnhancerUtility
                 try
                 {
                     if (dc.authority != null
-                            && dc.authority.startsWith(ResearcherPageUtils
-                                    .getPersistentIdentifier(enh.getClazz().newInstance())))
+                            && dc.authority.startsWith(
+                                    enh.getClazz().newInstance().getAuthorityPrefix()))
                     {
                         if (mam.getMinConfidence(dc.schema, dc.element,
                                 dc.qualifier) <= dc.confidence)
@@ -210,7 +210,7 @@ public class CrisItemEnhancerUtility
             if (prop.getObject() instanceof ACrisObject)
             {
                 ACrisObject val = (ACrisObject) prop.getObject();
-                result.add(new String[] { val.getDisplayValue(),
+                result.add(new String[] { val.getName(),
                         ResearcherPageUtils.getPersistentIdentifier(val) });
             }
             else

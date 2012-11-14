@@ -8,7 +8,7 @@
 package it.cilea.hku.authority.dspace;
 
 import it.cilea.hku.authority.model.CrisConstants;
-import it.cilea.hku.authority.model.Project;
+import it.cilea.hku.authority.model.OrganizationUnit;
 
 public class OUAuthority extends CRISAuthority
 {
@@ -16,13 +16,13 @@ public class OUAuthority extends CRISAuthority
     @Override
     protected int getCRISTargetTypeID()
     {
-        return CrisConstants.PROJECT_TYPE_ID;
+        return CrisConstants.OU_TYPE_ID;
     }
 
     @Override
-    protected Class<Project> getCRISTargetClass()
+    protected Class<OrganizationUnit> getCRISTargetClass()
     {
-        return Project.class;
+        return OrganizationUnit.class;
     }
 
 }

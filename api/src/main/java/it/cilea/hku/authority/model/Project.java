@@ -400,7 +400,7 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     }
 
     @Override
-    public String getAuthorityPrefix(Map<String, String> map)
+    public String getAuthorityPrefix()
     {
         return "pj";
     }

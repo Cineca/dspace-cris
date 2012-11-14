@@ -678,8 +678,14 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     }
     
     @Override
-    public String getName() {
-    	return getFullName();
+    public String getName()
+    {
+        if (getPreferredName() != null
+                && getPreferredName().getVisibility() == VisibilityConstants.PUBLIC
+                && getPreferredName().getValue() != null)
+            return getPreferredName().getValue();
+        else
+            return getFullName();
     }
 
     @Override
@@ -689,7 +695,7 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     }
 
     @Override
-    public String getAuthorityPrefix(Map<String, String> map)
+    public String getAuthorityPrefix()
     {
         return "rp";
     }
