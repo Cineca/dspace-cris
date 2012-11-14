@@ -127,14 +127,14 @@ The contents of this file are subject to the license and copyright
 		</div>
 		
 
-		<%--
+		
 		<dyna:boolean propertyPath="propertiesdefinition.real.mandatory"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.mandatory" helpKey="help.jdyna.message.mandatory"/>
 		
 		<div class="dynaClear">
 			&nbsp
 		</div>
-		--%>						
+					
 		
 		</c:if>
 		

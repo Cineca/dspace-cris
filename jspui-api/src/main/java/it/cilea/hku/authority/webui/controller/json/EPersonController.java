@@ -7,6 +7,11 @@
  */
 package it.cilea.hku.authority.webui.controller.json;
 
+import it.cilea.hku.authority.model.ResearcherPage;
+import it.cilea.hku.authority.service.ApplicationService;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
+import it.cilea.hku.authority.webui.dto.ResearcherPageDTO;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +33,8 @@ import flexjson.JSONSerializer;
 public class EPersonController extends MultiActionController
 {
 
+    private ApplicationService applicationService;
+    
     public ModelAndView epersons(HttpServletRequest request,
             HttpServletResponse response) throws Exception
     {
@@ -36,7 +43,7 @@ public class EPersonController extends MultiActionController
         boolean isAdmin = isAdmin(context, request);
         if (isAdmin)
         {            
-            returnJSON(response, fillInDTO(EPerson.search(context, request.getParameter("query"))));
+            returnJSON(response, fillInDTO(EPerson.search(context, request.getParameter("query"), 0, 10)));
         }
         
         return null;
@@ -50,7 +57,9 @@ public class EPersonController extends MultiActionController
         
         return null;
     }
+   
 
+    
     private List<EPersonDTO> fillInDTO(EPerson[] findAll)
     {
         List<EPersonDTO> epersons = new ArrayList<EPersonController.EPersonDTO>();
@@ -61,6 +70,11 @@ public class EPersonController extends MultiActionController
             dto.setLastName(eperson.getLastName());
             dto.setNetId(eperson.getNetid());
             dto.setEmail(eperson.getEmail());
+            ResearcherPage rp = getApplicationService().getResearcherPageByEPersonId(eperson.getID());
+            if(rp!=null) {
+                dto.setRpID(rp.getId());
+                dto.setFullNameRPOwnered(rp.getFullName());
+            }
             epersons.add(dto);
         }
         return epersons;
@@ -68,8 +82,7 @@ public class EPersonController extends MultiActionController
 
     private void returnJSON(HttpServletResponse response,
             List<EPersonDTO> epersons) throws IOException
-    {
-        
+    {        
         JSONSerializer serializer = new JSONSerializer();
         serializer.rootName("epersons");
         serializer.exclude("class");
@@ -98,6 +111,16 @@ public class EPersonController extends MultiActionController
         return currUser;
     }
 
+    public void setApplicationService(ApplicationService applicationService)
+    {
+        this.applicationService = applicationService;
+    }
+
+    public ApplicationService getApplicationService()
+    {
+        return applicationService;
+    }
+
     class EPersonDTO
     {
         private int id;
@@ -109,6 +132,10 @@ public class EPersonController extends MultiActionController
         private String netId;
         
         private String email;
+        
+        private int rpID = 0;
+        
+        private String fullNameRPOwnered;
         
         public int getId()
         {
@@ -160,6 +187,25 @@ public class EPersonController extends MultiActionController
             return email;
         }
 
-        
+        public int getRpID()
+        {
+            return rpID;
+        }
+
+        public void setRpID(int rpID)
+        {
+            this.rpID = rpID;
+        }
+
+        public String getFullNameRPOwnered()
+        {
+            return fullNameRPOwnered;
+        }
+
+        public void setFullNameRPOwnered(String fullNameRPOwnered)
+        {
+            this.fullNameRPOwnered = fullNameRPOwnered;
+        }        
     }
+
 }

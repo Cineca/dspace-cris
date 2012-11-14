@@ -254,8 +254,7 @@ The contents of this file are subject to the license and copyright
 	<c:if test="${!entity.status}">
 		<p class="warning">
 			<fmt:message
-				key="jsp.layout.hku.detail.researcher-disabled" /><a
-				target="_blank"
+				key="jsp.layout.hku.detail.researcher-disabled" /><a				
 				href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message
 				key="jsp.layout.hku.detail.researcher-disabled.fixit" /></a>
 		</p>

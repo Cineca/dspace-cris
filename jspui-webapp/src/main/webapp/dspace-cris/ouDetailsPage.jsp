@@ -235,7 +235,7 @@ The contents of this file are subject to the license and copyright
 	<c:if test="${!entity.status}">
 		<div class="warning">
 			<fmt:message key="jsp.layout.hku.detail.ou-disabled" />
-			<a target="_blank"
+			<a 
 				href="<%= request.getContextPath() %>/cris/tools/ou/editDynamicData.htm?id=${entity.id}&anagraficaId=${entity.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>">
 				<fmt:message key="jsp.layout.hku.detail.ou-disabled.fixit" />
 			</a>

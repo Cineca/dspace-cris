@@ -104,6 +104,6 @@ The contents of this file are subject to the license and copyright
 
 
 						</c:if>
-			
+					<div class="dynaClear">&nbsp;</div>			
 					</c:forEach>
 	</div>

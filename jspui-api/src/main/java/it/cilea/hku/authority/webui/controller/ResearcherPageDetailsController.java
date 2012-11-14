@@ -84,7 +84,7 @@ public class ResearcherPageDetailsController
     }
 
     @Override
-    public ModelAndView handleRequest(HttpServletRequest request,
+    public ModelAndView handleDetails(HttpServletRequest request,
             HttpServletResponse response) throws Exception
     {
         log.debug("Start handleRequest");

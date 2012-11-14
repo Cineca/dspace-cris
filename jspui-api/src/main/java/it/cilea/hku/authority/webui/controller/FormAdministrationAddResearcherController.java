@@ -47,7 +47,7 @@ public class FormAdministrationAddResearcherController extends
             if (researcher != null)
             {
 
-                return new ModelAndView(getSuccessView()
+                return new ModelAndView("redirect:/cris/rp/"
                         + "administrator/index.htm?error=true");
             }
 
@@ -58,18 +58,11 @@ public class FormAdministrationAddResearcherController extends
             researcher = new ResearcherPage();
             researcher.setSourceID(staffNo);
             researcher.setStatus(false);
-            researcher.getDynamicField().setResearcherPage(researcher);
-            RPProperty property = researcher.getDynamicField().createProprieta(
-                    applicationService.findPropertiesDefinitionByShortName(
-                            RPPropertiesDefinition.class, "fullName"));
-            property.getValue().setOggetto(
-                    "Insert fullname here (" + staffNo + ")");
-            property.setVisibility(1);
+            researcher.getDynamicField().setResearcherPage(researcher);           
             applicationService.saveOrUpdate(ResearcherPage.class, researcher);
 
         }
-        return new ModelAndView(getSuccessView()
-                + ResearcherPageUtils.getPersistentIdentifier(researcher));
+        return new ModelAndView(getSuccessView() + researcher.getId());
 
     }
 }

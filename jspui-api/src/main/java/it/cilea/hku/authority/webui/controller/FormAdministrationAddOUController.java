@@ -34,37 +34,29 @@ public class FormAdministrationAddOUController extends
             HttpServletResponse response, Object command, BindException errors)
             throws Exception
     {
-        OrganizationUnitDTO grantDTO = (OrganizationUnitDTO) command;
-        String code = grantDTO.getSourceID();
-        OrganizationUnit grant = null;
+        OrganizationUnitDTO orgunitDTO = (OrganizationUnitDTO) command;
+        String code = orgunitDTO.getSourceID();
+        OrganizationUnit orgunit = null;
         if (code != null && !code.isEmpty())
         {
-            grant = applicationService.getOrganizationUnitByCode(code);
-            if (grant != null)
+            orgunit = applicationService.getOrganizationUnitByCode(code);
+            if (orgunit != null)
             {
 
-                return new ModelAndView(getSuccessView()
+                return new ModelAndView("redirect:/cris/ou/"
                         + "administrator/index.htm?error=true");
             }
         }
         else
         {
 
-            grant = new OrganizationUnit();
-            grant.setSourceID(code);
-            grant.setStatus(false);
-            grant.getDynamicField().setOrganizationUnit(grant);
-            OUProperty property = grant.getDynamicField().createProprieta(
-                    applicationService.findPropertiesDefinitionByShortName(
-                            OUPropertiesDefinition.class, "title"));
-            property.getValue().setOggetto(
-                    "Insert Organization Unit NAME here (" + code + ")");
-            property.setVisibility(1);
-            applicationService.saveOrUpdate(OrganizationUnit.class, grant);
+            orgunit = new OrganizationUnit();
+            orgunit.setSourceID(code);
+            orgunit.setStatus(false);
+            orgunit.getDynamicField().setOrganizationUnit(orgunit);            
+            applicationService.saveOrUpdate(OrganizationUnit.class, orgunit);
 
         }
-        return new ModelAndView(getSuccessView() + "details.htm?id="
-                + grant.getId());
-
+        return new ModelAndView(getSuccessView() + orgunit.getId());
     }
 }

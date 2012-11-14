@@ -133,7 +133,9 @@
 	</bean>
 	
 	<bean id="jsonEpersonController"
-		class="it.cilea.hku.authority.webui.controller.json.EPersonController"/>	
+		class="it.cilea.hku.authority.webui.controller.json.EPersonController">
+		<property name="applicationService" ref="applicationService" />
+	</bean>	
 		
 	
 	
@@ -204,7 +206,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="successView">
-			<value>redirect:/cris/rp/</value>
+			<value>redirect:/cris/tools/rp/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.ResearcherPageDTO</value>
@@ -1297,7 +1299,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="successView">
-			<value>redirect:/cris/project/</value>
+			<value>redirect:/cris/tools/project/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.ProjectDTO</value>
@@ -2409,7 +2411,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="successView">
-			<value>redirect:/cris/ou/</value>
+			<value>redirect:/cris/tools/ou/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
 			<value>it.cilea.hku.authority.webui.dto.OrganizationUnitDTO</value>
@@ -3556,6 +3558,101 @@
 			<value>resultSearchPointer</value>
 		</property>		
 	</bean>
+	
+	<bean id="rpDeleteController" class="it.cilea.hku.authority.webui.controller.ResearcherPageDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.ResearcherPage</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<property name="detailsView">
+			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
+		</property>		
+		<property name="listView">
+			<value>redirect:/cris/administrator/rp/list.htm</value>
+		</property>		
+		<property name="method">
+			<value>delete</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="components" ref="rpComponents"/>		
+	</bean>
+	<bean id="ouDeleteController" 
+		class="it.cilea.hku.authority.webui.controller.OUDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+		</constructor-arg>		
+		<property name="detailsView">
+			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
+		</property>		
+		<property name="listView">
+			<value>redirect:/cris/administrator/project/list.htm</value>
+		</property>		
+		<property name="method">
+			<value>delete</value>
+		</property>	
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="components" ref="ouComponents"/>
+	</bean>
+	<bean id="projectDeleteController" class="it.cilea.hku.authority.webui.controller.ProjectDetailsController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>		
+		<constructor-arg index="0">
+			<value>it.cilea.hku.authority.model.Project</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+		</constructor-arg>		
+		<property name="detailsView">
+			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
+		</property>
+		<property name="listView">
+			<value>redirect:/cris/administrator/ou/list.htm</value>
+		</property>		
+		<property name="method">
+			<value>delete</value>
+		</property>	
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="components" ref="pjComponents"/>
+	</bean>
 	<!-- url mapping -->	
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -3576,7 +3673,7 @@
 				<prop key="/rp/*">detailsResearcherController</prop>
 				<prop key="/rp/*/*">detailsResearcherController</prop>
 				<prop key="/rp/details.htm">redirectDetailsResearcherController</prop>
-				<!-- autocomplete eperson -->
+				<!-- autocomplete eperson -->				
 				<prop key="/tools/rp/epersons.json">jsonEpersonController</prop>
 				<prop key="/tools/rp/eperson.json">jsonEpersonController</prop>
 				
@@ -3659,10 +3756,13 @@
 				<prop key="/administrator/rp/deleteNestedFieldDefinition.htm">deleteRPNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/rp/deleteNestedField.htm">deleteRPNestedFieldController</prop>
 							
-				<!-- Edit Handlers for RP and Project dynamic object-->				
+				<!-- Edit Handlers for dynamic objects-->				
 				<prop key="/tools/rp/editDynamicData.htm">editRPDynamicDataController</prop>
 				<prop key="/tools/project/editDynamicData.htm">editProjectDynamicDataController</prop>
 				<prop key="/tools/ou/editDynamicData.htm">editOUDynamicDataController</prop>
+				<prop key="/tools/rp/delete.htm">rpDeleteController</prop>
+				<prop key="/tools/project/delete.htm">projectDeleteController</prop>
+				<prop key="/tools/ou/delete.htm">ouDeleteController</prop>
 				
 				<!-- Project details URL -->
 				<prop key="/project/*">detailsProjectController</prop>								
