@@ -1103,7 +1103,12 @@ h4 img.hide {display: none;}
 	border-right: none !important;
 	padding: 3px 10px 3px 10px;	
 }
-
+#cris-tabs-navigation div div ul li:hover {
+	border: 1px solid #E17009;
+}
+#cris-tabs-navigation div div ul li:hover a {
+	color: #E17009;
+}
 .ui-widget-content div {margin: 0px !important;}
 div.cris-record-info span {display: block; font-size: 8pt;margin-top:10px;}
 a.cris-edit-anchor:hover {
