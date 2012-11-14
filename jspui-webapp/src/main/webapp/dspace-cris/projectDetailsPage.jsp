@@ -49,17 +49,6 @@ The contents of this file are subject to the license and copyright
 
 %>
 <c:set var="admin" scope="request"><%= isAdmin %></c:set>
-<c:set var="dspace.cris.navbar" scope="request">
-
-
-<c:if test="${grant_page_menu && !empty project}">
-
- 
- 
- </c:if>
-
-
-</c:set>
 
 <c:set var="dspace.layout.head.last" scope="request">
     <script type="text/javascript"><!--
@@ -253,13 +242,14 @@ The contents of this file are subject to the license and copyright
 	</c:if>
 						
 		<div id="researcher">
-		
-			<c:if test="${!empty addModeType && addModeType=='display'}">
+			<c:if test="${grant_page_menu && !empty project}"> 
+
+				<c:if test="${!empty addModeType && addModeType=='display'}">
       			
       				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/project/editDynamicData.htm?id=${entity.id}&anagraficaId=${entity.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.project"/></a>
       			
+  				</c:if>
   			</c:if>
-  			
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 

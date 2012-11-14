@@ -275,13 +275,13 @@ The contents of this file are subject to the license and copyright
 
 
 		<div id="researcher">
-		
-			<c:if test="${!empty addModeType && addModeType=='display'}">
+		  	<c:if test="${researcher_page_menu && !empty researcher}">
+				<c:if test="${!empty addModeType && addModeType=='display'}">
       			
       				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
       			
-  			</c:if>
-		
+  				</c:if>
+			</c:if>
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
 		</div>
 </div>
