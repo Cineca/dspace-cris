@@ -359,10 +359,6 @@ div.box div.collapsable  table tr td.highlightRowEvenCol {
 	background-image: url(../image/cris/arrow_up.png);
 }
 
-.displaytaglikemisctable tr td input.active {
-	float: right;
-}
-
 .displaytaglikemisctable tr td input.name {
 	width: 99%;
 }
@@ -371,15 +367,8 @@ div.box div.collapsable  table tr td.highlightRowEvenCol {
 	width: 99%;
 }
 
-.displaytaglikemisctable th.active {
-	width: 75px;
-}
 .displaytaglikemisctable th.staff {
 	width: 100px;
-}
-
-.displaytaglikemisctable th.chinese {
-	width: 120px;
 }
 
 p.pagebanner {	
