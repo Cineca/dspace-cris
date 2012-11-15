@@ -7,20 +7,21 @@
  */
 package org.dspace.app.webui.cris.json;
 
-import it.cilea.hku.authority.model.Project;
-import it.cilea.hku.authority.model.dynamicfield.BoxProject;
-import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested;
-import it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject;
-import it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty;
-import it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject;
-import it.cilea.hku.authority.model.dynamicfield.TabProject;
-import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.web.controller.json.AjaxJSONNavigationController;
 
 import java.util.List;
+
+import org.dspace.app.cris.model.Project;
+import org.dspace.app.cris.model.dynamicfield.BoxProject;
+import org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition;
+import org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested;
+import org.dspace.app.cris.model.dynamicfield.ProjectNestedObject;
+import org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition;
+import org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty;
+import org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject;
+import org.dspace.app.cris.model.dynamicfield.TabProject;
+import org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions;
 
 public class ProjectNavigationController
         extends

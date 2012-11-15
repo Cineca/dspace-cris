@@ -17,7 +17,7 @@ The contents of this file are subject to the license and copyright
 <%@ page import="java.util.Map" %>
 <%@page import="org.dspace.eperson.EPerson"%>
 <%@ page import="org.dspace.content.Item"        %>
-<%@page import="it.cilea.hku.authority.webui.dto.ComponentInfoDTO"%>
+<%@page import="org.dspace.app.webui.cris.dto.ComponentInfoDTO"%>
 <%@page import="it.cilea.osd.jdyna.web.Box"%>
 
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>

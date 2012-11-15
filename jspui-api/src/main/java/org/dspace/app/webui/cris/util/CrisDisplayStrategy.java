@@ -7,13 +7,13 @@
  */
 package org.dspace.app.webui.cris.util;
 
-import it.cilea.hku.authority.model.ACrisObject;
-import it.cilea.hku.authority.util.ResearcherPageUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
+import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.app.webui.util.IDisplayMetadataValueStrategy;
 import org.dspace.browse.BrowseDSpaceObject;
 import org.dspace.browse.BrowseItem;

@@ -36,97 +36,97 @@
 				<entry key="it.cilea.osd.jdyna.web.Tab">
 					<ref bean="tabDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.ResearcherPage">
+				<entry key="org.dspace.app.cris.model.ResearcherPage">
 					<ref bean="researcherPageDao" />
 				</entry>				
-				<entry key="it.cilea.hku.authority.model.Project">
+				<entry key="org.dspace.app.cris.model.Project">
 					<ref bean="researcherGrantDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.OrganizationUnit">
+				<entry key="org.dspace.app.cris.model.OrganizationUnit">
 					<ref bean="organizationUnitDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage">
+					key="org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage">
 					<ref bean="rpAdditionalDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage">
+					key="org.dspace.app.cris.model.dynamicfield.ProjectAdditionalFieldStorage">
 					<ref bean="projectAdditionalDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.OUAdditionalFieldStorage">
+					key="org.dspace.app.cris.model.dynamicfield.OUAdditionalFieldStorage">
 					<ref bean="ouAdditionalDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition">
 					<ref bean="rpPropertiesDefinitionDao" />
 				</entry>
 				<entry				         
-					key="it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition">
 					<ref bean="rpNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition">
 					<ref bean="grantPropertiesDefinitionDao" />
 				</entry>
 				<entry				         
-					key="it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition">
 					<ref bean="projectNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition">
 					<ref bean="ouPropertiesDefinitionDao" />
 				</entry>
 				<entry				         
-					key="it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition">
 					<ref bean="ouNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition">
 					<ref bean="rpDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition">
 					<ref bean="grantDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition">
 					<ref bean="ouDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition">
 					<ref bean="rpDecoratorNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry				                  
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition">
 					<ref bean="projectDecoratorNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry				                  
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition">
 					<ref bean="ouDecoratorNestedPropertiesDefinitionDao" />
 				</entry>				
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject">
+					key="org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject">
 					<ref bean="rpTypeDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject">
+					key="org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject">
 					<ref bean="projectTypeDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject">
+					key="org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject">
 					<ref bean="ouTypeDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested">
 					<ref bean="rpDecoratorTypeNestedDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested">
 					<ref bean="projectDecoratorTypeNestedDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested">
+					key="org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested">
 					<ref bean="ouDecoratorTypeNestedDao" />
 				</entry>
 				<entry
@@ -136,70 +136,70 @@
 				<entry key="it.cilea.osd.jdyna.model.Property">
 					<ref bean="propertyDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.RPProperty">
+				<entry key="org.dspace.app.cris.model.dynamicfield.RPProperty">
 					<ref bean="rpPropertyDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.ProjectProperty">
+				<entry key="org.dspace.app.cris.model.dynamicfield.ProjectProperty">
 					<ref bean="grantPropertyDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.OUProperty">
+				<entry key="org.dspace.app.cris.model.dynamicfield.OUProperty">
 					<ref bean="ouPropertyDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.RPNestedProperty">
+				<entry key="org.dspace.app.cris.model.dynamicfield.RPNestedProperty">
 					<ref bean="rpNestedPropertyDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty">
+				<entry key="org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty">
 					<ref bean="projectNestedPropertyDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.OUNestedProperty">
+				<entry key="org.dspace.app.cris.model.dynamicfield.OUNestedProperty">
 					<ref bean="ouNestedPropertyDao" />
 				</entry>												
-				<entry key="it.cilea.hku.authority.model.dynamicfield.RPNestedObject">
+				<entry key="org.dspace.app.cris.model.dynamicfield.RPNestedObject">
 					<ref bean="rpNestedObjectDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject">
+				<entry key="org.dspace.app.cris.model.dynamicfield.ProjectNestedObject">
 					<ref bean="projectNestedObjectDao" />
 				</entry>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.OUNestedObject">
+				<entry key="org.dspace.app.cris.model.dynamicfield.OUNestedObject">
 					<ref bean="ouNestedObjectDao" />
 				</entry>
 				<entry key="it.cilea.osd.jdyna.model.PropertiesDefinition">
 					<ref bean="propertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage">
+					key="org.dspace.app.cris.model.dynamicfield.TabResearcherPage">
 					<ref bean="rpTabDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.TabProject">
+					key="org.dspace.app.cris.model.dynamicfield.TabProject">
 					<ref bean="grantTabDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit">
+					key="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit">
 					<ref bean="ouTabDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage">
+					key="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage">
 					<ref bean="rpBoxDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.BoxProject">
+					key="org.dspace.app.cris.model.dynamicfield.BoxProject">
 					<ref bean="grantBoxDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit">
+					key="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit">
 					<ref bean="ouBoxDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage">
+					key="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage">
 					<ref bean="rpEditTabDao" />
 				</entry>
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.EditTabProject">
+					key="org.dspace.app.cris.model.dynamicfield.EditTabProject">
 					<ref bean="grantEditTabDao" />
 				</entry>				
 				<entry
-					key="it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit">
+					key="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit">
 					<ref bean="ouEditTabDao" />
 				</entry>						
 				<entry key="it.cilea.osd.jdyna.widget.WidgetTesto">
@@ -220,7 +220,7 @@
 				<entry key="it.cilea.osd.jdyna.model.AWidget">
 					<ref bean="widgetDao" />
 				</entry>				
-				<entry key="it.cilea.hku.authority.model.RPSubscription">
+				<entry key="org.dspace.app.cris.model.RPSubscription">
 					<ref bean="rpSubscriptionDao" />
 				</entry>
 			</map>
@@ -229,14 +229,14 @@
 
 	<bean id="applicationService" parent="txProxyTemplate">
 		<property name="target">
-			<bean class="it.cilea.hku.authority.service.ApplicationService"
+			<bean class="org.dspace.app.cris.service.ApplicationService"
 				init-method="init" parent="baseService">
 				<property name="applicationDao" ref="applicationDao" />
 			</bean>
 		</property>
 	</bean>
 		
-	<bean id="researcherPageUtils" class="it.cilea.hku.authority.util.ResearcherPageUtils">
+	<bean id="researcherPageUtils" class="org.dspace.app.cris.util.ResearcherPageUtils">
 		<constructor-arg ref="applicationService" />
 	</bean>	
 	
@@ -246,7 +246,7 @@
 	
 	<!--  DAO  -->
 	
-	<bean id="applicationDao" class="it.cilea.hku.authority.dao.ApplicationDao">
+	<bean id="applicationDao" class="org.dspace.app.cris.dao.ApplicationDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
@@ -269,12 +269,12 @@
 
 	<bean id="researcherPageDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.ResearcherPageDao</value>
+			<value>org.dspace.app.cris.dao.ResearcherPageDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.ResearcherPage</value>
+					<value>org.dspace.app.cris.model.ResearcherPage</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -282,12 +282,12 @@
 
 	<bean id="researcherGrantDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.ProjectDao</value>
+			<value>org.dspace.app.cris.dao.ProjectDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.Project</value>
+					<value>org.dspace.app.cris.model.Project</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -296,12 +296,12 @@
 		
 	<bean id="organizationUnitDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.OrganizationUnitDao</value>
+			<value>org.dspace.app.cris.dao.OrganizationUnitDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+					<value>org.dspace.app.cris.model.OrganizationUnit</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -309,12 +309,12 @@
 		
 	<bean id="rpAdditionalDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.RPAdditionalFieldStorageDao</value>
+			<value>org.dspace.app.cris.dao.RPAdditionalFieldStorageDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage</value>
+					<value>org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -323,12 +323,12 @@
 
 	<bean id="projectAdditionalDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.ProjectAdditionalFieldStorageDao</value>
+			<value>org.dspace.app.cris.dao.ProjectAdditionalFieldStorageDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.dynamicfield.ProjectAdditionalFieldStorage</value>
+					<value>org.dspace.app.cris.model.dynamicfield.ProjectAdditionalFieldStorage</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -336,12 +336,12 @@
 
 	<bean id="ouAdditionalDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.OUAdditionalFieldStorageDao</value>
+			<value>org.dspace.app.cris.dao.OUAdditionalFieldStorageDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.dynamicfield.OUAdditionalFieldStorage</value>
+					<value>org.dspace.app.cris.model.dynamicfield.OUAdditionalFieldStorage</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -470,14 +470,14 @@
 	<bean id="rpPropertyDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPPropertyDao
+				org.dspace.app.cris.dao.RPPropertyDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.RPProperty
+						org.dspace.app.cris.model.dynamicfield.RPProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -487,14 +487,14 @@
 	<bean id="grantPropertyDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectPropertyDao
+				org.dspace.app.cris.dao.ProjectPropertyDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.ProjectProperty
+						org.dspace.app.cris.model.dynamicfield.ProjectProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -504,14 +504,14 @@
 	<bean id="ouPropertyDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.OUPropertyDao
+				org.dspace.app.cris.dao.OUPropertyDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.OUProperty
+						org.dspace.app.cris.model.dynamicfield.OUProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -528,7 +528,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.RPNestedProperty
+						org.dspace.app.cris.model.dynamicfield.RPNestedProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -545,7 +545,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty
+						org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -563,7 +563,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.OUNestedProperty
+						org.dspace.app.cris.model.dynamicfield.OUNestedProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -597,7 +597,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.RPNestedObject
+						org.dspace.app.cris.model.dynamicfield.RPNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -614,7 +614,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject
+						org.dspace.app.cris.model.dynamicfield.ProjectNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -631,7 +631,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.OUNestedObject
+						org.dspace.app.cris.model.dynamicfield.OUNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -641,14 +641,14 @@
 	<bean id="rpPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPPropertiesDefinitionDao
+				org.dspace.app.cris.dao.RPPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -658,14 +658,14 @@
 	<bean id="rpNestedPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPNestedPropertiesDefinitionDao
+				org.dspace.app.cris.dao.RPNestedPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -675,14 +675,14 @@
 	<bean id="projectNestedPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectNestedPropertiesDefinitionDao
+				org.dspace.app.cris.dao.ProjectNestedPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -693,14 +693,14 @@
 	<bean id="grantPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectPropertiesDefinitionDao
+				org.dspace.app.cris.dao.ProjectPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -711,14 +711,14 @@
 	<bean id="ouNestedPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.OUNestedPropertiesDefinitionDao
+				org.dspace.app.cris.dao.OUNestedPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -729,14 +729,14 @@
 	<bean id="ouPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.OUPropertiesDefinitionDao
+				org.dspace.app.cris.dao.OUPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -779,13 +779,13 @@
 
 	<bean id="rpTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.RPTabDao</value>
+			<value>org.dspace.app.cris.dao.RPTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+						org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -794,13 +794,13 @@
 
 	<bean id="grantTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.ProjectTabDao</value>
+			<value>org.dspace.app.cris.dao.ProjectTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.TabProject
+						org.dspace.app.cris.model.dynamicfield.TabProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -809,13 +809,13 @@
 	
 	<bean id="ouTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.OUTabDao</value>
+			<value>org.dspace.app.cris.dao.OUTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+						org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
 					</value>
 				</constructor-arg>
 			</bean>
@@ -824,13 +824,13 @@
 	
 	<bean id="rpBoxDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.RPBoxDao</value>
+			<value>org.dspace.app.cris.dao.RPBoxDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+						org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -838,13 +838,13 @@
 	</bean>
 	<bean id="grantBoxDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.ProjectBoxDao</value>
+			<value>org.dspace.app.cris.dao.ProjectBoxDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.BoxProject
+						org.dspace.app.cris.model.dynamicfield.BoxProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -852,13 +852,13 @@
 	</bean>
 	<bean id="ouBoxDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.OUBoxDao</value>
+			<value>org.dspace.app.cris.dao.OUBoxDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+						org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 					</value>
 				</constructor-arg>
 			</bean>
@@ -866,13 +866,13 @@
 	</bean>
 	<bean id="rpEditTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.RPEditTabDao</value>
+			<value>org.dspace.app.cris.dao.RPEditTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+						org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -880,13 +880,13 @@
 	</bean>
 	<bean id="grantEditTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.ProjectEditTabDao</value>
+			<value>org.dspace.app.cris.dao.ProjectEditTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.EditTabProject
+						org.dspace.app.cris.model.dynamicfield.EditTabProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -894,13 +894,13 @@
 	</bean>
 	<bean id="ouEditTabDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.OUEditTabDao</value>
+			<value>org.dspace.app.cris.dao.OUEditTabDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+						org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
 					</value>
 				</constructor-arg>
 			</bean>
@@ -909,14 +909,14 @@
 	<bean id="rpDecoratorPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPDecoratorPropertiesDefinitionDao
+				org.dspace.app.cris.dao.RPDecoratorPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -926,14 +926,14 @@
 	<bean id="rpDecoratorNestedPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPDecoratorNestedPropertiesDefinitionDao
+				org.dspace.app.cris.dao.RPDecoratorNestedPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -943,14 +943,14 @@
 	<bean id="grantDecoratorPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectDecoratorPropertiesDefinitionDao
+				org.dspace.app.cris.dao.ProjectDecoratorPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -960,14 +960,14 @@
 	<bean id="projectDecoratorNestedPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectDecoratorNestedPropertiesDefinitionDao
+				org.dspace.app.cris.dao.ProjectDecoratorNestedPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -977,14 +977,14 @@
 	<bean id="ouDecoratorPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.OUDecoratorPropertiesDefinitionDao
+				org.dspace.app.cris.dao.OUDecoratorPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -994,14 +994,14 @@
 	<bean id="ouDecoratorNestedPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.OUDecoratorNestedPropertiesDefinitionDao
+				org.dspace.app.cris.dao.OUDecoratorNestedPropertiesDefinitionDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+						org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1027,12 +1027,12 @@
 
 	<bean id="rpSubscriptionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>it.cilea.hku.authority.dao.RPSubscriptionDao</value>
+			<value>org.dspace.app.cris.dao.RPSubscriptionDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>it.cilea.hku.authority.model.RPSubscription</value>
+					<value>org.dspace.app.cris.model.RPSubscription</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -1042,14 +1042,14 @@
 	<bean id="rpTypeDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPTypeNestedObjectDao
+				org.dspace.app.cris.dao.RPTypeNestedObjectDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
+						org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1059,14 +1059,14 @@
 	<bean id="projectTypeDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectTypeNestedObjectDao
+				org.dspace.app.cris.dao.ProjectTypeNestedObjectDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
+						org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1076,14 +1076,14 @@
 	<bean id="ouTypeDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.OUTypeNestedObjectDao
+				org.dspace.app.cris.dao.OUTypeNestedObjectDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject
+						org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1093,14 +1093,14 @@
 	<bean id="rpDecoratorTypeNestedDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.RPDecoratorTypeNestedDao
+				org.dspace.app.cris.dao.RPDecoratorTypeNestedDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested
+						org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1110,14 +1110,14 @@
 	<bean id="projectDecoratorTypeNestedDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.ProjectDecoratorTypeNestedDao
+				org.dspace.app.cris.dao.ProjectDecoratorTypeNestedDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested
+						org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1127,14 +1127,14 @@
 	<bean id="ouDecoratorTypeNestedDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
-				it.cilea.hku.authority.dao.OUDecoratorTypeNestedDao
+				org.dspace.app.cris.dao.OUDecoratorTypeNestedDao
 			</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested
+						org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1218,20 +1218,20 @@
 		</property>
 	</bean>
 
-	<bean id="crisIndexerListner" class="it.cilea.hku.authority.discovery.CrisListenerSolrIndexer">
+	<bean id="crisIndexerListner" class="org.dspace.app.cris.discovery.CrisListenerSolrIndexer">
 		<property name="crisSearchService" ref="org.dspace.discovery.IndexingService" />
 	</bean>
 	
-	<bean id="RPListener" class="it.cilea.hku.authority.model.listener.RPListener"/>
+	<bean id="RPListener" class="org.dspace.app.cris.model.listener.RPListener"/>
 
-	<bean id="UUIDListener" class="it.cilea.hku.authority.model.listener.UUIDListener"/>
+	<bean id="UUIDListener" class="org.dspace.app.cris.model.listener.UUIDListener"/>
 	
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-	<bean id="crisConstants" class="it.cilea.hku.authority.model.CrisConstants" scope="prototype">
+	<bean id="crisConstants" class="org.dspace.app.cris.model.CrisConstants" scope="prototype">
 		<!-- example configuration -->
 		<property name="otherTypeMap">
 			<map>

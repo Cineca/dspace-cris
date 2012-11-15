@@ -16,7 +16,7 @@ The contents of this file are subject to the license and copyright
 <%@ page import="java.util.Set" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="org.dspace.browse.BrowseItem" %>
-<%@page import="it.cilea.hku.authority.webui.dto.ComponentInfoDTO"%>
+<%@page import="org.dspace.app.webui.cris.dto.ComponentInfoDTO"%>
 <%@page import="it.cilea.osd.jdyna.web.Box"%>
 
 <%@page import="org.dspace.eperson.EPerson"%>

@@ -179,7 +179,7 @@ The contents of this file are subject to the license and copyright
 		</div>
 		<br/><br/>
 		
-		<c:set var="sortedAllContainablesList" value="${researcher:sortBoxByComparator(containablesList,'it.cilea.hku.authority.webui.comparator.CustomContainableComparator')}" />
+		<c:set var="sortedAllContainablesList" value="${researcher:sortBoxByComparator(containablesList,'org.dspace.app.webui.cris.comparator.CustomContainableComparator')}" />
 		<c:set var="count" value="0" />
 		<fieldset><legend><fmt:message
 			key="jsp.layout.hku.label.containableslist" /></legend> 

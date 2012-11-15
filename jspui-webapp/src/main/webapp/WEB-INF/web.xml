@@ -81,7 +81,7 @@
 	</filter>
 		<filter>
 		<filter-name>DSpaceCleanupFilter</filter-name>
-		<filter-class>it.cilea.hku.authority.webui.filter.DSpaceContextCleanupFilter</filter-class>
+		<filter-class>org.dspace.app.webui.cris.filter.DSpaceContextCleanupFilter</filter-class>
 	</filter>
 
 

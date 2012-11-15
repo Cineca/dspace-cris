@@ -7,10 +7,11 @@
  */
 package org.dspace.app.webui.cris.json;
 
-import it.cilea.hku.authority.model.ResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage;
-import it.cilea.hku.authority.model.dynamicfield.TabResearcherPage;
-import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
+import org.dspace.app.cris.model.ResearcherPage;
+import org.dspace.app.cris.model.dynamicfield.BoxResearcherPage;
+import org.dspace.app.cris.model.dynamicfield.TabResearcherPage;
+import org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions;
+
 import it.cilea.osd.jdyna.web.controller.json.AjaxJSONNavigationController;
 
 

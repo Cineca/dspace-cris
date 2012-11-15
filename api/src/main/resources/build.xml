@@ -28,7 +28,7 @@
 
         <!-- Generate the schema for UPDATE all mapping files in our class tree -->
         <target name="generate-update-ddl" description="Generate UPDATE DDL from the O/R mapping files">        	
-                <taskdef name="hibernatetool" classname="it.cilea.hku.authority.util.UpdateSchemaTool" classpath="${maven_compile_classpath}"/>
+                <taskdef name="hibernatetool" classname="org.dspace.app.cris.util.UpdateSchemaTool" classpath="${maven_compile_classpath}"/>
                 <hibernatetool properties="${hibernate_properties}"  config="${hibernate_configuration}" outputFile="${basedir}/schema-update.ddl" delimiter=";">                    
                 </hibernatetool>
         </target>

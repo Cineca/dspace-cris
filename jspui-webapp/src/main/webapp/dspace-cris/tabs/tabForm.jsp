@@ -140,7 +140,7 @@ The contents of this file are subject to the license and copyright
 					key="jsp.layout.hku.label.boxlist" /></legend>
 		
 			
-		<c:forEach items="${researcher:sortBoxByComparator(boxsList,'it.cilea.hku.authority.webui.comparator.CustomBoxComparator')}" var="box">
+		<c:forEach items="${researcher:sortBoxByComparator(boxsList,'org.dspace.app.webui.cris.comparator.CustomBoxComparator')}" var="box">
 			
 							<c:set var="hasCustomEditJSP" value="false" scope="request" />
 							<c:set var="hasCustomDisplayJSP" value="false" scope="request" />

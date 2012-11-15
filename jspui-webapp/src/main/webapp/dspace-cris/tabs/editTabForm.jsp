@@ -135,7 +135,7 @@ The contents of this file are subject to the license and copyright
 		</fieldset>
 		<br/><br/>		
 		<fieldset><legend><fmt:message
-			key="jsp.layout.hku.label.boxlist" /></legend> <c:forEach items="${researcher:sortBoxByComparator(boxsList,'it.cilea.hku.authority.webui.comparator.CustomBoxComparator')}"
+			key="jsp.layout.hku.label.boxlist" /></legend> <c:forEach items="${researcher:sortBoxByComparator(boxsList,'org.dspace.app.webui.cris.comparator.CustomBoxComparator')}"
 			var="box">
 
 						<c:set var="hasCustomEditJSP" value="false" scope="request" />

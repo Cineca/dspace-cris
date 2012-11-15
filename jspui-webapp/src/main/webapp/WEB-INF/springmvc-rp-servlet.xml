@@ -25,16 +25,16 @@
 		class="it.cilea.osd.common.controller.BaseFormController">
 		<property name="customPropertyEditors">
 			<map>				
-				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" value-ref="decoratorRPPropertiesDefinitionEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" value-ref="decoratorProjectPropertiesDefinitionEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition" value-ref="decoratorOUPropertiesDefinitionEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition" value-ref="decoratorRPPropertiesDefinitionEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition" value-ref="decoratorProjectPropertiesDefinitionEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition" value-ref="decoratorOUPropertiesDefinitionEditor"/>
 				<entry key="it.cilea.osd.jdyna.model.Containable" value-ref="containableEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" value-ref="rpTabEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" value-ref="rpBoxEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.TabProject" value-ref="projectTabEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxProject" value-ref="projectBoxEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit" value-ref="ouTabEditor"/>
-				<entry key="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" value-ref="ouBoxEditor"/>				
+				<entry key="org.dspace.app.cris.model.dynamicfield.TabResearcherPage" value-ref="rpTabEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" value-ref="rpBoxEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.TabProject" value-ref="projectTabEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.BoxProject" value-ref="projectBoxEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit" value-ref="ouTabEditor"/>
+				<entry key="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" value-ref="ouBoxEditor"/>				
 				<entry key="java.util.Date" value-ref="dateUtilEditor"/>
 				<entry key="java.lang.String" value-ref="stringEditor"/>
 			</map>
@@ -42,17 +42,17 @@
 	</bean>
 
 
-	<bean id="loadFileRP" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+	<bean id="loadFileRP" class="org.dspace.app.webui.cris.controller.jdyna.CrisFileServiceController">
 		<property name="filePath">
 			<value>researcherpage.file.path</value>
 		</property>	
 	</bean>		
-	<bean id="loadFileProject" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+	<bean id="loadFileProject" class="org.dspace.app.webui.cris.controller.jdyna.CrisFileServiceController">
 		<property name="filePath">
 			<value>project.file.path</value>
 		</property>	
 	</bean>	
-	<bean id="loadFileOU" class="it.cilea.hku.authority.webui.controller.jdyna.CrisFileServiceController">
+	<bean id="loadFileOU" class="org.dspace.app.webui.cris.controller.jdyna.CrisFileServiceController">
 		<property name="filePath">
 			<value>organizationunit.file.path</value>
 		</property>	
@@ -70,14 +70,14 @@
 
 
 	<bean id="redirectDetailsController"
-		class="it.cilea.hku.authority.webui.controller.RedirectFromUUIDtoDetailsController">
+		class="org.dspace.app.webui.cris.controller.RedirectFromUUIDtoDetailsController">
 		<property name="applicationService" >
 			<ref bean="applicationService" />
 		</property>		
 	</bean>
 		
 	<bean id="reBindItemToRpController"
-		class="it.cilea.hku.authority.webui.controller.ReBindItemToRPController">
+		class="org.dspace.app.webui.cris.controller.ReBindItemToRPController">
 		<property name="applicationService" >
 			<ref bean="applicationService" />
 		</property>		
@@ -87,7 +87,7 @@
 	</bean>
 	
 	<bean id="requestChangesController"
-		class="it.cilea.hku.authority.webui.controller.FormSendMailController">
+		class="org.dspace.app.webui.cris.controller.FormSendMailController">
 			<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -95,7 +95,7 @@
 			<value>redirect:/cris/rp/</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.MailDTO</value>
+			<value>org.dspace.app.webui.cris.dto.MailDTO</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -116,7 +116,7 @@
 	
 	<!-- Controller to redirect researcher into own profile after login -->
 	<bean id="myRPController"
-		class="it.cilea.hku.authority.webui.controller.MyRPController">
+		class="org.dspace.app.webui.cris.controller.MyRPController">
 		<property name="applicationService" ref="applicationService" />
 		<property name="viewName">
 			<value>researcherDetailsPage</value>
@@ -125,7 +125,7 @@
 	
 	<!-- Controller to expose (via JSON) informations about the rp of the current user -->
 	<bean id="jsonMyRPController"
-		class="it.cilea.hku.authority.webui.controller.json.MyRPJSONController">
+		class="org.dspace.app.webui.cris.controller.json.MyRPJSONController">
 		<property name="methodNameResolver">
 			<bean class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver" />
 		</property>
@@ -133,7 +133,7 @@
 	</bean>
 	
 	<bean id="jsonEpersonController"
-		class="it.cilea.hku.authority.webui.controller.json.EPersonController">
+		class="org.dspace.app.webui.cris.controller.json.EPersonController">
 		<property name="applicationService" ref="applicationService" />
 	</bean>	
 		
@@ -141,23 +141,23 @@
 	
 	<!-- Start Researcher controller configurations -->
 	<bean id="detailsResearcherController"
-		class="it.cilea.hku.authority.webui.controller.ResearcherPageDetailsController">
+		class="org.dspace.app.webui.cris.controller.ResearcherPageDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.ResearcherPage</value>
+			<value>org.dspace.app.cris.model.ResearcherPage</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="detailsView">
@@ -174,14 +174,14 @@
 	</bean>
 	
 	<bean id="redirectDetailsResearcherController"
-		class="it.cilea.hku.authority.webui.controller.RedirectResearcherPageDetailsController">
+		class="org.dspace.app.webui.cris.controller.RedirectResearcherPageDetailsController">
 				<property name="viewName">
 			<value>researcherDetailsPage</value>
 		</property>		
 	</bean>
 	
 	<bean id="adminListResearcherPageController"
-		class="it.cilea.hku.authority.webui.controller.FormAdministrationResearcherController">
+		class="org.dspace.app.webui.cris.controller.FormAdministrationResearcherController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -192,7 +192,7 @@
 			<value>administratorResearchersForm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.util.RPDisplayTagData</value>
+			<value>org.dspace.app.webui.cris.util.RPDisplayTagData</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -201,7 +201,7 @@
 
 	
 	<bean id="adminAddResearcherPageController"
-		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddResearcherController">
+		class="org.dspace.app.webui.cris.controller.FormAdministrationAddResearcherController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -209,7 +209,7 @@
 			<value>redirect:/cris/tools/rp/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.ResearcherPageDTO</value>
+			<value>org.dspace.app.webui.cris.dto.ResearcherPageDTO</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -221,7 +221,7 @@
 
 
 	<bean id="adminRPController"
-		class="it.cilea.hku.authority.webui.controller.RPAdminController">
+		class="org.dspace.app.webui.cris.controller.RPAdminController">
 
 		<property name="viewName">
 			<value>rpAdministrator</value>
@@ -232,11 +232,11 @@
 	<bean id="listRPTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -256,7 +256,7 @@
 	<bean id="listRPBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -279,22 +279,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -312,11 +312,11 @@
 	<bean id="deleteRPTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -336,22 +336,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
+			<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -369,7 +369,7 @@
 	<bean id="deleteRPBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -387,12 +387,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+				org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+				org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -410,12 +410,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+				org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject
+				org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -435,7 +435,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -443,14 +443,14 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -474,13 +474,13 @@
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="targetClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject</value>
 		</property>
 		<property name="decoratorClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
 		</property>
 		<property name="commandName">
 			<value>propertiesdefinition</value>
@@ -510,12 +510,12 @@
 	</bean>
 
 	<bean id="editRPPointerRPDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -523,19 +523,19 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.dynamicfield.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -551,12 +551,12 @@
 	</bean>
 
 	<bean id="editRPPointerProjectDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -564,19 +564,19 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -592,12 +592,12 @@
 	</bean>
 
 	<bean id="editRPPointerOUDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -605,19 +605,19 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.dynamicfield.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -638,7 +638,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -646,14 +646,14 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -674,21 +674,21 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
 			<value>it.cilea.osd.jdyna.widget.WidgetLink</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -709,21 +709,21 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP</value>
+			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileRP</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -741,7 +741,7 @@
 	<bean id="listRPEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -764,22 +764,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -797,7 +797,7 @@
 	<bean id="deleteRPEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -812,21 +812,21 @@
 	</bean>
 
 	<bean id="editRPDynamicDataController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormRPDynamicMetadataController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormRPDynamicMetadataController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage</value>
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage</value>
 		</property>
 		<property name="clazzBox">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
 		</property>
 		<property name="clazzAnagraficaObject">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage</value>
 		</property>
 		<property name="successView">
 			<value>redirect:/cris/rp/</value>
@@ -835,7 +835,7 @@
 			<value>/jdyna/rpDataEditForm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.RPAnagraficaObjectDTO</value>
+			<value>org.dspace.app.webui.cris.dto.RPAnagraficaObjectDTO</value>
 		</property>		
 		<property name="commandName">
 			<value>anagraficadto</value>
@@ -852,10 +852,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>rp</value>
@@ -877,10 +877,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>rp</value>
@@ -916,13 +916,13 @@
 		</property>	
 		
 		<property name="targetClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>
 		</property>
 		<property name="typeClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject</value>
 		</property>
 		<property name="propertyDefinitionClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition</value>
 		</property>		
 		<property name="specificPartPath">
 			<value>rp</value>
@@ -940,7 +940,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -948,16 +948,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -978,7 +978,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -986,16 +986,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1016,7 +1016,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1024,16 +1024,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1054,24 +1054,24 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP
+			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileRP
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1087,12 +1087,12 @@
 	</bean>
 
 	<bean id="addPointerRPToRPNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1100,21 +1100,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.dynamicfield.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1130,12 +1130,12 @@
 	</bean>
 	
 	<bean id="addPointerProjectToRPNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1143,21 +1143,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1173,12 +1173,12 @@
 	</bean>
 	
 	<bean id="addPointerOUToRPNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1186,21 +1186,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.dynamicfield.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1219,13 +1219,13 @@
 	<bean id="deleteRPNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
 		<constructor-arg index="0">			
-				<value>it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="1">			
-				<value>it.cilea.hku.authority.model.dynamicfield.RPNestedObject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -1241,21 +1241,21 @@
 	
 	<!-- Start Project controller configurations -->
 	<bean id="detailsProjectController"
-		class="it.cilea.hku.authority.webui.controller.ProjectDetailsController">
+		class="org.dspace.app.webui.cris.controller.ProjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.Project</value>
+			<value>org.dspace.app.cris.model.Project</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>projectDetailsPage</value>
@@ -1270,12 +1270,12 @@
 	</bean>		
 		
 	<bean id="redirectDetailsProjectController"
-		class="it.cilea.hku.authority.webui.controller.RedirectEntityDetailsController">
+		class="org.dspace.app.webui.cris.controller.RedirectEntityDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.Project</value>
+			<value>org.dspace.app.cris.model.Project</value>
 		</constructor-arg>
 		<property name="viewName">
 			<value>projectDetailsPage</value>
@@ -1283,7 +1283,7 @@
 	</bean>
 	
 	<bean id="adminProjectController"
-		class="it.cilea.hku.authority.webui.controller.ProjectAdminController">
+		class="org.dspace.app.webui.cris.controller.ProjectAdminController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1294,7 +1294,7 @@
 
 	
 	<bean id="adminAddProjectController"
-		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddProjectController">
+		class="org.dspace.app.webui.cris.controller.FormAdministrationAddProjectController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1302,7 +1302,7 @@
 			<value>redirect:/cris/tools/project/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.ProjectDTO</value>
+			<value>org.dspace.app.webui.cris.dto.ProjectDTO</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -1313,7 +1313,7 @@
 	</bean>
 	
 	<bean id="adminListProjectController"
-		class="it.cilea.hku.authority.webui.controller.FormAdministrationProjectController">
+		class="org.dspace.app.webui.cris.controller.FormAdministrationProjectController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -1324,7 +1324,7 @@
 			<value>administratorProjectsForm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.util.ProjectDisplayTagData</value>
+			<value>org.dspace.app.webui.cris.util.ProjectDisplayTagData</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -1335,10 +1335,10 @@
 	<bean id="listProjectTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -1357,7 +1357,7 @@
 	<bean id="listProjectBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -1380,22 +1380,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject
 			</value>
 		</property>
 		<property name="commandName">
@@ -1413,11 +1413,11 @@
 	<bean id="deleteProjectTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1437,22 +1437,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</property>
 		<property name="commandName">
@@ -1470,7 +1470,7 @@
 	<bean id="deleteProjectBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1488,12 +1488,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+				org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1514,7 +1514,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1523,14 +1523,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1546,12 +1546,12 @@
 	</bean>
 
 	<bean id="editProjectPointerRPDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1560,19 +1560,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.dynamicfield.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1588,12 +1588,12 @@
 	</bean>
 
 	<bean id="editProjectPointerProjectDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1602,19 +1602,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1630,12 +1630,12 @@
 	</bean>
 	
 	<bean id="editProjectPointerOUDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1644,19 +1644,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.dynamicfield.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1677,7 +1677,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1686,14 +1686,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1714,7 +1714,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
@@ -1722,14 +1722,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1750,22 +1750,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileProject</value>
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1783,7 +1783,7 @@
 	<bean id="listProjectEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1806,22 +1806,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject</value>
 		</property>
 		<property name="commandName">
 			<value>tab</value>
@@ -1838,7 +1838,7 @@
 	<bean id="deleteProjectEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1853,21 +1853,21 @@
 	</bean>
 
 	<bean id="editProjectDynamicDataController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormProjectDynamicMetadataController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormProjectDynamicMetadataController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject</value>
 		</property>
 		<property name="clazzBox">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
 		</property>
 		<property name="clazzAnagraficaObject">
-			<value>it.cilea.hku.authority.model.Project</value>
+			<value>org.dspace.app.cris.model.Project</value>
 		</property>
 		<property name="successView">
 			<value>redirect:/cris/project/</value>
@@ -1876,7 +1876,7 @@
 			<value>/jdyna/projectDataEditForm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.ProjectAnagraficaObjectDTO</value>
+			<value>org.dspace.app.webui.cris.dto.ProjectAnagraficaObjectDTO</value>
 		</property>		
 		<property name="commandName">
 			<value>anagraficadto</value>
@@ -1897,10 +1897,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>project</value>
@@ -1922,10 +1922,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>project</value>
@@ -1966,13 +1966,13 @@
 			<value>/cris/tools/</value>
 		</property>	
 		<property name="targetClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>
 		</property>
 		<property name="typeClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject</value>
 		</property>
 		<property name="propertyDefinitionClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition</value>
 		</property>		
 	</bean>
 	
@@ -1984,7 +1984,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1992,16 +1992,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2022,7 +2022,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2030,16 +2030,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2060,7 +2060,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2068,16 +2068,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2098,24 +2098,24 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject
+			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2131,12 +2131,12 @@
 	</bean>
 	
 	<bean id="addPointerRPToProjectNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2144,21 +2144,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.dynamicfield.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2174,12 +2174,12 @@
 	</bean>
 
 	<bean id="addPointerProjectToProjectNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2187,21 +2187,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2217,12 +2217,12 @@
 	</bean>
 	
 	<bean id="addPointerOUToProjectNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2230,21 +2230,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.dynamicfield.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2262,13 +2262,13 @@
 	<bean id="deleteProjectNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
 		<constructor-arg index="0">			
-				<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="1">			
-				<value>it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -2291,13 +2291,13 @@
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="targetClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject</value>
 		</property>
 		<property name="decoratorClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
 		</property>
 		<property name="commandName">
 			<value>propertiesdefinition</value>
@@ -2330,12 +2330,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition
+				org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject
+				org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2353,21 +2353,21 @@
 
 	<!-- Start OrganizationUnit controller configurations -->
 	<bean id="detailsOUController"
-		class="it.cilea.hku.authority.webui.controller.OUDetailsController">
+		class="org.dspace.app.webui.cris.controller.OUDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+			<value>org.dspace.app.cris.model.OrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>ouDetailsPage</value>
@@ -2382,12 +2382,12 @@
 	</bean>		
 		
 	<bean id="redirectDetailsOUController"
-		class="it.cilea.hku.authority.webui.controller.RedirectEntityDetailsController">
+		class="org.dspace.app.webui.cris.controller.RedirectEntityDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+			<value>org.dspace.app.cris.model.OrganizationUnit</value>
 		</constructor-arg>
 		<property name="viewName">
 			<value>ouDetailsPage</value>
@@ -2395,7 +2395,7 @@
 	</bean>
 	
 	<bean id="adminOUController"
-		class="it.cilea.hku.authority.webui.controller.OUAdminController">
+		class="org.dspace.app.webui.cris.controller.OUAdminController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -2406,7 +2406,7 @@
 
 	
 	<bean id="adminAddOUController"
-		class="it.cilea.hku.authority.webui.controller.FormAdministrationAddOUController">
+		class="org.dspace.app.webui.cris.controller.FormAdministrationAddOUController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -2414,7 +2414,7 @@
 			<value>redirect:/cris/tools/ou/editDynamicData.htm?id=</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.OrganizationUnitDTO</value>
+			<value>org.dspace.app.webui.cris.dto.OrganizationUnitDTO</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -2425,7 +2425,7 @@
 	</bean>
 	
 	<bean id="adminListOUController"
-		class="it.cilea.hku.authority.webui.controller.FormAdministrationOUController">
+		class="org.dspace.app.webui.cris.controller.FormAdministrationOUController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -2436,7 +2436,7 @@
 			<value>administratorOrganizationUnitsForm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.util.OUDisplayTagData</value>
+			<value>org.dspace.app.webui.cris.util.OUDisplayTagData</value>
 		</property>
 		<property name="commandName">
 			<value>dto</value>
@@ -2447,10 +2447,10 @@
 	<bean id="listOUTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -2469,7 +2469,7 @@
 	<bean id="listOUBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -2492,22 +2492,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
 			</value>
 		</property>
 		<property name="commandName">
@@ -2525,11 +2525,11 @@
 	<bean id="deleteOUTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2549,22 +2549,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject
+			<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</property>
 		<property name="commandName">
@@ -2582,7 +2582,7 @@
 	<bean id="deleteOUBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2600,12 +2600,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+				org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2626,7 +2626,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2635,14 +2635,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2658,12 +2658,12 @@
 	</bean>
 
 	<bean id="editOUPointerRPDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2672,19 +2672,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.dynamicfield.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2700,12 +2700,12 @@
 	</bean>
 
 	<bean id="editOUPointerProjectDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2714,19 +2714,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2742,12 +2742,12 @@
 	</bean>
 
 	<bean id="editOUPointerOUDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormWidgetPointerDecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormWidgetPointerDecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2756,19 +2756,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.dynamicfield.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2790,7 +2790,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2799,14 +2799,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2827,7 +2827,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
@@ -2835,14 +2835,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2863,22 +2863,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU</value>
+			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileOU</value>
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2896,7 +2896,7 @@
 	<bean id="listOUEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2919,22 +2919,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit</value>
 		</property>
 		<property name="commandName">
 			<value>tab</value>
@@ -2951,7 +2951,7 @@
 	<bean id="deleteOUEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2966,21 +2966,21 @@
 	</bean>
 
 	<bean id="editOUDynamicDataController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormOUDynamicMetadataController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormOUDynamicMetadataController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit</value>
 		</property>
 		<property name="clazzBox">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
 		</property>
 		<property name="clazzAnagraficaObject">
-			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+			<value>org.dspace.app.cris.model.OrganizationUnit</value>
 		</property>
 		<property name="successView">
 			<value>redirect:/cris/ou/</value>
@@ -2989,7 +2989,7 @@
 			<value>/jdyna/ouDataEditForm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.webui.dto.OUAnagraficaObjectDTO</value>
+			<value>org.dspace.app.webui.cris.dto.OUAnagraficaObjectDTO</value>
 		</property>		
 		<property name="commandName">
 			<value>anagraficadto</value>
@@ -3010,10 +3010,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>ou</value>
@@ -3035,10 +3035,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>ou</value>
@@ -3079,13 +3079,13 @@
 			<value>/cris/tools/</value>
 		</property>	
 		<property name="targetClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>
 		</property>
 		<property name="typeClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject</value>
 		</property>
 		<property name="propertyDefinitionClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition</value>
 		</property>		
 	</bean>
 	
@@ -3097,7 +3097,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3105,16 +3105,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3135,7 +3135,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3143,16 +3143,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3173,7 +3173,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3181,16 +3181,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3211,24 +3211,24 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU
+			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileOU
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3244,12 +3244,12 @@
 	</bean>
 
 	<bean id="addPointerRPToOUNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3257,21 +3257,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.dynamicfield.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3287,12 +3287,12 @@
 	</bean>
 
 	<bean id="addPointerProjectToOUNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3300,21 +3300,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3330,12 +3330,12 @@
 	</bean>
 	
 	<bean id="addPointerOUToOUNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.hku.authority.webui.controller.jdyna.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.jdyna.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3343,21 +3343,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.dynamicfield.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3376,13 +3376,13 @@
 	<bean id="deleteOUNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
 		<constructor-arg index="0">			
-				<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="1">			
-				<value>it.cilea.hku.authority.model.dynamicfield.OUNestedObject</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -3405,13 +3405,13 @@
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="targetClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject</value>
 		</property>
 		<property name="decoratorClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
 		</property>
 		<property name="commandClass">
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
 		</property>
 		<property name="commandName">
 			<value>propertiesdefinition</value>
@@ -3444,12 +3444,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition
+				org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject
+				org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -3467,7 +3467,7 @@
 
 	
 	<!-- Navigation and build tabs -->
-	<bean id="loadTabIcon" class="it.cilea.hku.authority.webui.controller.jdyna.ResearcherTabImageController">
+	<bean id="loadTabIcon" class="org.dspace.app.webui.cris.controller.jdyna.ResearcherTabImageController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>	
@@ -3514,7 +3514,7 @@
 	</bean>
 				
 			
-	<bean id="searchRPPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
+	<bean id="searchRPPointer" class="org.dspace.app.webui.cris.controller.jdyna.CrisSearchPointerController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -3522,14 +3522,14 @@
 			<ref bean="crisSearchService" />
 		</property>
 		<property name="clazzPD">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
 		</property>				
 		<property name="viewName">
 			<value>resultSearchPointer</value>
 		</property>		
 	</bean>
 	
-	<bean id="searchProjectPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
+	<bean id="searchProjectPointer" class="org.dspace.app.webui.cris.controller.jdyna.CrisSearchPointerController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -3537,14 +3537,14 @@
 			<ref bean="crisSearchService" />
 		</property>
 		<property name="clazzPD">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
 		</property>				
 		<property name="viewName">
 			<value>resultSearchPointer</value>
 		</property>		
 	</bean>
 	
-	<bean id="searchOUPointer" class="it.cilea.hku.authority.webui.controller.jdyna.CrisSearchPointerController">
+	<bean id="searchOUPointer" class="org.dspace.app.webui.cris.controller.jdyna.CrisSearchPointerController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -3552,30 +3552,30 @@
 			<ref bean="crisSearchService" />
 		</property>
 		<property name="clazzPD">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
 		</property>				
 		<property name="viewName">
 			<value>resultSearchPointer</value>
 		</property>		
 	</bean>
 	
-	<bean id="rpDeleteController" class="it.cilea.hku.authority.webui.controller.ResearcherPageDetailsController">
+	<bean id="rpDeleteController" class="org.dspace.app.webui.cris.controller.ResearcherPageDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
 		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.ResearcherPage</value>
+			<value>org.dspace.app.cris.model.ResearcherPage</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="detailsView">
@@ -3593,21 +3593,21 @@
 		<property name="components" ref="rpComponents"/>		
 	</bean>
 	<bean id="ouDeleteController" 
-		class="it.cilea.hku.authority.webui.controller.OUDetailsController">
+		class="org.dspace.app.webui.cris.controller.OUDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.OrganizationUnit</value>
+			<value>org.dspace.app.cris.model.OrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
@@ -3623,21 +3623,21 @@
 		</property>
 		<property name="components" ref="ouComponents"/>
 	</bean>
-	<bean id="projectDeleteController" class="it.cilea.hku.authority.webui.controller.ProjectDetailsController">
+	<bean id="projectDeleteController" class="org.dspace.app.webui.cris.controller.ProjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
 		<constructor-arg index="0">
-			<value>it.cilea.hku.authority.model.Project</value>
+			<value>org.dspace.app.cris.model.Project</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
@@ -3889,7 +3889,7 @@
 	</bean>
 	
 	<bean id="stringEditor"
-		class="it.cilea.hku.authority.webui.editor.StringPropertyEditor">
+		class="org.dspace.app.webui.cris.editor.StringPropertyEditor">
 		<constructor-arg>
 			<value>java.lang.String</value>
 		</constructor-arg>		
@@ -3905,7 +3905,7 @@
 
 	<bean id="decoratorRPPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3913,7 +3913,7 @@
 	
 	<bean id="decoratorProjectPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3921,7 +3921,7 @@
 
 	<bean id="decoratorOUPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3929,7 +3929,7 @@
 	
 	<bean id="rpTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabResearcherPage</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3937,7 +3937,7 @@
 	
 	<bean id="rpBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3945,7 +3945,7 @@
 
 	<bean id="projectTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3953,7 +3953,7 @@
 	
 	<bean id="projectBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3961,7 +3961,7 @@
 		
 	<bean id="ouTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3969,7 +3969,7 @@
 	
 	<bean id="ouBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -4002,130 +4002,130 @@
    </bean>
 
 	<bean id="tabValidator"
-		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" />
+		class="org.dspace.app.webui.cris.validator.TabValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.TabResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="editTabValidator"
-		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
+		class="org.dspace.app.webui.cris.validator.TabValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="boxValidator"
-		class="it.cilea.hku.authority.webui.validator.BoxValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
+		class="org.dspace.app.webui.cris.validator.BoxValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantTabValidator"
-		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabProject" />
+		class="org.dspace.app.webui.cris.validator.TabValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.TabProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantEditTabValidator"
-		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
+		class="org.dspace.app.webui.cris.validator.TabValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.EditTabProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantBoxValidator"
-		class="it.cilea.hku.authority.webui.validator.BoxValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
+		class="org.dspace.app.webui.cris.validator.BoxValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.BoxProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="ouTabValidator"
-		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit" />
+		class="org.dspace.app.webui.cris.validator.TabValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="ouEditTabValidator"
-		class="it.cilea.hku.authority.webui.validator.TabValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit" />
+		class="org.dspace.app.webui.cris.validator.TabValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="ouBoxValidator"
-		class="it.cilea.hku.authority.webui.validator.BoxValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" />
+		class="org.dspace.app.webui.cris.validator.BoxValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="rpDynamicFieldValidator"
-		class="it.cilea.hku.authority.webui.validator.RPPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
+		class="org.dspace.app.webui.cris.validator.RPPropertiesDefinitionValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>	
 	<bean id="grantDynamicFieldValidator"
-		class="it.cilea.hku.authority.webui.validator.ProjectPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
+		class="org.dspace.app.webui.cris.validator.ProjectPropertiesDefinitionValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>	
 	<bean id="ouDynamicFieldValidator"
-		class="it.cilea.hku.authority.webui.validator.OUPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition" />
+		class="org.dspace.app.webui.cris.validator.OUPropertiesDefinitionValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="rpNestedDynamicFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested" />
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="rpNestedPDFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="grantNestedDynamicFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested" />
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>
 	<bean id="grantNestedPDFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>		
 	<bean id="ouNestedDynamicFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested" />
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="ouNestedPDFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="anagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
-		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage" />
-		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
-		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
-	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition" />
+		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage" />
+		<property name="clazzTab" value="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage" />
+		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" />
+	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition" />
 	</bean>
 	<bean id="grantAnagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
-		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.Project" />
-		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
-		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
-	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition" />
+		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.Project" />
+		<property name="clazzTab" value="org.dspace.app.cris.model.dynamicfield.EditTabProject" />
+		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.dynamicfield.BoxProject" />
+	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition" />
 	</bean>
 	<bean id="ouAnagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
-		<property name="clazzAnagraficaObject" value="it.cilea.hku.authority.model.OrganizationUnit" />
-		<property name="clazzTab" value="it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit" />
-		<property name="clazzPropertyHolder" value="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" />
-	    <property name="clazzTipologiaProprieta" value="it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition" />
+		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.OrganizationUnit" />
+		<property name="clazzTab" value="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit" />
+		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" />
+	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition" />
 	</bean>
 
 	
 	<bean id="researcherPageValidator"
-		class="it.cilea.hku.authority.webui.validator.ResearcherPageValidator">
-		<property name="clazz" value="it.cilea.hku.authority.model.ResearcherPage" />
+		class="org.dspace.app.webui.cris.validator.ResearcherPageValidator">
+		<property name="clazz" value="org.dspace.app.cris.model.ResearcherPage" />
 		<property name="applicationService" ref="applicationService"/>		
 	</bean>
 
-	<bean id="mailValidator" class="it.cilea.hku.authority.webui.validator.MailValidator">
-		<property name="clazz" value="it.cilea.hku.authority.webui.dto.MailDTO" />				
+	<bean id="mailValidator" class="org.dspace.app.webui.cris.validator.MailValidator">
+		<property name="clazz" value="org.dspace.app.webui.cris.dto.MailDTO" />				
 	</bean>
 	
-	<bean id="exportValidator" class="it.cilea.hku.authority.webui.validator.ExportParametersValidator">
-		<property name="clazz" value="it.cilea.hku.authority.webui.dto.ExportParametersDTO" />				
+	<bean id="exportValidator" class="org.dspace.app.webui.cris.validator.ExportParametersValidator">
+		<property name="clazz" value="org.dspace.app.webui.cris.dto.ExportParametersDTO" />				
 	</bean>
 	
 			

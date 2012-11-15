@@ -48,84 +48,84 @@
 		<mapping class="it.cilea.osd.common.core.TimeStampInfo" />
 		<mapping class="it.cilea.osd.common.core.SingleTimeStampInfo" />
 				
-		<mapping class="it.cilea.hku.authority.model.ResearcherPage" />
-		<mapping class="it.cilea.hku.authority.model.Project" />
-		<mapping class="it.cilea.hku.authority.model.OrganizationUnit" />		
-		<mapping class="it.cilea.hku.authority.model.RestrictedField" />
-		<mapping class="it.cilea.hku.authority.model.RestrictedFieldFile" />
-		<mapping class="it.cilea.hku.authority.model.RestrictedFieldLocalOrRemoteFile" />
-		<mapping class="it.cilea.hku.authority.model.RPSubscription" />
+		<mapping class="org.dspace.app.cris.model.ResearcherPage" />
+		<mapping class="org.dspace.app.cris.model.Project" />
+		<mapping class="org.dspace.app.cris.model.OrganizationUnit" />		
+		<mapping class="org.dspace.app.cris.model.RestrictedField" />
+		<mapping class="org.dspace.app.cris.model.RestrictedFieldFile" />
+		<mapping class="org.dspace.app.cris.model.RestrictedFieldLocalOrRemoteFile" />
+		<mapping class="org.dspace.app.cris.model.RPSubscription" />
 
 		<!-- Dynamic field -->
 		
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPProperty" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.RPProperty" />
 		
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectProperty" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectProperty" />
 		
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUProperty" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.OUProperty" />
 		
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPNestedObject" />
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPTypeNestedObject" />
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.RPNestedProperty" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.RPNestedObject" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.RPNestedProperty" />
 		
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectNestedObject" />
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectTypeNestedObject" />
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.ProjectNestedProperty" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectNestedObject" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty" />
 
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUNestedObject" />
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject" />
-		<mapping class="it.cilea.hku.authority.model.dynamicfield.OUNestedProperty" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.OUNestedObject" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject" />
+		<mapping class="org.dspace.app.cris.model.dynamicfield.OUNestedProperty" />
 				
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.RPPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.ProjectPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.OUPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.RPNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.ProjectNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition" />
 					
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.TabResearcherPage" />
+			class="org.dspace.app.cris.model.dynamicfield.TabResearcherPage" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.TabProject" />
+			class="org.dspace.app.cris.model.dynamicfield.TabProject" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit" />
+			class="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.BoxResearcherPage" />
+			class="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.BoxProject" />
+			class="org.dspace.app.cris.model.dynamicfield.BoxProject" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit" />
+			class="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.EditTabResearcherPage" />
+			class="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.EditTabProject" />
+			class="org.dspace.app.cris.model.dynamicfield.EditTabProject" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.EditTabOrganizationUnit" />
+			class="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit" />
 		
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorRPTypeNested" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorProjectTypeNested" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested" />
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested" />
+			class="org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested" />
 		<!-- JDynA mapping -->
 		<mapping class="it.cilea.osd.jdyna.model.ANestedObject" />
 		<mapping class="it.cilea.osd.jdyna.model.NestedObject" />		
@@ -141,13 +141,13 @@
 		<mapping class="it.cilea.osd.jdyna.value.FileValue" />
 			
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.value.RPPointer" />
+			class="org.dspace.app.cris.model.dynamicfield.value.RPPointer" />
 
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.value.ProjectPointer" />
+			class="org.dspace.app.cris.model.dynamicfield.value.ProjectPointer" />
 			
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.value.OUPointer" />	
+			class="org.dspace.app.cris.model.dynamicfield.value.OUPointer" />	
 		
 		
 		<mapping class="it.cilea.osd.jdyna.model.AWidget" />
@@ -164,13 +164,13 @@
 		<mapping class="it.cilea.osd.jdyna.model.Containable" />
 
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileRP" />
+			class="org.dspace.app.cris.model.dynamicfield.widget.WidgetFileRP" />
 
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileProject" />
+			class="org.dspace.app.cris.model.dynamicfield.widget.WidgetFileProject" />
 			
 		<mapping
-			class="it.cilea.hku.authority.model.dynamicfield.widget.WidgetFileOU" />
+			class="org.dspace.app.cris.model.dynamicfield.widget.WidgetFileOU" />
 	</session-factory>
 
 </hibernate-configuration>

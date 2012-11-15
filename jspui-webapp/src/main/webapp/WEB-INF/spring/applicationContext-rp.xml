@@ -14,7 +14,7 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">	
 	<!-- Acquires the DSpace Utility Class with initialized Service Manager -->
-    <bean id="researcher" class="it.cilea.hku.authority.util.Researcher"/>
+    <bean id="researcher" class="org.dspace.app.cris.util.Researcher"/>
             
     <!-- Acquires reference to RP applicationService --> 
     <bean id="applicationService" factory-bean="researcher" factory-method="getApplicationService" />
@@ -28,15 +28,15 @@
 	
 	<bean id="sessionFactory" factory-bean="researcher" factory-method="getSessionFactory"/>
 	
-	<bean id="researcherTagLibraryService" class="it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions">
+	<bean id="researcherTagLibraryService" class="org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions">
 		<property name="applicationService" ref="applicationService"/>
 	</bean>
 
-	<bean id="researcherPageUtils" class="it.cilea.hku.authority.util.ResearcherPageUtils">
+	<bean id="researcherPageUtils" class="org.dspace.app.cris.util.ResearcherPageUtils">
 		<constructor-arg ref="applicationService" />
 	</bean>
 
-	<bean id="validatorService" class="it.cilea.hku.authority.webui.validator.ExtendedValidatorService">
+	<bean id="validatorService" class="org.dspace.app.webui.cris.validator.ExtendedValidatorService">
 		<constructor-arg ref="applicationService" />
 	</bean>
 </beans>

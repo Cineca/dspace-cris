@@ -7,20 +7,21 @@
  */
 package org.dspace.app.webui.cris.json;
 
-import it.cilea.hku.authority.model.OrganizationUnit;
-import it.cilea.hku.authority.model.dynamicfield.BoxOrganizationUnit;
-import it.cilea.hku.authority.model.dynamicfield.DecoratorOUPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.DecoratorOUTypeNested;
-import it.cilea.hku.authority.model.dynamicfield.OUNestedObject;
-import it.cilea.hku.authority.model.dynamicfield.OUNestedPropertiesDefinition;
-import it.cilea.hku.authority.model.dynamicfield.OUNestedProperty;
-import it.cilea.hku.authority.model.dynamicfield.OUTypeNestedObject;
-import it.cilea.hku.authority.model.dynamicfield.TabOrganizationUnit;
-import it.cilea.hku.authority.webui.web.tag.ResearcherTagLibraryFunctions;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.web.controller.json.AjaxJSONNavigationController;
 
 import java.util.List;
+
+import org.dspace.app.cris.model.OrganizationUnit;
+import org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit;
+import org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition;
+import org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested;
+import org.dspace.app.cris.model.dynamicfield.OUNestedObject;
+import org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition;
+import org.dspace.app.cris.model.dynamicfield.OUNestedProperty;
+import org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject;
+import org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit;
+import org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions;
 
 public class OUNavigationController
         extends
