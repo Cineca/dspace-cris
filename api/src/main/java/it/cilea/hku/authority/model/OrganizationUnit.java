@@ -208,12 +208,7 @@ public class OrganizationUnit extends
         return CrisConstants.OU_TYPE_ID;
     }
     
-    @Override
-    public int getEntityType(Map<String, Integer> map)
-    {
-        return getType();
-    }
-
+   
     @Override
     public String getAuthorityPrefix()
     {

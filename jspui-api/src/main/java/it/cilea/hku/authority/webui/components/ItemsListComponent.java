@@ -43,24 +43,7 @@ public class ItemsListComponent extends ASolrConfigurerComponent<Item>
 
 
 
-    @Override
-    public String getAuthority(HttpServletRequest request)
-    {
-        String result = (String) request.getAttribute("authority");
-        if(StringUtils.isEmpty(result)) {
-            Integer entityID = Integer.parseInt(String.valueOf(request.getAttribute("entityID")));
-            return getAuthority(entityID);
-        }
-        return result;
-    }
 
-
-
-    @Override
-    public String getAuthority(Integer id)
-    {      
-        return ResearcherPageUtils.getPersistentIdentifier(id, getTarget());
-    }
 
   
 

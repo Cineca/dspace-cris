@@ -7,10 +7,6 @@
  */
 package it.cilea.hku.authority.webui.components;
 
-import it.cilea.hku.authority.webui.dto.ComponentInfoDTO;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.dspace.browse.BrowsableDSpaceObject;
 import org.dspace.browse.BrowseDSpaceObject;
@@ -18,7 +14,6 @@ import org.dspace.browse.BrowseItem;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
 import org.dspace.discovery.DiscoverResult;
-import org.dspace.sort.SortOption;
 
 public class BrowseItemListComponent extends
         ASolrConfigurerComponent<BrowseItem>
@@ -42,17 +37,5 @@ public class BrowseItemListComponent extends
         return result;
     }
 
-    @Override
-    public String getAuthority(HttpServletRequest request)
-    {
-        return String.valueOf(request.getAttribute("entityID"));
-
-    }
-
-    @Override
-    public String getAuthority(Integer id)
-    {
-        return String.valueOf(id);
-    }
   
 }

@@ -16,6 +16,7 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
+<%@page import="it.cilea.osd.jdyna.widget.Size"%>
 <%@ taglib uri="jdynatags" prefix="dyna" %>
 
 <dspace:layout locbar="link" navbar="admin"
@@ -125,21 +126,16 @@ The contents of this file are subject to the license and copyright
 		<div class="dynaClear">
 			&nbsp;
 		</div>
-		
-
-		
+				
 		<dyna:boolean propertyPath="propertiesdefinition.real.mandatory"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.mandatory" helpKey="help.jdyna.message.mandatory"/>
 		
 		<div class="dynaClear">
 			&nbsp
 		</div>
-					
-		
+				
 		</c:if>
-		
-		
-		
+				
 		<dyna:boolean propertyPath="propertiesdefinition.real.repeatable"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.repeatable" helpKey="help.jdyna.message.repeatable"/>
 		<div class="dynaClear">
@@ -161,18 +157,40 @@ The contents of this file are subject to the license and copyright
 		
 		<dyna:text propertyPath="propertiesdefinition.real.labelMinSize"  helpKey="help.jdyna.message.labelMinSize"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.labelMinSize" size="5" visibility="false"/>
+		<spring:bind path="real.labelMinSizeUnit">				
+		<select name="${status.expression}">
+				<% for(String size : Size.getMeasurementUnits()) { %>
+					<option <% if(status.getValue() != null && size.equals(status.getValue())) {%>" selected="selected" <% } %> value="<%=size%>"> <%=size%></option>	
+				<% } %>
+		</select>			
+		</spring:bind>	
 		<div class="dynaClear">
 			&nbsp;
 		</div>		
 						
 		<dyna:text propertyPath="propertiesdefinition.real.fieldMinSize.col"  helpKey="help.jdyna.message.fieldminsize.col"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.fieldminsize.col" size="5" visibility="false"/>
+		
+		<spring:bind path="real.fieldMinSize.measurementUnitCol">				
+		<select name="${status.expression}">
+				<% for(String size : Size.getMeasurementUnits()) { %>
+					<option <% if(status.getValue() != null && size.equals(status.getValue())) {%>" selected="selected" <% } %> value="<%=size%>"> <%=size%></option>	
+				<% } %>
+		</select>			
+		</spring:bind>	
 		<div class="dynaClear">
 			&nbsp;
 		</div>
 		
 		<dyna:text propertyPath="propertiesdefinition.real.fieldMinSize.row"  helpKey="help.jdyna.message.fieldminsize.row"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.fieldminsize.row" size="5" visibility="false"/>
+		<spring:bind path="real.fieldMinSize.measurementUnitRow">				
+		<select name="${status.expression}">
+				<% for(String size : Size.getMeasurementUnits()) { %>
+					<option <% if(status.getValue() != null && size.equals(status.getValue())) {%>" selected="selected" <% } %> value="<%=size%>"> <%=size%></option>	
+				<% } %>
+		</select>			
+		</spring:bind>	
 		<div class="dynaClear">
 			&nbsp;
 		</div>				

@@ -9,6 +9,7 @@ package it.cilea.hku.authority.webui.components;
 
 import it.cilea.hku.authority.discovery.CrisSearchService;
 import it.cilea.hku.authority.model.ACrisObject;
+import it.cilea.hku.authority.util.ResearcherPageUtils;
 import it.cilea.hku.authority.webui.dto.ComponentInfoDTO;
 import it.cilea.osd.jdyna.components.IBeanComponent;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeManager;
@@ -400,9 +402,7 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         return -1;
     }
     
-
-    
-    
+  
 
     public String getComponentIdentifier()
     {
@@ -423,9 +423,21 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
     {
         this.objectType = objectType;
     }
-
-    public abstract String getAuthority(HttpServletRequest request);
-    public abstract String getAuthority(Integer id);
+    
+    public String getAuthority(HttpServletRequest request)
+    {
+        String result = (String) request.getAttribute("authority");
+        if(StringUtils.isEmpty(result)) {
+            Integer entityID = Integer.parseInt(String.valueOf(request.getAttribute("entityID")));
+            return getAuthority(entityID);
+        }
+        return result;
+    }
+    
+    public String getAuthority(Integer id)
+    {      
+        return ResearcherPageUtils.getPersistentIdentifier(id, getTarget());
+    }
     
     @Override
     public void setShortName(String shortName)

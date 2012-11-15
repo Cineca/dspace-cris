@@ -84,14 +84,13 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
 
     public Investigator getInvestigator()
     {        
-        Investigator investigator = new Investigator();
-        Researcher researcher = new Researcher(); 
-        List<String> metadata = getMetadata("principalinvestigator");
+        Investigator investigator = new Investigator();         
+        List<ProjectProperty> metadata = getAnagrafica4view().get("principalinvestigator");
         
-        String s = "";
+        ProjectProperty prop = null;
         if(metadata!=null && !metadata.isEmpty()) {
-            s = metadata.get(0);
-            investigator.setIntInvestigator(researcher.getApplicationService().get(ResearcherPage.class, Integer.parseInt(s)));
+            prop = metadata.get(0);
+            investigator.setIntInvestigator((ResearcherPage)prop.getValue().getObject());
         }
         return investigator;
         
@@ -100,10 +99,9 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     public List<Investigator> getCoInvestigators()
     {     
         List<Investigator> result = new LinkedList<Investigator>();
-        for(String ss : getMetadata("coinvestigators")) {
-            Investigator investigator = new Investigator();
-            Researcher researcher = new Researcher(); 
-            investigator.setIntInvestigator(researcher.getApplicationService().get(ResearcherPage.class, Integer.parseInt(ss)));
+        for(ProjectProperty prop : getAnagrafica4view().get("coinvestigators")) {
+            Investigator investigator = new Investigator();            
+            investigator.setIntInvestigator((ResearcherPage)prop.getValue().getObject());
             result.add(investigator);
         }
         return result;
@@ -392,13 +390,7 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     public int getType() {
     	return CrisConstants.PROJECT_TYPE_ID;
     }
-    
-    @Override
-    public int getEntityType(Map<String, Integer> map)
-    {
-        return getType();
-    }
-
+ 
     @Override
     public String getAuthorityPrefix()
     {

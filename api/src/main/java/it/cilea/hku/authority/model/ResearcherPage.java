@@ -688,12 +688,7 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
             return getFullName();
     }
 
-    @Override
-    public int getEntityType(Map<String, Integer> map)
-    {
-        return getType();
-    }
-
+   
     @Override
     public String getAuthorityPrefix()
     {

@@ -253,7 +253,7 @@ The contents of this file are subject to the license and copyright
 							value="true" type="hidden" />
 						<c:set var="checked" value="false" />
 					
-						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}]</form:label>
+						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}][<fmt:message key="jsp.layout.hku.label.propertiesdefinition.priority"/>:${boxed.priority}]</form:label>
 
 						<input class="jdynacontainable" type="checkbox"	value="${optionToCompare}" checked="checked" id="mask_${boxed.id}" name="mask" />
 					</spring:bind>
@@ -302,7 +302,7 @@ The contents of this file are subject to the license and copyright
 							value="true" type="hidden" />
 						<c:set var="checked" value="false" />
 					
-						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}]</form:label>
+						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}][<fmt:message key="jsp.layout.hku.label.propertiesdefinition.priority"/>:${boxed.priority}]</form:label>
 
 						<input class="jdynacontainable" type="checkbox"	value="${optionToCompare}" checked="checked" id="mask_${boxed.id}" name="mask" />
 					</spring:bind>
@@ -383,7 +383,7 @@ The contents of this file are subject to the license and copyright
 							value="true" type="hidden" />
 						<c:set var="checked" value="false" />
 					
-						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}]</form:label>
+						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}][<fmt:message key="jsp.layout.hku.label.propertiesdefinition.priority"/>:${boxed.priority}]</form:label>
 
 						<input class="jdynacontainable" type="checkbox"	value="${boxed.id}" id="mask_${boxed.id}" name="mask" />
 					</spring:bind>
@@ -439,7 +439,7 @@ The contents of this file are subject to the license and copyright
 							value="true" type="hidden" />
 						<c:set var="checked" value="false" />
 					
-						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}]</form:label>
+						<form:label path="mask" for="mask">${boxed.label} [${boxed.shortName}][<fmt:message key="jsp.layout.hku.label.propertiesdefinition.priority"/>:${boxed.priority}]</form:label>
 
 						<input class="jdynacontainable" type="checkbox"	value="${boxed.id}" id="mask_${boxed.id}" name="mask" />
 					</spring:bind>

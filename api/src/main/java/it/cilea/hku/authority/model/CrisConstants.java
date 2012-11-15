@@ -24,11 +24,11 @@ public class CrisConstants {
 	public static Map<String, String> authorityPrefixMap = new HashMap<String, String>();
 	
 	public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> Integer getEntityType(T crisObject) {
-	    return crisObject.getEntityType(otherTypeMap);
+	    return crisObject.getType();
 	}
 	
 	public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getAuthorityPrefix(T crisObject) {
-        return crisObject.getAuthorityPrefix(authorityPrefixMap);
+        return crisObject.getAuthorityPrefix();
     }
 
   

@@ -76,8 +76,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         return sourceID;
     }
 
-    public abstract String getPublicPath();
-    public abstract int getEntityType(Map<String,Integer> map);
+    public abstract String getPublicPath();    
     public abstract String getAuthorityPrefix();
 
     @Override

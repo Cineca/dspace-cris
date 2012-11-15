@@ -272,7 +272,14 @@ The contents of this file are subject to the license and copyright
 		</p>	
 	</c:if>
 
-
+	<c:if test="${not empty messages}">
+	<div class="message" id="successMessages"><c:forEach var="msg"
+		items="${messages}">
+		<div id="authority-message">${msg}</div>
+	</c:forEach></div>
+	<c:remove var="messages" scope="session" />
+	</c:if>
+	
 		<div id="researcher">
 		  	<c:if test="${researcher_page_menu && !empty researcher}">
 				<c:if test="${!empty addModeType && addModeType=='display'}">

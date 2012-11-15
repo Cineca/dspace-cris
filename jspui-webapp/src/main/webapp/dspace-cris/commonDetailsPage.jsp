@@ -15,13 +15,7 @@ The contents of this file are subject to the license and copyright
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 <%@ taglib uri="researchertags" prefix="researcher"%>
-<c:if test="${not empty messages}">
-	<div class="message" id="successMessages"><c:forEach var="msg"
-		items="${messages}">
-		<div id="authority-message">${msg}</div>
-	</c:forEach></div>
-	<c:remove var="messages" scope="session" />
-	</c:if>
+	
 	<div id="tabs">
 		<ul>
 					<c:forEach items="${tabList}" var="area" varStatus="rowCounter">

@@ -297,18 +297,39 @@ The contents of this file are subject to the license and copyright
 				
 		<dyna:text propertyPath="real.mask[${i.count - 1}].labelMinSize"  helpKey="help.jdyna.message.labelMinSize"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.labelMinSize" size="5" visibility="false"/>
+		<spring:bind path="real.mask[${i.count - 1}].labelMinSizeUnit">				
+		<select name="${status.expression}">
+				<% for(String size : Size.getMeasurementUnits()) { %>
+					<option <% if(status.getValue() != null && size.equals(status.getValue())) {%>" selected="selected" <% } %> value="<%=size%>"> <%=size%></option>	
+				<% } %>
+		</select>			
+		</spring:bind>	
 		<div class="dynaClear">
 			&nbsp;
 		</div>		
 						
 		<dyna:text propertyPath="real.mask[${i.count - 1}].fieldMinSize.col"  helpKey="help.jdyna.message.fieldminsize.col"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.fieldminsize.col" size="5" visibility="false"/>
+		<spring:bind path="real.mask[${i.count - 1}].fieldMinSize.measurementUnitCol">				
+		<select name="${status.expression}">
+				<% for(String size : Size.getMeasurementUnits()) { %>
+					<option <% if(status.getValue() != null && size.equals(status.getValue())) {%>" selected="selected" <% } %> value="<%=size%>"> <%=size%></option>	
+				<% } %>
+		</select>			
+		</spring:bind>	
 		<div class="dynaClear">
 			&nbsp;
 		</div>
 		
 		<dyna:text propertyPath="real.mask[${i.count - 1}].fieldMinSize.row"  helpKey="help.jdyna.message.fieldminsize.row"
 				labelKey="jsp.layout.hku.label.propertiesdefinition.fieldminsize.row" size="5" visibility="false"/>
+		<spring:bind path="real.mask[${i.count - 1}].fieldMinSize.measurementUnitRow">				
+		<select name="${status.expression}">
+				<% for(String size : Size.getMeasurementUnits()) { %>
+					<option <% if(status.getValue() != null && size.equals(status.getValue())) {%>" selected="selected" <% } %> value="<%=size%>"> <%=size%></option>	
+				<% } %>
+		</select>			
+		</spring:bind>	
 		<div class="dynaClear">
 			&nbsp;
 		</div>		
