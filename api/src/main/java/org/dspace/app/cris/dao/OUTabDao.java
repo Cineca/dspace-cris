@@ -7,8 +7,8 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit;
-import org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit;
+import org.dspace.app.cris.model.jdyna.BoxOrganizationUnit;
+import org.dspace.app.cris.model.jdyna.TabOrganizationUnit;
 
 import it.cilea.osd.jdyna.dao.TabDao;
 

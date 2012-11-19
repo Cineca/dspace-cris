@@ -13,7 +13,7 @@ import it.cilea.osd.jdyna.service.ValidatorService.ValidationResult;
 
 import java.util.List;
 
-import org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition;
 import org.springframework.validation.Errors;
 
 public class RPPropertiesDefinitionValidator extends BaseValidator {

@@ -12,7 +12,7 @@ import it.cilea.osd.jdyna.components.IComponent;
 import java.util.Map;
 
 import org.dspace.app.cris.discovery.CrisSearchService;
-import org.dspace.app.cris.dspace.CrisComponentsService;
+import org.dspace.app.cris.integration.CrisComponentsService;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.utils.DSpace;
 import org.hibernate.SessionFactory;

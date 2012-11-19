@@ -34,10 +34,10 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
-import org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage;
-import org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.RPProperty;
 import org.dspace.app.cris.model.export.ExportConstants;
+import org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage;
+import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.RPProperty;
 import org.dspace.app.cris.model.listener.RPListener;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.core.Context;

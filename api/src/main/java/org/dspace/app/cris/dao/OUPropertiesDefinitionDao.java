@@ -9,6 +9,6 @@ package org.dspace.app.cris.dao;
 
 import it.cilea.osd.jdyna.dao.PropertiesDefinitionDao;
 
-public interface OUPropertiesDefinitionDao extends PropertiesDefinitionDao<org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition> {
+public interface OUPropertiesDefinitionDao extends PropertiesDefinitionDao<org.dspace.app.cris.model.jdyna.OUPropertiesDefinition> {
 
 }

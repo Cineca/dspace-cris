@@ -13,14 +13,14 @@ import it.cilea.osd.jdyna.web.controller.json.AjaxJSONNavigationController;
 import java.util.List;
 
 import org.dspace.app.cris.model.Project;
-import org.dspace.app.cris.model.dynamicfield.BoxProject;
-import org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested;
-import org.dspace.app.cris.model.dynamicfield.ProjectNestedObject;
-import org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty;
-import org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject;
-import org.dspace.app.cris.model.dynamicfield.TabProject;
+import org.dspace.app.cris.model.jdyna.BoxProject;
+import org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested;
+import org.dspace.app.cris.model.jdyna.ProjectNestedObject;
+import org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.ProjectNestedProperty;
+import org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject;
+import org.dspace.app.cris.model.jdyna.TabProject;
 import org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions;
 
 public class ProjectNavigationController

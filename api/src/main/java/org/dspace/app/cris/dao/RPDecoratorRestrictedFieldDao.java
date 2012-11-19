@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.DecoratorRestrictedField;
+import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
 
 import it.cilea.osd.jdyna.dao.ContainableDao;
 

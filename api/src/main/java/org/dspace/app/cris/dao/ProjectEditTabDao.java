@@ -7,9 +7,9 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.BoxProject;
-import org.dspace.app.cris.model.dynamicfield.EditTabProject;
-import org.dspace.app.cris.model.dynamicfield.TabProject;
+import org.dspace.app.cris.model.jdyna.BoxProject;
+import org.dspace.app.cris.model.jdyna.EditTabProject;
+import org.dspace.app.cris.model.jdyna.TabProject;
 
 import it.cilea.osd.jdyna.dao.EditTabDao;
 

@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.BoxResearcherPage;
+import org.dspace.app.cris.model.jdyna.BoxResearcherPage;
 
 import it.cilea.osd.jdyna.dao.PropertyHolderDao;
 

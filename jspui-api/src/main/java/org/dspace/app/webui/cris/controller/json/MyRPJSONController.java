@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.RestrictedField;
-import org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.RPProperty;
-import org.dspace.app.cris.model.dynamicfield.VisibilityTabConstant;
+import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.RPProperty;
+import org.dspace.app.cris.model.jdyna.VisibilityTabConstant;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.app.webui.util.UIUtil;

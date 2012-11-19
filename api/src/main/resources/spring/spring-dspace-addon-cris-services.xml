@@ -46,87 +46,87 @@
 					<ref bean="organizationUnitDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage">
+					key="org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage">
 					<ref bean="rpAdditionalDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.ProjectAdditionalFieldStorage">
+					key="org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage">
 					<ref bean="projectAdditionalDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.OUAdditionalFieldStorage">
+					key="org.dspace.app.cris.model.jdyna.OUAdditionalFieldStorage">
 					<ref bean="ouAdditionalDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.RPPropertiesDefinition">
 					<ref bean="rpPropertiesDefinitionDao" />
 				</entry>
 				<entry				         
-					key="org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition">
 					<ref bean="rpNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition">
 					<ref bean="grantPropertiesDefinitionDao" />
 				</entry>
 				<entry				         
-					key="org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition">
 					<ref bean="projectNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.OUPropertiesDefinition">
 					<ref bean="ouPropertiesDefinitionDao" />
 				</entry>
 				<entry				         
-					key="org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition">
 					<ref bean="ouNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition">
 					<ref bean="rpDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition">
 					<ref bean="grantDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition">
 					<ref bean="ouDecoratorPropertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition">
 					<ref bean="rpDecoratorNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry				                  
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition">
 					<ref bean="projectDecoratorNestedPropertiesDefinitionDao" />
 				</entry>
 				<entry				                  
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition">
+					key="org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition">
 					<ref bean="ouDecoratorNestedPropertiesDefinitionDao" />
 				</entry>				
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject">
+					key="org.dspace.app.cris.model.jdyna.RPTypeNestedObject">
 					<ref bean="rpTypeDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject">
+					key="org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject">
 					<ref bean="projectTypeDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject">
+					key="org.dspace.app.cris.model.jdyna.OUTypeNestedObject">
 					<ref bean="ouTypeDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested">
+					key="org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested">
 					<ref bean="rpDecoratorTypeNestedDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested">
+					key="org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested">
 					<ref bean="projectDecoratorTypeNestedDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested">
+					key="org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested">
 					<ref bean="ouDecoratorTypeNestedDao" />
 				</entry>
 				<entry
@@ -136,70 +136,70 @@
 				<entry key="it.cilea.osd.jdyna.model.Property">
 					<ref bean="propertyDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.RPProperty">
+				<entry key="org.dspace.app.cris.model.jdyna.RPProperty">
 					<ref bean="rpPropertyDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.ProjectProperty">
+				<entry key="org.dspace.app.cris.model.jdyna.ProjectProperty">
 					<ref bean="grantPropertyDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.OUProperty">
+				<entry key="org.dspace.app.cris.model.jdyna.OUProperty">
 					<ref bean="ouPropertyDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.RPNestedProperty">
+				<entry key="org.dspace.app.cris.model.jdyna.RPNestedProperty">
 					<ref bean="rpNestedPropertyDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty">
+				<entry key="org.dspace.app.cris.model.jdyna.ProjectNestedProperty">
 					<ref bean="projectNestedPropertyDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.OUNestedProperty">
+				<entry key="org.dspace.app.cris.model.jdyna.OUNestedProperty">
 					<ref bean="ouNestedPropertyDao" />
 				</entry>												
-				<entry key="org.dspace.app.cris.model.dynamicfield.RPNestedObject">
+				<entry key="org.dspace.app.cris.model.jdyna.RPNestedObject">
 					<ref bean="rpNestedObjectDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.ProjectNestedObject">
+				<entry key="org.dspace.app.cris.model.jdyna.ProjectNestedObject">
 					<ref bean="projectNestedObjectDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.dynamicfield.OUNestedObject">
+				<entry key="org.dspace.app.cris.model.jdyna.OUNestedObject">
 					<ref bean="ouNestedObjectDao" />
 				</entry>
 				<entry key="it.cilea.osd.jdyna.model.PropertiesDefinition">
 					<ref bean="propertiesDefinitionDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.TabResearcherPage">
+					key="org.dspace.app.cris.model.jdyna.TabResearcherPage">
 					<ref bean="rpTabDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.TabProject">
+					key="org.dspace.app.cris.model.jdyna.TabProject">
 					<ref bean="grantTabDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit">
+					key="org.dspace.app.cris.model.jdyna.TabOrganizationUnit">
 					<ref bean="ouTabDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage">
+					key="org.dspace.app.cris.model.jdyna.BoxResearcherPage">
 					<ref bean="rpBoxDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.BoxProject">
+					key="org.dspace.app.cris.model.jdyna.BoxProject">
 					<ref bean="grantBoxDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit">
+					key="org.dspace.app.cris.model.jdyna.BoxOrganizationUnit">
 					<ref bean="ouBoxDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage">
+					key="org.dspace.app.cris.model.jdyna.EditTabResearcherPage">
 					<ref bean="rpEditTabDao" />
 				</entry>
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.EditTabProject">
+					key="org.dspace.app.cris.model.jdyna.EditTabProject">
 					<ref bean="grantEditTabDao" />
 				</entry>				
 				<entry
-					key="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit">
+					key="org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit">
 					<ref bean="ouEditTabDao" />
 				</entry>						
 				<entry key="it.cilea.osd.jdyna.widget.WidgetTesto">
@@ -314,7 +314,7 @@
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage</value>
+					<value>org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -328,7 +328,7 @@
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>org.dspace.app.cris.model.dynamicfield.ProjectAdditionalFieldStorage</value>
+					<value>org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -341,7 +341,7 @@
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>org.dspace.app.cris.model.dynamicfield.OUAdditionalFieldStorage</value>
+					<value>org.dspace.app.cris.model.jdyna.OUAdditionalFieldStorage</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -477,7 +477,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.RPProperty
+						org.dspace.app.cris.model.jdyna.RPProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -494,7 +494,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.ProjectProperty
+						org.dspace.app.cris.model.jdyna.ProjectProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -511,7 +511,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.OUProperty
+						org.dspace.app.cris.model.jdyna.OUProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -528,7 +528,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.RPNestedProperty
+						org.dspace.app.cris.model.jdyna.RPNestedProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -545,7 +545,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty
+						org.dspace.app.cris.model.jdyna.ProjectNestedProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -563,7 +563,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.OUNestedProperty
+						org.dspace.app.cris.model.jdyna.OUNestedProperty
 					</value>
 				</constructor-arg>
 			</bean>
@@ -597,7 +597,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.RPNestedObject
+						org.dspace.app.cris.model.jdyna.RPNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -614,7 +614,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.ProjectNestedObject
+						org.dspace.app.cris.model.jdyna.ProjectNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -631,7 +631,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.OUNestedObject
+						org.dspace.app.cris.model.jdyna.OUNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -648,7 +648,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -665,7 +665,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -682,7 +682,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -700,7 +700,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -718,7 +718,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -736,7 +736,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -785,7 +785,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+						org.dspace.app.cris.model.jdyna.TabResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -800,7 +800,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.TabProject
+						org.dspace.app.cris.model.jdyna.TabProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -815,7 +815,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
+						org.dspace.app.cris.model.jdyna.TabOrganizationUnit
 					</value>
 				</constructor-arg>
 			</bean>
@@ -830,7 +830,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+						org.dspace.app.cris.model.jdyna.BoxResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -844,7 +844,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.BoxProject
+						org.dspace.app.cris.model.jdyna.BoxProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -858,7 +858,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+						org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 					</value>
 				</constructor-arg>
 			</bean>
@@ -872,7 +872,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+						org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 					</value>
 				</constructor-arg>
 			</bean>
@@ -886,7 +886,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.EditTabProject
+						org.dspace.app.cris.model.jdyna.EditTabProject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -900,7 +900,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
+						org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit
 					</value>
 				</constructor-arg>
 			</bean>
@@ -916,7 +916,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -933,7 +933,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -950,7 +950,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -967,7 +967,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -984,7 +984,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1001,7 +1001,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+						org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1049,7 +1049,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject
+						org.dspace.app.cris.model.jdyna.RPTypeNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1066,7 +1066,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject
+						org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1083,7 +1083,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject
+						org.dspace.app.cris.model.jdyna.OUTypeNestedObject
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1100,7 +1100,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested
+						org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1117,7 +1117,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested
+						org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1134,7 +1134,7 @@
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
 					<value>
-						org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested
+						org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested
 					</value>
 				</constructor-arg>
 			</bean>

@@ -36,7 +36,104 @@ The contents of this file are subject to the license and copyright
 
 <c:set var="disabledfield" value=" disabled=\"disabled\" "></c:set>
 
+<script type="text/javascript"><!--
 
+		var j = jQuery.noConflict();
+    	
+		j(document).ready(function()
+		{
+			activePointer();
+		});
+
+		
+		function updateSelectedPointer( id, count, repeatable, displayvalue, identifiervalue ) {
+			if(identifiervalue!=null) {
+            	if (!repeatable){
+            		j("#pointer_"+id+"_selected").html(' ');
+            		count = 0;
+            	}
+				var div = j('<div id="pointer_'+id+'_selected_'+count+'" class="jdyna-pointer-value">');
+            	var img = j('<img class="jdyna-icon jdyna-action-icon jdyna-delete-button" src="<%= request.getContextPath() %>/image/jdyna/delete_icon.gif">');
+				var path = j('#pointer_'+id+'_path').html();
+				var input = j( "<input type='hidden' id='"+path+"["+count+"]"+"' name='"+path+"["+count+"]"+"'>" ).val(identifiervalue);
+            	var display = j("<span>").text(displayvalue);
+            	var selectedDiv = j("#pointer_"+id+"_selected");
+            	selectedDiv.append(div);
+            	div.append(input);
+            	div.append(display);
+            	div.append("&nbsp;")
+            	div.append(img);
+            	div.effect('highlight');
+            	j('#pointer_'+id+'_tot').html(count+1);
+            	img.click(function(){
+                	if (!repeatable){
+                		selectedDiv.html(' ');
+                		var _input = j( "<input type='hidden' id='_"+path+"[0]"+"' name='_"+path+"[0]"+"'>" ).val('true');
+                		selectedDiv.append(_input);
+                	}
+                	else
+                	{
+                		j('#pointer_'+id+'_selected_'+count).remove();
+                	}
+            	});
+            	if (!repeatable){
+            		var _input = j( "<input type='hidden' id='_"+path+"[0]"+"' name='_"+path+"[0]"+"'>" ).val('true');
+            		selectedDiv.append(_input);
+            	}            	
+			}
+        }
+		
+		var activePointer = function() {
+					 			
+			 j(".pointerinfo").each(function(){
+				 var id = j(this).html();
+				 j('#pointer_'+id+'_selected div img').click(
+						 function(){
+					j(this).parent().remove();		 
+				 });
+				 var repeatable = j('#pointer_'+id+'_repeatable').html() == 'true';
+				 j("#searchboxpointer_"+id).autocomplete({
+					delay: 500,
+		            source: function( request, response ) {	
+		                j.ajax({
+		                    url: "searchPointer.htm",
+		                    dataType: "json", 
+		                    data : {																			
+								"elementID" : id,								
+								"query":  request.term						
+							},                  
+		                    success: function( data ) {
+		                        response( j.map( data.pointers, function( item ) {
+		                            return {
+		                                label: item.display,
+		                                value: item.id
+		                            }
+		                        }));
+		                    }
+		                });
+		            },		            
+		            minLength: 2,
+		            select: function( event, ui ) {
+		            	if (ui == null || ui.item == null) return false;
+		            	updateSelectedPointer( id, j('#pointer_'+id+'_tot').html(), repeatable, 
+		                		ui.item.label, ui.item.value);
+		            	j('#searchboxpointer_'+id).val('');
+		            	return false;
+		            },
+		            open: function() {
+		                j( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+		            },
+		            close: function() {
+		                j( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+		            }
+		        });
+		});
+
+	}
+		
+       
+		-->
+	</script>
 <form:form commandName="nesteddto" id="nested_edit_form"
 	action="" method="post" enctype="multipart/form-data">
 	<%-- if you need to display all errors (both global and all field errors,

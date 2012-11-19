@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.dspace.app.cris.model.ResearcherPage;
-import org.dspace.app.cris.model.dynamicfield.DecoratorRestrictedField;
-import org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
+import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.core.ConfigurationManager;
 
 public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTab<H>, T extends AbstractEditTab<H, D>>

@@ -13,14 +13,14 @@ import it.cilea.osd.jdyna.web.controller.json.AjaxJSONNavigationController;
 import java.util.List;
 
 import org.dspace.app.cris.model.OrganizationUnit;
-import org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit;
-import org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested;
-import org.dspace.app.cris.model.dynamicfield.OUNestedObject;
-import org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.OUNestedProperty;
-import org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject;
-import org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit;
+import org.dspace.app.cris.model.jdyna.BoxOrganizationUnit;
+import org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested;
+import org.dspace.app.cris.model.jdyna.OUNestedObject;
+import org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.OUNestedProperty;
+import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
+import org.dspace.app.cris.model.jdyna.TabOrganizationUnit;
 import org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions;
 
 public class OUNavigationController

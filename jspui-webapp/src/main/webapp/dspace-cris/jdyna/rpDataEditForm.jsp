@@ -24,7 +24,7 @@ The contents of this file are subject to the license and copyright
 <%@page
 	import="it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition"%>
 <%@page
-	import="it.cilea.hku.authority.model.dynamicfield.DecoratorRestrictedField"%>
+	import="org.dspace.app.cris.model.jdyna.DecoratorRestrictedField"%>
 	
 <%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@page import="java.net.URL"%>

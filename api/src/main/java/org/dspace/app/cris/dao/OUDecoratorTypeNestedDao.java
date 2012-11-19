@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested;
+import org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested;
 
 import it.cilea.osd.jdyna.dao.ContainableDao;
 

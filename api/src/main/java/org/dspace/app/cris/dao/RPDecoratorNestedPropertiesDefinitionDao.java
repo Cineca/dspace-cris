@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition;
 
 import it.cilea.osd.jdyna.dao.ContainableDao;
 

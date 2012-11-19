@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.cris.model.OrganizationUnit;
-import org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.OUProperty;
+import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.OUProperty;
 import org.dspace.app.webui.cris.dto.OrganizationUnitDTO;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;

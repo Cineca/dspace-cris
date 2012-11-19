@@ -5,8 +5,6 @@ The contents of this file are subject to the license and copyright
  
  https://github.com/CILEA/dspace-cris/wiki/License
 --%>
-
-<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -16,6 +14,9 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
+<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
+<%@page import="it.cilea.osd.jdyna.widget.Size"%>
+
 <%@ taglib uri="jdynatags" prefix="dyna" %>
 
 <dspace:layout locbar="link" navbar="admin"
@@ -174,9 +175,13 @@ The contents of this file are subject to the license and copyright
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addlinknesteddynamicfield" />" />
 						<input type="submit" name="file"
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addfilenesteddynamicfield" />" />	
-						<input type="submit" name="pointer"
-							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addpointernesteddynamicfield" />" />							
-
+						<input type="submit" name="pointerrp"
+							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addrppointernesteddynamicfield" />" />							
+						<input type="submit" name="pointerpj"
+							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addpjpointernesteddynamicfield" />" />
+						<input type="submit" name="pointerou"
+							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addoupointernesteddynamicfield" />" />
+							
 						<c:forEach
 							items="${propertiesdefinition.real.mask}"
 							var="subtypo" varStatus="i">

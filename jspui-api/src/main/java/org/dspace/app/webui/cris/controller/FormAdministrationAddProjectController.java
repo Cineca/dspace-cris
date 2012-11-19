@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.cris.model.Project;
-import org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.ProjectProperty;
+import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.ProjectProperty;
 import org.dspace.app.webui.cris.dto.ProjectDTO;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;

@@ -9,6 +9,6 @@ package org.dspace.app.cris.dao;
 
 import it.cilea.osd.jdyna.dao.PropertiesDefinitionDao;
 
-public interface RPNestedPropertiesDefinitionDao extends PropertiesDefinitionDao<org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition> {
+public interface RPNestedPropertiesDefinitionDao extends PropertiesDefinitionDao<org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition> {
 
 }

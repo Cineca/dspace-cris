@@ -27,10 +27,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.dspace.app.cris.model.dynamicfield.ProjectAdditionalFieldStorage;
-import org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.ProjectProperty;
 import org.dspace.app.cris.model.export.ExportConstants;
+import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
+import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.ProjectProperty;
 import org.dspace.app.cris.util.Researcher;
 
 @Entity

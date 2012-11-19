@@ -7,8 +7,8 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.ProjectProperty;
+import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.ProjectProperty;
 
 import it.cilea.osd.jdyna.dao.PropertyDao;
 

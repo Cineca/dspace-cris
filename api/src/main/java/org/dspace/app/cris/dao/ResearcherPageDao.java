@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.dspace.app.cris.model.ResearcherPage;
-import org.dspace.app.cris.model.dynamicfield.RPProperty;
+import org.dspace.app.cris.model.jdyna.RPProperty;
 
 /**
  * This interface define the methods available to retrieve ResearcherPage

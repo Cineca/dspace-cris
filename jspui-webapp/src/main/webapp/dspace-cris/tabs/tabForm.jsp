@@ -18,7 +18,7 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="researchertags" prefix="researcher"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 <%@page import="java.net.URL"%>
-<%@page import="it.cilea.hku.authority.model.dynamicfield.VisibilityTabConstant"%>
+<%@page import="org.dspace.app.cris.model.jdyna.VisibilityTabConstant"%>
 
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.edit-tab">

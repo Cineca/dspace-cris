@@ -14,7 +14,7 @@ import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ImportExportUtils;
 import org.dspace.app.webui.cris.dto.ImportDTO;

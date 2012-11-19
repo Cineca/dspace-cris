@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.ProjectAdditionalFieldStorage;
+import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
 
 import it.cilea.osd.common.dao.PaginableObjectDao;
 

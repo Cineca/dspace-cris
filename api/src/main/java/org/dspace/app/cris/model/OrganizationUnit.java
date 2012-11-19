@@ -24,9 +24,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.dspace.app.cris.model.dynamicfield.OUAdditionalFieldStorage;
-import org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.OUProperty;
+import org.dspace.app.cris.model.jdyna.OUAdditionalFieldStorage;
+import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.OUProperty;
 
 @Entity
 @Table(name = "cris_organizationunit")

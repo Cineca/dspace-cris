@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.dspace.app.cris.model.dynamicfield.BoxProject;
+import org.dspace.app.cris.model.jdyna.BoxProject;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.webui.cris.dto.ProjectDTO;
 import org.springframework.web.servlet.ModelAndView;

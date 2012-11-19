@@ -26,10 +26,10 @@ import org.dspace.app.cris.model.RestrictedField;
 import org.dspace.app.cris.model.RestrictedFieldFile;
 import org.dspace.app.cris.model.RestrictedFieldLocalOrRemoteFile;
 import org.dspace.app.cris.model.VisibilityConstants;
-import org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.DecoratorRestrictedField;
-import org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.RPProperty;
+import org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
+import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.RPProperty;
 import org.dspace.app.cris.service.ApplicationService;
 
 public class UtilsXLS {

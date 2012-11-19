@@ -7,8 +7,8 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.dynamicfield.BoxResearcherPage;
-import org.dspace.app.cris.model.dynamicfield.TabResearcherPage;
+import org.dspace.app.cris.model.jdyna.BoxResearcherPage;
+import org.dspace.app.cris.model.jdyna.TabResearcherPage;
 
 import it.cilea.osd.jdyna.dao.TabDao;
 

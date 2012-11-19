@@ -12,7 +12,7 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
-<%@ page import="it.cilea.hku.authority.dspace.RPAuthority"%>
+<%@ page import="org.dspace.app.cris.integration.RPAuthority"%>
 
 <%@ page import="org.dspace.app.webui.util.UIUtil" %>
 

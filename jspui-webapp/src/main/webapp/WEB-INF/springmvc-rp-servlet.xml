@@ -25,16 +25,16 @@
 		class="it.cilea.osd.common.controller.BaseFormController">
 		<property name="customPropertyEditors">
 			<map>				
-				<entry key="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition" value-ref="decoratorRPPropertiesDefinitionEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition" value-ref="decoratorProjectPropertiesDefinitionEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition" value-ref="decoratorOUPropertiesDefinitionEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition" value-ref="decoratorRPPropertiesDefinitionEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition" value-ref="decoratorProjectPropertiesDefinitionEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition" value-ref="decoratorOUPropertiesDefinitionEditor"/>
 				<entry key="it.cilea.osd.jdyna.model.Containable" value-ref="containableEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.TabResearcherPage" value-ref="rpTabEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" value-ref="rpBoxEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.TabProject" value-ref="projectTabEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.BoxProject" value-ref="projectBoxEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit" value-ref="ouTabEditor"/>
-				<entry key="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" value-ref="ouBoxEditor"/>				
+				<entry key="org.dspace.app.cris.model.jdyna.TabResearcherPage" value-ref="rpTabEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.BoxResearcherPage" value-ref="rpBoxEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.TabProject" value-ref="projectTabEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.BoxProject" value-ref="projectBoxEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.TabOrganizationUnit" value-ref="ouTabEditor"/>
+				<entry key="org.dspace.app.cris.model.jdyna.BoxOrganizationUnit" value-ref="ouBoxEditor"/>				
 				<entry key="java.util.Date" value-ref="dateUtilEditor"/>
 				<entry key="java.lang.String" value-ref="stringEditor"/>
 			</map>
@@ -150,14 +150,14 @@
 			<value>org.dspace.app.cris.model.ResearcherPage</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="detailsView">
@@ -232,11 +232,11 @@
 	<bean id="listRPTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -256,7 +256,7 @@
 	<bean id="listRPBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -279,22 +279,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -312,11 +312,11 @@
 	<bean id="deleteRPTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -336,22 +336,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject
+			<value>org.dspace.app.cris.model.jdyna.RPTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -369,7 +369,7 @@
 	<bean id="deleteRPBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -387,12 +387,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+				org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+				org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -410,12 +410,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+				org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject
+				org.dspace.app.cris.model.jdyna.RPTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -435,7 +435,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -443,14 +443,14 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -474,13 +474,13 @@
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="targetClass">
-			<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.RPTypeNestedObject</value>
 		</property>
 		<property name="decoratorClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>
 		</property>
 		<property name="commandName">
 			<value>propertiesdefinition</value>
@@ -503,8 +503,14 @@
 		<property name="addFileView">
 			<value>redirect:/cris/administrator/rp/addFileToNestedDynamicField.htm</value>
 		</property>
-		<property name="addPointerView">
-			<value>redirect:/cris/administrator/rp/addPointerToNestedDynamicField.htm</value>
+		<property name="addPointerRPView">		
+			<value>redirect:/cris/administrator/rp/addPointerRPToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerOUView">		
+			<value>redirect:/cris/administrator/rp/addPointerOUToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerPJView">		
+			<value>redirect:/cris/administrator/rp/addPointerProjectToNestedDynamicField.htm</value>
 		</property>
 		<property name="validator" ref="rpNestedDynamicFieldValidator" />	
 	</bean>
@@ -515,7 +521,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -523,19 +529,19 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.jdyna.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -556,7 +562,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -564,19 +570,19 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.jdyna.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -597,7 +603,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -605,19 +611,19 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.jdyna.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -638,7 +644,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -646,14 +652,14 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -674,21 +680,21 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
 			<value>it.cilea.osd.jdyna.widget.WidgetLink</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -709,21 +715,21 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
-			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileRP</value>
+			<value>org.dspace.app.cris.model.jdyna.widget.WidgetFileRP</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -741,7 +747,7 @@
 	<bean id="listRPEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -764,22 +770,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 			</value>
 		</property>
 		<property name="commandName">
@@ -797,7 +803,7 @@
 	<bean id="deleteRPEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -817,16 +823,16 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage</value>
+			<value>org.dspace.app.cris.model.jdyna.EditTabResearcherPage</value>
 		</property>
 		<property name="clazzBox">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition</value>
 		</property>
 		<property name="clazzAnagraficaObject">
-			<value>org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage</value>
+			<value>org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage</value>
 		</property>
 		<property name="successView">
 			<value>redirect:/cris/rp/</value>
@@ -852,10 +858,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.RPNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>rp</value>
@@ -877,10 +883,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.RPNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>rp</value>
@@ -916,13 +922,13 @@
 		</property>	
 		
 		<property name="targetClass">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.RPNestedObject</value>
 		</property>
 		<property name="typeClass">
-			<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.RPTypeNestedObject</value>
 		</property>
 		<property name="propertyDefinitionClass">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition</value>
 		</property>		
 		<property name="specificPartPath">
 			<value>rp</value>
@@ -940,7 +946,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -948,16 +954,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -978,7 +984,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -986,16 +992,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1016,7 +1022,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1024,16 +1030,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1054,24 +1060,24 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileRP
+			<value>org.dspace.app.cris.model.jdyna.widget.WidgetFileRP
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1092,7 +1098,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1100,21 +1106,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.jdyna.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1135,7 +1141,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1143,21 +1149,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.jdyna.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1178,7 +1184,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1186,21 +1192,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.jdyna.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1219,13 +1225,13 @@
 	<bean id="deleteRPNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
 		<constructor-arg index="0">			
-				<value>org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject</value>			
+				<value>org.dspace.app.cris.model.jdyna.RPTypeNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="1">			
-				<value>org.dspace.app.cris.model.dynamicfield.RPNestedObject</value>			
+				<value>org.dspace.app.cris.model.jdyna.RPNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -1249,13 +1255,13 @@
 			<value>org.dspace.app.cris.model.Project</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.jdyna.TabProject</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxProject</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>projectDetailsPage</value>
@@ -1335,10 +1341,10 @@
 	<bean id="listProjectTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.jdyna.TabProject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject</value>
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -1357,7 +1363,7 @@
 	<bean id="listProjectBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxProject</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -1380,22 +1386,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.jdyna.TabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.jdyna.TabProject
 			</value>
 		</property>
 		<property name="commandName">
@@ -1413,11 +1419,11 @@
 	<bean id="deleteProjectTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.jdyna.TabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1437,22 +1443,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject
+			<value>org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</property>
 		<property name="commandName">
@@ -1470,7 +1476,7 @@
 	<bean id="deleteProjectBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1488,12 +1494,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+				org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1514,7 +1520,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1523,14 +1529,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1551,7 +1557,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1560,19 +1566,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.jdyna.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1593,7 +1599,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1602,19 +1608,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.jdyna.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1635,7 +1641,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1644,19 +1650,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.jdyna.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1677,7 +1683,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1686,14 +1692,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1714,7 +1720,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
@@ -1722,14 +1728,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1750,22 +1756,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
-			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileProject</value>
+			<value>org.dspace.app.cris.model.jdyna.widget.WidgetFileProject</value>
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxProject
+				org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -1783,7 +1789,7 @@
 	<bean id="listProjectEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1806,22 +1812,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject
+			<value>org.dspace.app.cris.model.jdyna.TabProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject
+			<value>org.dspace.app.cris.model.jdyna.BoxProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject</value>
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject</value>
 		</property>
 		<property name="commandName">
 			<value>tab</value>
@@ -1838,7 +1844,7 @@
 	<bean id="deleteProjectEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -1858,13 +1864,13 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabProject</value>
+			<value>org.dspace.app.cris.model.jdyna.EditTabProject</value>
 		</property>
 		<property name="clazzBox">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxProject</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition</value>
 		</property>
 		<property name="clazzAnagraficaObject">
 			<value>org.dspace.app.cris.model.Project</value>
@@ -1897,10 +1903,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>project</value>
@@ -1922,10 +1928,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>project</value>
@@ -1966,13 +1972,13 @@
 			<value>/cris/tools/</value>
 		</property>	
 		<property name="targetClass">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedObject</value>
 		</property>
 		<property name="typeClass">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject</value>
 		</property>
 		<property name="propertyDefinitionClass">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition</value>
 		</property>		
 	</bean>
 	
@@ -1984,7 +1990,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -1992,16 +1998,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2022,7 +2028,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2030,16 +2036,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2060,7 +2066,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2068,16 +2074,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2098,24 +2104,24 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileProject
+			<value>org.dspace.app.cris.model.jdyna.widget.WidgetFileProject
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2136,7 +2142,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2144,21 +2150,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.jdyna.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2179,7 +2185,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2187,21 +2193,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.jdyna.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2222,7 +2228,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2230,21 +2236,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.jdyna.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2262,13 +2268,13 @@
 	<bean id="deleteProjectNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
 		<constructor-arg index="0">			
-				<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject</value>			
+				<value>org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="1">			
-				<value>org.dspace.app.cris.model.dynamicfield.ProjectNestedObject</value>			
+				<value>org.dspace.app.cris.model.jdyna.ProjectNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -2291,13 +2297,13 @@
 			<value>redirect:/cris/administrator/project/editBox.htm</value>
 		</property>
 		<property name="targetClass">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject</value>
 		</property>
 		<property name="decoratorClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested</value>
 		</property>
 		<property name="commandName">
 			<value>propertiesdefinition</value>
@@ -2320,8 +2326,14 @@
 		<property name="addFileView">
 			<value>redirect:/cris/administrator/project/addFileToNestedDynamicField.htm</value>
 		</property>
-		<property name="addPointerView">
-			<value>redirect:/cris/administrator/project/addPointerToNestedDynamicField.htm</value>
+		<property name="addPointerRPView">		
+			<value>redirect:/cris/administrator/project/addPointerRPToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerOUView">		
+			<value>redirect:/cris/administrator/project/addPointerOUToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerPJView">		
+			<value>redirect:/cris/administrator/project/addPointerProjectToNestedDynamicField.htm</value>
 		</property>
 		<property name="validator" ref="grantNestedDynamicFieldValidator" />
 	</bean>
@@ -2330,12 +2342,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition
+				org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject
+				org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2361,13 +2373,13 @@
 			<value>org.dspace.app.cris.model.OrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>ouDetailsPage</value>
@@ -2447,10 +2459,10 @@
 	<bean id="listOUTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -2469,7 +2481,7 @@
 	<bean id="listOUBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -2492,22 +2504,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/listTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit
 			</value>
 		</property>
 		<property name="commandName">
@@ -2525,11 +2537,11 @@
 	<bean id="deleteOUTabController"
 		class="it.cilea.osd.jdyna.controller.TabController">
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2549,22 +2561,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject
+			<value>org.dspace.app.cris.model.jdyna.OUTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</property>
 		<property name="commandName">
@@ -2582,7 +2594,7 @@
 	<bean id="deleteOUBoxController"
 		class="it.cilea.osd.jdyna.controller.BoxsController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2600,12 +2612,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+				org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2626,7 +2638,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2635,14 +2647,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2663,7 +2675,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2672,19 +2684,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.jdyna.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2705,7 +2717,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2714,19 +2726,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.jdyna.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2747,7 +2759,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2756,19 +2768,19 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.jdyna.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2790,7 +2802,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -2799,14 +2811,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2827,7 +2839,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
@@ -2835,14 +2847,14 @@
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2863,22 +2875,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">				   		
-			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileOU</value>
+			<value>org.dspace.app.cris.model.jdyna.widget.WidgetFileOU</value>
 		</constructor-arg>
 		<constructor-arg index="2">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -2896,7 +2908,7 @@
 	<bean id="listOUEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2919,22 +2931,22 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/listEditTabs.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit</value>
 		</property>
 		<property name="commandName">
 			<value>tab</value>
@@ -2951,7 +2963,7 @@
 	<bean id="deleteOUEditTabController"
 		class="it.cilea.osd.jdyna.controller.EditTabController">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -2971,13 +2983,13 @@
 			<ref bean="applicationService" />
 		</property>
 		<property name="clazzTab">
-			<value>org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit</value>
 		</property>
 		<property name="clazzBox">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>
 		</property>
 		<property name="clazzTipologiaProprieta">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition</value>
 		</property>
 		<property name="clazzAnagraficaObject">
 			<value>org.dspace.app.cris.model.OrganizationUnit</value>
@@ -3010,10 +3022,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.OUNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>ou</value>
@@ -3035,10 +3047,10 @@
 		</property>
 		
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.OUNestedObject</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>
 		</constructor-arg>
 		<property name="specificPartPath">
 			<value>ou</value>
@@ -3079,13 +3091,13 @@
 			<value>/cris/tools/</value>
 		</property>	
 		<property name="targetClass">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.OUNestedObject</value>
 		</property>
 		<property name="typeClass">
-			<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.OUTypeNestedObject</value>
 		</property>
 		<property name="propertyDefinitionClass">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition</value>
 		</property>		
 	</bean>
 	
@@ -3097,7 +3109,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3105,16 +3117,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3135,7 +3147,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3143,16 +3155,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3173,7 +3185,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3181,16 +3193,16 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3211,24 +3223,24 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.widget.WidgetFileOU
+			<value>org.dspace.app.cris.model.jdyna.widget.WidgetFileOU
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3249,7 +3261,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3257,21 +3269,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.RPPointer
+				org.dspace.app.cris.model.jdyna.value.RPPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3292,7 +3304,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3300,21 +3312,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.ProjectPointer
+				org.dspace.app.cris.model.jdyna.value.ProjectPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3335,7 +3347,7 @@
 			<ref bean="applicationService" />
 		</property>
 		<constructor-arg index="0">
-			<value>org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
@@ -3343,21 +3355,21 @@
 			</value>
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<constructor-arg index="3">			
-				<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
 		</constructor-arg>
 		<constructor-arg index="4">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.value.OUPointer
+				org.dspace.app.cris.model.jdyna.value.OUPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
 			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
 			</value>
 		</property>
 		<property name="commandName">
@@ -3376,13 +3388,13 @@
 	<bean id="deleteOUNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
 		<constructor-arg index="0">			
-				<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject</value>			
+				<value>org.dspace.app.cris.model.jdyna.OUTypeNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="1">			
-				<value>org.dspace.app.cris.model.dynamicfield.OUNestedObject</value>			
+				<value>org.dspace.app.cris.model.jdyna.OUNestedObject</value>			
 		</constructor-arg>
 		<constructor-arg index="2">			
-				<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
 		</constructor-arg>
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -3405,13 +3417,13 @@
 			<value>redirect:/cris/administrator/ou/editBox.htm</value>
 		</property>
 		<property name="targetClass">
-			<value>org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject</value>
+			<value>org.dspace.app.cris.model.jdyna.OUTypeNestedObject</value>
 		</property>
 		<property name="decoratorClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>
 		</property>
 		<property name="commandName">
 			<value>propertiesdefinition</value>
@@ -3434,8 +3446,14 @@
 		<property name="addFileView">
 			<value>redirect:/cris/administrator/ou/addFileToNestedDynamicField.htm</value>
 		</property>
-		<property name="addPointerView">
-			<value>redirect:/cris/administrator/ou/addPointerToNestedDynamicField.htm</value>
+		<property name="addPointerRPView">		
+			<value>redirect:/cris/administrator/ou/addPointerRPToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerOUView">		
+			<value>redirect:/cris/administrator/ou/addPointerOUToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerPJView">		
+			<value>redirect:/cris/administrator/ou/addPointerProjectToNestedDynamicField.htm</value>
 		</property>
 		<property name="validator" ref="ouNestedDynamicFieldValidator" />
 	</bean>
@@ -3444,12 +3462,12 @@
 		class="it.cilea.osd.jdyna.controller.DecoratorNestedPropertiesDefinitionController">
 		<constructor-arg index="0">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition
+				org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
 			</value>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<value>
-				org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject
+				org.dspace.app.cris.model.jdyna.OUTypeNestedObject
 			</value>
 		</constructor-arg>
 		<property name="applicationService">
@@ -3522,7 +3540,7 @@
 			<ref bean="crisSearchService" />
 		</property>
 		<property name="clazzPD">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition</value>
 		</property>				
 		<property name="viewName">
 			<value>resultSearchPointer</value>
@@ -3537,7 +3555,7 @@
 			<ref bean="crisSearchService" />
 		</property>
 		<property name="clazzPD">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition</value>
 		</property>				
 		<property name="viewName">
 			<value>resultSearchPointer</value>
@@ -3552,7 +3570,7 @@
 			<ref bean="crisSearchService" />
 		</property>
 		<property name="clazzPD">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition</value>
 		</property>				
 		<property name="viewName">
 			<value>resultSearchPointer</value>
@@ -3568,14 +3586,14 @@
 			<value>org.dspace.app.cris.model.ResearcherPage</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage
 			</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
 			</value>
 		</constructor-arg>
 		<property name="detailsView">
@@ -3601,13 +3619,13 @@
 			<value>org.dspace.app.cris.model.OrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
@@ -3631,13 +3649,13 @@
 			<value>org.dspace.app.cris.model.Project</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<constructor-arg index="2">
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.jdyna.TabProject</value>
 		</constructor-arg>
 		<constructor-arg index="3">
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxProject</value>
 		</constructor-arg>		
 		<property name="detailsView">
 			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
@@ -3905,7 +3923,7 @@
 
 	<bean id="decoratorRPPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3913,7 +3931,7 @@
 	
 	<bean id="decoratorProjectPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3921,7 +3939,7 @@
 
 	<bean id="decoratorOUPropertiesDefinitionEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3929,7 +3947,7 @@
 	
 	<bean id="rpTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.TabResearcherPage</value>
+			<value>org.dspace.app.cris.model.jdyna.TabResearcherPage</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3937,7 +3955,7 @@
 	
 	<bean id="rpBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxResearcherPage</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3945,7 +3963,7 @@
 
 	<bean id="projectTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.TabProject</value>
+			<value>org.dspace.app.cris.model.jdyna.TabProject</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3953,7 +3971,7 @@
 	
 	<bean id="projectBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxProject</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxProject</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3961,7 +3979,7 @@
 		
 	<bean id="ouTabEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.TabOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -3969,7 +3987,7 @@
 	
 	<bean id="ouBoxEditor" class="it.cilea.osd.jdyna.editor.ModelPropertyEditor">
 		<constructor-arg>
-			<value>org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit</value>
+			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>
 		</constructor-arg>
 		<property name="applicationService" ref="applicationService">
 		</property>
@@ -4003,114 +4021,114 @@
 
 	<bean id="tabValidator"
 		class="org.dspace.app.webui.cris.validator.TabValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.TabResearcherPage" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.TabResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="editTabValidator"
 		class="org.dspace.app.webui.cris.validator.TabValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.EditTabResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="boxValidator"
 		class="org.dspace.app.webui.cris.validator.BoxValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.BoxResearcherPage" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantTabValidator"
 		class="org.dspace.app.webui.cris.validator.TabValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.TabProject" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.TabProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantEditTabValidator"
 		class="org.dspace.app.webui.cris.validator.TabValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.EditTabProject" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.EditTabProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="grantBoxValidator"
 		class="org.dspace.app.webui.cris.validator.BoxValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.BoxProject" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.BoxProject" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="ouTabValidator"
 		class="org.dspace.app.webui.cris.validator.TabValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.TabOrganizationUnit" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="ouEditTabValidator"
 		class="org.dspace.app.webui.cris.validator.TabValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="ouBoxValidator"
 		class="org.dspace.app.webui.cris.validator.BoxValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.BoxOrganizationUnit" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="rpDynamicFieldValidator"
 		class="org.dspace.app.webui.cris.validator.RPPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>	
 	<bean id="grantDynamicFieldValidator"
 		class="org.dspace.app.webui.cris.validator.ProjectPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>	
 	<bean id="ouDynamicFieldValidator"
 		class="org.dspace.app.webui.cris.validator.OUPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition" />
 		<property name="validatorService" ref="validatorService" />
 	</bean>
 	<bean id="rpNestedDynamicFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="rpNestedPDFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="grantNestedDynamicFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>
 	<bean id="grantNestedPDFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>		
 	<bean id="ouNestedDynamicFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="ouNestedPDFieldValidator"
 		class="it.cilea.osd.jdyna.validator.DecoratorPropertiesDefinitionValidator">
-		<property name="clazz" value="org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
+		<property name="clazz" value="org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition" />
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>	
 	<bean id="anagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
-		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.dynamicfield.RPAdditionalFieldStorage" />
-		<property name="clazzTab" value="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage" />
-		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" />
-	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition" />
+		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage" />
+		<property name="clazzTab" value="org.dspace.app.cris.model.jdyna.EditTabResearcherPage" />
+		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.jdyna.BoxResearcherPage" />
+	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.jdyna.RPPropertiesDefinition" />
 	</bean>
 	<bean id="grantAnagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
 		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.Project" />
-		<property name="clazzTab" value="org.dspace.app.cris.model.dynamicfield.EditTabProject" />
-		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.dynamicfield.BoxProject" />
-	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition" />
+		<property name="clazzTab" value="org.dspace.app.cris.model.jdyna.EditTabProject" />
+		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.jdyna.BoxProject" />
+	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition" />
 	</bean>
 	<bean id="ouAnagraficaValidator" class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
 		<property name="applicationService" ref="applicationService" />		
 		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.OrganizationUnit" />
-		<property name="clazzTab" value="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit" />
-		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" />
-	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition" />
+		<property name="clazzTab" value="org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit" />
+		<property name="clazzPropertyHolder" value="org.dspace.app.cris.model.jdyna.BoxOrganizationUnit" />
+	    <property name="clazzTipologiaProprieta" value="org.dspace.app.cris.model.jdyna.OUPropertiesDefinition" />
 	</bean>
 
 	

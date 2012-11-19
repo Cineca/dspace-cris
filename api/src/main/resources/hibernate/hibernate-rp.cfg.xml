@@ -58,74 +58,74 @@
 
 		<!-- Dynamic field -->
 		
-		<mapping class="org.dspace.app.cris.model.dynamicfield.RPProperty" />
+		<mapping class="org.dspace.app.cris.model.jdyna.RPProperty" />
 		
-		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectProperty" />
+		<mapping class="org.dspace.app.cris.model.jdyna.ProjectProperty" />
 		
-		<mapping class="org.dspace.app.cris.model.dynamicfield.OUProperty" />
+		<mapping class="org.dspace.app.cris.model.jdyna.OUProperty" />
 		
-		<mapping class="org.dspace.app.cris.model.dynamicfield.RPNestedObject" />
-		<mapping class="org.dspace.app.cris.model.dynamicfield.RPTypeNestedObject" />
-		<mapping class="org.dspace.app.cris.model.dynamicfield.RPNestedProperty" />
+		<mapping class="org.dspace.app.cris.model.jdyna.RPNestedObject" />
+		<mapping class="org.dspace.app.cris.model.jdyna.RPTypeNestedObject" />
+		<mapping class="org.dspace.app.cris.model.jdyna.RPNestedProperty" />
 		
-		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectNestedObject" />
-		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectTypeNestedObject" />
-		<mapping class="org.dspace.app.cris.model.dynamicfield.ProjectNestedProperty" />
+		<mapping class="org.dspace.app.cris.model.jdyna.ProjectNestedObject" />
+		<mapping class="org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject" />
+		<mapping class="org.dspace.app.cris.model.jdyna.ProjectNestedProperty" />
 
-		<mapping class="org.dspace.app.cris.model.dynamicfield.OUNestedObject" />
-		<mapping class="org.dspace.app.cris.model.dynamicfield.OUTypeNestedObject" />
-		<mapping class="org.dspace.app.cris.model.dynamicfield.OUNestedProperty" />
+		<mapping class="org.dspace.app.cris.model.jdyna.OUNestedObject" />
+		<mapping class="org.dspace.app.cris.model.jdyna.OUTypeNestedObject" />
+		<mapping class="org.dspace.app.cris.model.jdyna.OUNestedProperty" />
 				
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.RPPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.ProjectPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.OUPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.OUPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.RPNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.ProjectNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.OUNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition" />
 					
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.TabResearcherPage" />
+			class="org.dspace.app.cris.model.jdyna.TabResearcherPage" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.TabProject" />
+			class="org.dspace.app.cris.model.jdyna.TabProject" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.TabOrganizationUnit" />
+			class="org.dspace.app.cris.model.jdyna.TabOrganizationUnit" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.BoxResearcherPage" />
+			class="org.dspace.app.cris.model.jdyna.BoxResearcherPage" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.BoxProject" />
+			class="org.dspace.app.cris.model.jdyna.BoxProject" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.BoxOrganizationUnit" />
+			class="org.dspace.app.cris.model.jdyna.BoxOrganizationUnit" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.EditTabResearcherPage" />
+			class="org.dspace.app.cris.model.jdyna.EditTabResearcherPage" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.EditTabProject" />
+			class="org.dspace.app.cris.model.jdyna.EditTabProject" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.EditTabOrganizationUnit" />
+			class="org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit" />
 		
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorOUPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorRPNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorProjectNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorOUNestedPropertiesDefinition" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorRPTypeNested" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorProjectTypeNested" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested" />
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.DecoratorOUTypeNested" />
+			class="org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested" />
 		<!-- JDynA mapping -->
 		<mapping class="it.cilea.osd.jdyna.model.ANestedObject" />
 		<mapping class="it.cilea.osd.jdyna.model.NestedObject" />		
@@ -141,13 +141,13 @@
 		<mapping class="it.cilea.osd.jdyna.value.FileValue" />
 			
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.value.RPPointer" />
+			class="org.dspace.app.cris.model.jdyna.value.RPPointer" />
 
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.value.ProjectPointer" />
+			class="org.dspace.app.cris.model.jdyna.value.ProjectPointer" />
 			
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.value.OUPointer" />	
+			class="org.dspace.app.cris.model.jdyna.value.OUPointer" />	
 		
 		
 		<mapping class="it.cilea.osd.jdyna.model.AWidget" />
@@ -164,13 +164,13 @@
 		<mapping class="it.cilea.osd.jdyna.model.Containable" />
 
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.widget.WidgetFileRP" />
+			class="org.dspace.app.cris.model.jdyna.widget.WidgetFileRP" />
 
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.widget.WidgetFileProject" />
+			class="org.dspace.app.cris.model.jdyna.widget.WidgetFileProject" />
 			
 		<mapping
-			class="org.dspace.app.cris.model.dynamicfield.widget.WidgetFileOU" />
+			class="org.dspace.app.cris.model.jdyna.widget.WidgetFileOU" />
 	</session-factory>
 
 </hibernate-configuration>

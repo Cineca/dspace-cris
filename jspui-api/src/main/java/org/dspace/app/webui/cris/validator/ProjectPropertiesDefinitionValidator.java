@@ -12,7 +12,7 @@ import it.cilea.osd.jdyna.service.ValidatorService.ValidationResult;
 
 import java.util.List;
 
-import org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition;
 import org.springframework.validation.Errors;
 
 public class ProjectPropertiesDefinitionValidator extends BaseValidator {

@@ -22,10 +22,10 @@ import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.dspace.app.cris.model.dynamicfield.DecoratorProjectPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.DecoratorRPPropertiesDefinition;
-import org.dspace.app.cris.model.dynamicfield.DecoratorRestrictedField;
-import org.dspace.app.cris.model.dynamicfield.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
+import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.core.ConfigurationManager;
 
 /**

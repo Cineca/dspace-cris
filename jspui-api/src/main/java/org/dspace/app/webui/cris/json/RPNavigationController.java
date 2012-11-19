@@ -8,8 +8,8 @@
 package org.dspace.app.webui.cris.json;
 
 import org.dspace.app.cris.model.ResearcherPage;
-import org.dspace.app.cris.model.dynamicfield.BoxResearcherPage;
-import org.dspace.app.cris.model.dynamicfield.TabResearcherPage;
+import org.dspace.app.cris.model.jdyna.BoxResearcherPage;
+import org.dspace.app.cris.model.jdyna.TabResearcherPage;
 import org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions;
 
 import it.cilea.osd.jdyna.web.controller.json.AjaxJSONNavigationController;
