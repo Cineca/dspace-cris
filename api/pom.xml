@@ -77,30 +77,30 @@
 		<dependency>
 			<groupId>jdyna-core</groupId>
 			<artifactId>jdyna-core</artifactId>
-			<version>0.1</version>
+			<version>3.0-alpha</version>
 		</dependency>
 
 		<dependency>
 			<groupId>jdyna-date</groupId>
 			<artifactId>jdyna-date</artifactId>
-			<version>0.1</version>
+			<version>3.0-alpha</version>
 		</dependency>
 
 		<dependency>
 			<groupId>jdyna-pointer</groupId>
 			<artifactId>jdyna-pointer</artifactId>
-			<version>0.1</version>
+			<version>3.0-alpha</version>
 		</dependency>
 
 		<dependency>
 			<groupId>jdyna-web-api</groupId>
 			<artifactId>jdyna-web-api</artifactId>
-			<version>0.1</version>
+			<version>3.0-alpha</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cilea-genericdao</groupId>
 			<artifactId>commons-cilea-genericdao</artifactId>
-			<version>0.1</version>
+			<version>1.0</version>
 		</dependency>
     	<dependency>
             <groupId>org.apache.ant</groupId>
@@ -268,7 +268,7 @@
 					<dependency>
 						<groupId>commons-cilea-genericdao</groupId>
 						<artifactId>commons-cilea-genericdao</artifactId>
-						<version>0.1</version>
+						<version>1.0</version>
 					</dependency>
 					
 					<dependency>
