@@ -773,6 +773,11 @@ public class CrisSearchService extends SolrServiceImpl
         }
     
         doc.addField(field, svalue);
+        if (authority != null)
+        {         
+            doc.addField(field
+                    + "_authority", authority);         
+        }
         if (toProjectionFields.contains(field))
         {
             doc.addField(field + "_stored", svalue + STORE_SEPARATOR
