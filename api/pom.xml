@@ -164,7 +164,7 @@
 				<executions>
 					<!-- To use this plugin set <phase> on process classes, after create 
 						an eclipse configuration with goal process-classes and run it - problem with 
-						update ddl (perhaps next version of hbtool fix it?) -->
+						update ddl (perhaps next version of hbtool fix it? NOW applied patch to run update-ddl with annotation) -->
 					<!-- with m2e 1.0 or newest you need to add process classes phase and 
 						to get in plugin at line 200 <groupId>org.eclipse.m2e</groupId> see http://stackoverflow.com/questions/7391201/maven-plugin-error-execution-not-covered-by-lifecycle-configuration?lq=1 -->
 					<!-- <execution> <id>create-tables-and-GEN-DDL</id> <goals> <goal>run</goal> 
@@ -175,7 +175,7 @@
 					
 					<execution>
 						<id>generate-ddl</id>
-						<phase>process-classes</phase>  
+						<!-- <phase>process-classes</phase> -->  
 						<goals>
 							<goal>run</goal>
 						</goals>
@@ -189,8 +189,8 @@
 						</configuration>
 					</execution>
 				
-<!-- 
-					<execution>
+
+<!-- 					<execution>
 						<id>generate-drop-ddl</id>
 						<phase>process-classes</phase>
 						<goals>
@@ -223,9 +223,9 @@
 									</ant>
 								</tasks>
 							</configuration>
-						</execution> 
+						</execution>  -->
 				
-					 <execution> <id>refresh-database</id> <phase>process-classes</phase> 
+					 <!-- <execution> <id>refresh-database</id> <phase>process-classes</phase> 
 						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
 						inheritRefs="true"> <target name="refresh-database" /> </ant> </tasks> </configuration> 
 						</execution> -->
