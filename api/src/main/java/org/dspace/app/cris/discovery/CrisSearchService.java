@@ -550,7 +550,7 @@ public class CrisSearchService extends SolrServiceImpl
                 moreLikeThisFields);
     }
     
-    private <P extends Property<TP>, TP extends PropertiesDefinition> void indexProperty(
+    private void indexProperty(
             SolrInputDocument doc,
             String uuid,
             String field,

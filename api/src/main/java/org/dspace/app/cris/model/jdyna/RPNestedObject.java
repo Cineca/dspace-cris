@@ -110,7 +110,7 @@ public class RPNestedObject
     public <PP extends Property<PTP>, PTP extends PropertiesDefinition> void setParent(
             AnagraficaSupport<PP, PTP> parent)
     {
-        this.parent = (ResearcherPage)parent;        
+        setParent(parent);
     }
 
     @Override
