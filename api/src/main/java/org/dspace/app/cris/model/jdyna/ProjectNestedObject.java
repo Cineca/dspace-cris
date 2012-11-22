@@ -115,7 +115,7 @@ public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNes
     public <PP extends Property<PTP>, PTP extends PropertiesDefinition> void setParent(
             AnagraficaSupport<PP, PTP> parent)
     {
-        setParent(parent);        
+        setParent((Project)parent);        
     }
 
 
