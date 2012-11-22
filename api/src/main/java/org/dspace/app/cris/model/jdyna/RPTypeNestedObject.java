@@ -35,7 +35,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefinition>
 {
     @ManyToMany
-    @JoinTable(name = "cris_rp_jdyna_nestedobject_typo2mask")
+    @JoinTable(name = "cris_rp_nestedobject_typo2mask")
     @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<RPNestedPropertiesDefinition> mask;
 
