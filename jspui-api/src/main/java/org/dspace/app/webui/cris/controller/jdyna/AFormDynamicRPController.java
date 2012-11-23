@@ -42,7 +42,7 @@ import org.dspace.eperson.EPerson;
  * @author cilea
  * 
  */
-public abstract class AFormDynamicRPController<P extends Property<TP>, TP extends PropertiesDefinition, H extends IPropertyHolder<Containable>, T extends Tab<H>, AO extends AnagraficaObject<P, TP>, ANO extends ANestedObjectWithTypeSupport<AP, ATP>, AP extends ANestedProperty<ATP>, ATP extends ANestedPropertiesDefinition> extends FormAnagraficaController<P, TP, H, T, AO, ANO, AP, ATP> {
+public abstract class AFormDynamicRPController<P extends Property<TP>, TP extends PropertiesDefinition, H extends IPropertyHolder<Containable>, T extends Tab<H>, AO extends AnagraficaObject<P, TP>, ANO extends ANestedObjectWithTypeSupport<AP, ATP, P, TP>, AP extends ANestedProperty<ATP>, ATP extends ANestedPropertiesDefinition> extends FormAnagraficaController<P, TP, H, T, AO, ANO, AP, ATP> {
 
     /**
      * The log4j category

@@ -47,7 +47,7 @@ import org.hibernate.annotations.OrderBy;
 })
 public class RPNestedObject
         extends
-        ANestedObjectWithTypeSupport<RPNestedProperty, RPNestedPropertiesDefinition>
+        ANestedObjectWithTypeSupport<RPNestedProperty, RPNestedPropertiesDefinition, RPProperty, RPPropertiesDefinition>
         implements UUIDSupport, HasTimeStampInfo
 {
 
@@ -90,11 +90,6 @@ public class RPNestedObject
         return typo;
     }
     
-    public void setParent(ResearcherPage parent)
-    {
-        this.parent = parent;
-    }
-
     public ResearcherPage getParent()
     {
         return parent;
@@ -107,10 +102,10 @@ public class RPNestedObject
     }
   
     @Override
-    public <PP extends Property<PTP>, PTP extends PropertiesDefinition> void setParent(
-            AnagraficaSupport<PP, PTP> parent)
+    public void setParent(
+            AnagraficaSupport<? extends Property<RPPropertiesDefinition>, RPPropertiesDefinition> parent)
     {
-        setParent((ResearcherPage)parent);
+        this.parent = (ResearcherPage) parent;
     }
 
     @Override

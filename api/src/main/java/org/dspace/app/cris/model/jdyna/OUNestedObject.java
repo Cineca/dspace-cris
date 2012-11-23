@@ -49,7 +49,7 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "OUNestedObject.findNestedObjectsByTypoID", query = "from OUNestedObject where typo.id = ?"),
         @NamedQuery(name = "OUNestedObject.deleteNestedObjectsByTypoID", query = "delete from OUNestedObject where typo.id = ?")
         })
-public class OUNestedObject extends ANestedObjectWithTypeSupport<OUNestedProperty, OUNestedPropertiesDefinition> implements UUIDSupport, HasTimeStampInfo 
+public class OUNestedObject extends ANestedObjectWithTypeSupport<OUNestedProperty, OUNestedPropertiesDefinition, OUProperty, OUPropertiesDefinition> implements UUIDSupport, HasTimeStampInfo 
 {
     
     @OneToMany(mappedBy = "parent")
@@ -105,17 +105,12 @@ public class OUNestedObject extends ANestedObjectWithTypeSupport<OUNestedPropert
         this.typo = (OUTypeNestedObject)typo;
     }
 
-    
-
-
     @Override
-    public <PP extends Property<PTP>, PTP extends PropertiesDefinition> void setParent(
-            AnagraficaSupport<PP, PTP> parent)
+    public void setParent(
+            AnagraficaSupport<? extends Property<OUPropertiesDefinition>, OUPropertiesDefinition> parent)
     {
-        setParent((OrganizationUnit)parent);
+        this.parent = (OrganizationUnit) parent;
     }
-
-
     @Override
     public Class getClassParent()
     {
