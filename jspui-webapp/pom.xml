@@ -2,7 +2,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.dspace</groupId>  
    <artifactId>dspace-cris-jspui-webapp</artifactId>
-   <name>Reseacher Page :: Web Application Resources</name>
+   <name>DSpace CRIS :: Web Application Resources</name>
    <packaging>war</packaging>
    <description>Researcher Page JSP Based Webapplication Resources</description>
    <!--

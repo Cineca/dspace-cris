@@ -7,7 +7,7 @@
 	<groupId>org.dspace</groupId>
 	<artifactId>dspace-cris</artifactId>
 	<version>1.8.2</version>
-	<name>ResearcherPage</name>
+	<name>DSpace CRIS</name>
 
 	<parent>
 		<artifactId>dspace-parent</artifactId>
