@@ -4,7 +4,7 @@
    <artifactId>dspace-cris-jspui-webapp</artifactId>
    <name>DSpace CRIS :: Web Application Resources</name>
    <packaging>war</packaging>
-   <description>Researcher Page JSP Based Webapplication Resources</description>
+   <description>DSpace CRIS JSP Based Webapplication Resources</description>
    <!--
       A Parent POM that Maven inherits DSpace Default
       POM atrributes from.
