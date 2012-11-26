@@ -39,10 +39,9 @@ The contents of this file are subject to the license and copyright
 	
 <div id="${holder.shortName}" class="box ${holder.collapsed?"":"expanded"}">
 	<h3>
-		<a href="#">${holder.title}[<fmt:message
-				key="jsp.layout.dspace.detail.fieldset-legend.component.${info[holder.shortName].type}">
-				<fmt:param>${fn:length(info[holder.shortName].items)}</fmt:param>
-			</fmt:message>] </a>
+		<a href="#">${holder.title} <fmt:message
+				key="jsp.layout.dspace.detail.fieldset-legend.component.boxtitle.${info[holder.shortName].type}"/>				
+		</a>
 	</h3>
 <div>
 	<p>
