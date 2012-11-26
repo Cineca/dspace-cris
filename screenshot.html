@@ -9,11 +9,31 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
+<link rel="stylesheet" href="javascripts/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="javascripts/nivo-slider/themes/default/default.css" type="text/css" media="screen" />
+<style type="text/css">
+.nivoSlider {
+    position:relative;
+    background:url(images/loading.gif) no-repeat 50% 50%;
+}
+.nivoSlider img {
+    position:absolute;
+    top:0px;
+    left:0px;
+    display:none;
+}
+.nivoSlider a {
+    border:0;
+    display:block;
+}
+</style>
+<script src="javascripts/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="javascripts/nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>DSpace CRIS by CILEA</title>
+    <title>DSpace CRIS::Screenshot</title>
   </head>
 
   <body>
@@ -28,42 +48,74 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>Welcome to the DSpace CRIS project</h1>
+          <h1>Screenshot</h1>
 
-<p>dspace-cris is a new additional open source module for the DSpace platform (<a href="http://www.dspace.org">http://www.dspace.org</a>). 
-It extends the DSpace data model giving the ability to manage, collect and expose data about all the Research aspects 
-(people, organization units, prize, project, grants, etc.). </p>
+<p>The screenshot below show some of the main features of the DSpace CRIS module with the sample configuration and basic layout.</p>
+<p>For a more exahustive tour of the DSpace CRIS capability please take a look to the institutional repository of The 
+University of Hong Kong,  <a href="http://hub.hku.hk" target="_blank">The HKU Scholars Hub</a>.</p>
+<p>
+<a href="#rp">Researcher profile</a> | <a href="#search">Faceted Search & Browse</a> | <a href="#adminui">Administration UI</a> 
+</p>
+<h2>Researcher profile<a id="rp">&nbsp;</a></h2>
+<div class="slider-wrapper theme-default">
+    <div class="nivoSlider screens">
+    <img src="screens/profile_researcher.jpg" width="100%" title="Researcher profile (anonymous user)"/>
+    <img src="screens/profile_researcher_loggedin.jpg" width="100%" title="Researcher profile (owner user logged in)"/>
+    <img src="screens/profile_edit_researcher.jpg" width="100%" title="Edit of a researcher profile"/>
+     </div>
+</div>
 
-<p>The project aims to make publicly available the feature initially developed by CILEA for the institutional repository of The University of Hong Kong,
- <a href="http://hub.hku.hk" target="_blank">The HKU Scholars Hub</a> 
-<p>The source code is now available in our <a href="https://github.com/CILEA/dspace-cris">public Git Repository!</a>
-Check <a href="roadmap.html">the detailed roadmap</a></p>
+<h2>Faceted Search & Browse<a id="search">&nbsp;</a></h2>
+<div class="slider-wrapper theme-default">
+    <div class="nivoSlider screens">
+    <img src="screens/general_search.jpg" width="100%" title="Search across all the entities)"/>
+    <img src="screens/general_search_filters.jpg" width="100%" title="Filters in the wide site scope"/>
+    <img src="screens/general_profilesearch_filters.jpg" width="100%" title="Filters for researcher profile search"/>
+    <img src="screens/browse_by_researcher.jpg" width="100%" title="Browse by researcher"/>
+    <img src="screens/browse_by_department.jpg" width="100%" title="Browse by department"/>
+     </div>
+</div>
 
-<p>As this project is a module for the DSpace platform be sure to check the <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">DSpace CILEA fork</a>, the branch dspace_1_8_x_cris provide out-of-box integration of the DSpace CRIS module</p>
+<h2>Administrative UI<a id="adminui">&nbsp;</a></h2>
+<div class="slider-wrapper theme-default">
+    <div class="nivoSlider screens">
+    <img src="screens/menu_admin.jpg" width="100%" title="CRIS Module administration"/>
+    <img src="screens/menu_admin_rp.jpg" width="100%" title="Researcher Profiles administration"/>
+    <img src="screens/menu_admin_tab_list.jpg" width="100%" title="Tab configuration"/>
+    <img src="screens/menu_admin_tab_boxes.jpg" width="100%" title="Box configuration"/>
+    <img src="screens/menu_admin_propertydefinition.jpg" width="100%" title="Property definition"/>
+     </div>
+</div>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/Qz-5sS6t_9Y?rel=0" frameborder="0" allowfullscreen></iframe>
 
-<h3>References</h3>
-<p>Open Repository 2012 Presentation:</p>
-
-<ul>
-<li>abstract: <a href="https://www.conftool.net/or2012/index.php/Palmer-Beyond_Bibliographic_Metadata-208_a.pdf?page=downloadPaper&amp;filename=Palmer-Beyond_Bibliographic_Metadata-208_a.pdf&amp;form_id=208&amp;form_version=final">Palmer-Beyond Bibliographic Metadata-208_a.pdf</a>
-</li>
-<li>slides: <a href="https://www.conftool.net/or2012/index.php/Palmer-Beyond_Bibliographic_Metadata-208_b.pptx?page=downloadPaper&amp;filename=Palmer-Beyond_Bibliographic_Metadata-208_b.pptx&amp;form_id=208&amp;form_index=2&amp;form_version=final">Palmer-Beyond Bibliographic Metadata-208_b.pptx</a>
-</li>
-</ul>
-<p>Open Repository 2012 Poster:</p>
-
-<ul>
-<li>abstract: <a href="https://www.conftool.net/or2012/index.php/Bollini-Moving_DSpace_to_a_fully_featured_CRIS_System-288_b.docx?page=downloadPaper&amp;filename=Bollini-Moving_DSpace_to_a_fully_featured_CRIS_System-288_b.docx&amp;form_id=288&amp;form_index=2&amp;form_version=final">Bollini-Moving DSpace to a fully featured CRIS System-288_b.docx</a>
-</li>
-<li>PDF: <a href="https://www.conftool.net/or2012/index.php/Bollini-Moving_DSpace_to_a_fully_featured_CRIS_System-288_a.pdf?page=downloadPaper&amp;filename=Bollini-Moving_DSpace_to_a_fully_featured_CRIS_System-288_a.pdf&amp;form_id=288&amp;form_version=final">Bollini-Moving DSpace to a fully featured CRIS System-288_a.pdf</a>
-</li>
-</ul>
-    
         </section>
-
-        <aside id="sidebar">
+<script type="text/javascript">
+$(window).load(function() {
+    $('.screens')
+    .nivoSlider({
+        effect: 'random', // Specify sets like: 'fold,fade,sliceDown'
+        slices: 15, // For slice animations
+        boxCols: 8, // For box animations
+        boxRows: 4, // For box animations
+        animSpeed: 500, // Slide transition speed
+        pauseTime: 5000, // How long each slide will show
+        startSlide: 0, // Set starting Slide (0 index)
+        directionNav: true, // Next & Prev navigation
+        controlNav: true, // 1,2,3... navigation
+        controlNavThumbs: false, // Use thumbnails for Control Nav
+        pauseOnHover: true, // Stop animation while hovering
+        manualAdvance: false, // Force manual transitions
+        prevText: 'Prev', // Prev directionNav text
+        nextText: 'Next', // Next directionNav text
+        randomStart: true // Start on a random slide
+    });        
+});
+</script>
+<aside id="sidebar">
+          <a href="index.html" class="button">
+          <small>back to the</small>
+            Home page
+          </a>
           <a href="roadmap.html" class="button">
             <small>Detailed</small>
             Roadmap
@@ -72,7 +124,7 @@ Check <a href="roadmap.html">the detailed roadmap</a></p>
             Installation
             <small>instructions</small>
           </a>
-		  <a href="screenshot.html" class="button">
+		  <a href="screenshot.html" class="button pushed">
             Screens<small>hot!</small>
           </a>
           <p class="repo-owner"><a href="https://github.com/CILEA/dspace-cris"></a> is maintained by <a href="https://github.com/CILEA">CILEA</a>.</p>

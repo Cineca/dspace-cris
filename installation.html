@@ -13,7 +13,7 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <title>DSpace CRIS by CILEA</title>
+    <title>DSpace CRIS::Installation</title>
   </head>
 
   <body>
@@ -28,7 +28,7 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>DSpace CRIS installation</h1>
+          <h1>Installation istructions</h1>
 
 
     <div class="markdown-body">
@@ -36,220 +36,198 @@
 
 <p>The source code of the customized pre-integrated version of DSpace 1.8.2 can be found in the CILEA GitHub Repository</p>
 
-<p><strong>current line of development</strong>: <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a></p>
+<ul><li><b>current line of development</b>: <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a></li>
 
-<p><strong>tagged release</strong>: dspace-cris-1.8.2.0-alpha <a href="https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83">https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83</a></p>
+<li><b>tagged release</b>: <ul><li>dspace-cris-1.8.2.0-alpha: <a href="https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83">https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83</a></li></ul></li>
+</ul>
 
 <h2>Installation steps</h2>
 
-<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC18/Installation">https://wiki.duraspace.org/display/DSDOC18/Installation</a>
-A complete, step by step, procedure that include also steps from the standard dspace installation is available at the bottom of the following page: <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a></p>
+<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC18/Installation">https://wiki.duraspace.org/display/DSDOC18/Installation</a></p>
+
+<p>A complete, step by step, procedure that include also steps from the standard dspace installation is available at the bottom of the following page: 
+<a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a>
 
 <ol>
-<li>
-<p>Checkout and install in your maven repository the CILEA extra libraries required by DSpace CRIS</p>
+<li>Checkout and install in your maven repository the CILEA extra libraries required by DSpace CRIS
 
-<blockquote>
-<p>$ git clone <a href="https://github.com/CILEA/CCommons.git">https://github.com/CILEA/CCommons.git</a> --branch master ccommons/</p>
+<pre><code>
+$ git clone <a href="https://github.com/CILEA/CCommons.git">https://github.com/CILEA/CCommons.git</a> --branch master ccommons
 
-<p>$ cd ccommons/</p>
+$ cd ccommons/
 
-<p>usercris@servercris /e/crisinstallation/ccommons</p>
+usercris@servercris /e/crisinstallation/ccommons
 
-<p>$ mvn install</p>
+$ mvn install
 
-<p>$ git clone <a href="https://github.com/CILEA/JDynA.git">https://github.com/CILEA/JDynA.git</a> --branch master jdyna/</p>
+$ git clone <a href="https://github.com/CILEA/JDynA.git">https://github.com/CILEA/JDynA.git</a> --branch master jdyna/
 
-<p>$ cd jdyna/</p>
+$ cd jdyna/
 
-<p>usercris@servercris /e/crisinstallation/jdyna</p>
+usercris@servercris /e/crisinstallation/jdyna
 
-<p>$ mvn install</p>
-</blockquote>
+$ mvn install
+</code></pre>
 </li>
 <li>
-<p>Get the DWR library and install it in your maven repository</p>
+Get the DWR library and install it in your maven repository
 
-<blockquote>
-<p>wget <a href="https://java.net/downloads/dwr/Version%202.0.6/dwr.jar">https://java.net/downloads/dwr/Version%202.0.6/dwr.jar</a></p>
+<pre><code>
+wget <a href="https://java.net/downloads/dwr/Version%202.0.6/dwr.jar">https://java.net/downloads/dwr/Version%202.0.6/dwr.jar</a>
 
-<p>usercris@servercris /e/crisinstallation</p>
+usercris@servercris /e/crisinstallation
 
-<p>$ mvn install:install-file -Dfile=dwr.jar -DgroupId=org.directwebremoting -DartifactId=dwr -Dversion=2.0.6 -Dpackaging=jar`</p>
-</blockquote>
+$ mvn install:install-file -Dfile=dwr.jar -DgroupId=org.directwebremoting /
+	-DartifactId=dwr -Dversion=2.0.6 -Dpackaging=jar
+</code></pre>
 </li>
 <li>
-<p>Checkout the source of the pre-integrated DSpace 1.8.2 version</p>
+Checkout the source of the pre-integrated DSpace 1.8.2 version
 
-<blockquote>
-<p>$ git clone <a href="https://github.com/CILEA/DSpace.git">https://github.com/CILEA/DSpace.git</a> --branch dspace-1_8_x-cris dspace-parent/</p>
+<pre><code>
+$ git clone <a href="https://github.com/CILEA/DSpace.git">https://github.com/CILEA/DSpace.git</a> /
+	--branch dspace-1_8_x-cris dspace-parent
 
-<p>Cloning into 'dspace-parent'...</p>
+usercris@servercris /e/crisinstallation
 
-<p>usercris@servercris /e/crisinstallation</p>
+$ cd dspace-parent/
 
-<p>$ cd dspace-parent/</p>
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
 
-<p>usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)</p>
+$ git submodule sync
 
-<p>$ git submodule sync</p>
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
 
-<p>usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)</p>
+$ git submodule update --init dspace-cris/
 
-<p>$ git submodule update --init dspace-cris/</p>
-
-<p>usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)`</p>
-</blockquote>
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+</code></pre>
 </li>
 <li>
-<p>Initial Configuration: </p>
+Initial Configuration: 
 
-<pre><code>Edit [dspace-source]/dspace/config/dspace.cfg, in particular you'll need to set these properties:
+<p>Edit <b>[dspace-source]/dspace/config/dspace.cfg</b>, in particular you'll need to set these properties:
+</p>
+
+<pre><code>
+dspace.dir - must be set to the dspace directory.
+
+dspace.url - complete URL of this server's DSpace home page.
+
+dspace.hostname - fully-qualified domain name of web server.
+
+dspace.name - "Proper" name of your server, e.g. "My Digital Library".
+
+db.password - the database password you entered in the previous step.
+
+mail.server - fully-qualified domain name of your outgoing mail server.
+
+mail.from.address - the "From:" address to put on email sent by DSpace.
+
+feedback.recipient - mailbox for feedback mail.
+
+mail.admin - mailbox for DSpace site administrator.
+
+alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
+
+registration.notify - mailbox for emails when new users register (optional) 
 </code></pre>
 
-<blockquote>
-<p>dspace.dir - must be set to the <a href="installation">dspace</a> directory.</p>
+<p>Edit <b>[dspace-source]/dspace-cris/api/src/main/resources/hibernate/hibernate-rp.properties</b>
+</p>
 
-<p>dspace.url - complete URL of this server's DSpace home page.</p>
+<pre><code>
+hibernate.connection.url=
 
-<p>dspace.hostname - fully-qualified domain name of web server.</p>
+hibernate.connection.username=
 
-<p>dspace.name - "Proper" name of your server, e.g. "My Digital Library".</p>
-
-<p>db.password - the database password you entered in the previous step.</p>
-
-<p>mail.server - fully-qualified domain name of your outgoing mail server.</p>
-
-<p>mail.from.address - the "From:" address to put on email sent by DSpace.</p>
-
-<p>feedback.recipient - mailbox for feedback mail.</p>
-
-<p>mail.admin - mailbox for DSpace site administrator.</p>
-
-<p>alert.recipient - mailbox for server errors/alerts (not essential but very useful!)</p>
-
-<p>registration.notify - mailbox for emails when new users register (optional) </p>
-</blockquote>
-
-<pre><code>Edit [dspace-source]/dspace-cris/api/src/main/resources/hibernate/hibernate-rp.properties
+hibernate.connection.password=
 </code></pre>
+e.g.
+<pre><code>
+hibernate.connection.url=jdbc:postgresql://localhost:5432/dspace
 
-<blockquote>
-<p>hibernate.connection.url=</p>
+hibernate.connection.username=dspace
 
-<p>hibernate.connection.username=</p>
-
-<p>hibernate.connection.password=</p>
-
-<p>e.g.</p>
-
-<p>hibernate.connection.url=jdbc:postgresql://localhost:5432/dspace</p>
-
-<p>hibernate.connection.username=dspace</p>
-
-<p>hibernate.connection.password=dspace</p>
-</blockquote>
+hibernate.connection.password=dspace
+</code></pre>
 </li>
 <li>
-<p>Installation Package: </p>
+Installation Package: 
 
-<blockquote>
-<p>usercris@servercris /e/crisinstallation</p>
+<pre><code>
+usercris@servercris /e/crisinstallation
 
-<p>$ cd dspace-parent/</p>
+$ cd dspace-parent/
 
-<p>usercris@servercris /e/crisinstallation/dspace-parent</p>
+usercris@servercris /e/crisinstallation/dspace-parent
 
-<p>$ mvn package</p>
+$ mvn package
 
-<p>[INFO] ------------------------------------------------------------------------</p>
-
-<p>[INFO] Reactor Summary:</p>
-
-<p>[INFO]</p>
-
-<p>[INFO] DSpace Parent Project ............................. SUCCESS [0.874s]</p>
-
-<p>[INFO] DSpace CRIS .................................... SUCCESS [0.031s]</p>
-
-<p>[INFO] DSpace CRIS :: Web Application Resources ....... SUCCESS [2.465s]</p>
-
-<p>[INFO] DSpace Kernel :: API and Implementation ........... SUCCESS [3.260s]</p>
-
-<p>[INFO] DSpace Solr Statistics Logging Client Library ..... SUCCESS [1.295s]</p>
-
-<p>[INFO] DSpace JSP-UI ..................................... SUCCESS [0.016s]</p>
-
-<p>[INFO] DSpace JSP-UI :: API and Implementation ........... SUCCESS [0.530s]</p>
-
-<p>[INFO] DSpace JSP-UI :: Web Application Resources ........ SUCCESS [2.434s]</p>
-
-<p>[INFO] DSpace CRIS :: API ............................ SUCCESS [4.945s]</p>
-
-<p>[INFO] DSpace CRIS :: JSPUI API ...................... SUCCESS [1.279s]</p>
-
-<p>[INFO] DSpace Addon Modules .............................. SUCCESS [0.000s]</p>
-
-<p>[INFO] DSpace JSP-UI :: Web Application .................. SUCCESS [20.670s]</p>
-
-<p>[INFO] DSpace SOLR :: Web Application .................... SUCCESS [15.382s]</p>
-
-<p>[INFO] DSpace Assembly and Configuration ................. SUCCESS [47.783s]</p>
-
-<p>[INFO] ------------------------------------------------------------------------</p>
-
-<p>[INFO] BUILD SUCCESS</p>
-
-<p>[INFO] ------------------------------------------------------------------------</p>
-
-<p>[INFO] Total time: 1:42.087s</p>
-
-<p>[INFO] Finished at: Wed Nov 21 11:56:03 CET 2012</p>
-
-<p>[INFO] Final Memory: 41M/546M</p>
-
-<p>[INFO] ------------------------------------------------------------------------`</p>
-</blockquote>
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO]
+[INFO] DSpace Parent Project ............................. SUCCESS [0.874s]
+[INFO] DSpace CRIS .................................... SUCCESS [0.031s]
+[INFO] DSpace CRIS :: Web Application Resources ....... SUCCESS [2.465s]
+[INFO] DSpace Kernel :: API and Implementation ........... SUCCESS [3.260s]
+[INFO] DSpace Solr Statistics Logging Client Library ..... SUCCESS [1.295s]
+[INFO] DSpace JSP-UI ..................................... SUCCESS [0.016s]
+[INFO] DSpace JSP-UI :: API and Implementation ........... SUCCESS [0.530s]
+[INFO] DSpace JSP-UI :: Web Application Resources ........ SUCCESS [2.434s]
+[INFO] DSpace CRIS :: API ............................ SUCCESS [4.945s]
+[INFO] DSpace CRIS :: JSPUI API ...................... SUCCESS [1.279s]
+[INFO] DSpace Addon Modules .............................. SUCCESS [0.000s]
+[INFO] DSpace JSP-UI :: Web Application .................. SUCCESS [20.670s]
+[INFO] DSpace SOLR :: Web Application .................... SUCCESS [15.382s]
+[INFO] DSpace Assembly and Configuration ................. SUCCESS [47.783s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1:42.087s
+[INFO] Finished at: Wed Nov 21 11:56:03 CET 2012
+[INFO] Final Memory: 41M/546M
+[INFO] ------------------------------------------------------------------------`
+</code></pre>
 </li>
 <li>
-<p>Build DSpace and Initialize Database</p>
+Build DSpace and Initialize Database
+<pre><code>
+cd [dspace-source]/dspace/target/dspace-[version]-build
 
-<blockquote>
-<p>cd [dspace-source]/dspace/target/dspace-[version]-build</p>
-
-<p>ant fresh_install`</p>
-</blockquote>
+ant fresh_install`
+</code></pre>
 </li>
 <li>
-<p>Create CRIS folders:</p>
+Create CRIS folders:
 
-<blockquote>
-<p>usercris@servercris [dspace-source]/dspace/target/dspace-[version]-build</p>
+<pre><code>
+usercris@servercris [dspace-source]/dspace/target/dspace-[version]-build
 
-<p>$ cd [dspace]</p>
+$ cd [dspace]
 
-<p>usercris@servercris [dspace]</p>
+usercris@servercris [dspace]
 
-<p>$ mkdir rp-files</p>
+$ mkdir rp-files
 
-<p>$ mkdir rg-files</p>
+$ mkdir rg-files
 
-<p>$ mkdir ou-files`</p>
-</blockquote>
+$ mkdir ou-files`
+</code></pre>
 </li>
-<li><p>Update database to CRIS: run sql update [dspace]/etc/postgres/addon-crismodule.sql</p></li>
+<li>Update database to CRIS: run sql update <pre><code>[dspace]/etc/postgres/addon-crismodule.sql</code></pre></li>
 <li>
-<p>Deploy the Web Application</p>
+Deploy the Web Application
 
-<blockquote>
-<p>cp -R [dspace]/webapps/jspui* [tomcat]/webapps</p>
-</blockquote>
+<pre><code>
+cp -R [dspace]/webapps/jspui* [tomcat]/webapps
+</code></pre>
 </li>
 </ol><h2>Post installation</h2>
 
-<p>Now the DSpace-CRIS module is setup and running but the configuration is empty, you can populate the database with a basic configuration running the base-configuration-crismodule.sql:</p>
+<p>Now the DSpace-CRIS module is setup and running but the configuration is empty, you can populate the database with a basic configuration running the base-configuration-crismodule.sql:
 
-<p>[dspace]/etc/postgres/base-configuration-crismodule.sql</p>
+<pre><code>[dspace]/etc/postgres/base-configuration-crismodule.sql</code></pre>
 
 <p>or you can use the aministrative UI of the CRIS module to setup your configuration.</p>
 
@@ -262,14 +240,18 @@ You can alter this configuration from the administration section of the CRIS mod
     
         </section>
 
-        <aside id="sidebar">
-        <a href="index.html" class="button">
-            <small>back to the</small>
+<aside id="sidebar">
+          <a href="index.html" class="button">
+          <small>back to the</small>
             Home page
           </a>
           <a href="roadmap.html" class="button">
             <small>Detailed</small>
             Roadmap
+          </a>
+          <a href="installation.html" class="button pushed">
+            Installation
+            <small>instructions</small>
           </a>
 		  <a href="screenshot.html" class="button">
             Screens<small>hot!</small>
