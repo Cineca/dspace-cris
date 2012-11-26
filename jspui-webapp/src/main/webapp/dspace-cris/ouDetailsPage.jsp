@@ -51,6 +51,30 @@ The contents of this file are subject to the license and copyright
 <c:set var="admin" scope="request"><%= isAdmin %></c:set>
 
 <c:set var="dspace.layout.head.last" scope="request">
+	<!--[if lte IE 8]>
+			
+    <script type="text/javascript">
+    	
+   	jQuery(document).ready(function()
+		{
+		
+			jQuery( ".cris-edit-anchor" ).position({
+    			my: "left top",
+    			at: "left top",
+    			of: "#tabs",
+    			offset: "-30 0"    			
+			});
+			
+			if(jQuery.support.leadingWhitespace) {
+			
+			}
+			else {
+				jQuery( ".cris-edit-anchor" ).css("filter","progid:DXImageTransform.Microsoft.BasicImage(rotation=1)");
+			}		
+    	}
+    );
+    </script>        
+	<![endif]-->
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();    	
@@ -253,9 +277,13 @@ The contents of this file are subject to the license and copyright
 			
 			<c:if test="${ou_page_menu && !empty ou}"> 		
 				<c:if test="${!empty addModeType && addModeType=='display'}">
-      			
+      			<!--[if lte IE 8]>
+      			<div id="cris-edit-anchor-div">
+      			<![endif]-->
       				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/ou/editDynamicData.htm?id=${entity.id}&anagraficaId=${entity.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.ou"/></a>
-      			
+      			<!--[if lte IE 8]>
+      			</div>
+      			<![endif]-->
   				</c:if>
  			</c:if> 			
 			<jsp:include page="commonDetailsPage.jsp"></jsp:include>
