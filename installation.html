@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>DSpace CRIS::Installation</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>DSpace CRIS</h1>
+        <h2>Current Research Information System (CRIS) made easy with DSpace</h2>
+        <a href="https://github.com/CILEA/dspace-cris" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>Installation instructions</h1>
+
+
+    <div class="markdown-body">
+      <p>DSpace CRIS is an addon for the DSpace platform. This page describes as install the addon on the top of a customized version of DSpace JSPUI 1.8.2 that already includes the "core" changes needed to integrate DSpace CRIS.</p>
+
+<p>The source code of the customized pre-integrated version of DSpace 1.8.2 can be found in the CILEA GitHub Repository</p>
+
+<ul><li><b>current line of development</b>: <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a></li>
+
+<li><b>tagged release</b>: <ul><li>dspace-cris-1.8.2.0-alpha: <a href="https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83">https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83</a></li></ul></li>
+</ul>
+
+<h2>Installation steps</h2>
+
+<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC18/Installation">https://wiki.duraspace.org/display/DSDOC18/Installation</a></p>
+
+<p>A complete, step by step, procedure that include also steps from the standard dspace installation is available at the bottom of the following page: 
+<a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a>
+
+<ol>
+<li>Checkout and install in your maven repository the CILEA extra libraries required by DSpace CRIS
+
+<pre><code>
+$ git clone <a href="https://github.com/CILEA/CCommons.git">https://github.com/CILEA/CCommons.git</a> --branch master ccommons
+
+$ cd ccommons/
+
+usercris@servercris /e/crisinstallation/ccommons
+
+$ mvn install
+
+$ git clone <a href="https://github.com/CILEA/JDynA.git">https://github.com/CILEA/JDynA.git</a> --branch master jdyna/
+
+$ cd jdyna/
+
+usercris@servercris /e/crisinstallation/jdyna
+
+$ mvn install
+</code></pre>
+</li>
+<li>
+Get the DWR library and install it in your maven repository
+
+<pre><code>
+wget <a href="https://java.net/downloads/dwr/Version%202.0.6/dwr.jar">https://java.net/downloads/dwr/Version%202.0.6/dwr.jar</a>
+
+usercris@servercris /e/crisinstallation
+
+$ mvn install:install-file -Dfile=dwr.jar -DgroupId=org.directwebremoting /
+	-DartifactId=dwr -Dversion=2.0.6 -Dpackaging=jar
+</code></pre>
+</li>
+<li>
+Checkout the source of the pre-integrated DSpace 1.8.2 version
+
+<pre><code>
+$ git clone <a href="https://github.com/CILEA/DSpace.git">https://github.com/CILEA/DSpace.git</a> /
+	--branch dspace-1_8_x-cris dspace-parent
+
+usercris@servercris /e/crisinstallation
+
+$ cd dspace-parent/
+
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+
+$ git submodule sync
+
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+
+$ git submodule update --init dspace-cris/
+
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+</code></pre>
+</li>
+<li>
+Initial Configuration: 
+
+<p>Edit <b>[dspace-source]/dspace/config/dspace.cfg</b>, in particular you'll need to set these properties:
+</p>
+
+<pre><code>
+dspace.dir - must be set to the dspace directory.
+
+dspace.url - complete URL of this server's DSpace home page.
+
+dspace.hostname - fully-qualified domain name of web server.
+
+dspace.name - "Proper" name of your server, e.g. "My Digital Library".
+
+db.password - the database password you entered in the previous step.
+
+mail.server - fully-qualified domain name of your outgoing mail server.
+
+mail.from.address - the "From:" address to put on email sent by DSpace.
+
+feedback.recipient - mailbox for feedback mail.
+
+mail.admin - mailbox for DSpace site administrator.
+
+alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
+
+registration.notify - mailbox for emails when new users register (optional) 
+</code></pre>
+
+<p>Edit <b>[dspace-source]/dspace-cris/api/src/main/resources/hibernate/hibernate-rp.properties</b>
+</p>
+
+<pre><code>
+hibernate.connection.url=
+
+hibernate.connection.username=
+
+hibernate.connection.password=
+</code></pre>
+e.g.
+<pre><code>
+hibernate.connection.url=jdbc:postgresql://localhost:5432/dspace
+
+hibernate.connection.username=dspace
+
+hibernate.connection.password=dspace
+</code></pre>
+</li>
+<li>
+Installation Package: 
+
+<pre><code>
+usercris@servercris /e/crisinstallation
+
+$ cd dspace-parent/
+
+usercris@servercris /e/crisinstallation/dspace-parent
+
+$ mvn package
+
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO]
+[INFO] DSpace Parent Project ............................. SUCCESS [0.874s]
+[INFO] DSpace CRIS .................................... SUCCESS [0.031s]
+[INFO] DSpace CRIS :: Web Application Resources ....... SUCCESS [2.465s]
+[INFO] DSpace Kernel :: API and Implementation ........... SUCCESS [3.260s]
+[INFO] DSpace Solr Statistics Logging Client Library ..... SUCCESS [1.295s]
+[INFO] DSpace JSP-UI ..................................... SUCCESS [0.016s]
+[INFO] DSpace JSP-UI :: API and Implementation ........... SUCCESS [0.530s]
+[INFO] DSpace JSP-UI :: Web Application Resources ........ SUCCESS [2.434s]
+[INFO] DSpace CRIS :: API ............................ SUCCESS [4.945s]
+[INFO] DSpace CRIS :: JSPUI API ...................... SUCCESS [1.279s]
+[INFO] DSpace Addon Modules .............................. SUCCESS [0.000s]
+[INFO] DSpace JSP-UI :: Web Application .................. SUCCESS [20.670s]
+[INFO] DSpace SOLR :: Web Application .................... SUCCESS [15.382s]
+[INFO] DSpace Assembly and Configuration ................. SUCCESS [47.783s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1:42.087s
+[INFO] Finished at: Wed Nov 21 11:56:03 CET 2012
+[INFO] Final Memory: 41M/546M
+[INFO] ------------------------------------------------------------------------`
+</code></pre>
+</li>
+<li>
+Build DSpace and Initialize Database
+<pre><code>
+cd [dspace-source]/dspace/target/dspace-[version]-build
+
+ant fresh_install`
+</code></pre>
+</li>
+<li>
+Create CRIS folders:
+
+<pre><code>
+usercris@servercris [dspace-source]/dspace/target/dspace-[version]-build
+
+$ cd [dspace]
+
+usercris@servercris [dspace]
+
+$ mkdir rp-files
+
+$ mkdir rg-files
+
+$ mkdir ou-files`
+</code></pre>
+</li>
+<li>Update database to CRIS: run sql update <pre><code>[dspace]/etc/postgres/addon-crismodule.sql</code></pre></li>
+<li>
+Deploy the Web Application
+
+<pre><code>
+cp -R [dspace]/webapps/jspui* [tomcat]/webapps
+</code></pre>
+</li>
+</ol><h2>Post installation</h2>
+
+<p>Now the DSpace-CRIS module is setup and running but the configuration is empty, you can populate the database with a basic configuration running the base-configuration-crismodule.sql:
+
+<pre><code>[dspace]/etc/postgres/base-configuration-crismodule.sql</code></pre>
+
+<p>or you can use the aministrative UI of the CRIS module to setup your configuration.</p>
+
+<p>The base-configuration-crismodule.sql file create for you a base metadata configuration for Researcher profile, Organization Unit and Project entity.
+You can alter this configuration from the administration section of the CRIS module. </p>
+
+<p>Login with your administrator account and go to "Administer-&gt;CRIS Module". </p>
+    </div>
+  
+    
+        </section>
+
+<aside id="sidebar">
+          <a href="index.html" class="button">
+          <small>back to the</small>
+            Home page
+          </a>
+          <a href="roadmap.html" class="button">
+            <small>Detailed</small>
+            Roadmap
+          </a>
+          <a href="installation.html" class="button pushed">
+            Installation
+            <small>instructions</small>
+          </a>
+		  <a href="screenshot.html" class="button">
+            Screens<small>hot!</small>
+          </a>
+          <p class="repo-owner"><a href="https://github.com/CILEA/dspace-cris"></a> is maintained by <a href="https://github.com/CILEA">CILEA</a>.</p>
+
+          <p>This page was generated by <a href="http://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-36601047-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
