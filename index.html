@@ -8,11 +8,28 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
+	<script type="text/javascript" src="http://www.youtube.com/iframe_api"></script>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
+	<script type="text/javascript">
+	var player;
+	var onPlayerReady = function() {
+	  	player.seekTo(190);
+	  	player.pauseVideo();
+    }
+	function onYouTubeIframeAPIReady() {
+	  player = new YT.Player('player', {
+	    height: '390',
+	    width: '640',
+	    videoId: 'Qz-5sS6t_9Y',
+	    events: {
+	        'onReady': onPlayerReady,
+	    }
+	  });
+	  
+	}
+	</script>
     <title>DSpace CRIS by CILEA::Home page</title>
   </head>
 
@@ -41,7 +58,7 @@ Check <a href="roadmap.html">the detailed roadmap</a></p>
 
 <p>As this project is a module for the DSpace platform be sure to check the <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">DSpace CILEA fork</a>, the branch dspace_1_8_x_cris provide out-of-box integration of the DSpace CRIS module</p>
 
-<iframe width="640" height="360" src="http://www.youtube.com/embed/Qz-5sS6t_9Y?rel=0" frameborder="0" allowfullscreen></iframe>
+<div id="player"></div>
 
 <h3>References</h3>
 <p>Open Repository 2012 Presentation:</p>
