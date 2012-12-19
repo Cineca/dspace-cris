@@ -68,7 +68,7 @@ public class ResearcherPageUtils
      */
     public static String getPersistentIdentifier(ACrisObject cris)
     {
-        return cris.getAuthorityPrefix() + formatIdentifier(cris.getId(), cris.getClass());
+        return formatIdentifier(cris.getId(), cris.getClass());
     }
 
     
@@ -81,7 +81,7 @@ public class ResearcherPageUtils
         try
         {
             cris = clazz.newInstance();
-            return cris.getAuthorityPrefix() + formatIdentifier(crisID, clazz);
+            return formatIdentifier(crisID, clazz);
         }
         catch (InstantiationException e)
         {
@@ -105,7 +105,7 @@ public class ResearcherPageUtils
         if(crisId!=null && !crisId.isEmpty()) {
             return crisId;    
         }
-        return persIdentifierFormat.format(rp);
+        return crisObject.getAuthorityPrefix() + persIdentifierFormat.format(rp);
     }
 
     /**
