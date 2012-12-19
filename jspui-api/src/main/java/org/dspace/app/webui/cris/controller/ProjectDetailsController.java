@@ -217,6 +217,6 @@ public class ProjectDetailsController
     
     protected Integer getRealPersistentIdentifier(String persistentIdentifier)
     {
-        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier);
+        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier, Project.class);
     }
 }

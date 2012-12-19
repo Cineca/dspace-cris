@@ -7,12 +7,7 @@
  */
 package org.dspace.app.cris.dao;
 
-import it.cilea.osd.common.dao.PaginableObjectDao;
-
-import java.io.Serializable;
-
 import org.dspace.app.cris.model.Project;
-import org.dspace.app.cris.model.ResearcherPage;
 
 /**
  * This interface define the methods available to retrieve Project
@@ -20,7 +15,7 @@ import org.dspace.app.cris.model.ResearcherPage;
  * @author cilea
  * 
  */
-public interface ProjectDao extends PaginableObjectDao<Project, Serializable>
+public interface ProjectDao extends CrisObjectDao<Project>
 {
 
     public Project uniqueBySourceID(String staffNo);

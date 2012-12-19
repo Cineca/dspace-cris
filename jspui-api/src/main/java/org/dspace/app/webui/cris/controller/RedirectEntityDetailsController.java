@@ -57,7 +57,7 @@ public class RedirectEntityDetailsController<T extends ACrisObject> extends
                 String[] splitted = path.split("/");
                 request.setAttribute("authority", splitted[1]);
                 entity = ((ApplicationService) applicationService)
-                        .get(modelClass,ResearcherPageUtils.getRealPersistentIdentifier(splitted[1]));
+                        .get(modelClass,ResearcherPageUtils.getRealPersistentIdentifier(splitted[1], modelClass));
                  
             }
         }

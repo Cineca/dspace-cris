@@ -42,7 +42,8 @@ import org.dspace.app.cris.model.jdyna.OUProperty;
         @NamedQuery(name = "OrganizationUnit.paginate.uuid.asc", query = "from OrganizationUnit order by uuid asc"),
         @NamedQuery(name = "OrganizationUnit.paginate.uuid.desc", query = "from OrganizationUnit order by uuid desc"),
         @NamedQuery(name = "OrganizationUnit.uniqueUUID", query = "from OrganizationUnit where uuid = ?"),
-        @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceID = ?")  
+        @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceID = ?"),
+        @NamedQuery(name = "OrganizationUnit.uniqueByCrisID", query = "from OrganizationUnit where crisID = ?")  
 })
 public class OrganizationUnit extends
 		ACrisObject<OUProperty, OUPropertiesDefinition> implements

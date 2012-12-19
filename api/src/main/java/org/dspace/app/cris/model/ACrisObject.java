@@ -7,15 +7,14 @@
  */
 package org.dspace.app.cris.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import it.cilea.osd.common.model.Identifiable;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -36,6 +35,10 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     @Column(nullable = true, unique = true)
     private String sourceID;
 
+    /** Cris public unique identifier, must be null  */
+    @Column(nullable = true, unique = true)
+    private String crisID;
+    
     private Boolean status;
 
     @Column(nullable = false, unique = true)
@@ -187,5 +190,15 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     public String toString()
     {
         return getName();
+    }
+
+    public String getCrisID()
+    {
+        return crisID;
+    }
+
+    public void setCrisID(String crisID)
+    {
+        this.crisID = crisID;
     }
 }

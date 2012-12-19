@@ -183,7 +183,7 @@ public abstract class CRISAuthority implements ChoiceAuthority
     public String getLabel(String field, String key, String locale)
     {
         init();
-        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(key);
+        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(key, getCRISTargetClass());
         if (id == null)
         {
             log.error(LogManager.getHeader(null, "getLabel",

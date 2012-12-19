@@ -68,7 +68,7 @@ public class ResearcherPageUtils
      */
     public static String getPersistentIdentifier(ACrisObject cris)
     {
-        return cris.getAuthorityPrefix() + formatIdentifier(cris.getId());
+        return cris.getAuthorityPrefix() + formatIdentifier(cris.getId(), cris.getClass());
     }
 
     
@@ -81,7 +81,7 @@ public class ResearcherPageUtils
         try
         {
             cris = clazz.newInstance();
-            return cris.getAuthorityPrefix() + formatIdentifier(crisID);
+            return cris.getAuthorityPrefix() + formatIdentifier(crisID, clazz);
         }
         catch (InstantiationException e)
         {
@@ -98,8 +98,13 @@ public class ResearcherPageUtils
     /**
      * Format the cris suffix identifier starting from the db internal primary key
     */
-    private static String formatIdentifier(Integer rp)
+    private static String formatIdentifier(Integer rp, Class className)
     {
+        ACrisObject crisObject = applicationService.get(className,rp);
+        String crisId = crisObject.getCrisID();
+        if(crisId!=null && !crisId.isEmpty()) {
+            return crisId;    
+        }
         return persIdentifierFormat.format(rp);
     }
 
@@ -110,11 +115,16 @@ public class ResearcherPageUtils
      *            the cris identifier
      * @return the db primary key
      */
-    public static Integer getRealPersistentIdentifier(String authorityKey)
+    public static Integer getRealPersistentIdentifier(String authorityKey, Class className)
     {
         try
         {
-            return Integer.parseInt(authorityKey.substring(2));
+            String id = authorityKey.substring(2);
+            ACrisObject crisObject = applicationService.getEntityByCrisId(authorityKey, className);
+            if(crisObject!=null) {
+                 return crisObject.getId();
+            }
+            return Integer.parseInt(id); 
         }
         catch (NumberFormatException e)
         {
@@ -162,7 +172,7 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
             return getLabel(alternativeName, rp);
         }
         return alternativeName;
@@ -183,7 +193,7 @@ public class ResearcherPageUtils
         if (alternativeName != null && rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
             return alternativeName.equals(rp.getFullName());
         }
         return false;
@@ -204,7 +214,7 @@ public class ResearcherPageUtils
         if (alternativeName != null && rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
             return alternativeName.equals(rp.getTranslatedName().getValue());
         }
         return false;
@@ -222,7 +232,7 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
             return rp.getFullName();
         }
         return null;
@@ -240,7 +250,7 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
             return rp != null ? rp.getSourceID() : null;
         }
         return null;
@@ -279,7 +289,7 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
             return VisibilityConstants.PUBLIC == rp.getTranslatedName()
                     .getVisibility() ? rp.getTranslatedName().getValue() : "";
         }

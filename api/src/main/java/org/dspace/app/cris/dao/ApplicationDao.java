@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.dspace.app.cris.model.ACrisObject;
 import org.hibernate.CacheMode;
-import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
 /**
@@ -22,40 +22,44 @@ import org.hibernate.Query;
  * @author cilea
  * 
  */
-public class ApplicationDao extends it.cilea.osd.common.dao.impl.ApplicationDao {
+public class ApplicationDao extends it.cilea.osd.common.dao.impl.ApplicationDao
+{
 
-	public void clearSession() {
-		getSession().clear();		
-	}
-	public void ignoreCacheMode() {
-		getSession().setCacheMode(CacheMode.IGNORE);
-	}
-	public void flushSession() {
-		getSession().flush();
-	}
-	public void evict(Identifiable identifiable){
-		getSession().evict(identifiable);
-	}
-	
-	public <T extends Object> List<T> getCL(String token, String classe) {
-		Query query = getSession().getNamedQuery(classe + ".findByDescription");
-		query.setParameter(0, "%"+token+"%");
-		return query.list();
-	}
-    
-	public <C extends ACrisObject> C uniqueUUID(String uuid)
+    public void clearSession()
     {
-        Query query = getSession().createQuery("from ACrisObject where uuid = ?");
+        getSession().clear();
+    }
+
+    public void ignoreCacheMode()
+    {
+        getSession().setCacheMode(CacheMode.IGNORE);
+    }
+
+    public void flushSession()
+    {
+        getSession().flush();
+    }
+
+    public void evict(Identifiable identifiable)
+    {
+        getSession().evict(identifiable);
+    }
+
+    public <T extends Object> List<T> getCL(String token, String classe)
+    {
+        Query query = getSession().getNamedQuery(classe + ".findByDescription");
+        query.setParameter(0, "%" + token + "%");
+        return query.list();
+    }
+   
+
+    public <C extends ACrisObject> C uniqueByUUID(String uuid)
+    {
+        Query query = getSession().createQuery(
+                "from org.dspace.app.cris.model.ACrisObject where uuid = ?");
         query.setParameter(0, uuid);
-        return (C)query.uniqueResult();            
+        return (C) query.uniqueResult();
     }
 
-    public <C extends ACrisObject> C uniqueBySourceID(String sourceID)
-    {
-        Query query = getSession().createQuery("from ACrisObject where sourceID = ?");
-        query.setParameter(0, sourceID);
-        return (C)query.uniqueResult();
-    }
-
-
+ 
 }

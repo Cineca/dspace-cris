@@ -98,7 +98,7 @@ public class ScriptDeleteRP
             Item[] items = null;
             if (line.hasOption('r'))
             {
-                rpId = ResearcherPageUtils.getRealPersistentIdentifier(line.getOptionValue("r"));
+                rpId = ResearcherPageUtils.getRealPersistentIdentifier(line.getOptionValue("r"),ResearcherPage.class);
                 ResearcherPage rp = applicationService.get(
                         ResearcherPage.class, rpId);
 

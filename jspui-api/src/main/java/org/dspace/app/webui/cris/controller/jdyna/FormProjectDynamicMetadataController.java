@@ -389,7 +389,7 @@ public class FormProjectDynamicMetadataController
                         ResearcherPage.class,
                         ResearcherPageUtils
                                 .getRealPersistentIdentifier(investigator
-                                        .trim()));
+                                        .trim(),ResearcherPage.class));
                 realInvestigator.setIntInvestigator(rp);
             }
             else
@@ -411,7 +411,7 @@ public class FormProjectDynamicMetadataController
                     ResearcherPage rp = getApplicationService().get(
                             ResearcherPage.class,
                             ResearcherPageUtils.getRealPersistentIdentifier(co
-                                    .trim()));
+                                    .trim(),ResearcherPage.class));
                     realInvestigator.setIntInvestigator(rp);
                 }
                 else

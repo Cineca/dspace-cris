@@ -217,6 +217,6 @@ public class OUDetailsController
     
     protected Integer getRealPersistentIdentifier(String persistentIdentifier)
     {
-        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier);
+        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier, OrganizationUnit.class);
     }
 }

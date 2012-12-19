@@ -318,7 +318,7 @@ public class ResearcherPageDetailsController
     
     protected Integer getRealPersistentIdentifier(String persistentIdentifier)
     {
-        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier);
+        return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier, ResearcherPage.class);
     }
 
 }

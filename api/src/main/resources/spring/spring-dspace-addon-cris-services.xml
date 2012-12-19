@@ -1190,8 +1190,11 @@
 				<entry key="save-update">					
 					<ref local="UUIDListener" />											
 				</entry>
-				<entry key="pre-insert">				
-					<ref local="RPListener" />							
+				<entry key="pre-insert">		
+					<list>		
+						<ref local="RPListener" />	
+						<ref local="CRISIDListener" />
+					</list>
 				</entry>				
 				<entry key="pre-update">					
 					<ref local="RPListener" />											
@@ -1201,7 +1204,7 @@
 				</entry>
 				<entry key="post-insert">
 					<list>
-						<ref local="crisIndexerListner" />
+						<ref local="crisIndexerListner" />						
 					</list>
 				</entry>
 				<entry key="post-update">	
@@ -1213,7 +1216,7 @@
 					<list>
 						<ref local="crisIndexerListner" />
 					</list>
-				</entry>
+				</entry>				
 			</map>
 		</property>
 	</bean>
@@ -1225,6 +1228,8 @@
 	<bean id="RPListener" class="org.dspace.app.cris.model.listener.RPListener"/>
 
 	<bean id="UUIDListener" class="org.dspace.app.cris.model.listener.UUIDListener"/>
+	
+	<bean id="CRISIDListener" class="org.dspace.app.cris.model.listener.CrisIDListener"/>
 	
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">

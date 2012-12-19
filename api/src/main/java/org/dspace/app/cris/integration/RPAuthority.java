@@ -329,7 +329,7 @@ public class RPAuthority implements ChoiceAuthority, AuthorityVariantsSupport,
     public String getLabel(String field, String key, String locale)
     {
         init();
-        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(key);
+        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(key, ResearcherPage.class);
         if (id == null)
         {
             log.error(LogManager.getHeader(null, "getLabel",
@@ -353,7 +353,7 @@ public class RPAuthority implements ChoiceAuthority, AuthorityVariantsSupport,
     public List<String> getVariants(String key, String locale)
     {
         init();
-        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(key);
+        Integer id = ResearcherPageUtils.getRealPersistentIdentifier(key,ResearcherPage.class);
         if (id == null)
         {
             log.error(LogManager.getHeader(null, "getLabel",

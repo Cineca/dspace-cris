@@ -175,7 +175,7 @@ public class CrisItemEnhancerUtility
 
                 result.addAll(getPathAsMetadata(as, as.get(enh.getClazz(),
                         ResearcherPageUtils
-                                .getRealPersistentIdentifier(authKey)), path));
+                                .getRealPersistentIdentifier(authKey,enh.getClazz())), path));
             }
 
         }

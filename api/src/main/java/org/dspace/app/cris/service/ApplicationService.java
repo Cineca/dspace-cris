@@ -13,7 +13,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.dspace.app.cris.dao.ApplicationDao;
+import org.dspace.app.cris.dao.CrisObjectDao;
 import org.dspace.app.cris.dao.OrganizationUnitDao;
 import org.dspace.app.cris.dao.ProjectDao;
 import org.dspace.app.cris.dao.RPSubscriptionDao;
@@ -54,17 +56,7 @@ public class ApplicationService extends ExtendedTabService
         rpSubscriptionDao = (RPSubscriptionDao) getDaoByModel(RPSubscription.class);
 
     }
-
-    public <C extends ACrisObject> C getEntityByUUID(String uuid)
-    {
-        return ((ApplicationDao)getApplicationDao()).uniqueUUID(uuid);
-    }
-
-    public <C extends ACrisObject> C getEntityBySourceID(String sourceID)
-    {
-        return ((ApplicationDao)getApplicationDao()).uniqueBySourceID(sourceID);
-    }
-
+   
     /**
      * Evict a persistent object from the HibernateSession
      * 
@@ -189,7 +181,7 @@ public class ApplicationService extends ExtendedTabService
         {
             rp = get(ResearcherPage.class,
                     ResearcherPageUtils
-                            .getRealPersistentIdentifier(authorityKey));
+                            .getRealPersistentIdentifier(authorityKey, ResearcherPage.class));
         }
         catch (Exception e)
         {
@@ -305,7 +297,7 @@ public class ApplicationService extends ExtendedTabService
         Integer s = null;
         if (start != null && !start.isEmpty())
         {
-            s = ResearcherPageUtils.getRealPersistentIdentifier(start);
+            s = ResearcherPageUtils.getRealPersistentIdentifier(start, ResearcherPage.class);
             return researcherPageDao.findAllNextResearcherByIDStart(s);
         }
         return null;
@@ -316,7 +308,7 @@ public class ApplicationService extends ExtendedTabService
         Integer e = null;
         if (end != null && !end.isEmpty())
         {
-            e = ResearcherPageUtils.getRealPersistentIdentifier(end);
+            e = ResearcherPageUtils.getRealPersistentIdentifier(end, ResearcherPage.class);
             return researcherPageDao.findAllPrevResearcherByIDEnd(e);
         }
         return null;
@@ -328,8 +320,8 @@ public class ApplicationService extends ExtendedTabService
         Integer e = null;
         if (start != null && !start.isEmpty() && end != null && !end.isEmpty())
         {
-            e = ResearcherPageUtils.getRealPersistentIdentifier(end);
-            s = ResearcherPageUtils.getRealPersistentIdentifier(start);
+            e = ResearcherPageUtils.getRealPersistentIdentifier(end, ResearcherPage.class);
+            s = ResearcherPageUtils.getRealPersistentIdentifier(start, ResearcherPage.class);
             return researcherPageDao.findAllResearcherInIDRange(s, e);
         }
         return null;
@@ -414,6 +406,17 @@ public class ApplicationService extends ExtendedTabService
     {
         //return (OrganizationUnit) getEntityBySourceID(code);
         return organizationUnitDao.uniqueBySourceID(code);
+    }
+
+    public <T extends ACrisObject> T getEntityByCrisId(String crisID, Class<T> className)
+    {        
+        CrisObjectDao<T> dao = (CrisObjectDao<T>) getDaoByModel(className);
+        return dao.uniqueByCrisID(crisID);
+    }
+  
+    public <C extends ACrisObject> C getEntityByUUID(String uuid)
+    {
+        return ((ApplicationDao)getApplicationDao()).uniqueByUUID(uuid);
     }
 
 }

@@ -7,8 +7,6 @@
  */
 package org.dspace.app.cris.dao;
 
-import it.cilea.osd.common.dao.PaginableObjectDao;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +20,7 @@ import org.dspace.app.cris.model.jdyna.RPProperty;
  * @author cilea
  * 
  */
-public interface ResearcherPageDao extends
-        PaginableObjectDao<ResearcherPage, Serializable>
+public interface ResearcherPageDao extends CrisObjectDao<ResearcherPage>        
 {
     public ResearcherPage uniqueBySourceID(String staffNo);
 

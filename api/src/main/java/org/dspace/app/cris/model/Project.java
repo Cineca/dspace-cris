@@ -47,7 +47,8 @@ import org.dspace.app.cris.util.Researcher;
         @NamedQuery(name = "Project.paginate.uuid.asc", query = "from Project order by uuid asc"),
         @NamedQuery(name = "Project.paginate.uuid.desc", query = "from Project order by uuid desc"),
         @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ? order by id desc"),
-        @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?")
+        @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?"),
+        @NamedQuery(name = "Project.uniqueByCrisID", query = "from Project where crisID = ?")        
   })
 public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefinition>
         implements                
