@@ -26,7 +26,15 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>		
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>		
+		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>				
+		</dependency>    		
 		<dependency>
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
@@ -171,11 +179,11 @@
 						</goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
 						inheritRefs="true"> <target name="create-tables-and-GEN-DDL" /> </ant> </tasks> 
 						</configuration> </execution> 
-					-->
+					
 					
 					<execution>
 						<id>generate-ddl</id>
-						<!-- <phase>process-classes</phase> -->  
+					
 						<goals>
 							<goal>run</goal>
 						</goals>
@@ -190,7 +198,7 @@
 					</execution>
 				
 
-<!-- 					<execution>
+				<execution>
 						<id>generate-drop-ddl</id>
 						<phase>process-classes</phase>
 						<goals>
@@ -205,7 +213,7 @@
 							</tasks>
 						</configuration>
 					</execution> 
-					  
+					  -->
 			
 						<execution>
 							<id>generate-update-ddl</id>
@@ -223,7 +231,7 @@
 									</ant>
 								</tasks>
 							</configuration>
-						</execution>  -->
+						</execution> 
 				
 					 <!-- <execution> <id>refresh-database</id> <phase>process-classes</phase> 
 						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 

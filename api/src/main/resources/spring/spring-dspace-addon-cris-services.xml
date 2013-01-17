@@ -1155,11 +1155,18 @@
 	
 
 	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${hibernate.connection.driver_class}" />
-		<property name="url" value="${hibernate.connection.url}" />
-		<property name="username" value="${hibernate.connection.username}" />
+		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${hibernate.connection.driver_class}" />
+		<property name="jdbcUrl" value="${hibernate.connection.url}" />
+		<property name="user" value="${hibernate.connection.username}" />
 		<property name="password" value="${hibernate.connection.password}" />
+		
+		<!-- these are C3P0 properties -->
+        <property name="acquireIncrement" value="${c3p0.acquire_increment}" />
+        <property name="minPoolSize" value="${c3p0.idle_test_period}" />
+        <property name="maxPoolSize" value="${c3p0.max_size}" />
+        <property name="maxIdleTime" value="${c3p0.min_size}" />
+		
 	</bean>
 
 	<bean id="sessionFactory"
