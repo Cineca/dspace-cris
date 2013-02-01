@@ -77,7 +77,37 @@
 				<version>0.9.1.2</version>
 				<type>jar</type>
 				<scope>compile</scope>
-			</dependency>            
+			</dependency>    
+		<dependency>
+			<groupId>jdyna-core</groupId>
+			<artifactId>jdyna-core</artifactId>
+			<version>3.0-beta</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jdyna-date</groupId>
+			<artifactId>jdyna-date</artifactId>
+			<version>3.0-beta</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jdyna-pointer</groupId>
+			<artifactId>jdyna-pointer</artifactId>
+			<version>3.0-beta</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jdyna-web-api</groupId>
+			<artifactId>jdyna-web-api</artifactId>
+			<version>3.0-beta</version>
+		</dependency>      
+		
+		<dependency>
+			<groupId>jdyna-webmvc-api</groupId>
+			<artifactId>jdyna-webmvc-api</artifactId>
+			<version>3.0-beta</version>
+		</dependency>
+		
 		</dependencies>
 	</dependencyManagement>
 
