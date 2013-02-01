@@ -480,3 +480,5 @@ footer a:hover {
 .button.pushed {
     border-bottom: 5px solid orange;
 }
+p.notice {border: orange solid 1px; padding: 5px;}
+p.notice b {font-weight: bold;}
