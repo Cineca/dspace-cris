@@ -100,7 +100,7 @@ public class ResearcherPageUtils
     */
     private static String formatIdentifier(Integer rp, Class className)
     {
-        ACrisObject crisObject = applicationService.get(className,rp);
+        ACrisObject crisObject = (ACrisObject)applicationService.get(className,rp);
         String crisId = crisObject.getCrisID();
         if(crisId!=null && !crisId.isEmpty()) {
             return crisId;    
