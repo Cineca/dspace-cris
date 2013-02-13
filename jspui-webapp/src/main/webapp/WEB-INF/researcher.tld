@@ -45,14 +45,14 @@
 	<description>Check if logical groups are not public (only dynamic metadata)</description>
 	<name>isGroupFieldsHidden</name>
 	<function-class>org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions</function-class>
-	<function-signature>boolean isGroupFieldsHidden(it.cilea.hku.authority.model.dynamicfield.RPAdditionalFieldStorage,java.lang.String)</function-signature>
+	<function-signature>boolean isGroupFieldsHidden(org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage,java.lang.String)</function-signature>
 </function>
 
 <function>
 	<description>Check if logical groups are not public (isGroupFieldsHidden internally called)</description>
 	<name>isGroupFieldsHiddenWithStructural</name>
 	<function-class>org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions</function-class>
-	<function-signature>boolean isGroupFieldsHiddenWithStructural(it.cilea.hku.authority.model.ResearcherPage,java.lang.String)</function-signature>
+	<function-signature>boolean isGroupFieldsHiddenWithStructural(org.dspace.app.cris.model.ResearcherPage,java.lang.String)</function-signature>
 </function>
 
 
@@ -88,7 +88,7 @@
 	<description>Count public metadata on box</description>
 	<name>countBoxPublicMetadata</name>
 	<function-class>org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions</function-class>
-	<function-signature>int countBoxPublicMetadata(it.cilea.hku.authority.model.ResearcherPage,java.lang.String, java.lang.Boolean)</function-signature>
+	<function-signature>int countBoxPublicMetadata(org.dspace.app.cris.model.ResearcherPage,java.lang.String, java.lang.Boolean)</function-signature>
 </function>
 
 <function>
