@@ -268,10 +268,10 @@ $ mkdir ou-files
     cp -R [dspace]/webapps/* [tomcat]/webapps* (This will copy all the web applications to Tomcat).
     
     Technique B. Tell your Tomcat installation where to find your DSpace web application(s). As an example, in the <Host> section of your [tomcat]/conf/server.xml you could add lines similar to the following (but replace [dspace] with your installation location):
-    // Define the default virtual host
-    //   Note:  XML Schema validation will not work with Xerces 2.2.
-        
-        <Host name="localhost"  appBase="[dspace]/webapps">
+     	&lt;!-- Define the default virtual host
+        Note:  XML Schema validation will not work with Xerces 2.2.
+        --&gt;
+         	&lt;Host name="localhost"  appBase="[dspace]/webapps"
         
         
 11) copy lib
