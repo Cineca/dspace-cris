@@ -7,24 +7,39 @@
  */
 package org.dspace.app.cris.service;
 
+import it.cilea.osd.common.dao.IApplicationDao;
 import it.cilea.osd.common.model.Identifiable;
+import it.cilea.osd.jdyna.model.PropertiesDefinition;
+import it.cilea.osd.jdyna.model.Property;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.httpclient.methods.GetMethod;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
+import org.apache.log4j.Logger;
 import org.dspace.app.cris.dao.ApplicationDao;
 import org.dspace.app.cris.dao.CrisObjectDao;
+import org.dspace.app.cris.dao.CrisSubscriptionDao;
 import org.dspace.app.cris.dao.OrganizationUnitDao;
 import org.dspace.app.cris.dao.ProjectDao;
-import org.dspace.app.cris.dao.RPSubscriptionDao;
+import org.dspace.app.cris.dao.RelationPreferenceDao;
 import org.dspace.app.cris.dao.ResearcherPageDao;
+import org.dspace.app.cris.dao.StatSubscriptionDao;
+import org.dspace.app.cris.dao.UserWSDao;
 import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.cris.model.CrisSubscription;
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.Project;
-import org.dspace.app.cris.model.RPSubscription;
+import org.dspace.app.cris.model.RelationPreference;
 import org.dspace.app.cris.model.ResearcherPage;
+import org.dspace.app.cris.model.StatSubscription;
+import org.dspace.app.cris.model.jdyna.RPProperty;
+import org.dspace.app.cris.model.ws.User;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.hibernate.Session;
 
@@ -43,7 +58,19 @@ public class ApplicationService extends ExtendedTabService
     private ProjectDao projectDao;
     private OrganizationUnitDao organizationUnitDao;
 
-    private RPSubscriptionDao rpSubscriptionDao;
+    private CrisSubscriptionDao crisSubscriptionDao;
+
+    private StatSubscriptionDao statSubscriptionDao;
+
+    private RelationPreferenceDao relationPreferenceDao;
+
+    private UserWSDao userWSDao;
+
+    private CacheManager cacheManager;
+
+    private Cache cache;
+
+    private static Logger log = Logger.getLogger(ApplicationService.class);
 
     /**
      * Initialization method
@@ -53,8 +80,52 @@ public class ApplicationService extends ExtendedTabService
         researcherPageDao = (ResearcherPageDao) getDaoByModel(ResearcherPage.class);
         projectDao = (ProjectDao) getDaoByModel(Project.class);
         organizationUnitDao = (OrganizationUnitDao) getDaoByModel(OrganizationUnit.class);
-        rpSubscriptionDao = (RPSubscriptionDao) getDaoByModel(RPSubscription.class);
+        crisSubscriptionDao = (CrisSubscriptionDao) getDaoByModel(CrisSubscription.class);
+        statSubscriptionDao = (StatSubscriptionDao) getDaoByModel(StatSubscription.class);
+        userWSDao = (UserWSDao) getDaoByModel(User.class);
+        relationPreferenceDao = (RelationPreferenceDao) getDaoByModel(RelationPreference.class);
 
+        if (cache == null)
+        {
+            try
+            {
+                cacheManager = CacheManager.create();
+                if (cacheManager != null)
+                {
+                    cache = cacheManager.getCache("applicationServiceCache");
+                    if (cache == null)
+                    {
+                        cache = new Cache("applicationServiceCache", 100, true,
+                                true, 0, 0, false, 600);
+                        cacheManager.addCache(cache);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.error("init", ex);
+            }
+        }
+    }
+
+    public void destroy()
+    {
+        if (cacheManager != null)
+        {
+            cache = null;
+            cacheManager.shutdown();
+        }
+    }
+
+    /**
+     * Setter for the applicationDao
+     * 
+     * @param applicationDao
+     *            the dao to use for generic query
+     */
+    public void setApplicationDao(IApplicationDao applicationDao)
+    {
+        this.applicationDao = applicationDao;
     }
    
     /**
@@ -67,29 +138,42 @@ public class ApplicationService extends ExtendedTabService
         applicationDao.evict(identifiable);
     }
 
-    public long countSubscriptionsByRp(ResearcherPage rp)
+    public long countSubscriptionsByUUID(String uuid)
     {
-        return rpSubscriptionDao.countByRp(rp);
+        return crisSubscriptionDao.countByUUID(uuid);
     }
 
-    public List<ResearcherPage> getRPSubscriptionsByEPersonID(int eid)
+    public List<String> getCrisSubscriptionsByEPersonID(int eid)
     {
-        return rpSubscriptionDao.findRPByEpersonID(eid);
+        return crisSubscriptionDao.findUUIDByEpersonID(eid);
     }
 
-    public boolean isRPSubscribed(int epersonID, ResearcherPage rp)
+    public CrisSubscription getCrisStatSubscriptionByEPersonIDAndUUID(int eid, String uuid)
     {
-        return rpSubscriptionDao.uniqueByEpersonIDandRp(epersonID, rp) != null;
+        return crisSubscriptionDao.uniqueByEpersonIDandUUID(eid, uuid);
+    }
+    
+
+    public boolean isSubscribed(int epersonID, String uuid)
+    {
+        return crisSubscriptionDao.uniqueByEpersonIDandUUID(epersonID, uuid) != null;
     }
 
-    public RPSubscription getRPSubscription(int epersonID, ResearcherPage rp)
+    public CrisSubscription getSubscription(int epersonID, String uuid)
     {
-        return rpSubscriptionDao.uniqueByEpersonIDandRp(epersonID, rp);
+        return crisSubscriptionDao.uniqueByEpersonIDandUUID(epersonID, uuid);
     }
 
-    public void deleteRPSubscriptionByEPersonID(int id)
+    public void deleteSubscriptionByEPersonID(int id)
     {
-        rpSubscriptionDao.deleteByEpersonID(id);
+        crisSubscriptionDao.deleteByEpersonID(id);
+    }
+
+    public long countByEpersonIDandUUID(int epersonID, String uuid,
+            Class<CrisSubscription> className)
+    {
+        CrisSubscriptionDao dao = (CrisSubscriptionDao) getDaoByModel(className);
+        return dao.countByEpersonIDandUUID(epersonID, uuid);
     }
 
     /**
@@ -180,8 +264,8 @@ public class ApplicationService extends ExtendedTabService
         try
         {
             rp = get(ResearcherPage.class,
-                    ResearcherPageUtils
-                            .getRealPersistentIdentifier(authorityKey, ResearcherPage.class));
+                    ResearcherPageUtils.getRealPersistentIdentifier(
+                            authorityKey, ResearcherPage.class));
         }
         catch (Exception e)
         {
@@ -297,7 +381,8 @@ public class ApplicationService extends ExtendedTabService
         Integer s = null;
         if (start != null && !start.isEmpty())
         {
-            s = ResearcherPageUtils.getRealPersistentIdentifier(start, ResearcherPage.class);
+            s = ResearcherPageUtils.getRealPersistentIdentifier(start,
+                    ResearcherPage.class);
             return researcherPageDao.findAllNextResearcherByIDStart(s);
         }
         return null;
@@ -308,7 +393,8 @@ public class ApplicationService extends ExtendedTabService
         Integer e = null;
         if (end != null && !end.isEmpty())
         {
-            e = ResearcherPageUtils.getRealPersistentIdentifier(end, ResearcherPage.class);
+            e = ResearcherPageUtils.getRealPersistentIdentifier(end,
+                    ResearcherPage.class);
             return researcherPageDao.findAllPrevResearcherByIDEnd(e);
         }
         return null;
@@ -320,8 +406,10 @@ public class ApplicationService extends ExtendedTabService
         Integer e = null;
         if (start != null && !start.isEmpty() && end != null && !end.isEmpty())
         {
-            e = ResearcherPageUtils.getRealPersistentIdentifier(end, ResearcherPage.class);
-            s = ResearcherPageUtils.getRealPersistentIdentifier(start, ResearcherPage.class);
+            e = ResearcherPageUtils.getRealPersistentIdentifier(end,
+                    ResearcherPage.class);
+            s = ResearcherPageUtils.getRealPersistentIdentifier(start,
+                    ResearcherPage.class);
             return researcherPageDao.findAllResearcherInIDRange(s, e);
         }
         return null;
@@ -379,6 +467,32 @@ public class ApplicationService extends ExtendedTabService
         return researcherPageDao.findAllResearcherInSourceIDRange(start, end);
     }
 
+    public List<StatSubscription> getAllStatSubscriptionByFreq(int freq)
+    {
+        return statSubscriptionDao.findByFreq(freq);
+    }
+
+    public List<StatSubscription> getAllStatSubscriptionByEPersonID(int eid)
+    {
+        return statSubscriptionDao.findByEPersonID(eid);
+    }
+
+    public List<StatSubscription> getStatSubscriptionByEPersonIDAndUID(int id,
+            String uid)
+    {
+        return statSubscriptionDao.findByEPersonIDandUID(id, uid);
+    }
+
+    public List<StatSubscription> getStatSubscriptionByFreqAndType(int freq, int type)
+    {
+        return statSubscriptionDao.findByFreqAndType(freq, type);
+    }
+
+    public void deleteStatSubscriptionsByEPersonID(int id)
+    {
+        statSubscriptionDao.deleteByEPersonID(id);
+    }
+
     public <T, PK extends Serializable> List<T> getList(Class<T> model,
             List<PK> ids)
     {
@@ -408,15 +522,169 @@ public class ApplicationService extends ExtendedTabService
         return organizationUnitDao.uniqueBySourceID(code);
     }
 
-    public <T extends ACrisObject> T getEntityByCrisId(String crisID, Class<T> className)
+    public <T extends ACrisObject> T getEntityByCrisId(String crisID,
+            Class<T> className)
     {        
         CrisObjectDao<T> dao = (CrisObjectDao<T>) getDaoByModel(className);
         return dao.uniqueByCrisID(crisID);
     }
   
-    public <C extends ACrisObject> C getEntityByUUID(String uuid)
+    public <T extends ACrisObject> T getEntityBySourceId(String sourceID,
+            Class<T> className)
     {
-        return ((ApplicationDao)getApplicationDao()).uniqueByUUID(uuid);
+        CrisObjectDao<T> dao = (CrisObjectDao<T>) getDaoByModel(className);
+        return dao.uniqueBySourceID(sourceID);
     }
 
+    public ACrisObject getEntityByUUID(String uuid)
+    {
+        return ((ApplicationDao) getApplicationDao()).uniqueByUUID(uuid);
+    }
+
+    public User getUserWSByUsernameAndPassword(String username,
+            String password)
+    {
+        return userWSDao.uniqueByUsernameAndPassword(username, password);
+    }
+
+    public User getUserWSByToken(String token)
+    {
+        return userWSDao.uniqueByToken(token);
+    }
+
+    public Date uniqueLastModifiedTimeStamp(int id)
+    {
+        return researcherPageDao.uniqueLastModifiedTimeStamp(id);
+    }
+
+    public List<RPProperty> findAnagraficaByRPID(int id)
+    {
+        return researcherPageDao.findAnagraficaByRPID(id);
+    }
+
+    public List<Integer> findAllResearcherPageID()
+    {
+        return researcherPageDao.findAllResearcherPageID();
+    }
+
+    public List<RelationPreference> findRelationsPreferencesForItemID(int itemID)
+    {
+        return relationPreferenceDao.findByTargetItemID(itemID);
+    }
+
+    public List<RelationPreference> findRelationsPreferencesOfUUID(
+            String sourceUUID, String relationType)
+    {
+        return relationPreferenceDao.findBySourceUUIDAndRelationType(
+                sourceUUID, relationType);
+    }
+
+    public List<RelationPreference> findSelectedRelationsPreferencesOfUUID(
+            String uuid, String relationType)
+    {
+        return relationPreferenceDao.findBySourceUUIDAndRelationTypeAndStatus(
+                uuid, relationType, RelationPreference.SELECTED);
+    }
+
+    public List<RelationPreference> findRelationsPreferencesByUUIDByRelTypeAndStatus(
+            String uuid, String relationType, String status)
+    {
+        return relationPreferenceDao.findBySourceUUIDAndRelationTypeAndStatus(
+                uuid, relationType, status);
+    }
+
+    public List<RelationPreference> findRelationsPreferencesForUUID(
+            String targetUUID)
+    {
+        return relationPreferenceDao.findByTargetUUID(targetUUID);
+    }
+
+    public RelationPreference getRelationPreferenceForUUIDItemID(String UUID,
+            int itemID, String relationType)
+    {
+        return relationPreferenceDao.uniqueByUUIDItemID(UUID, itemID,
+                relationType);
+    }
+
+    public RelationPreference getRelationPreferenceForUUIDs(String UUID,
+            String targetUUID, String relationType)
+    {
+        return relationPreferenceDao.uniqueByUUIDs(UUID, targetUUID,
+                relationType);
+    }
+
+    public <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> T get(
+            Class<T> model, Integer objectId, boolean forceDetach)
+    {
+        T rp = getFromCache(model, objectId);
+        if (rp == null
+                || rp.getTimeStampInfo().getTimestampLastModified() == null
+                || !rp.getTimeStampInfo().getTimestampLastModified()
+                        .getTimestamp()
+                        .equals(uniqueLastModifiedTimeStamp(objectId)))
+        {
+            rp = super.get(model, objectId);
+            if (rp != null)
+            {
+                putToCache(rp, objectId);
+                if (forceDetach)
+                {
+                    rp.getAnagrafica();
+                    evict(rp);
+                }
+            }
+        }
+        return rp;
+    }
+
+    public <T extends Serializable, PK extends Serializable> T getFromCache(
+            Class<T> model, PK objectId)
+    {
+        if (cache != null)
+        {
+            try
+            {
+                Element element = cache.get(objectId);
+                if (element != null)
+                    return (T) element.getValue();
+            }
+            catch (Exception ex)
+            {
+                log.error("getFromCache", ex);
+            }
+        }
+        return null;
+    }
+
+    public <T extends Serializable, PK extends Serializable> void putToCache(
+            T object, PK objectId)
+    {
+        if (cache != null)
+        {
+            try
+            {
+                cache.put(new Element(objectId, object));
+            }
+            catch (Exception ex)
+            {
+                log.error("putToCache", ex);
+            }
+        }
+    }
+
+    public Integer getRPidFindMax()
+    {
+        return researcherPageDao.idFindMax();
+    }
+
+    public List<ACrisObject> getListByUUIDs(List<String> uuidS)
+    {
+        List<ACrisObject> result = new ArrayList<ACrisObject>();
+        for (String uuid : uuidS)
+        {
+            ACrisObject object = getEntityByUUID(uuid);
+            result.add(object);
+        }
+        return result;
+    }
 }

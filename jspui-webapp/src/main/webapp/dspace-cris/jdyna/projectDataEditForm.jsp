@@ -58,10 +58,11 @@ The contents of this file are subject to the license and copyright
 <c:set var="simpleNameAnagraficaObject"
 	value="${simpleNameAnagraficaObject}" scope="page" />
 
-<c:set var="disabledfield" value=" disabled=\"disabled\" "></c:set>
+<c:set var="disabledfield" value=" readonly='readonly' "></c:set>
 
 <c:set var="dspace.layout.head.last" scope="request">	
     <style type="text/css">@import url(<%=request.getContextPath()%>/js/jscalendar/calendar-blue.css );</style>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/commons-edit-jquery-for-cris.css" type="text/css" />
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/lang/calendar-en.js"> </script>
 	<script type="text/javascript" src="<%= request.getContextPath() %>/js/jscalendar/calendar-setup.js"> </script>
@@ -89,6 +90,32 @@ The contents of this file are subject to the license and copyright
 
 		var j = jQuery.noConflict();
        	
+	    // Setup the ajax indicator
+	    
+	    j('#ajaxBusy').css({
+		    display:"none",
+		    margin:"0px",
+		    paddingLeft:"0px",
+		    paddingRight:"0px",
+		    paddingTop:"0px",
+		    paddingBottom:"0px",
+		    position:"absolute",
+		    right:"3px",
+		    top:"3px",
+		    width:"auto"
+	    });
+
+	    j.ajaxSetup({
+	        beforeSend:function(){
+	            // show gif here, eg:
+	        	j('#ajaxBusy').show();
+	        },
+	        complete:function(){
+	            // hide gif here, eg:
+	            j("#ajaxBusy").hide();
+	        }
+	    });
+	    
     	var activeTab = function(){
     		j(".box:not(.expanded)").accordion({
     			autoHeight: false,
@@ -381,7 +408,7 @@ The contents of this file are subject to the license and copyright
 	<c:remove var="messages" scope="session" />
 </c:if>
 
-
+<div id="ajaxBusy" style="display:none;height:100%;width:100%;z-index: 2001;" class="ui-widget-overlay"><p><img alt="Loading..." style="position: fixed;left: 50%;top: 35%;" src="<%= request.getContextPath() %>/image/jdyna/indicator.gif"/></p></div>
 <div id="researcher">
 <form:form commandName="anagraficadto"
 	action="" method="post" enctype="multipart/form-data">
@@ -436,7 +463,7 @@ The contents of this file are subject to the license and copyright
 		
 		
 		<div class="cris-edit-record-info">
-		<c:set var="disabled" value=" disabled='disabled'"/>
+		<c:set var="disabled" value=" readonly='readonly'"/>
 		<c:choose>
 		<c:when test="${admin}">
 			<dyna:text labelKey="jsp.cris.detail.info.sourceid" propertyPath="anagraficadto.sourceID" visibility="false"/>
@@ -519,7 +546,8 @@ The contents of this file are subject to the license and copyright
 							items="${propertiesDefinitionsInHolder[holder.shortName]}"
 							var="tipologiaDaVisualizzare">
 							<c:set var="hideLabel">${fn:length(propertiesDefinitionsInHolder[holder.shortName]) le 1}</c:set>
-						
+							<c:set var="disabled" value=" readonly='readonly'"/>
+							
 							<c:set var="show" value="true" />
 							<c:choose>							
 							<c:when

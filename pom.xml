@@ -19,6 +19,7 @@
 		<module>api</module>
 		<module>jspui-api</module>
 		<module>jspui-webapp</module>
+		<module>webservices</module>
 	</modules>
 
 	<!--Force UTF-8 encoding during build on all platforms -->
@@ -78,34 +79,54 @@
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>    
+
+			<dependency>
+				<groupId>org.dspace</groupId>
+				<artifactId>dspace-stats</artifactId>
+				<version>1.8.3-SNAPSHOT</version>
+			</dependency>
+
+			<!-- we have customization and patched jspui classes so we directly depend 
+				on dspace-api -->
+			<dependency>
+				<groupId>org.dspace</groupId>
+				<artifactId>dspace-api</artifactId>
+				<version>1.8.3-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.dspace</groupId>
+				<artifactId>dspace-jspui-api</artifactId>
+				<version>1.8.3-SNAPSHOT</version>
+			</dependency>
+
 		<dependency>
-			<groupId>jdyna-core</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-core</artifactId>
-			<version>3.0-beta</version>
+			<version>3.0</version>
 		</dependency>
 
 		<dependency>
-			<groupId>jdyna-date</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-date</artifactId>
-			<version>3.0-beta</version>
+			<version>3.0</version>
 		</dependency>
 
 		<dependency>
-			<groupId>jdyna-pointer</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-pointer</artifactId>
-			<version>3.0-beta</version>
+			<version>3.0</version>
 		</dependency>
 
 		<dependency>
-			<groupId>jdyna-web-api</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-web-api</artifactId>
-			<version>3.0-beta</version>
+			<version>3.0</version>
 		</dependency>      
 		
 		<dependency>
-			<groupId>jdyna-webmvc-api</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-webmvc-api</artifactId>
-			<version>3.0-beta</version>
+			<version>3.0</version>
 		</dependency>
 		
 		</dependencies>
@@ -114,12 +135,12 @@
 	<developers>
 		<developer>
 			<name>Andrea Bollini</name>
-			<email>bollini@cilea.it</email>
+			<email>a.bollini@cineca.it</email>
 			<timezone>GMT +1</timezone>
 		</developer>
 		<developer>
-			<name>Andrea Pascarelli</name>
-			<email>pascarelli@cilea.it</email>
+			<name>Luigi Andrea Pascarelli</name>
+			<email>luigiandrea.pascarelli@cineca.it</email>
 			<timezone>GMT +1</timezone>
 		</developer>
 	</developers>

@@ -12,6 +12,7 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <%@ taglib uri="jdynatags" prefix="dyna"%>
+<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 
 <% 
 	Integer offset = (Integer)request.getAttribute("offset");
@@ -20,6 +21,8 @@ The contents of this file are subject to the license and copyright
 	Integer hitPageSize = (Integer)request.getAttribute("hitPageSize");
 	Integer pageCurrent = (Integer)request.getAttribute("pageCurrent");
 %>
+
+<c:set var="HIGH_ACCESS" value="<%=  AccessLevelConstants.HIGH_ACCESS %>"></c:set>
 <div id="nestedDetailDiv_${decoratorPropertyDefinition.real.id}" class="dynaField">
 			<span class="spandatabind nestedinfo">${decoratorPropertyDefinition.real.id}</span>
 			<span id="nested_${decoratorPropertyDefinition.real.id}_totalHit" class="spandatabind">${totalHit}</span>
@@ -71,7 +74,7 @@ The contents of this file are subject to the license and copyright
 	
 	<dyna:display-nested values="${results}" typeDefinition="${decoratorPropertyDefinition}" editmode="${editmode}" parentID="${parentID}" specificPartPath="${specificContextPath}${specificPartPath}" admin="${admin}"/>
 	</c:if>	
-	<c:if test="${(editmode && decoratorPropertyDefinition.repeatable) || (editmode && empty results)}">
+	<c:if test="${(editmode && admin) || ((editmode && decoratorPropertyDefinition.accessLevel eq HIGH_ACCESS) && ((editmode && decoratorPropertyDefinition.repeatable) || (editmode && empty results)))}">
 		<img id="nested_${decoratorPropertyDefinition.real.id}_addbutton" src="<%= request.getContextPath() %>/image/jdyna/main_plus.gif" class="nested_add_button" />
 	</c:if>	
 	</div>

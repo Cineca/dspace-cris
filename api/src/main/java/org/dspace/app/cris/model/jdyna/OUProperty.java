@@ -25,12 +25,12 @@ import org.hibernate.annotations.Index;
 
 @Entity
 @Table(name="cris_ou_prop", 
-        uniqueConstraints = {@UniqueConstraint(columnNames={"position","typo_id","parent_id"})})
+        uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries( {
-	@NamedQuery(name = "OUProperty.findPropertyByPropertiesDefinition", query = "from OUProperty where typo = ? order by position"),
-	@NamedQuery(name = "OUProperty.findAll", query = "from OUProperty order by id"),	
-	@NamedQuery(name = "OUProperty.findPropertyByParentAndTypo", query = "from OUProperty  where (parent.id = ? and typo.id = ?) order by position"),	
-	@NamedQuery(name = "OUProperty.deleteAllPropertyByPropertiesDefinition", query = "delete from OUProperty property where typo = ?)")
+    @NamedQuery(name = "OUProperty.findPropertyByPropertiesDefinition", query = "from OUProperty where typo = ? order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "OUProperty.findAll", query = "from OUProperty order by id", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "OUProperty.findPropertyByParentAndTypo", query = "from OUProperty  where (parent.id = ? and typo.id = ?) order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "OUProperty.deleteAllPropertyByPropertiesDefinition", query = "delete from OUProperty property where typo = ?)")
 })
 public class OUProperty extends Property<OUPropertiesDefinition> {
 	
@@ -40,7 +40,7 @@ public class OUProperty extends Property<OUPropertiesDefinition> {
 	
 	
 	@ManyToOne	
-	@Index(name = "cris_ou_prop_parent_id")
+	@Index(name = "cris_ou_pprop_idx")
 	private OrganizationUnit parent;
 	
 	@Override

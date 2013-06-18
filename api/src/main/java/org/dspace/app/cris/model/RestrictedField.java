@@ -7,6 +7,8 @@
  */
 package org.dspace.app.cris.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.persistence.MappedSuperclass;
 
@@ -21,7 +23,7 @@ import org.hibernate.annotations.Type;
  */
 @Embeddable
 @MappedSuperclass
-public class RestrictedField implements IRestrictedField {
+public class RestrictedField implements IRestrictedField, Serializable {
 	
 	@Type(type = "text")
 	/**
@@ -34,6 +36,8 @@ public class RestrictedField implements IRestrictedField {
 	 */
 	private Integer visibility;
 
+	private String authority;
+	
     /**
      * Constructor. All the field are by default publicly visible
      */
@@ -86,4 +90,14 @@ public class RestrictedField implements IRestrictedField {
     {	    
 		this.visibility = visibility ==null?new Integer(0):visibility;
 	}
+
+    public void setAuthority(String authority)
+    {
+        this.authority = authority;
+    }
+
+    public String getAuthority()
+    {
+        return authority;
+    }
 }

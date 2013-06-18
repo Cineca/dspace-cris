@@ -26,6 +26,9 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="jdynatags" prefix="dyna"%>
 
+<c:set var="dspace.layout.head" scope="request">
+	<link href="<%=request.getContextPath() %>/css/misctable.css" type="text/css" rel="stylesheet" />
+</c:set>
 <c:set var="root"><%=request.getContextPath()%></c:set>
 <c:set var="info" value="${componentinfomap}" scope="page" />
 <%
@@ -98,8 +101,21 @@ if (info.getPagetotal() > 1)
 	}
 %>
 			
-<dspace:browselist items="<%= (BrowseItem[])info.getItems() %>" config="crisrp" />
+<form id="sortform<%= info.getType() %>" action="#<%= info.getType() %>" method="get">
+	   <input id="sort_by<%= info.getType() %>" type="hidden" name="sort_by<%= info.getType() %>" value=""/>
+       <input id="order<%= info.getType() %>" type="hidden" name="order<%= info.getType() %>" value="<%= info.getOrder() %>" />
+	   <input type="hidden" name="open" value="<%= info.getType() %>" />
+</form>	
+<dspace:browselist items="<%= (BrowseItem[])info.getItems() %>" config="crisrp" sortBy="<%= new Integer(info.getSo().getNumber()).toString() %>" order="<%= info.getOrder() %>"/>
 
+<script type="text/javascript"><!--
+    var j = jQuery.noConflict();
+    function sortBy(sort_by, order) {
+        j('#sort_by<%= info.getType() %>').val(sort_by);
+        j('#order<%= info.getType() %>').val(order);
+        j('#sortform<%= info.getType() %>').submit();        
+    }
+--></script>
 <%-- show pagniation controls at bottom --%>
 <%
 	if (info.getPagetotal() > 1)

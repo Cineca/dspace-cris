@@ -43,7 +43,7 @@ public class RedirectFromUUIDtoDetailsController extends
             HttpServletResponse response) throws Exception
     {        
         String uuid = extractUUID(request);
-        ACrisObject crisObject = getApplicationService().getEntityByUUID(uuid.substring(4));
+        ACrisObject crisObject = getApplicationService().getEntityByUUID(uuid);
         return new ModelAndView("redirect:/cris/"+ crisObject.getPublicPath() + "/" + ResearcherPageUtils.getPersistentIdentifier(crisObject));     
     }
 

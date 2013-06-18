@@ -7,17 +7,16 @@
  */
 package org.dspace.app.cris.model.jdyna.value;
 
+import it.cilea.osd.jdyna.value.PointerValue;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-
-import it.cilea.osd.jdyna.value.PointerValue;
 
 @Entity
 @DiscriminatorValue(value="rppointer")

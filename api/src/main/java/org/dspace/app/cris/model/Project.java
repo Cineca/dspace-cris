@@ -7,12 +7,11 @@
  */
 package org.dspace.app.cris.model;
 
-import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
-import it.cilea.osd.common.model.Identifiable;
-import it.cilea.osd.jdyna.model.AnagraficaSupport;
+import it.cilea.osd.jdyna.value.TextValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +26,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.dspace.app.cris.model.export.ExportConstants;
 import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
+import org.dspace.app.cris.model.jdyna.ProjectNestedObject;
 import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.ProjectProperty;
-import org.dspace.app.cris.util.Researcher;
+import org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject;
 
 @Entity
 @Table(name = "cris_project")
@@ -46,22 +45,14 @@ import org.dspace.app.cris.util.Researcher;
         @NamedQuery(name = "Project.paginate.sourceID.desc", query = "from Project order by sourceID desc"),
         @NamedQuery(name = "Project.paginate.uuid.asc", query = "from Project order by uuid asc"),
         @NamedQuery(name = "Project.paginate.uuid.desc", query = "from Project order by uuid desc"),
-        @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ? order by id desc"),
+        @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ?"),
         @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?"),
         @NamedQuery(name = "Project.uniqueByCrisID", query = "from Project where crisID = ?")        
   })
 public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefinition>
         implements                
-        HasTimeStampInfo,
-        Cloneable,
-        IExportableDynamicObject<ProjectPropertiesDefinition, ProjectProperty, ProjectAdditionalFieldStorage>
+        Cloneable
 {
-
-    @Transient
-    /**
-     * Constant for resource type assigned to the Researcher Grants
-     */
-    public static final int GRANT_TYPE_ID = 10;
 
     /** DB Primary key */
     @Id
@@ -84,31 +75,6 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
         this.dynamicField = new ProjectAdditionalFieldStorage();
     }
 
-    public Investigator getInvestigator()
-    {        
-        Investigator investigator = new Investigator();         
-        List<ProjectProperty> metadata = getAnagrafica4view().get("principalinvestigator");
-        
-        ProjectProperty prop = null;
-        if(metadata!=null && !metadata.isEmpty()) {
-            prop = metadata.get(0);
-            investigator.setIntInvestigator((ResearcherPage)prop.getValue().getObject());
-        }
-        return investigator;
-        
-    }
-
-    public List<Investigator> getCoInvestigators()
-    {     
-        List<Investigator> result = new LinkedList<Investigator>();
-        for(ProjectProperty prop : getAnagrafica4view().get("coinvestigators")) {
-            Investigator investigator = new Investigator();            
-            investigator.setIntInvestigator((ResearcherPage)prop.getValue().getObject());
-            result.add(investigator);
-        }
-        return result;
-    }
-
     /**
      * Getter method.
      * 
@@ -128,110 +94,17 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
         return super.clone();
     }
 
-    public String getTitle()
-    {
-        for (ProjectProperty title : this.getDynamicField()
-                .getAnagrafica4view().get("title"))
-        {
-            return title.toString();
-        }
-        return null;
-    }
 
-    public String getYear()
-    {
-        String result = "";
-        for (ProjectProperty year : this.getDynamicField().getAnagrafica4view()
-                .get("fundingyear"))
-        {
-            result += year.getValue().getObject();
-            result += " ";
-        }
-        return result;
-    }
 
-    public String getInvestigatorToDisplay()
-    {
-        Investigator inv = getInvestigator();
-        if (inv != null)
-        {
-            if (inv.getIntInvestigator() != null)
-            {
-                return inv.getIntInvestigator().getFullName();
-            }
-            else
-            {
-                return inv.getExtInvestigator();
-            }
-        }
-        return "";
-    }
-
-    
-    public String getNamePublicIDAttribute()
-    {
-        return ExportConstants.NAME_PUBLICID_ATTRIBUTE;
-    }
-
-    
-    public String getValuePublicIDAttribute()
-    {
-        return "" + this.getId();
-    }
-
-    
-    public String getNameIDAttribute()
-    {
-        return ExportConstants.NAME_ID_ATTRIBUTE;
-    }
-
-    
-    public String getValueIDAttribute()
-    {
-        if (this.getUuid() == null)
-        {
-            return "";
-        }
-        return "" + this.getUuid().toString();
-    }
-
-    
-    public String getNameBusinessIDAttribute()
-    {
-        return ExportConstants.NAME_BUSINESSID_ATTRIBUTE;
-    }
-
-    
-    public String getValueBusinessIDAttribute()
-    {
-        return this.getSourceID();
-    }
-
-    
-    public String getNameTypeIDAttribute()
-    {
-        return ExportConstants.NAME_TYPE_ATTRIBUTE;
-    }
-
-    
     public String getValueTypeIDAttribute()
     {
-        return "" + GRANT_TYPE_ID;
-    }
-    
-    public String getNameSingleRowElement()
-    {
-        return ExportConstants.ELEMENT_SINGLEROW;
+        return "" + CrisConstants.PROJECT_TYPE_ID;
     }
 
     
     public ProjectAdditionalFieldStorage getDynamicField()
     {
-        if (this.dynamicField == null)
-        {
-            this.dynamicField = new ProjectAdditionalFieldStorage();
-        }
-        return dynamicField;
+        return this.dynamicField;
     }
 
     public void setDynamicField(ProjectAdditionalFieldStorage dynamicField)
@@ -338,17 +211,6 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
         this.dynamicField.pulisciAnagrafica();
     }
 
-    public void setInvestigator(Investigator inv)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void setCoInvestigators(List<Investigator> coinvestigators)
-    {
-        // TODO Auto-generated method stub
-
-    }
 
     /**
      * Convenience method to get data from ResearcherPage by a string. For any
@@ -385,7 +247,12 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
 
     @Override
     public String getName() {
-    	return getTitle();
+        for (ProjectProperty title : this.getDynamicField()
+                .getAnagrafica4view().get("title"))
+        {
+            return title.toString();
+        }
+        return null;
     }
     
     @Override
@@ -397,5 +264,22 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     public String getAuthorityPrefix()
     {
         return "pj";
+    }
+    
+
+    @Override
+    public Class<ProjectNestedObject> getClassNested()
+    {
+        return ProjectNestedObject.class;
+    }
+
+    @Override
+    public  Class<ProjectTypeNestedObject> getClassTypeNested()
+    {
+        return ProjectTypeNestedObject.class;
+    }
+
+    public String getTypeText() {
+        return CrisConstants.getEntityTypeText(CrisConstants.PROJECT_TYPE_ID);
     }
 }

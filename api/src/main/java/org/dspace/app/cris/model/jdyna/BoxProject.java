@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -25,7 +26,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "cris_project_box")
+@Table(name = "cris_pj_box")
 @NamedQueries({
 		@NamedQuery(name = "BoxProject.findAll", query = "from BoxProject order by priority asc"),
 		@NamedQuery(name = "BoxProject.findContainableByHolder", query = "from Containable containable where containable in (select m from BoxProject box join box.mask m where box.id = ?)"),
@@ -33,9 +34,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@NamedQuery(name = "BoxProject.uniqueBoxByShortName", query = "from BoxProject box where shortName = ?")
 })		
 public class BoxProject extends Box<Containable> {
-	
-	@ManyToMany
-	@JoinTable(name = "cris_project_box2containable")	
+    	
+	@ManyToMany	
+	@JoinTable(name = "cris_pj_box2con", joinColumns = { 
+            @JoinColumn(name = "cris_pj_box_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "jdyna_containable_id") })
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Containable> mask;
 

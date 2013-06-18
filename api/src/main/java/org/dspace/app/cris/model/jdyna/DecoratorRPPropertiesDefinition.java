@@ -24,16 +24,16 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @NamedQueries( {
-	@NamedQuery(name = "DecoratorRPPropertiesDefinition.findAll", query = "from DecoratorRPPropertiesDefinition order by id"),
-	@NamedQuery(name = "DecoratorRPPropertiesDefinition.uniqueContainableByDecorable", query = "from DecoratorRPPropertiesDefinition where real.id = ?"),
-	@NamedQuery(name = "DecoratorRPPropertiesDefinition.uniqueContainableByShortName", query = "from DecoratorRPPropertiesDefinition where real.shortName = ?")
+	@NamedQuery(name = "DecoratorRPPropertiesDefinition.findAll", query = "from DecoratorRPPropertiesDefinition order by id", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+	@NamedQuery(name = "DecoratorRPPropertiesDefinition.uniqueContainableByDecorable", query = "from DecoratorRPPropertiesDefinition where real.id = ?", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+	@NamedQuery(name = "DecoratorRPPropertiesDefinition.uniqueContainableByShortName", query = "from DecoratorRPPropertiesDefinition where real.shortName = ?", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") })
 	
 })
 @DiscriminatorValue(value="propertiesdefinition")
 public class DecoratorRPPropertiesDefinition extends ADecoratorPropertiesDefinition<RPPropertiesDefinition>  {
 	
 	@OneToOne(optional=true)
-	@JoinColumn(name="propertiesdefinition_fk")
+	@JoinColumn(name="cris_rp_pdef_fk")
 	@Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
 	private RPPropertiesDefinition real;
 	

@@ -18,7 +18,7 @@ The contents of this file are subject to the license and copyright
 <%@page import="it.cilea.osd.jdyna.widget.Size"%>
 
 <%@ taglib uri="jdynatags" prefix="dyna" %>
-
+<c:set var="STANDARD_ACCESS" value="<%=  AccessLevelConstants.STANDARD_ACCESS %>"></c:set>
 <dspace:layout locbar="link" navbar="admin"
 	titlekey="jsp.dspace-admin.researchers-list">
 
@@ -109,12 +109,13 @@ The contents of this file are subject to the license and copyright
 			&nbsp;
 			</div>
 			<c:forEach items="<%= AccessLevelConstants.getValues() %>" var="item">
+			<c:if test="${!(item eq STANDARD_ACCESS)}">
 				<input ${disabled} id="${inputName}" name="${inputName}"
 					type="radio" value="${item}"
 					<c:if test="${inputValue==item}">checked="checked"</c:if> />
 				<fmt:message
 					key="jsp.layout.hku.label.propertiesdefinition.accessLevel.${item}" />
-
+			</c:if>
 			</c:forEach>
 			<input ${disabled} name="_${inputName}" id="_${inputName}"
 				value="true" type="hidden" />
@@ -199,7 +200,36 @@ The contents of this file are subject to the license and copyright
 							<div class="dynaClear">
 								&nbsp;
 							</div>
+							
+							<spring:bind path="real.mask[${i.count - 1}].accessLevel">
+								<c:set var="inputValue">
+									<c:out value="${status.value}" escapeXml="true"></c:out>
+								</c:set>
+								<c:set var="inputName">
+									<c:out value="${status.expression}" escapeXml="false"></c:out>
+								</c:set>
+					
+					
+								<dyna:label propertyPath="${inputName}" labelKey="jsp.layout.hku.label.propertiesdefinition.accessLevel" helpKey="help.jdyna.message.accessLevel"/>
+								<div class="dynaClear">
+								&nbsp;
+								</div>
+								<c:forEach items="<%= AccessLevelConstants.getValues() %>" var="item">
+									<input ${disabled} id="${inputName}" name="${inputName}"
+										type="radio" value="${item}"
+										<c:if test="${inputValue==item}">checked="checked"</c:if> />
+									<fmt:message
+										key="jsp.layout.hku.label.propertiesdefinition.accessLevel.${item}" />
+					
+								</c:forEach>
+								<input ${disabled} name="_${inputName}" id="_${inputName}"
+									value="true" type="hidden" />
+							</spring:bind>
+							
 										
+							<div class="dynaClear">
+								&nbsp;
+							</div>
 							<dyna:boolean propertyPath="real.mask[${i.count - 1}].repeatable"
 									labelKey="jsp.layout.hku.label.propertiesdefinition.repeatable" helpKey="help.jdyna.message.repeatable"/>
 							<div class="dynaClear">
@@ -338,8 +368,11 @@ The contents of this file are subject to the license and copyright
 		<div class="dynaClear">
 			&nbsp;
 		</div>		
+		
+		
+		
 
-		<dyna:hidden propertyPath="real.mask[${i.count - 1}].accessLevel" value="${propertiesdefinition.real.accessLevel}"/>
+		
 		
 							<a class="jdynaremovebutton"
 								title="<fmt:message

@@ -109,19 +109,22 @@ public abstract class CRISAuthority implements ChoiceAuthority
                 DiscoverQuery discoverQuery = new DiscoverQuery();
                 discoverQuery.setDSpaceObjectFilter(getCRISTargetTypeID());
                 String filter = configurationService.getProperty("cris."
-                        + getPluginName() + "." + field + ".filter");
+                        + getPluginName() + ((field!=null && !field.isEmpty())?"." + field:"") + ".filter");
                 if (filter != null)
                 {
                     discoverQuery.addFilterQueries(filter);
                 }
 
                 discoverQuery
-                        .setQuery("{!lucene q.op=AND df=crisauthoritylookup}"
-                                + luceneQuery);
+                        .setQuery("{!lucene q.op=AND df=crisauthoritylookup}("
+                                + luceneQuery
+                                + ") OR (\""
+                                + luceneQuery.substring(0,
+                                        luceneQuery.length() - 1) + "\")");
                 
                 discoverQuery.setMaxResults(50);
                 DiscoverResult result = searchService.search(null,
-                        discoverQuery);
+                        discoverQuery, true);
 
                 List<Choice> choiceList = new ArrayList<Choice>();
 

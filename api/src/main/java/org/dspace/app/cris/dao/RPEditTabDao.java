@@ -7,11 +7,11 @@
  */
 package org.dspace.app.cris.dao;
 
+import it.cilea.osd.jdyna.dao.EditTabDao;
+
 import org.dspace.app.cris.model.jdyna.BoxResearcherPage;
 import org.dspace.app.cris.model.jdyna.EditTabResearcherPage;
 import org.dspace.app.cris.model.jdyna.TabResearcherPage;
-
-import it.cilea.osd.jdyna.dao.EditTabDao;
 
 
 

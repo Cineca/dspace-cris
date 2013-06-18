@@ -32,12 +32,12 @@ import org.hibernate.annotations.OrderBy;
     @NamedQuery(name = "ProjectAdditionalFieldStorage.findAll", query = "from ProjectAdditionalFieldStorage order by id"),
     @NamedQuery(name = "ProjectAdditionalFieldStorage.paginate.id.asc", query = "from ProjectAdditionalFieldStorage order by id asc"),
     @NamedQuery(name = "ProjectAdditionalFieldStorage.paginate.id.desc", query = "from ProjectAdditionalFieldStorage order by id desc"),  
-    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateByTipologiaProprieta.value.asc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue asc"),
-    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateByTipologiaProprieta.value.desc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue desc"),
-    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateEmptyById.value.asc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ?) order by id asc"),
-    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateEmptyById.value.desc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ?) order by id desc"),
-    @NamedQuery(name = "ProjectAdditionalFieldStorage.countNotEmptyByTipologiaProprieta", query = "select count(rpdyn) from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ? "),
-    @NamedQuery(name = "ProjectAdditionalFieldStorage.countEmptyByTipologiaProprieta", query = "select count(rpdyn) from ProjectAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ?)"),
+    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateByTipologiaProprieta.value.asc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue asc"),
+    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateByTipologiaProprieta.value.desc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue desc"),
+    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateEmptyById.value.asc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ?) order by id asc"),
+    @NamedQuery(name = "ProjectAdditionalFieldStorage.paginateEmptyById.value.desc", query = "select rpdyn from ProjectAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ?) order by id desc"),
+    @NamedQuery(name = "ProjectAdditionalFieldStorage.countNotEmptyByTipologiaProprieta", query = "select count(rpdyn) from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ? "),
+    @NamedQuery(name = "ProjectAdditionalFieldStorage.countEmptyByTipologiaProprieta", query = "select count(rpdyn) from ProjectAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from ProjectAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ?)"),
     @NamedQuery(name = "ProjectAdditionalFieldStorage.count", query = "select count(*) from ProjectAdditionalFieldStorage")
 })
 public class ProjectAdditionalFieldStorage extends AnagraficaObject<ProjectProperty, ProjectPropertiesDefinition> {
@@ -49,7 +49,7 @@ public class ProjectAdditionalFieldStorage extends AnagraficaObject<ProjectPrope
     @OneToMany(mappedBy = "parent")
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-    @OrderBy(clause="position asc")
+    @OrderBy(clause="positionDef asc")
     private List<ProjectProperty> anagrafica;
     
     public List<ProjectProperty> getAnagrafica() {

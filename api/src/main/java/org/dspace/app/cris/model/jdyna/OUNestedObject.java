@@ -7,11 +7,8 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.common.core.HasTimeStampInfo;
-import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
-import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
 import java.util.LinkedList;
@@ -23,11 +20,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.OrganizationUnit;
-import org.dspace.app.cris.model.UUIDSupport;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
 
 /**
@@ -35,7 +35,8 @@ import org.hibernate.annotations.OrderBy;
  *
  */
 @Entity
-@Table(name = "cris_ou_nestedobject")
+@Table(name = "cris_ou_no", 
+        uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries( {
         @NamedQuery(name = "OUNestedObject.findAll", query = "from OUNestedObject order by id"),
         @NamedQuery(name = "OUNestedObject.paginate.id.asc", query = "from OUNestedObject order by id asc"),
@@ -47,14 +48,17 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "OUNestedObject.paginateActiveNestedObjectsByParentIDAndTypoID.asc.asc", query = "from OUNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "OUNestedObject.countActiveNestedObjectsByParentIDAndTypoID", query = "select count(*) from OUNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "OUNestedObject.findNestedObjectsByTypoID", query = "from OUNestedObject where typo.id = ?"),
-        @NamedQuery(name = "OUNestedObject.deleteNestedObjectsByTypoID", query = "delete from OUNestedObject where typo.id = ?")
+        @NamedQuery(name = "OUNestedObject.findNestedObjectsByParentIDAndTypoShortname",  query = "from OUNestedObject where parent.id = ? and typo.shortName = ?"),
+        @NamedQuery(name = "OUNestedObject.deleteNestedObjectsByTypoID", query = "delete from OUNestedObject where typo.id = ?"),
+        @NamedQuery(name = "OUNestedObject.maxPositionNestedObjectsByTypoID", query = "select max(positionDef) from OUNestedObject where typo.id = ?")
         })
-public class OUNestedObject extends ANestedObjectWithTypeSupport<OUNestedProperty, OUNestedPropertiesDefinition, OUProperty, OUPropertiesDefinition> implements UUIDSupport, HasTimeStampInfo 
+public class OUNestedObject extends ACrisNestedObject<OUNestedProperty, OUNestedPropertiesDefinition, OUProperty, OUPropertiesDefinition> 
 {
     
     @OneToMany(mappedBy = "parent")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-    @OrderBy(clause="position asc")
+    @OrderBy(clause="positionDef asc")
     private List<OUNestedProperty> anagrafica;
 
     @ManyToOne
@@ -115,6 +119,13 @@ public class OUNestedObject extends ANestedObjectWithTypeSupport<OUNestedPropert
     public Class getClassParent()
     {
         return OrganizationUnit.class;
+    }
+
+
+    @Override
+    public int getType()
+    {
+        return CrisConstants.NOU_TYPE_ID;
     }
    
 }

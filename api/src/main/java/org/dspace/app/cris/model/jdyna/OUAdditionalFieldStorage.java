@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.dspace.app.cris.model.OrganizationUnit;
-import org.dspace.app.cris.model.Project;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
@@ -33,12 +32,12 @@ import org.hibernate.annotations.OrderBy;
     @NamedQuery(name = "OUAdditionalFieldStorage.findAll", query = "from OUAdditionalFieldStorage order by id"),
     @NamedQuery(name = "OUAdditionalFieldStorage.paginate.id.asc", query = "from OUAdditionalFieldStorage order by id asc"),
     @NamedQuery(name = "OUAdditionalFieldStorage.paginate.id.desc", query = "from OUAdditionalFieldStorage order by id desc"),  
-    @NamedQuery(name = "OUAdditionalFieldStorage.paginateByTipologiaProprieta.value.asc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue asc"),
-    @NamedQuery(name = "OUAdditionalFieldStorage.paginateByTipologiaProprieta.value.desc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue desc"),
-    @NamedQuery(name = "OUAdditionalFieldStorage.paginateEmptyById.value.asc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ?) order by id asc"),
-    @NamedQuery(name = "OUAdditionalFieldStorage.paginateEmptyById.value.desc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ?) order by id desc"),
-    @NamedQuery(name = "OUAdditionalFieldStorage.countNotEmptyByTipologiaProprieta", query = "select count(rpdyn) from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ? "),
-    @NamedQuery(name = "OUAdditionalFieldStorage.countEmptyByTipologiaProprieta", query = "select count(rpdyn) from OUAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.position = 0 and anagrafica.typo.id = ?)"),
+    @NamedQuery(name = "OUAdditionalFieldStorage.paginateByTipologiaProprieta.value.asc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue asc"),
+    @NamedQuery(name = "OUAdditionalFieldStorage.paginateByTipologiaProprieta.value.desc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ? order by anagrafica.value.sortValue desc"),
+    @NamedQuery(name = "OUAdditionalFieldStorage.paginateEmptyById.value.asc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ?) order by id asc"),
+    @NamedQuery(name = "OUAdditionalFieldStorage.paginateEmptyById.value.desc", query = "select rpdyn from OUAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ?) order by id desc"),
+    @NamedQuery(name = "OUAdditionalFieldStorage.countNotEmptyByTipologiaProprieta", query = "select count(rpdyn) from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ? "),
+    @NamedQuery(name = "OUAdditionalFieldStorage.countEmptyByTipologiaProprieta", query = "select count(rpdyn) from OUAdditionalFieldStorage rpdyn where rpdyn NOT IN (select rpdyn from OUAdditionalFieldStorage rpdyn left outer join rpdyn.anagrafica anagrafica where anagrafica.positionDef = 0 and anagrafica.typo.id = ?)"),
     @NamedQuery(name = "OUAdditionalFieldStorage.count", query = "select count(*) from OUAdditionalFieldStorage")
 })
 public class OUAdditionalFieldStorage extends AnagraficaObject<OUProperty, OUPropertiesDefinition> {
@@ -50,7 +49,7 @@ public class OUAdditionalFieldStorage extends AnagraficaObject<OUProperty, OUPro
     @OneToMany(mappedBy = "parent")
     @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-    @OrderBy(clause="position asc")
+    @OrderBy(clause="positionDef asc")
     private List<OUProperty> anagrafica;
     
     public List<OUProperty> getAnagrafica() {

@@ -15,9 +15,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.dspace</groupId>
-			<artifactId>dspace-api</artifactId>
-			<version>1.8.3-SNAPSHOT</version>			
+			<artifactId>dspace-api</artifactId>						
 		</dependency>
+     <dependency>
+         <groupId>org.dspace</groupId>
+         <artifactId>dspace-stats</artifactId>         
+     </dependency>
 
 		<dependency>
 		  <groupId>org.hibernate</groupId>
@@ -35,6 +38,7 @@
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>				
 		</dependency>    		
+    
 		<dependency>
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
@@ -60,11 +64,26 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jexcelapi</groupId>
+        <groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
-			<version>2.6</version>
 		</dependency>
 
+    <dependency>
+       <groupId>commons-httpclient</groupId>
+       <artifactId>commons-httpclient</artifactId>
+    </dependency>
+
+	<dependency>
+		<groupId>javassist</groupId>
+		<artifactId>javassist</artifactId>
+		<version>3.4.GA</version>
+	</dependency>
+
+	<dependency>
+		<groupId>cglib</groupId>
+		<artifactId>cglib-nodep</artifactId>
+		<version>2.2</version>
+	</dependency>
 
 		<dependency>
 			<artifactId>spring-core</artifactId>
@@ -83,30 +102,30 @@
 		</dependency>
 
 		<dependency>
-			<groupId>jdyna-core</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-core</artifactId>
 
 		</dependency>
 
 		<dependency>
-			<groupId>jdyna-date</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-date</artifactId>
 
 		</dependency>
 
 		<dependency>
-			<groupId>jdyna-pointer</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-pointer</artifactId>
 
 		</dependency>
 
 		<dependency>
-			<groupId>jdyna-web-api</groupId>
+			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-web-api</artifactId>
 
 		</dependency>
 		<dependency>
-			<groupId>commons-cilea-genericdao</groupId>
+			<groupId>it.cilea</groupId>
 			<artifactId>commons-cilea-genericdao</artifactId>
 			<version>1.0</version>
 		</dependency>
@@ -115,6 +134,14 @@
             <artifactId>ant</artifactId>
             <version>1.7.0</version>
          </dependency>
+
+	<dependency>
+		<groupId>org.dspace</groupId>
+		<artifactId>pubmed-retrieve</artifactId>
+		<version>0.1</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
 	</dependencies>
 
 	<build>
@@ -122,40 +149,7 @@
 			<!-- <plugin> <artifactId>maven-compiler-plugin</artifactId> <configuration> 
 				<source>1.6</source> <target>1.6</target> </configuration> </plugin> <plugin> 
 				<artifactId>maven-eclipse-plugin</artifactId> <version>2.5</version> </plugin> -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<classpathScope>test</classpathScope>
-					<longClasspath>true</longClasspath>
-					<executable>java</executable>
-					<arguments>
-						<argument>-Ddspace.configuration=E:/data/apphome/dspace/config/dspace.cfg</argument>
-						<argument>-Xdebug</argument>
-						<argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000</argument>
-						<argument>-classpath</argument>
-						<!-- automatically creates the classpath using all project dependencies, 
-							also adding the project build directory -->
-						<classpath />
-						<argument>org.dspace.app.launcher.ScriptLauncher</argument>
-						<argument>dsrun</argument>
-						<argument>it.cilea.pmc.script.RetrieveCitationInPMC</argument>
-						<argument>-x 10</argument>
-					</arguments>
-					<!-- <mainClass>org.dspace.app.launcher.ScriptLauncher</mainClass> <systemProperties> 
-						<systemProperty> <key>dspace.configuration</key> <value>E:/data/apphome/dspace/config/dspace.cfg</value> 
-						</systemProperty> </systemProperties> <arguments> <argument>dsrun</argument> 
-						<argument>it.cilea.pmc.script.RetrieveCitationInPMC</argument> </arguments> -->
-				</configuration>
-			</plugin>
+			
 
 			<!--This plugin's configuration is used to store Eclipse m2e settings 
 				only. It has no influence on the Maven build itself. -->
@@ -179,8 +173,8 @@
 						</goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
 						inheritRefs="true"> <target name="create-tables-and-GEN-DDL" /> </ant> </tasks> 
 						</configuration> </execution> 
-					
-					
+			-->	
+			
 					<execution>
 						<id>generate-ddl</id>
 						<phase>process-classes</phase>
@@ -189,6 +183,8 @@
 						</goals>
 						<configuration>
 							<tasks>
+								<property name="dspace.dir" value="E:/var/dspace"/>
+								<property name="tool.dir" value="E:/var/tooldspace"/>
 								<ant antfile="${basedir}/src/main/resources/build.xml"
 									inheritRefs="true">
 									<target name="generate-ddl" />
@@ -196,7 +192,7 @@
 							</tasks>
 						</configuration>
 					</execution>
-				-->
+					
 <!-- 
 				<execution>
 						<id>generate-drop-ddl</id>
@@ -225,6 +221,8 @@
 								<tasks>
 									<property name="maven_compile_classpath" refid="maven.compile.classpath"/>
 									<property name="maven_runtime_classpath" refid="maven.runtime.classpath"/>
+									<property name="dspace.dir" value="E:/var/dspace"/>
+									<property name="tool.dir" value="E:/var/tooldspace"/>
 									<ant antfile="${basedir}/src/main/resources/build.xml"
 										inheritRefs="true">
 										<target name="generate-update-ddl" />
@@ -232,7 +230,7 @@
 								</tasks>
 							</configuration>
 						</execution> 
-				 -->
+			 -->
 					 <!-- <execution> <id>refresh-database</id> <phase>process-classes</phase> 
 						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
 						inheritRefs="true"> <target name="refresh-database" /> </ant> </tasks> </configuration> 
@@ -274,7 +272,7 @@
 					</dependency>
 					
 					<dependency>
-						<groupId>commons-cilea-genericdao</groupId>
+						<groupId>it.cilea</groupId>
 						<artifactId>commons-cilea-genericdao</artifactId>
 						<version>1.0</version>
 					</dependency>

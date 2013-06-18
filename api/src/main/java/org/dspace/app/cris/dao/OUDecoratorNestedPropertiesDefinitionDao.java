@@ -7,9 +7,9 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition;
-
 import it.cilea.osd.jdyna.dao.ContainableDao;
+
+import org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition;
 
 public interface OUDecoratorNestedPropertiesDefinitionDao extends ContainableDao<DecoratorOUNestedPropertiesDefinition> 
 {

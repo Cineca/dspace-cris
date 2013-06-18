@@ -7,13 +7,16 @@
  */
 package org.dspace.app.webui.cris.components;
 
-import it.cilea.osd.jdyna.components.IBeanComponent;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.webui.cris.util.RelationPreferenceUtil;
 
 
-public class BeanComponent implements IBeanComponent
+public class BeanComponent implements ICrisBeanComponent
 {
         
     private String componentIdentifier;
@@ -26,9 +29,18 @@ public class BeanComponent implements IBeanComponent
     
     private int sortby = -1;
     
+    private boolean useCommonFilter = true;
+    
+    private boolean useRelationQuery = true;
+    
     private List<String> filters = new ArrayList<String>();
 
     private int etal = -1;
+    
+    private String facetQuery;
+    private String facetField; 
+        
+    Map<String, String> subQueries = new HashMap<String,String>();
     
     public String getComponentIdentifier()
     {
@@ -100,4 +112,56 @@ public class BeanComponent implements IBeanComponent
         return etal;
     }
     
+    public boolean isUseCommonFilter()
+    {
+        return useCommonFilter;
+    }
+
+    public void setUseCommonFilter(boolean useCommonFilter)
+    {
+        this.useCommonFilter = useCommonFilter;
+    }
+
+    public boolean isUseRelationQuery()
+    {
+        return useRelationQuery;
+    }
+
+    public void setUseRelationQuery(boolean useRelationQuery)
+    {
+        this.useRelationQuery = useRelationQuery;
+    }
+
+    @Override
+    public String getFacetQuery()
+    {           
+        return facetQuery;
+    }
+
+    public void setFacetQuery(String facetQuery)
+    {
+        this.facetQuery = facetQuery;
+    }
+
+    public String getFacetField()
+    {
+        return facetField;
+    }
+
+    public void setFacetField(String facetField)
+    {
+        this.facetField = facetField;
+    }
+
+    public Map<String, String> getSubQueries()
+    {
+        return subQueries;
+    }
+
+    public void setSubQueries(Map<String, String> subQueries)
+    {
+        this.subQueries = subQueries;
+    }
+
+           
 }

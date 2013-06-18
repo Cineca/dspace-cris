@@ -13,18 +13,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name="cris_project_tab")
+@Table(name="cris_pj_tab")
 @NamedQueries( {
         @NamedQuery(name = "TabProject.findAll", query = "from TabProject order by priority asc"),
         @NamedQuery(name = "TabProject.findPropertyHolderInTab", query = "from BoxProject box where box in (select m from TabProject tab join tab.mask m where tab.id = ?) order by priority"),
@@ -39,8 +41,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class TabProject extends AbstractTab<BoxProject> {
 
 	/** Showed holder in this tab */
-	@ManyToMany
-	@JoinTable(name = "cris_project_tab2box")	
+	@ManyToMany	
+	@JoinTable(name = "cris_pj_tab2box", joinColumns = { 
+            @JoinColumn(name = "cris_pj_tab_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "cris_pj_box_id") })
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxProject> mask;
 
@@ -65,6 +69,6 @@ public class TabProject extends AbstractTab<BoxProject> {
     @Override
     public String getFileSystemPath()
     {
-        return ConfigurationManager.getProperty("project.file.path");
+        return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE,"project.file.path");
     }
 }

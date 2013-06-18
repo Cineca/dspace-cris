@@ -177,6 +177,7 @@ The contents of this file are subject to the license and copyright
 		<div class="dynaClear">
 			&nbsp;
 		</div>
+				
 		<br/><br/>
 		
 		<c:set var="sortedAllContainablesList" value="${researcher:sortBoxByComparator(containablesList,'org.dspace.app.webui.cris.comparator.CustomContainableComparator')}" />

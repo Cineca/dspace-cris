@@ -7,11 +7,8 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.common.core.HasTimeStampInfo;
-import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
-import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
 import java.util.LinkedList;
@@ -23,15 +20,19 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearcherPage;
-import org.dspace.app.cris.model.UUIDSupport;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
 
 @Entity
-@Table(name = "cris_rp_nestedobject")
+@Table(name = "cris_rp_no", 
+        uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries({
         @NamedQuery(name = "RPNestedObject.findAll", query = "from RPNestedObject order by id"),
         @NamedQuery(name = "RPNestedObject.paginate.id.asc", query = "from RPNestedObject order by id asc"),
@@ -43,17 +44,19 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "RPNestedObject.paginateActiveNestedObjectsByParentIDAndTypoID.asc.asc", query = "from RPNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "RPNestedObject.countActiveNestedObjectsByParentIDAndTypoID", query = "select count(*) from RPNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "RPNestedObject.findNestedObjectsByTypoID", query = "from RPNestedObject where typo.id = ?"),
-        @NamedQuery(name = "RPNestedObject.deleteNestedObjectsByTypoID", query = "delete from RPNestedObject where typo.id = ?")
+        @NamedQuery(name = "RPNestedObject.findNestedObjectsByParentIDAndTypoShortname",  query = "from RPNestedObject where parent.id = ? and typo.shortName = ?"),
+        @NamedQuery(name = "RPNestedObject.deleteNestedObjectsByTypoID", query = "delete from RPNestedObject where typo.id = ?"),
+        @NamedQuery(name = "RPNestedObject.maxPositionNestedObjectsByTypoID", query = "select max(positionDef) as max from RPNestedObject where typo.id = ?")
 })
 public class RPNestedObject
         extends
-        ANestedObjectWithTypeSupport<RPNestedProperty, RPNestedPropertiesDefinition, RPProperty, RPPropertiesDefinition>
-        implements UUIDSupport, HasTimeStampInfo
+        ACrisNestedObject<RPNestedProperty, RPNestedPropertiesDefinition, RPProperty, RPPropertiesDefinition>        
 {
 
     @OneToMany(mappedBy = "parent")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @OrderBy(clause = "position asc")
+    @OrderBy(clause = "positionDef asc")
     private List<RPNestedProperty> anagrafica;
 
     @ManyToOne
@@ -112,6 +115,12 @@ public class RPNestedObject
     public Class getClassParent()
     {
         return ResearcherPage.class;
+    }
+
+    @Override
+    public int getType()
+    {
+        return CrisConstants.NRP_TYPE_ID;
     }
 
 }

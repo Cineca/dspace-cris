@@ -48,7 +48,7 @@ public class RedirectEntityDetailsController<T extends ACrisObject> extends
             if (modeCode != null && !modeCode.isEmpty())
             {
                 entity = ((ApplicationService) applicationService)
-                        .get(modelClass, modeCode);
+                        .getEntityBySourceId(modeCode, modelClass);
             }
             else
             {

@@ -27,6 +27,8 @@ import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.ProjectProperty;
 import org.dspace.app.cris.model.jdyna.TabProject;
 import org.dspace.app.cris.service.ApplicationService;
+import org.dspace.app.cris.service.CrisSubscribeService;
+import org.dspace.app.cris.statistics.util.StatsConfig;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.app.webui.util.Authenticate;
 import org.dspace.app.webui.util.JSPManager;
@@ -35,6 +37,9 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
+import org.dspace.eperson.EPerson;
+import org.dspace.usage.UsageEvent;
+import org.dspace.utils.DSpace;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -50,6 +55,10 @@ public class ProjectDetailsController
         SimpleDynaController<ProjectProperty, ProjectPropertiesDefinition, BoxProject, TabProject>
 {
 
+    private CrisSubscribeService subscribeService;
+
+    
+    
     public ProjectDetailsController(Class<Project> anagraficaObjectClass,
             Class<ProjectPropertiesDefinition> classTP,
             Class<TabProject> classT, Class<BoxProject> classH)
@@ -79,10 +88,13 @@ public class ProjectDetailsController
 
         Context context = UIUtil.obtainContext(request);
 
+        EPerson currentUser = context.getCurrentUser();
+        
         if ((grant.getStatus() == null || grant.getStatus().booleanValue() == false)
                 && !AuthorizeManager.isAdmin(context))
         {
-            if (context.getCurrentUser() != null
+            
+            if (currentUser != null
                     || Authenticate.startAuthentication(context, request,
                             response))
             {
@@ -116,6 +128,23 @@ public class ProjectDetailsController
         {
             return null;
         }
+        
+        
+        if (subscribeService != null)
+        {
+            boolean subscribed = subscribeService.isSubscribed(currentUser,
+                    grant);
+            model.put("subscribed", subscribed);
+           
+        }
+        
+        request.setAttribute("sectionid", StatsConfig.DETAILS_SECTION);
+        new DSpace().getEventService().fireEvent(
+                new UsageEvent(
+                        UsageEvent.Action.VIEW,
+                        request,
+                        context,
+                        grant));
         
         mvc.getModel().putAll(model);
         mvc.getModel().put("project", grant);
@@ -218,5 +247,10 @@ public class ProjectDetailsController
     protected Integer getRealPersistentIdentifier(String persistentIdentifier)
     {
         return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier, Project.class);
+    }
+    
+    public void setSubscribeService(CrisSubscribeService rpSubscribeService)
+    {
+        this.subscribeService = rpSubscribeService;
     }
 }

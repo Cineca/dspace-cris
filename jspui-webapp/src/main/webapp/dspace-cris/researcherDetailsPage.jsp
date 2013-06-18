@@ -13,7 +13,8 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace" %>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <%@ page import="org.dspace.app.cris.integration.RPAuthority"%>
-
+<%@ page import="org.dspace.app.cris.network.NetworkPlugin"%>
+<%@ page import="org.dspace.core.ConfigurationManager" %>
 <%@ page import="org.dspace.app.webui.util.UIUtil" %>
 
 <%@ taglib uri="jdynatags" prefix="dyna"%>
@@ -59,6 +60,8 @@ The contents of this file are subject to the license and copyright
     {
         currentPage = currentPage.substring( 0, c );
     }
+    
+    boolean networkModuleEnabled = ConfigurationManager.getBooleanProperty(NetworkPlugin.CFG_MODULE,"network.enabled");
 %>
 <c:set var="admin" scope="request"><%=isAdmin%></c:set>
 <c:set var="dspace.cris.navbar" scope="request">
@@ -120,7 +123,8 @@ The contents of this file are subject to the license and copyright
 						"limit": j('#nested_'+id+"_limit").html(),
 						"editmode": j('#nested_'+id+"_editmode").html(),
 						"totalHit": j('#nested_'+id+"_totalHit").html(),
-						"admin": ${admin}
+						"admin": ${admin},
+						"externalJSP": j('#nested_'+id+"_externalJSP").html()
 					},
 					success : function(data) {																										
 						j('#viewnested_'+id).html(data);
@@ -134,7 +138,8 @@ The contents of this file are subject to the license and copyright
 									"limit": j('#nested_'+id+"_limit").html(),
 									"editmode": j('#nested_'+id+"_editmode").html(),
 									"totalHit": j('#nested_'+id+"_totalHit").html(),
-									"admin": ${admin}
+									"admin": ${admin},
+									"externalJSP": j('#nested_'+id+"_externalJSP").html()
 								},
 								success : function(data) {									
 									j('#viewnested_'+id).html(data);
@@ -195,9 +200,9 @@ The contents of this file are subject to the license and copyright
 					"objectId": ${entity.id}
 				},
 				success : function(data) {
-					for (var i = 0; i < data.navigation.size(); i++)
+					for (var i = 0; i < data.navigation.length; i++)
 					{
-						if (data.navigation[i].boxes == null || data.navigation[i].boxes.size() == 0)
+						if (data.navigation[i].boxes == null || data.navigation[i].boxes.length == 0)
 						{
 							j('#bar-tab-'+data.navigation[i].id).remove();
 							j('#cris-tabs-navigation-'+data.navigation[i].id).remove();
@@ -211,7 +216,7 @@ The contents of this file are subject to the license and copyright
 							img.after('&nbsp;');
 							j('#cris-tabs-navigation-'+data.navigation[i].id+' h3 a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
 							j('#cris-tabs-navigation-'+data.navigation[i].id+'-ul').html('');
-							for (var k = 0; k < data.navigation[i].boxes.size(); k++)
+							for (var k = 0; k < data.navigation[i].boxes.length; k++)
 							{	
 								j('#cris-tabs-navigation-'+data.navigation[i].id+"-ul")
 									.append('<li class="ui-accordion ui-widget-content ui-state-default"><a href="${root}/cris/${specificPartPath}/${authority}/'
@@ -263,7 +268,50 @@ The contents of this file are subject to the license and copyright
 	</div>
 <%
     }
-%>	
+%>
+	<%if(networkModuleEnabled) { %>
+		<span>
+			<img src="${root}/image/network/network_icon.jpg">
+			<a href="<%= request.getContextPath() %>/cris/network/${researcher.crisID}"><fmt:message key="jsp.cris.detail.link.network" /></a>
+		</span>
+ 	<% } %>
+	
+		<span>
+			<img src="${root}/image/stats/chart_curve.png">
+			<a href="<%= request.getContextPath() %>/cris/stats/rp.html?id=${researcher.uuid}"><fmt:message key="jsp.cris.detail.link.statistics" /></a>
+		</span>
+
+
+
+<span>
+<c:choose>
+        <c:when test="${!subscribed}">
+                <img src="<%= request.getContextPath() %>/image/stats/start-bell.png">
+                <a href="<%= request.getContextPath() %>/cris/tools/subscription/subscribe?uuid=${researcher.uuid}"><fmt:message key="jsp.cris.detail.link.email.alert" /></a>
+        </c:when>
+        <c:otherwise>
+                <img src="<%= request.getContextPath() %>/image/stats/stop-bell.png">
+                <a href="<%= request.getContextPath() %>/cris/tools/subscription/unsubscribe?uuid=${researcher.uuid}"><fmt:message key="jsp.cris.detail.link.email.alert.remove" /></a>
+        </c:otherwise>        
+</c:choose>
+</span>
+<span>
+        <img src="${root}/image/stats/feed.png">
+        <a href="<%= request.getContextPath() %>/open-search?query=author_authority:${authority}&amp;format=rss"><fmt:message key="jsp.cris.detail.link.rssfeed" /></a>
+</span>
+
+<c:if test="${researcher_page_menu && !empty researcher}">
+		<span>
+		<img src="${root}/image/cris/book_blue_preferences.png"><a href="${root}/cris/uuid/${researcher.uuid}/relMgmt/publications"><fmt:message key="jsp.layout.navbar-hku.staff-mode.manage-publication"/></a>
+		</span>
+		<c:if test="${admin}">				
+		<span>
+			<img src="${root}/image/cris/book_blue_view.png"><a href="${root}/cris/tools/rp/rebindItemsToRP.htm?id=${researcher.id}"><fmt:message key="jsp.layout.navbar-hku.staff-mode.bind.items"/></a>
+		</span>				
+		</c:if>
+</c:if>
+
+
 		</div>
 	 </div>
 <h1><fmt:message key="jsp.layout.hku.detail.title-first" /> <c:choose>
@@ -310,8 +358,7 @@ The contents of this file are subject to the license and copyright
 				<!--[if lte IE 8]>
       			<div id="cris-edit-anchor-div">
       			<![endif]-->
-      				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>
-      				
+      				<a class="cris-edit-anchor" href="<%= request.getContextPath() %>/cris/tools/rp/editDynamicData.htm?id=${researcher.id}&anagraficaId=${researcher.dynamicField.id}<c:if test='${!empty tabIdForRedirect}'>&tabId=${tabIdForRedirect}</c:if>"><fmt:message key="jsp.layout.navbar-hku.staff-mode.edit.primary-data"/></a>			      				
       			<!--[if lte IE 8]>
       			</div>
       			<![endif]-->

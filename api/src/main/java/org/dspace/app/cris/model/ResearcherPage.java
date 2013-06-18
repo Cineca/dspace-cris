@@ -7,24 +7,20 @@
  */
 package org.dspace.app.cris.model;
 
-import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.SingleTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
-import it.cilea.osd.common.model.Identifiable;
-import it.cilea.osd.jdyna.model.AnagraficaSupport;
+import it.cilea.osd.jdyna.value.FileValue;
 
+import java.beans.PropertyEditor;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
@@ -36,17 +32,15 @@ import javax.persistence.Transient;
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.export.ExportConstants;
 import org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage;
+import org.dspace.app.cris.model.jdyna.RPNestedObject;
 import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.RPProperty;
+import org.dspace.app.cris.model.jdyna.RPTypeNestedObject;
+import org.dspace.app.cris.model.jdyna.value.OUPointer;
 import org.dspace.app.cris.model.listener.RPListener;
-import org.dspace.authorize.AuthorizeException;
+import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.eperson.EPerson;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 /**
  * This class models the HKU Researcher Page concept. Almost all the field of
@@ -58,7 +52,7 @@ import org.hibernate.annotations.FetchMode;
  * 
  */
 @Entity
-@Table(name = "cris_researcherpage")
+@Table(name = "cris_rpage")
 @NamedQueries({
         @NamedQuery(name = "ResearcherPage.findAll", query = "from ResearcherPage order by id"),
         @NamedQuery(name = "ResearcherPage.paginate.id.asc", query = "from ResearcherPage order by id asc"),
@@ -87,29 +81,19 @@ import org.hibernate.annotations.FetchMode;
         @NamedQuery(name = "ResearcherPage.findAllNextResearcherBysourceIDStart", query = "from ResearcherPage rp where rp.sourceID >= ?"),
         @NamedQuery(name = "ResearcherPage.findAllPrevResearcherBysourceIDEnd", query = "from ResearcherPage rp where rp.sourceID <= ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInsourceIDRange", query = "from ResearcherPage rp where rp.sourceID between :par0 and :par1"),
+        @NamedQuery(name = "ResearcherPage.uniqueLastModifiedTimeStamp", query = "select timeStampInfo.timestampLastModified.timestamp from ResearcherPage rp where rp.id = ?"),
         @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?"),
+        @NamedQuery(name = "ResearcherPage.findAllResearcherPageID", query = "select id from ResearcherPage order by id"),
         @NamedQuery(name = "ResearcherPage.uniqueUUID", query = "from ResearcherPage where uuid = ?"),
         @NamedQuery(name = "ResearcherPage.uniqueByCrisID", query = "from ResearcherPage where crisID = ?"),
-        @NamedQuery(name = "ResearcherPage.uniqueByEPersonId", query = "from ResearcherPage where epersonID = ?")
-})
-public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefinition>
-        implements
-        HasTimeStampInfo,
-        Cloneable,
-        IExportableDynamicObject<RPPropertiesDefinition, RPProperty, RPAdditionalFieldStorage>
+        @NamedQuery(name = "ResearcherPage.idFindMax", query = "select max(id) from ResearcherPage"),
+        @NamedQuery(name = "ResearcherPage.uniqueByEPersonId", query = "from ResearcherPage where epersonID = ?") })
+public class ResearcherPage extends
+        ACrisObject<RPProperty, RPPropertiesDefinition> implements Cloneable
 {
 
-    @Column(unique=true, nullable=true)
+    @Column(unique = true, nullable = true)
     private Integer epersonID;
-    
-    @Transient
-    public static final int PUBLICATION_LIST_SECTION = -1;
-
-    @Transient
-    public static final int DOWNLOAD_CV_SECTION = -2;
-
-    @Transient
-    public static final int COLLABORATION_NETWORK_SECTION = -3;
 
     /** log4j logger */
     @Transient
@@ -125,8 +109,8 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
 
     /** DB Primary key */
     @Id
-    @GeneratedValue(generator = "CRIS_RESEARCHERPAGE_SEQ")
-    @SequenceGenerator(name = "CRIS_RESEARCHERPAGE_SEQ", sequenceName = "CRIS_RESEARCHERPAGE_SEQ")
+    @GeneratedValue(generator = "CRIS_RPAGE_SEQ")
+    @SequenceGenerator(name = "CRIS_RPAGE_SEQ", sequenceName = "CRIS_RPAGE_SEQ")
     private Integer id;
 
     @Transient
@@ -144,16 +128,14 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     @Embedded
     private RPAdditionalFieldStorage dynamicField;
 
-    /**
-     * Manually rejected potential matches
-     */
-    @CollectionOfElements(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SELECT)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    private Set<Integer> rejectItems;
-
     @Transient
     private boolean internalRP = true;
+
+    @Transient
+    private String fullName;
+
+    @Transient
+    private Integer oldEpersonID;
 
     /**
      * Constructor method, create new ResearcherPage setting status to true.
@@ -184,7 +166,6 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     {
         this.id = id;
     }
-
 
     /**
      * Wrapper method.
@@ -267,7 +248,7 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
     {
         RestrictedField result = new RestrictedField();
         for (RPProperty property : this.getDynamicField().getAnagrafica4view()
-                .get("publicEmail"))
+                .get("email"))
         {
             result.setValue(property.getValue().getObject().toString());
             result.setVisibility(property.getVisibility());
@@ -289,31 +270,6 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
             timeStampInfo = new TimeStampInfo();
         }
         return timeStampInfo;
-    }
-
-    /**
-     * Getter method.
-     * 
-     * @return the manually rejected potential matches
-     */
-    public Set<Integer> getRejectItems()
-    {
-        if (rejectItems == null)
-        {
-            rejectItems = new HashSet<Integer>();
-        }
-        return rejectItems;
-    }
-
-    /**
-     * Setter method.
-     * 
-     * @param rejectItems
-     *            the manually rejected potential matches
-     */
-    public void setRejectItems(Set<Integer> rejectItems)
-    {
-        this.rejectItems = rejectItems;
     }
 
     /**
@@ -380,34 +336,6 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
         return dynamicField;
     }
 
-    /**
-     * Convenience method to get data from ResearcherPage by a string. For any
-     * existent field name the method must return the relative value (i.e
-     * getMetadata("fullName") is equivalent to getFullName()) but the method
-     * always return a list (with 0, 1 or more elements). For dynamic field it
-     * returns the value of the dynamic field with the shorter name equals to
-     * the argument. Only public values are returned!
-     * 
-     * 
-     * @param dcField
-     *            the field (not null) to retrieve the value
-     * @return a list of 0, 1 or more values
-     */
-    public List<String> getMetadata(String field)
-    {
-        List<String> result = new ArrayList();
-
-        List<RPProperty> dyna = getDynamicField().getAnagrafica4view().get(
-                field);
-        for (RPProperty prop : dyna)
-        {
-            if (prop.getVisibility() == VisibilityConstants.PUBLIC)
-                result.add(prop.toString());
-        }
-
-        return result;
-    }
-
     @Transient
     public List<String> getAllPublicNames()
     {
@@ -458,7 +386,6 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
         return results;
     }
 
-    
     public Object clone() throws CloneNotSupportedException
     {
         return super.clone();
@@ -474,102 +401,42 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
         return internalRP;
     }
 
-    
     public String getNamePublicIDAttribute()
     {
         return ExportConstants.NAME_PUBLICID_ATTRIBUTE;
     }
 
-    
-    public String getValuePublicIDAttribute()
-    {
-        return "" + this.getId();
-    }
-
-    
-    public String getNameIDAttribute()
-    {
-        return ExportConstants.NAME_ID_ATTRIBUTE;
-    }
-
-    
-    public String getValueIDAttribute()
-    {
-        if (this.getUuid() == null)
-        {
-            return "";
-        }
-        return "" + this.getUuid().toString();
-    }
-
-    
-    public String getNameBusinessIDAttribute()
-    {
-        return ExportConstants.NAME_BUSINESSID_ATTRIBUTE;
-    }
-
-    
-    public String getValueBusinessIDAttribute()
-    {
-        return this.getSourceID();
-    }
-
-    
-    public String getNameTypeIDAttribute()
-    {
-        return ExportConstants.NAME_TYPE_ATTRIBUTE;
-    }
-
-    
-    public String getValueTypeIDAttribute()
-    {
-        return "" + getType();
-    }
-
-    
-    public String getNameSingleRowElement()
-    {
-        return ExportConstants.ELEMENT_SINGLEROW;
-    }
-
-    
     public String getIdentifyingValue()
     {
         return this.dynamicField.getIdentifyingValue();
     }
 
-    
     public String getDisplayValue()
     {
         return this.dynamicField.getDisplayValue();
     }
 
-    
     public List<RPProperty> getAnagrafica()
     {
         return this.dynamicField.getAnagrafica();
     }
 
-    
     public Map<String, List<RPProperty>> getAnagrafica4view()
     {
         return this.dynamicField.getAnagrafica4view();
     }
 
-    
     public void setAnagrafica(List<RPProperty> anagrafica)
     {
         this.dynamicField.setAnagrafica(anagrafica);
     }
 
-    
     public RPProperty createProprieta(RPPropertiesDefinition tipologiaProprieta)
             throws IllegalArgumentException
     {
         return this.dynamicField.createProprieta(tipologiaProprieta);
     }
 
-    
     public RPProperty createProprieta(
             RPPropertiesDefinition tipologiaProprieta, Integer posizione)
             throws IllegalArgumentException
@@ -577,44 +444,37 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
         return this.dynamicField.createProprieta(tipologiaProprieta, posizione);
     }
 
-    
     public boolean removeProprieta(RPProperty proprieta)
     {
         return this.dynamicField.removeProprieta(proprieta);
     }
 
-    
     public List<RPProperty> getProprietaDellaTipologia(
             RPPropertiesDefinition tipologiaProprieta)
     {
         return this.dynamicField.getProprietaDellaTipologia(tipologiaProprieta);
     }
 
-    
     public Class<RPProperty> getClassProperty()
     {
         return this.dynamicField.getClassProperty();
     }
 
-    
     public Class<RPPropertiesDefinition> getClassPropertiesDefinition()
     {
         return this.dynamicField.getClassPropertiesDefinition();
     }
 
-    
     public void inizializza()
     {
         this.dynamicField.inizializza();
     }
 
-    
     public void invalidateAnagraficaCache()
     {
         this.dynamicField.invalidateAnagraficaCache();
     }
 
-    
     public void pulisciAnagrafica()
     {
         this.dynamicField.pulisciAnagrafica();
@@ -628,21 +488,12 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
         try
         {
             context = new Context();
-            if (epersonID == null)
-            {
-
-                eperson = EPerson.findByEmail(context, getEmail().getValue());
-            }
-            else
+            if (epersonID != null)
             {
                 eperson = EPerson.find(context, epersonID);
             }
         }
         catch (SQLException e)
-        {
-            log.error(e.getMessage());
-        }
-        catch (AuthorizeException e)
         {
             log.error(e.getMessage());
         }
@@ -667,32 +518,110 @@ public class ResearcherPage extends ACrisObject<RPProperty, RPPropertiesDefiniti
         this.epersonID = idEPerson;
     }
 
-
     public String getPublicPath()
-    {        
+    {
         return "rp";
     }
 
     @Override
-    public int getType() {
-    	return CrisConstants.RP_TYPE_ID;
+    public int getType()
+    {
+        return CrisConstants.RP_TYPE_ID;
     }
-    
+
     @Override
     public String getName()
     {
-        if (getPreferredName() != null
-                && getPreferredName().getVisibility() == VisibilityConstants.PUBLIC
-                && getPreferredName().getValue() != null)
-            return getPreferredName().getValue();
-        else
-            return getFullName();
+        return getFullName();
     }
 
-   
     @Override
     public String getAuthorityPrefix()
     {
         return "rp";
+    }
+
+    /**
+     * Wrapper method
+     * 
+     * @return value list
+     */
+    public List<RestrictedFieldWithLock> getOrgUnit()
+    {
+        List<RestrictedFieldWithLock> results = new ArrayList<RestrictedFieldWithLock>();
+        String pdef_dept = ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "researcherpage.pdef.orgunit");
+        for (RPProperty property : this.getDynamicField().getAnagrafica4view()
+                .get(pdef_dept))
+        {
+            OUPointer pointer = (OUPointer) property.getValue();
+            RestrictedFieldWithLock result = new RestrictedFieldWithLock();
+            result.setValue(pointer.getObject().getDisplayValue());
+            result.setVisibility(property.getVisibility());
+            result.setLock(property.getLockDef());
+            result.setAuthority(pointer.getObject().getCrisID());
+            results.add(result);
+        }
+        return results;
+    }
+
+    public void setFullName(String fullName)
+    {
+        this.fullName = fullName;
+    }
+
+    @Override
+    public Class<RPNestedObject> getClassNested()
+    {
+        return RPNestedObject.class;
+    }
+
+    @Override
+    public Class<RPTypeNestedObject> getClassTypeNested()
+    {
+        return RPTypeNestedObject.class;
+    }
+
+    public void setOldEpersonID(Integer oldEpersonID)
+    {
+        this.oldEpersonID = oldEpersonID;
+    }
+
+    public Integer getOldEpersonID()
+    {
+        return oldEpersonID;
+    }
+
+    public String getTypeText()
+    {
+        return CrisConstants.getEntityTypeText(CrisConstants.RP_TYPE_ID);
+    }
+
+    public RestrictedFieldFile getPict()
+    {
+        RestrictedFieldLocalOrRemoteFile result = new RestrictedFieldLocalOrRemoteFile();
+        String pdef_image = ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "researcherpage.pdef.publicimage");
+        for (RPProperty property : this.getDynamicField().getAnagrafica4view()
+                .get(pdef_image))
+        {            
+            FileValue value = (FileValue) property.getValue();
+            PropertyEditor propertyEditor = property.getTypo().getRendering()
+                    .getPropertyEditor(null);
+            propertyEditor.setValue(value.getObject());
+            result.setValue(propertyEditor.getAsText());
+            result.setVisibility(property.getVisibility());
+            break;
+        }
+        if (result.getValue() == null || result.getValue().isEmpty())
+        {
+            for (RPProperty property : this.getDynamicField()
+                    .getAnagrafica4view().get(pdef_image+"_ext"))
+            {
+                result.setRemoteUrl(property.getValue().getObject().toString());
+                result.setValue(property.getValue().getObject().toString());
+                result.setVisibility(property.getVisibility());
+                break;
+            }
+        }
+        return result;
     }
 }

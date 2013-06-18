@@ -72,6 +72,7 @@ The contents of this file are subject to the license and copyright
 												<span id="nested_${tipologiaDaVisualizzare.real.id}_limit" class="spandatabind">5</span>
 												<span id="nested_${tipologiaDaVisualizzare.real.id}_pageCurrent" class="spandatabind">0</span>
 												<span id="nested_${tipologiaDaVisualizzare.real.id}_editmode" class="spandatabind">false</span>
+												<span id="nested_${tipologiaDaVisualizzare.real.id}_externalJSP" class="spandatabind">${tipologiaDaVisualizzare.externalJSP}</span>
 												</div>
 										</c:if>
 										<c:if

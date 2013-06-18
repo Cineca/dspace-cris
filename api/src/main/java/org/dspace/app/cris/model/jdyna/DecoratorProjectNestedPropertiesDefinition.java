@@ -19,8 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -37,7 +35,7 @@ public class DecoratorProjectNestedPropertiesDefinition extends
 {
 
     @OneToOne(optional=true)
-    @JoinColumn(name="pdprojectnestedobject_fk")
+    @JoinColumn(name="cris_pj_no_pdef_fk")
     @Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     private ProjectNestedPropertiesDefinition real;
     

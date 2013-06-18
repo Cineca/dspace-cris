@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.dspace.app.cris.integration.BindItemToRP;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.service.ApplicationService;
+import org.dspace.app.cris.service.RelationPreferenceService;
 import org.dspace.utils.DSpace;
 
 public class ScriptBindItemToRP
@@ -45,6 +46,9 @@ public class ScriptBindItemToRP
                 + new Date() + " ----- ####");
 
         DSpace dspace = new DSpace();
+                
+        RelationPreferenceService relationPreferenceService = dspace.getServiceManager().getServiceByName(
+                "org.dspace.app.cris.service.RelationPreferenceService", RelationPreferenceService.class);
         ApplicationService applicationService = dspace.getServiceManager().getServiceByName(
                 "applicationService", ApplicationService.class);
         
@@ -127,7 +131,7 @@ public class ScriptBindItemToRP
                 log.info("...it will work on all researcher...");
                 rps = applicationService.getList(ResearcherPage.class);
             }
-            BindItemToRP.work(rps, applicationService);
+            BindItemToRP.work(rps, relationPreferenceService);
         }
         else
         {
@@ -154,7 +158,7 @@ public class ScriptBindItemToRP
                         .get(ResearcherPage.class, Integer.parseInt(rp
                                 .substring(2)));
                 rps.add(researcher);
-                BindItemToRP.work(rps, applicationService);
+                BindItemToRP.work(rps, relationPreferenceService);
             }
             else
             {

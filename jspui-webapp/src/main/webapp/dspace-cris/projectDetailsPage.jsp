@@ -49,7 +49,10 @@ The contents of this file are subject to the license and copyright
 
 %>
 <c:set var="admin" scope="request"><%= isAdmin %></c:set>
-
+<c:set var="dspace.layout.head" scope="request">
+    <link href="<%=request.getContextPath() %>/css/item.css" type="text/css" rel="stylesheet" />
+	<link href="<%=request.getContextPath() %>/css/grant.css" type="text/css" rel="stylesheet" />
+</c:set>
 <c:set var="dspace.layout.head.last" scope="request">
 	<!--[if lte IE 8]>
 			
@@ -106,7 +109,8 @@ The contents of this file are subject to the license and copyright
 						"limit": j('#nested_'+id+"_limit").html(),
 						"editmode": j('#nested_'+id+"_editmode").html(),
 						"totalHit": j('#nested_'+id+"_totalHit").html(),
-						"admin": ${admin}
+						"admin": ${admin},
+						"externalJSP": j('#nested_'+id+"_externalJSP").html()
 					},
 					success : function(data) {																										
 						j('#viewnested_'+id).html(data);
@@ -120,7 +124,8 @@ The contents of this file are subject to the license and copyright
 									"limit": j('#nested_'+id+"_limit").html(),
 									"editmode": j('#nested_'+id+"_editmode").html(),
 									"totalHit": j('#nested_'+id+"_totalHit").html(),
-									"admin": ${admin}
+									"admin": ${admin},
+									"externalJSP": j('#nested_'+id+"_externalJSP").html()
 								},
 								success : function(data) {									
 									j('#viewnested_'+id).html(data);
@@ -181,9 +186,9 @@ The contents of this file are subject to the license and copyright
 					"objectId": ${entity.id}
 				},
 				success : function(data) {
-					for (var i = 0; i < data.navigation.size(); i++)
+					for (var i = 0; i < data.navigation.length; i++)
 					{
-						if (data.navigation[i].boxes == null || data.navigation[i].boxes.size() == 0)
+						if (data.navigation[i].boxes == null || data.navigation[i].boxes.length == 0)
 						{
 							j('#bar-tab-'+data.navigation[i].id).remove();
 							j('#cris-tabs-navigation-'+data.navigation[i].id).remove();
@@ -197,7 +202,7 @@ The contents of this file are subject to the license and copyright
 							img.after('&nbsp;');
 							j('#cris-tabs-navigation-'+data.navigation[i].id+' h3 a img').attr('src','<%=request.getContextPath()%>/cris/researchertabimage/'+data.navigation[i].id);
 							j('#cris-tabs-navigation-'+data.navigation[i].id+'-ul').html('');
-							for (var k = 0; k < data.navigation[i].boxes.size(); k++)
+							for (var k = 0; k < data.navigation[i].boxes.length; k++)
 							{	
 								j('#cris-tabs-navigation-'+data.navigation[i].id+"-ul")
 									.append('<li class="ui-accordion ui-widget-content ui-state-default"><a href="${root}/cris/${specificPartPath}/${authority}/'
@@ -250,6 +255,30 @@ The contents of this file are subject to the license and copyright
 <%
     }
 %>	
+		
+		<span>
+			<img src="${root}/image/stats/chart_curve.png">
+			<a href="<%= request.getContextPath() %>/cris/stats/pj.html?id=${entity.uuid}">View Statistics</a>
+		</span>
+
+
+
+<span>
+<c:choose>
+        <c:when test="${!subscribed}">
+                <img src="<%= request.getContextPath() %>/image/stats/start-bell.png">
+                <a href="<%= request.getContextPath() %>/cris/tools/subscription/subscribe?uuid=${entity.uuid}">Email Alert</a>
+        </c:when>
+        <c:otherwise>
+                <img src="<%= request.getContextPath() %>/image/stats/stop-bell.png">
+                <a href="<%= request.getContextPath() %>/cris/tools/subscription/unsubscribe?uuid=${entity.uuid}">Remove Email Alert</a>
+        </c:otherwise>        
+</c:choose>
+</span>
+<span>
+        <img src="${root}/image/stats/feed.png">
+        <a href="<%= request.getContextPath() %>/open-search?query=dc.relation_authority:${authority}&amp;format=rss">RSS Feed</a>
+</span>
 		
 		</div>
 	 </div>

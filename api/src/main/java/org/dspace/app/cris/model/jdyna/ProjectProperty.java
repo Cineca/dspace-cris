@@ -24,13 +24,13 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 @Entity
-@Table(name="cris_project_prop", 
-		uniqueConstraints = {@UniqueConstraint(columnNames={"position","typo_id","parent_id"})})
+@Table(name="cris_pj_prop", 
+		uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries( {
-	@NamedQuery(name = "ProjectProperty.findPropertyByPropertiesDefinition", query = "from ProjectProperty where typo = ? order by position"),
-	@NamedQuery(name = "ProjectProperty.findAll", query = "from ProjectProperty order by id"),	
-	@NamedQuery(name = "ProjectProperty.findPropertyByParentAndTypo", query = "from ProjectProperty  where (parent.id = ? and typo.id = ?) order by position"),	
-	@NamedQuery(name = "ProjectProperty.deleteAllPropertyByPropertiesDefinition", query = "delete from ProjectProperty property where typo = ?)")
+    @NamedQuery(name = "ProjectProperty.findPropertyByPropertiesDefinition", query = "from ProjectProperty where typo = ? order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "ProjectProperty.findAll", query = "from ProjectProperty order by id", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "ProjectProperty.findPropertyByParentAndTypo", query = "from ProjectProperty  where (parent.id = ? and typo.id = ?) order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "ProjectProperty.deleteAllPropertyByPropertiesDefinition", query = "delete from ProjectProperty property where typo = ?)")
 })
 public class ProjectProperty extends Property<ProjectPropertiesDefinition> {
 	
@@ -40,7 +40,7 @@ public class ProjectProperty extends Property<ProjectPropertiesDefinition> {
 	
 	
 	@ManyToOne
-	@Index(name = "cris_project_prop_idx_parent_id")
+	@Index(name = "cris_pj_pprop_idx")
 	private Project parent;
 	
 

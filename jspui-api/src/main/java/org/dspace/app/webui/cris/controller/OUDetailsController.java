@@ -27,6 +27,8 @@ import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.OUProperty;
 import org.dspace.app.cris.model.jdyna.TabOrganizationUnit;
 import org.dspace.app.cris.service.ApplicationService;
+import org.dspace.app.cris.service.CrisSubscribeService;
+import org.dspace.app.cris.statistics.util.StatsConfig;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.app.webui.util.Authenticate;
 import org.dspace.app.webui.util.JSPManager;
@@ -35,6 +37,9 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
+import org.dspace.eperson.EPerson;
+import org.dspace.usage.UsageEvent;
+import org.dspace.utils.DSpace;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -49,6 +54,7 @@ public class OUDetailsController
         extends
         SimpleDynaController<OUProperty, OUPropertiesDefinition, BoxOrganizationUnit, TabOrganizationUnit>
 {
+    private CrisSubscribeService subscribeService;
 
     public OUDetailsController(Class<OrganizationUnit> anagraficaObjectClass,
             Class<OUPropertiesDefinition> classTP,
@@ -78,11 +84,12 @@ public class OUDetailsController
         }
 
         Context context = UIUtil.obtainContext(request);
-
+        EPerson currentUser = context.getCurrentUser();
         if ((ou.getStatus() == null || ou.getStatus().booleanValue() == false)
                 && !AuthorizeManager.isAdmin(context))
         {
-            if (context.getCurrentUser() != null
+            
+            if (currentUser != null
                     || Authenticate.startAuthentication(context, request,
                             response))
             {
@@ -116,6 +123,22 @@ public class OUDetailsController
         {
             return null;
         }
+        
+        
+        if (subscribeService != null)
+        {
+            boolean subscribed = subscribeService.isSubscribed(currentUser,
+                    ou);
+            model.put("subscribed", subscribed);            
+        }
+        
+        request.setAttribute("sectionid", StatsConfig.DETAILS_SECTION);
+        new DSpace().getEventService().fireEvent(
+                new UsageEvent(
+                        UsageEvent.Action.VIEW,
+                        request,
+                        context,
+                        ou));
         
         mvc.getModel().putAll(model);
         mvc.getModel().put("ou", ou);
@@ -218,5 +241,10 @@ public class OUDetailsController
     protected Integer getRealPersistentIdentifier(String persistentIdentifier)
     {
         return ResearcherPageUtils.getRealPersistentIdentifier(persistentIdentifier, OrganizationUnit.class);
+    }
+    
+    public void setSubscribeService(CrisSubscribeService rpSubscribeService)
+    {
+        this.subscribeService = rpSubscribeService;
     }
 }

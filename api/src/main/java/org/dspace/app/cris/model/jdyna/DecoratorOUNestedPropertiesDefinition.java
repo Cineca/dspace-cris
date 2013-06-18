@@ -35,7 +35,7 @@ public class DecoratorOUNestedPropertiesDefinition extends
 {
 
     @OneToOne(optional=true)
-    @JoinColumn(name="pdounestedobject_fk")
+    @JoinColumn(name="cris_ou_no_pdef_fk")
     @Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     private OUNestedPropertiesDefinition real;
     

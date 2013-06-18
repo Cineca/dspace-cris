@@ -1,38 +1,40 @@
 package org.dspace.app.cris.discovery;
 
+import it.cilea.osd.jdyna.model.AnagraficaObject;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.cris.model.ICrisObject;
 
 public class CrisEnhancer
 {
-    private String alias;
+    protected String alias;
     
-    private Class<? extends ACrisObject> clazz;
+    private Class<? extends AnagraficaObject> clazz;
     
-    private Map<String, String> qualifiers2path;
+    protected Map<String, String> qualifiers2path;
 
     public Set<String> getQualifiers()
     {
         return qualifiers2path.keySet();
     }
 
-    public <P extends Property<TP>, TP extends PropertiesDefinition> List getProperties(
-            ACrisObject<P, TP> cris, String qualifier)
+    public <P extends Property<TP>, TP extends PropertiesDefinition> List<P> getProperties(
+            ICrisObject<P, TP> cris, String qualifier)
     {
         String path = qualifiers2path.get(qualifier);
         return calculateProperties(cris, alias + "." + path);
     }
 
-    private <P extends Property<TP>, TP extends PropertiesDefinition> List calculateProperties(
-            ACrisObject<P, TP> cris, String path)
+    protected <P extends Property<TP>, TP extends PropertiesDefinition> List<P> calculateProperties(
+            AnagraficaSupport<P, TP> cris, String path)
     {
         String[] splitted = path.split("\\.", 2);
         List result = new ArrayList();
@@ -63,12 +65,12 @@ public class CrisEnhancer
         }
     }
 
-    public void setClazz(Class<? extends ACrisObject> clazz)
+    public void setClazz(Class<? extends AnagraficaObject> clazz)
     {
         this.clazz = clazz;
     }
     
-    public Class<? extends ACrisObject> getClazz()
+    public Class<? extends AnagraficaObject> getClazz()
     {
         return clazz;
     }    

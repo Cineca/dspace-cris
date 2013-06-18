@@ -9,14 +9,17 @@ package org.dspace.app.cris.util;
 
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
-import it.cilea.osd.jdyna.model.AnagraficaObject;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.utils.ExportUtils;
+import it.cilea.osd.jdyna.value.EmbeddedFile;
 import it.cilea.osd.jdyna.value.EmbeddedLinkValue;
 import it.cilea.osd.jdyna.widget.WidgetDate;
+import it.cilea.osd.jdyna.widget.WidgetFile;
 import it.cilea.osd.jdyna.widget.WidgetLink;
+import it.cilea.osd.jdyna.widget.WidgetPointer;
 import it.cilea.osd.jdyna.widget.WidgetTesto;
 
 import java.beans.PropertyEditor;
@@ -30,6 +33,8 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.IExportableDynamicObject;
 import org.dspace.app.cris.model.IRestrictedField;
 import org.dspace.app.cris.model.Investigator;
@@ -39,6 +44,7 @@ import org.dspace.app.cris.model.RestrictedFieldLocalOrRemoteFile;
 import org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
 import org.dspace.app.cris.service.ApplicationService;
+import org.dspace.core.ConfigurationManager;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -73,6 +79,8 @@ public class UtilsXML
 
     public static final String NAMEATTRIBUTE_REMOTEURL = "remotesrc";
 
+    public static final String NAMEATTRIBUTE_FILEEXTENSION = "filext";
+
     public static final String GRANT_NAMEATTRIBUTE_RGID = "rgid";
 
     public static final String GRANT_NAMEATTRIBUTE_RPID = "rpkey";
@@ -92,6 +100,12 @@ public class UtilsXML
     public static final String GRANT_TAG_INVESTIGATOR = "investigators";
 
     public static final String GRANT_TAG_COINVESTIGATOR = "coinvestigators";
+
+    private static final String NAMEATTRIBUTE_CRIS_POINTER_AUTHORITY = "authority";
+
+    private static final String NAMEATTRIBUTE_CRIS_POINTER_UUID = "uuid";
+
+    private static final String NAMEATTRIBUTE_CRIS_POINTER_TYPE = "type";
 
     private Writer writer;
 
@@ -199,9 +213,9 @@ public class UtilsXML
 
     }
 
-    private <TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>> void createElement(
+    private <TP extends PropertiesDefinition, P extends Property<TP>, AS extends AnagraficaSupport<P, TP>> void createElement(
             ADecoratorPropertiesDefinition<TP> decorator,
-            IExportableDynamicObject<TP, P, AO> rp, Element element)
+            IExportableDynamicObject<TP, P, AS> rp, Element element)
             throws IOException
     {
         createElement(decorator.getReal(), decorator.getRendering(), rp,
@@ -215,9 +229,9 @@ public class UtilsXML
     // element);
     // }
 
-    private <TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>> void createElement(
+    private <TP extends PropertiesDefinition, P extends Property<TP>, AS extends AnagraficaSupport<P, TP>> void createElement(
             DecoratorRestrictedField decorator,
-            IExportableDynamicObject<TP, P, AO> researcher, Element element)
+            IExportableDynamicObject<TP, P, AS> researcher, Element element)
             throws IOException, SecurityException, NoSuchFieldException,
             IllegalArgumentException, IllegalAccessException,
             InvocationTargetException
@@ -394,12 +408,12 @@ public class UtilsXML
         }
     }
 
-    private <A extends AWidget, TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>> void createElement(
-            TP tp, A rendering, IExportableDynamicObject<TP, P, AO> rp,
+    private <A extends AWidget, TP extends PropertiesDefinition, P extends Property<TP>, AS extends AnagraficaSupport<P, TP>> void createElement(
+            TP tp, A rendering, IExportableDynamicObject<TP, P, AS> rp,
             Element element) throws IOException
     {
 
-        createSimpleElement(tp.getShortName(), rp.getDynamicField()
+        createSimpleElement(tp.getShortName(), rp.getAnagraficaSupport()
                 .getProprietaDellaTipologia(tp), element);
 
     }
@@ -452,15 +466,59 @@ public class UtilsXML
                             valuesAttributes);
 
                 }
+                if (prop.getTypo().getRendering() instanceof WidgetPointer)
+                {
+                    ACrisObject aCrisObject = (ACrisObject) pe.getValue();
 
+                    List<String> attributes = new LinkedList<String>();
+                    List<String> valuesAttributes = new LinkedList<String>();
+                    attributes.add(NAMEATTRIBUTE_VISIBILITY);
+                    valuesAttributes.add(prop.getVisibility().toString());
+                    attributes.add(NAMEATTRIBUTE_CRIS_POINTER_AUTHORITY);
+                    valuesAttributes.add(aCrisObject.getCrisID());
+                    attributes.add(NAMEATTRIBUTE_CRIS_POINTER_UUID);
+                    valuesAttributes.add(aCrisObject.getUuid());
+                    attributes.add(NAMEATTRIBUTE_CRIS_POINTER_TYPE);
+                    valuesAttributes.add(aCrisObject.getType() + "");
+                    ExportUtils.createCustomValueWithCustomAttributes(element,
+                            shortName, aCrisObject.getName(), attributes,
+                            valuesAttributes);
+
+                }
+                if (prop.getTypo().getRendering() instanceof WidgetFile)
+                {
+                    EmbeddedFile file = (EmbeddedFile) pe.getValue();
+                    WidgetFile widget = (WidgetFile) (prop.getTypo()
+                            .getRendering());
+                    List<String> attributes = new LinkedList<String>();
+                    List<String> valuesAttributes = new LinkedList<String>();
+                    attributes.add(NAMEATTRIBUTE_VISIBILITY);
+                    valuesAttributes.add(prop.getVisibility().toString());
+
+                    attributes.add(NAMEATTRIBUTE_MIMETYPE);
+                    valuesAttributes.add(file.getMimeFile());
+
+                    attributes.add(NAMEATTRIBUTE_FILEEXTENSION);
+                    valuesAttributes.add(file.getExtFile());
+
+                    ExportUtils.createCustomValueWithCustomAttributes(
+                            element,
+                            shortName,
+                            ConfigurationManager.getProperty("dspace.url") + "/"
+                                    + widget.getServletPath() + "/"
+                                    + file.getFolderFile() + "/?filename="
+                                    + file.getValueFile() + "."
+                                    + file.getExtFile(), attributes,
+                            valuesAttributes);
+
+                }
             }
         }
 
     }
 
-    
-    public <I extends IContainable, TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>> void write(
-            IExportableDynamicObject<TP, P, AO> rp, List<I> metadata,
+    public <I extends IContainable, TP extends PropertiesDefinition, P extends Property<TP>, AS extends AnagraficaSupport<P, TP>> void write(
+            IExportableDynamicObject<TP, P, AS> rp, List<I> metadata,
             Element root) throws IOException, SecurityException,
             NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException, InvocationTargetException,

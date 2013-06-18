@@ -7,27 +7,29 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.common.core.HasTimeStampInfo;
-import it.cilea.osd.jdyna.model.ANestedObjectWithTypeSupport;
 import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
-import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.Project;
-import org.dspace.app.cris.model.UUIDSupport;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OrderBy;
 
 /**
@@ -35,7 +37,8 @@ import org.hibernate.annotations.OrderBy;
  *
  */
 @Entity
-@Table(name = "cris_project_nestedobject")
+@Table(name = "cris_pj_no", 
+        uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries( {
         @NamedQuery(name = "ProjectNestedObject.findAll", query = "from ProjectNestedObject order by id"),
         @NamedQuery(name = "ProjectNestedObject.paginate.id.asc", query = "from ProjectNestedObject order by id asc"),
@@ -47,17 +50,20 @@ import org.hibernate.annotations.OrderBy;
         @NamedQuery(name = "ProjectNestedObject.paginateActiveNestedObjectsByParentIDAndTypoID.asc.asc", query = "from ProjectNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "ProjectNestedObject.countActiveNestedObjectsByParentIDAndTypoID", query = "select count(*) from ProjectNestedObject where parent.id = ? and typo.id = ? and status = true"),
         @NamedQuery(name = "ProjectNestedObject.findNestedObjectsByTypoID", query = "from ProjectNestedObject where typo.id = ?"),
-        @NamedQuery(name = "ProjectNestedObject.deleteNestedObjectsByTypoID", query = "delete from ProjectNestedObject where typo.id = ?")
+        @NamedQuery(name = "ProjectNestedObject.findNestedObjectsByParentIDAndTypoShortname",  query = "from ProjectNestedObject where parent.id = ? and typo.shortName = ?"),
+        @NamedQuery(name = "ProjectNestedObject.deleteNestedObjectsByTypoID", query = "delete from ProjectNestedObject where typo.id = ?"),
+        @NamedQuery(name = "ProjectNestedObject.maxPositionNestedObjectsByTypoID", query = "select max(positionDef) from ProjectNestedObject where typo.id = ?")
         })
-public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNestedProperty, ProjectNestedPropertiesDefinition, ProjectProperty, ProjectPropertiesDefinition> implements UUIDSupport, HasTimeStampInfo 
+public class ProjectNestedObject extends ACrisNestedObject<ProjectNestedProperty, ProjectNestedPropertiesDefinition, ProjectProperty, ProjectPropertiesDefinition> 
 {
     
     @OneToMany(mappedBy = "parent")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-    @OrderBy(clause="position asc")
+    @OrderBy(clause="positionDef asc")
     private List<ProjectNestedProperty> anagrafica;
 
-    @ManyToOne
+    @ManyToOne    
     private ProjectTypeNestedObject typo;
 
     @ManyToOne
@@ -116,6 +122,13 @@ public class ProjectNestedObject extends ANestedObjectWithTypeSupport<ProjectNes
     public Class getClassParent()
     {
         return Project.class;
+    }
+
+
+    @Override
+    public int getType()
+    {        
+        return CrisConstants.NPROJECT_TYPE_ID;
     }
    
 }

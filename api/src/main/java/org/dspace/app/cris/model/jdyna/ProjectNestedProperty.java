@@ -27,12 +27,12 @@ import org.hibernate.annotations.Index;
  *
  */
 @Entity
-@Table(name="cris_project_nestedobject_prop", 
-        uniqueConstraints = {@UniqueConstraint(columnNames={"position","typo_id","parent_id"})})
+@Table(name="cris_pj_no_prop", 
+        uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries( {
-    @NamedQuery(name = "ProjectNestedProperty.findPropertyByPropertiesDefinition", query = "from ProjectNestedProperty where typo = ? order by position"),
-    @NamedQuery(name = "ProjectNestedProperty.findAll", query = "from ProjectNestedProperty order by id"),    
-    @NamedQuery(name = "ProjectNestedProperty.findPropertyByParentAndTypo", query = "from ProjectNestedProperty  where (parent.id = ? and typo.id = ?) order by position"),   
+    @NamedQuery(name = "ProjectNestedProperty.findPropertyByPropertiesDefinition", query = "from ProjectNestedProperty where typo = ? order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "ProjectNestedProperty.findAll", query = "from ProjectNestedProperty order by id", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "ProjectNestedProperty.findPropertyByParentAndTypo", query = "from ProjectNestedProperty  where (parent.id = ? and typo.id = ?) order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
     @NamedQuery(name = "ProjectNestedProperty.deleteAllPropertyByPropertiesDefinition", query = "delete from ProjectNestedProperty property where typo = ?)")
 })
 public class ProjectNestedProperty extends ANestedProperty<ProjectNestedPropertiesDefinition>
@@ -43,7 +43,7 @@ public class ProjectNestedProperty extends ANestedProperty<ProjectNestedProperti
     
     
     @ManyToOne  
-    @Index(name = "cris_project_nestedobject_prop_parent_id")
+    @Index(name = "cris_pj_no_pprop_idx")
     private ProjectNestedObject parent;
 
 

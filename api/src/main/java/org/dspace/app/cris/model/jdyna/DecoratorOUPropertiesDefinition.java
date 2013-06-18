@@ -32,7 +32,7 @@ import org.hibernate.annotations.CascadeType;
 public class DecoratorOUPropertiesDefinition extends ADecoratorPropertiesDefinition<OUPropertiesDefinition>  
 {
     @OneToOne(optional=true)
-    @JoinColumn(name="propertiesdefinitionou_fk")
+    @JoinColumn(name="cris_ou_pdef_fk")
     @Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     private OUPropertiesDefinition real;
     

@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -34,8 +35,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 })		
 public class BoxOrganizationUnit extends Box<Containable> {
 	
-	@ManyToMany
-	@JoinTable(name = "cris_ou_box2containable")	
+	@ManyToMany	
+	@JoinTable(name = "cris_ou_box2con", joinColumns = { 
+            @JoinColumn(name = "cris_ou_box_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "jdyna_containable_id") })
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Containable> mask;
 

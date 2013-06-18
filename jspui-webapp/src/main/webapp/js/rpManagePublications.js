@@ -113,6 +113,7 @@ function getJQueryObjectTrPublication(element)
 function setDataFormUtil(element) {		
 
 	var values = getAllNotCollapsedItemUtil(element);			
+	var rpMPForm = j("#rpMPForm");
 	
 	for ( var i = 0; i < values.length; i++) {
 		var v = values[i];
@@ -121,7 +122,7 @@ function setDataFormUtil(element) {
 		child.setAttribute('type', "hidden");
 		child.setAttribute('name', element);
 		child.setAttribute('value', splitted[1]);
-		j(child).appendTo(j("#rpMPForm"));	
+		j(child).appendTo(rpMPForm);
 	}
 }	
 
@@ -213,6 +214,7 @@ function initializeRIAForm()
 
 	/* Manage show/hide central box and right container elements */
 	j("#droppableactive").click(function() {
+		pubTable.fnFilter( '' );
 		showLoading();
 		setTimeout(function(){
 			controlContainer("active");
@@ -222,6 +224,7 @@ function initializeRIAForm()
 
 	/* Manage show/hide central box and right container elements */
 	j("#droppableselected").click(function() {
+		pubTable.fnFilter( '' );
 		showLoading();
 		setTimeout(function(){
 			controlContainer("selected");
@@ -231,6 +234,7 @@ function initializeRIAForm()
 
 	/* Manage show/hide central box and rights container elements */
 	j("#droppablehided").click(function() {
+		pubTable.fnFilter( '' );
 		showLoading();
 		setTimeout(function(){
 			controlContainer("hided");
@@ -240,6 +244,7 @@ function initializeRIAForm()
 
 	/* Manage show/hide central box and rights container elements */
 	j("#droppableunlinked").click(function() {
+		pubTable.fnFilter( '' );
 		showLoading();
 		setTimeout(function(){
 			controlContainer("unlinked");
@@ -248,75 +253,79 @@ function initializeRIAForm()
 	});
 
 	/* Manage central box draggable elements */
-	j(".draggable").draggable( {
+/*	j(".draggable").draggable( {
 		cursor : "crosshair",
 		revert: "invalid",
 		helper: function(event){
 		return j('<div class="drag-row-item"><span class="dragrowmessage">Drop this publication on the new button state</span><table></table></div>').find('table').append(j(event.target).closest('tr').clone()).end().appendTo('body');
 		}						
-	});
+	});*/
 
 	
 	/* Manage right container droppable element */
-	j("#droppableactive").droppable( {
+/*	j("#droppableactive").droppable( {
 		activeClass: "ui-state-hover",
 		hoverClass: "ui-state-active",
 		tolerance: 'pointer',
 		drop : function(event, ui) {
 			utilDrop(ui, "active");
 		}
-	});
+	});*/
 
 	/* Manage right container droppable element */
-	j("#droppablehided").droppable( {
+/*	j("#droppablehided").droppable( {
 		activeClass: "ui-state-hover",
 		hoverClass: "ui-state-active",
 		tolerance: 'pointer',
 		drop : function(event, ui) {
 			utilDrop(ui, "hided");
 		}
-	});
+	});*/
 
 	/* Manage right container droppable element */
-	j("#droppableselected").droppable( {
+/*	j("#droppableselected").droppable( {
 		activeClass: "ui-state-hover",
 		hoverClass: "ui-state-active",
 		tolerance: 'pointer',
 		drop : function(event, ui) {
 			utilDrop(ui, "selected");
 		}
-	});
+	});*/
 
 	/* Manage right container droppable element */
-	j("#droppableunlinked").droppable( {
+/*	j("#droppableunlinked").droppable( {
 		activeClass: "ui-state-hover",
 		hoverClass: "ui-state-active",
 		tolerance: 'pointer',
 		drop : function(event, ui) {								
 			utilDrop(ui, "unlinked");
 		}
-	});
+	});*/
 	
 
 	j(".dropselected").click(function() {
+		pubTable.fnFilter( '' );
 		internalDrop(this.parentNode.parentNode, "selected");
 		var options = {};	
 		j("#droppableselected").effect( "highlight", options, "normal");
 		return false;
 	});
 	j(".dropactive").click(function() {
+		pubTable.fnFilter( '' );
 		internalDrop(this.parentNode.parentNode, "active");
 		var options = {};
 		j("#droppableactive").effect( "highlight", options, "normal");
 		return false;
 	});
 	j(".dropunlinked").click(function() {
+		pubTable.fnFilter( '' );
 		internalDrop(this.parentNode.parentNode, "unlinked");
 		var options = {};
 		j("#droppableunlinked").effect( "highlight", options, "normal");
 		return false;
 	});
 	j(".drophided").click(function() {
+		pubTable.fnFilter( '' );
 		internalDrop(this.parentNode.parentNode, "hided");
 		var options = {};
 		j("#droppablehide").effect( "highlight", options, "normal");

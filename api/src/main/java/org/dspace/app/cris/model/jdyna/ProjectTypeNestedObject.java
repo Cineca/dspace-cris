@@ -13,6 +13,7 @@ import it.cilea.osd.jdyna.model.AWidget;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -27,7 +28,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 *
 */
 @Entity
-@Table(name = "cris_project_nestedobject_typo")
+@Table(name = "cris_pj_no_tp")
 @NamedQueries ({
     @NamedQuery(name="ProjectTypeNestedObject.findAll", query = "from ProjectTypeNestedObject order by id" ),
     @NamedQuery(name="ProjectTypeNestedObject.uniqueByNome", query = "from ProjectTypeNestedObject where shortName = ?" )
@@ -35,8 +36,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 })
 public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedPropertiesDefinition>
 {
-    @ManyToMany
-    @JoinTable(name = "cris_project_nestedobject_typo2mask")
+    @ManyToMany    
+    @JoinTable(name = "cris_pj_no_tp2pdef", joinColumns = { 
+            @JoinColumn(name = "cris_pj_no_tp_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "cris_pj_no_pdef_id") })
     @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<ProjectNestedPropertiesDefinition> mask;
 

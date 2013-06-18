@@ -20,6 +20,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ImportExportUtils;
 import org.dspace.core.ConfigurationManager;
@@ -89,7 +90,7 @@ public class ScriptHKURP {
 		}
 		
 		String path = ConfigurationManager
-				.getProperty("researcherpage.file.import.path");
+				.getProperty(CrisConstants.CFG_MODULE, "researcherpage.file.import.path");
 		File dir = new File(path);
 		try {
 			ImportExportUtils.importResearchersXML(new FileInputStream(excelFilePath),

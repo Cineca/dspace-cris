@@ -7,7 +7,6 @@
  */
 package org.dspace.app.cris.dao;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -60,7 +59,13 @@ public interface ResearcherPageDao extends CrisObjectDao<ResearcherPage>
     public List<ResearcherPage> findAllResearcherInSourceIDRange(String start,
             String end);
     
+    public Date uniqueLastModifiedTimeStamp(Integer id);
+
     public List<RPProperty> findAnagraficaByRPID(Integer id);
 
+    public List<Integer> findAllResearcherPageID();
+
     public ResearcherPage uniqueByEPersonId(Integer id);
+
+    public Integer idFindMax();
 }

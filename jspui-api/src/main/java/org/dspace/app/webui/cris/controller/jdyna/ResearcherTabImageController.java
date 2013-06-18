@@ -12,6 +12,7 @@ import it.cilea.osd.jdyna.web.Tab;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
 
@@ -96,6 +97,11 @@ public class ResearcherTabImageController implements Controller
                 Utils.bufferedCopy(is, response.getOutputStream());
                 is.close();
                 response.getOutputStream().flush();
+            }
+            catch (FileNotFoundException not)
+            {
+                log.error(not.getMessage());
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
             finally
             {

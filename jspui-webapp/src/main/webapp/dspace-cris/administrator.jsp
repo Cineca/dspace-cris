@@ -60,6 +60,28 @@ The contents of this file are subject to the license and copyright
 		
 		<div>&nbsp;</div>
 		</li>
+	<%-- 		
+	<li>
+		<div style="padding: 0; margin: 0 10px;"><a
+			href="<%=request.getContextPath()%>/cris/rp/administrator/export.htm"><fmt:message
+			key="jsp.layout.navbar-hku.export.researcher" /></a></div>
+		<div>&nbsp;</div>
+		</li>
+	
+		<li>
+		<div style="padding: 0; margin: 0 10px;"><a
+			href="<%=request.getContextPath()%>/rp/administrator/import.htm"><fmt:message
+			key="jsp.layout.navbar-hku.import.researcher" /></a></div>
+		<div>&nbsp;</div> 
+		</li>
+	--%>
+	
+	<li>
+		<div style="padding: 0; margin: 0 10px;"><a
+			href="<%=request.getContextPath()%>/cris/administrator/webservices/authorizations.htm"><fmt:message
+			key="jsp.layout.navbar-admin.webservices" /></a></div>
+		<div>&nbsp;</div>
+	</li>
 			
 	</ul>
 </dspace:layout>

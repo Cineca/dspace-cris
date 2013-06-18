@@ -9,27 +9,22 @@ package org.dspace.app.cris.model.jdyna.widget;
 
 import it.cilea.osd.jdyna.editor.FilePropertyEditor;
 import it.cilea.osd.jdyna.service.IPersistenceDynaService;
-import it.cilea.osd.jdyna.util.ValidationMessage;
-import it.cilea.osd.jdyna.value.FileValue;
-import it.cilea.osd.jdyna.widget.WidgetFile;
 
 import java.beans.PropertyEditor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.core.ConfigurationManager;
 
 @Entity
-@Table(name="cris_rp_widgetfile")
-public class WidgetFileRP extends WidgetFile {
+@Table(name="cris_rp_wfile")
+public class WidgetFileRP extends AWidgetFileCris {
 
-	@Override
-	public FileValue getInstanceValore() {
-		return new FileValue();
-	}
+
 
 	@Override
 	public PropertyEditor getPropertyEditor(
@@ -37,26 +32,15 @@ public class WidgetFileRP extends WidgetFile {
 		return new FilePropertyEditor<WidgetFileRP>(this);
 	}
 
-	@Override
-	public Class<FileValue> getValoreClass() {		
-		return FileValue.class;
-	}
-
-	@Override
-	public ValidationMessage valida(Object valore) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 	@Override
 	public String getBasePath() {
-		return ConfigurationManager.getProperty("researcherpage.file.path");
+		return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE,"researcherpage.file.path");
 	}
 	
 	@Override
 	public String getServletPath() {
-		return ConfigurationManager.getProperty("researcherpage.jdynafile.servlet.name");
+		return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE,"researcherpage.jdynafile.servlet.name");
 	}
 	
 	@Override

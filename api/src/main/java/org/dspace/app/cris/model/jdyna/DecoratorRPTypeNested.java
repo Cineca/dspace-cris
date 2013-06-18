@@ -33,7 +33,7 @@ public class DecoratorRPTypeNested extends
 {
 
     @OneToOne(optional=true)
-    @JoinColumn(name="typerpnestedobject_fk")
+    @JoinColumn(name="cris_rp_no_tp")
     @Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     private RPTypeNestedObject real;
 

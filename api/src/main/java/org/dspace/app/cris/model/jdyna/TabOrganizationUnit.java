@@ -13,12 +13,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -40,8 +42,10 @@ public class TabOrganizationUnit extends AbstractTab<BoxOrganizationUnit>
 {
 
     /** Showed holder in this tab */
-    @ManyToMany
-    @JoinTable(name = "cris_ou_tab2box")
+    @ManyToMany    
+    @JoinTable(name = "cris_ou_tab2box", joinColumns = { 
+            @JoinColumn(name = "cris_ou_tab_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "cris_ou_box_id") })
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<BoxOrganizationUnit> mask;
 
@@ -68,6 +72,6 @@ public class TabOrganizationUnit extends AbstractTab<BoxOrganizationUnit>
     @Override
     public String getFileSystemPath()
     {
-        return ConfigurationManager.getProperty("organizationunit.file.path");
+        return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE,"organizationunit.file.path");
     }
 }

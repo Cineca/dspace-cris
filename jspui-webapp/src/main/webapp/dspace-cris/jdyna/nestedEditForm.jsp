@@ -34,7 +34,7 @@ The contents of this file are subject to the license and copyright
 <c:set var="simpleNameAnagraficaObject"
 	value="${simpleNameAnagraficaObject}" scope="page" />
 
-<c:set var="disabledfield" value=" disabled=\"disabled\" "></c:set>
+<c:set var="disabledfield" value=" readonly=\"readonly\" "></c:set>
 
 <script type="text/javascript"><!--
 
@@ -162,7 +162,7 @@ The contents of this file are subject to the license and copyright
 					<c:forEach
 							items="${maschera}"
 							var="tipologiaDaVisualizzare">
-							
+							<c:set var="disabled" value=" readonly='readonly'"/>						
 						
 							<c:set var="show" value="true" />
 							<c:choose>							
@@ -197,12 +197,18 @@ The contents of this file are subject to the license and copyright
 																.getShortName());
 												pageContext.setAttribute("parameters", parameters);
 								%>
-									
+							
+							<c:set var="classdiv" value=""/>
+							<c:if test="${!show}">
+								<c:set var="classdiv" value=" display:none;"/>
+							</c:if>
+							
+							<div style="${classdiv}">		
 								<dyna:edit tipologia="${tipologiaDaVisualizzare}" disabled="${disabled}"
 									propertyPath="nesteddto.anagraficaProperties[${tipologiaDaVisualizzare.shortName}]"
 									ajaxValidation="validateAnagraficaProperties" hideLabel="false"
 									validationParams="${parameters}" visibility="${visibility}"/>
-		
+							</div>
 			
 				</c:forEach>
 		<div class="dynaClear">&nbsp;</div>

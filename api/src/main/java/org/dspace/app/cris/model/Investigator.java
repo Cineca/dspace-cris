@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 public class Investigator implements IRestrictedField {
 	
 	private String extInvestigator;
+	private String role;
 	
 	@OneToOne
 	private ResearcherPage intInvestigator;
@@ -32,6 +33,14 @@ public class Investigator implements IRestrictedField {
 
 	public String getExtInvestigator() {
 		return extInvestigator;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getRole() {
+		return role;
 	}
 
     @Override

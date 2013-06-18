@@ -25,11 +25,11 @@ import org.hibernate.annotations.Index;
 
 @Entity
 @Table(name="cris_rp_prop", 
-        uniqueConstraints = {@UniqueConstraint(columnNames={"position","typo_id","parent_id"})})
+        uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries( {
-	@NamedQuery(name = "RPProperty.findPropertyByPropertiesDefinition", query = "from RPProperty where typo = ? order by position"),
-	@NamedQuery(name = "RPProperty.findAll", query = "from RPProperty order by id"),	
-	@NamedQuery(name = "RPProperty.findPropertyByParentAndTypo", query = "from RPProperty  where (parent.id = ? and typo.id = ?) order by position"),	
+	@NamedQuery(name = "RPProperty.findPropertyByPropertiesDefinition", query = "from RPProperty where typo = ? order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+	@NamedQuery(name = "RPProperty.findAll", query = "from RPProperty order by id", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+	@NamedQuery(name = "RPProperty.findPropertyByParentAndTypo", query = "from RPProperty  where (parent.id = ? and typo.id = ?) order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
 	@NamedQuery(name = "RPProperty.deleteAllPropertyByPropertiesDefinition", query = "delete from RPProperty property where typo = ?)")
 })
 public class RPProperty extends Property<RPPropertiesDefinition> {
@@ -40,7 +40,7 @@ public class RPProperty extends Property<RPPropertiesDefinition> {
 	
 	
 	@ManyToOne	
-	@Index(name = "cris_rp_prop_parent_id")
+	@Index(name = "cris_rp_pprop_idx")
 	private ResearcherPage parent;
 	
 	@Override

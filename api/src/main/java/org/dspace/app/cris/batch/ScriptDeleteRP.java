@@ -22,6 +22,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.integration.RPAuthority;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
@@ -44,7 +45,7 @@ import org.springframework.context.event.ContextClosedEvent;
 public class ScriptDeleteRP
 {
     private static final String plugInBrowserIndex = ConfigurationManager
-            .getProperty("researcherpage.browseindex");
+            .getProperty(CrisConstants.CFG_MODULE, "researcherpage.browseindex");
 
     /** log4j logger */
     private static Logger log = Logger.getLogger(ScriptDeleteRP.class);

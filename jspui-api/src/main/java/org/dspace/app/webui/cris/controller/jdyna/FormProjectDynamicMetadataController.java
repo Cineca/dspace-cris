@@ -245,36 +245,7 @@ public class FormProjectDynamicMetadataController
         anagraficaObjectDTO.setTabId(areaId);
         anagraficaObjectDTO.setObjectId(grant.getId());
         anagraficaObjectDTO.setParentId(grant.getId());
-        if (grant.getInvestigator() != null)
-        {
-            if (grant.getInvestigator().getIntInvestigator() != null)
-            {
-                anagraficaObjectDTO.setInvestigator(ResearcherPageUtils
-                        .getPersistentIdentifier(grant.getInvestigator()
-                                .getIntInvestigator().getId(), Project.class));
-            }
-            else
-            {
-                anagraficaObjectDTO.setInvestigator(grant.getInvestigator()
-                        .getExtInvestigator());
-            }
-        }
-
-        for (Investigator inv : grant.getCoInvestigators())
-        {
-            if (inv.getIntInvestigator() != null)
-            {
-                anagraficaObjectDTO.getCoInvestigators().add(
-                        ResearcherPageUtils.getPersistentIdentifier(inv
-                                .getIntInvestigator()));
-            }
-            else
-            {
-                anagraficaObjectDTO.getCoInvestigators().add(
-                        inv.getExtInvestigator());
-            }
-        }
-
+    
         List<ProjectPropertiesDefinition> realTPS = new LinkedList<ProjectPropertiesDefinition>();
         List<IContainable> structuralField = new LinkedList<IContainable>();
         for (IContainable c : tipProprietaInArea)
@@ -379,48 +350,6 @@ public class FormProjectDynamicMetadataController
         grant.setSourceID(anagraficaObjectDTO.getSourceID());
         grant.setStatus(anagraficaObjectDTO.getStatus());
         
-        String investigator = anagraficaObjectDTO.getInvestigator();
-        Investigator realInvestigator = new Investigator();
-        if (investigator != null && !investigator.isEmpty())
-        {
-            if (investigator.trim().matches("rp[0-9]{5}"))
-            {
-                ResearcherPage rp = getApplicationService().get(
-                        ResearcherPage.class,
-                        ResearcherPageUtils
-                                .getRealPersistentIdentifier(investigator
-                                        .trim(),ResearcherPage.class));
-                realInvestigator.setIntInvestigator(rp);
-            }
-            else
-            {
-                realInvestigator.setExtInvestigator(investigator.trim());
-            }
-        }
-        grant.setInvestigator(realInvestigator);
-        grant.setCoInvestigators(null);
-
-        List<String> coinvestigators = anagraficaObjectDTO.getCoInvestigators();
-        for (String co : coinvestigators)
-        {
-            realInvestigator = new Investigator();
-            if (co != null && !co.isEmpty())
-            {
-                if (co.trim().matches("rp[0-9]{5}"))
-                {
-                    ResearcherPage rp = getApplicationService().get(
-                            ResearcherPage.class,
-                            ResearcherPageUtils.getRealPersistentIdentifier(co
-                                    .trim(),ResearcherPage.class));
-                    realInvestigator.setIntInvestigator(rp);
-                }
-                else
-                {
-                    realInvestigator.setExtInvestigator(co.trim());
-                }
-            }
-            grant.getCoInvestigators().add(realInvestigator);
-        }
         getApplicationService().saveOrUpdate(Project.class, grant);
         EditTabProject area = getApplicationService().get(getClazzTab(),
                 anagraficaObjectDTO.getTabId());

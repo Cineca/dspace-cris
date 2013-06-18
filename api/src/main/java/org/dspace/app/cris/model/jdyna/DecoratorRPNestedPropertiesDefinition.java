@@ -9,7 +9,6 @@ package org.dspace.app.cris.model.jdyna;
 
 import it.cilea.osd.jdyna.model.ADecoratorNestedPropertiesDefinition;
 import it.cilea.osd.jdyna.model.AWidget;
-import it.cilea.osd.jdyna.model.DecoratorNestedPropertiesDefinition;
 import it.cilea.osd.jdyna.model.IContainable;
 
 import javax.persistence.DiscriminatorValue;
@@ -20,8 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -38,7 +35,7 @@ public class DecoratorRPNestedPropertiesDefinition extends
 {
 
     @OneToOne(optional=true)
-    @JoinColumn(name="pdrpnestedobject_fk")
+    @JoinColumn(name="cris_rp_no_pdef_fk")
     @Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     private RPNestedPropertiesDefinition real;
     

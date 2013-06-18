@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="researcherpage-webservices-webapp">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/"/>
+        <dependent-module archiveName="dspace-cris-webservices-api-1.8.2.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dspace-cris-webservices-api/dspace-cris-webservices-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dspace-cris-api-1.8.2.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dspace-cris-api/dspace-cris-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dspace-api-1.8.3-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dspace-api/dspace-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dspace-stats-1.8.3-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dspace-stats/dspace-stats">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jdyna-core-3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jdyna-core/jdyna-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jdyna-date-3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jdyna-date/jdyna-date">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jdyna-pointer-3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jdyna-pointer/jdyna-pointer">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jdyna-web-api-3.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/jdyna-web-api/jdyna-web-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-cilea-genericdao-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/commons-cilea-genericdao/commons-cilea-genericdao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="pubmed-retrieve-0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/pubmed-retrieve/pubmed-retrieve">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/researcherpage-webservices-webapp/target/classes"/>
+        <property name="context-root" value="dspace-cris-webservices-webapp"/>
+    </wb-module>
+</project-modules>

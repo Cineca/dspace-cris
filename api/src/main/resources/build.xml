@@ -8,9 +8,9 @@
 -->
 
 <project name="researcherpage" basedir="${basedir}">
-        <property name="hibernate_properties" value="${basedir}/src/main/resources/hibernate/hibernate-rp.properties" />
-        <property name="hibernate_configuration" value="${basedir}/src/main/resources/hibernate/hibernate-rp.cfg.xml" />
-        <property name="log4j_properties" value="E:/data/apphome/dspace/config/log4j.properties" />
+        <property name="hibernate_configuration" value="${basedir}/src/main/resources/hibernate/hibernate-cris.cfg.xml" />
+		<property name="hibernate_properties" value="${tool.dir}/hibernate-rp.properties" />
+        <property name="log4j_properties" value="${dspace.dir}/config/log4j.properties" />
         <property file="${hibernate_properties}" />
         <property file="${log4j_properties}" />
 
@@ -19,26 +19,26 @@
         <!-- Generate the schema for all mapping files in our class tree -->
         <target name="generate-ddl" description="Generate DDL from the O/R mapping files">                
                 <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" />
-                <hibernatetool destdir="${basedir}">
+                <hibernatetool destdir="${tool.dir}">
                         <classpath refid="maven.compile.classpath" />
-                        <annotationconfiguration configurationfile="${hibernate_configuration}" />
-                        <hbm2ddl export="false" console="true" drop="false" create="true" outputfilename="schema.ddl" delimiter=";" />
+                        <annotationconfiguration propertyfile="${hibernate_properties}" configurationfile="${hibernate_configuration}" />
+                        <hbm2ddl export="false" console="true" drop="false" create="true" outputfilename="schema.ddl" delimiter=";"/>
                 </hibernatetool>
         </target>
 
         <!-- Generate the schema for UPDATE all mapping files in our class tree -->
         <target name="generate-update-ddl" description="Generate UPDATE DDL from the O/R mapping files">        	
                 <taskdef name="hibernatetool" classname="org.dspace.app.cris.util.UpdateSchemaTool" classpath="${maven_compile_classpath}"/>
-                <hibernatetool properties="${hibernate_properties}"  config="${hibernate_configuration}" outputFile="${basedir}/schema-update.ddl" delimiter=";">                    
+                <hibernatetool properties="${hibernate_properties}"  config="${hibernate_configuration}" outputFile="${tool.dir}/schema-update.ddl" delimiter=";">                    
                 </hibernatetool>
         </target>
 	
 
         <target name="generate-drop-ddl" description="Generate DDL from the O/R mapping files">
                 <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" />
-                <hibernatetool destdir="${basedir}">
+                <hibernatetool destdir="${tool.dir}">
                         <classpath refid="maven.compile.classpath" />
-                        <annotationconfiguration configurationfile="${hibernate_configuration}" />
+                        <annotationconfiguration propertyfile="${hibernate_properties}" configurationfile="${hibernate_configuration}" />
                         <hbm2ddl export="false" console="true" drop="true" create="false" outputfilename="schema-drop.ddl" delimiter=";" />                                             
                 </hibernatetool>        
         </target>

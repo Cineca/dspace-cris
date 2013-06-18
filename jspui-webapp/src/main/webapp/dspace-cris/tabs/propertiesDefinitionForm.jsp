@@ -250,6 +250,12 @@ The contents of this file are subject to the license and copyright
 						</div>
 						<dyna:text visibility="false" propertyPath="real.rendering.labelAnchor"
 								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.file.labelAnchor" helpKey="help.jdyna.message.rendering.file.labelAnchor"/>
+						<div class="dynaClear">
+							&nbsp;
+						</div>						
+						<dyna:boolean propertyPath="real.rendering.useInStatistics"
+								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.file.useInStatistics" helpKey="help.jdyna.message.rendering.file.useInStatistics"/>		
+								
 						</fieldset>											
 					</c:when>
 					<c:otherwise>

@@ -8,27 +8,20 @@
 package org.dspace.app.cris.model.jdyna;
 
 import it.cilea.osd.jdyna.web.AbstractTab;
-import it.cilea.osd.jdyna.web.Tab;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.core.ConfigurationManager;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.CacheModeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 @Table(name="cris_rp_tab")
@@ -46,7 +39,9 @@ public class TabResearcherPage extends AbstractTab<BoxResearcherPage> {
 
 	/** Showed holder in this tab */
 	@ManyToMany	
-	@JoinTable(name = "cris_rp_tab2box")
+	@JoinTable(name = "cris_rp_tab2box", joinColumns = { 
+            @JoinColumn(name = "cris_rp_tab_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "cris_rp_box_id") })
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxResearcherPage> mask;
 
@@ -72,6 +67,6 @@ public class TabResearcherPage extends AbstractTab<BoxResearcherPage> {
     @Override
     public String getFileSystemPath()
     {
-        return ConfigurationManager.getProperty("researcherpage.file.path");
+        return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE,"researcherpage.file.path");
     }
 }

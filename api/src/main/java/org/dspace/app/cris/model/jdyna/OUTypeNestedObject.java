@@ -13,6 +13,7 @@ import it.cilea.osd.jdyna.model.AWidget;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -27,15 +28,17 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 *
 */
 @Entity
-@Table(name = "cris_ou_nestedobject_typo")
+@Table(name = "cris_ou_no_tp")
 @NamedQueries ({
     @NamedQuery(name="OUTypeNestedObject.findAll", query = "from OUTypeNestedObject order by id" ),
     @NamedQuery(name="OUTypeNestedObject.uniqueByNome", query = "from OUTypeNestedObject where shortName = ?" )              
 })
 public class OUTypeNestedObject extends ATypeNestedObject<OUNestedPropertiesDefinition>
 {
-    @ManyToMany
-    @JoinTable(name = "cris_ou_nestedobject_typo2mask")
+    @ManyToMany    
+    @JoinTable(name = "cris_ou_no_tp2pdef", joinColumns = { 
+            @JoinColumn(name = "cris_ou_no_tp_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "cris_ou_no_pdef_id") })
     @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<OUNestedPropertiesDefinition> mask;
 

@@ -8,24 +8,21 @@
 package org.dspace.app.cris.util;
 
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
-import it.cilea.osd.jdyna.model.ATipologia;
 import it.cilea.osd.jdyna.model.AWidget;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
-import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.widget.WidgetDate;
 import it.cilea.osd.jdyna.widget.WidgetLink;
 import it.cilea.osd.jdyna.widget.WidgetTesto;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.LinkedList;
 import java.util.List;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
-import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.core.ConfigurationManager;
 
 /**
@@ -37,11 +34,13 @@ import org.dspace.core.ConfigurationManager;
 public class UtilsXSD
 {
 
-    public static final String[] DEFAULT_ELEMENT = new String[] {
+    public static final String[] RP_DEFAULT_ELEMENT = new String[] {
             "researchers", "researcher" };
 
     public static final String[] GRANT_DEFAULT_ELEMENT = new String[] {
             "grants", "grant" };
+
+    public static final String[] OU_DEFAULT_ELEMENT = new String[] {"orgunits", "orgunit"};
 
     public final String TYPE_STRINGDATE = "stringdate";
 
@@ -52,12 +51,6 @@ public class UtilsXSD
     public final String TYPE_ANYURI = "uri";
 
     public final String TYPE_NESTED = "nested";
-
-    public final String TYPE_INVESTIGATOR = "investigator";
-
-    public final String TYPE_COINVESTIGATOR = "coInvestigator";
-
-    public final String TYPE_COINVESTIGATORS = "coInvestigators";
 
     public final String TYPE_STRUCTURALMETADATA = "structuralmetadata";
 
@@ -149,11 +142,7 @@ public class UtilsXSD
                         namespace);
             }
         }
-        this.createRefSimpleElement(UtilsXML.GRANT_ELEMENT_INVESTIGATOR,
-                TYPE_INVESTIGATOR, false, false, namespace);
-        this.createRefSimpleElement(UtilsXML.GRANT_ELEMENT_COINVESTIGATORS,
-                TYPE_COINVESTIGATORS, false, false, namespace);
-
+        
         writer.write("	</xs:choice>\n");
         writer.write("</xs:group>\n");
 
@@ -207,29 +196,6 @@ public class UtilsXSD
         writer.write("	</xs:simpleContent>\n");
         writer.write("</xs:complexType>\n");
 
-        writer.write("<xs:complexType name=\"" + TYPE_INVESTIGATOR + "\">\n");
-        writer.write("	<xs:simpleContent>\n");
-        writer.write("		<xs:extension base=\"xs:string\">\n");
-        writer.write("			<xs:attribute name=\"rpkey\" type=\"xs:string\" />\n");
-        writer.write("		</xs:extension>\n");
-        writer.write("	</xs:simpleContent>\n");
-        writer.write("</xs:complexType>\n");
-
-        writer.write("<xs:complexType name=\"" + TYPE_COINVESTIGATORS + "\">\n");
-        writer.write("		<xs:sequence>\n");
-        writer.write("			<xs:element name=\"" + TYPE_COINVESTIGATOR
-                + "\" type=\"" + namespace + TYPE_COINVESTIGATOR
-                + "\" maxOccurs=\"unbounded\"/>\n");
-        writer.write("		</xs:sequence>\n");
-        writer.write("</xs:complexType>\n");
-
-        writer.write("<xs:complexType name=\"" + TYPE_COINVESTIGATOR + "\">\n");
-        writer.write("	<xs:simpleContent>\n");
-        writer.write("		<xs:extension base=\"xs:string\">\n");
-        writer.write("			<xs:attribute name=\"rpkey\" type=\"xs:string\" />\n");
-        writer.write("		</xs:extension>\n");
-        writer.write("	</xs:simpleContent>\n");
-        writer.write("</xs:complexType>\n");
 
         writer.write("<xs:simpleType name=\"visibility\">\n");
         writer.write("	<xs:restriction base=\"xs:integer\">\n");
@@ -284,7 +250,7 @@ public class UtilsXSD
                 namespace.length() - 1);
         if (elements == null)
         {
-            elements = DEFAULT_ELEMENT;
+            elements = RP_DEFAULT_ELEMENT;
         }
 
         if (namespaceValue == null || targetNamespace == null)
@@ -335,10 +301,10 @@ public class UtilsXSD
 
         for (I containable : metadata)
         {
-            if (containable instanceof DecoratorRPPropertiesDefinition)
+            if (containable instanceof ADecoratorPropertiesDefinition)
             {
                 this.createRefElement(
-                        (DecoratorRPPropertiesDefinition) containable,
+                        (ADecoratorPropertiesDefinition) containable,
                         namespace);
             }
             if (containable instanceof DecoratorRestrictedField)
@@ -443,7 +409,7 @@ public class UtilsXSD
     }
 
     // method to create type element
-    private void createRefElement(DecoratorRPPropertiesDefinition decorator,
+    private <TP extends PropertiesDefinition> void createRefElement(ADecoratorPropertiesDefinition<TP> decorator,
             String namespace) throws IOException
     {
         createRefElement(decorator.getReal(), decorator.getRendering(),
@@ -543,7 +509,7 @@ public class UtilsXSD
             throws IOException, SecurityException, NoSuchFieldException
     {
         String fieldsNullable = ConfigurationManager
-                .getProperty("researcherpage.containables.isnotnullable");
+                .getProperty(CrisConstants.CFG_MODULE, "researcherpage.containables.isnotnullable");
         boolean nullable = fieldsNullable.contains(decorator.getReal());
         createSimpleElement(decorator.getReal(), TYPE_STRING, nullable);
     }

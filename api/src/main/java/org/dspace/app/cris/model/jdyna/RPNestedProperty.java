@@ -28,12 +28,12 @@ import org.hibernate.annotations.Index;
  *
  */
 @Entity
-@Table(name="cris_rp_nestedobject_prop", 
-        uniqueConstraints = {@UniqueConstraint(columnNames={"position","typo_id","parent_id"})})
+@Table(name="cris_rp_no_prop", 
+        uniqueConstraints = {@UniqueConstraint(columnNames={"positionDef","typo_id","parent_id"})})
 @NamedQueries( {
-    @NamedQuery(name = "RPNestedProperty.findPropertyByPropertiesDefinition", query = "from RPNestedProperty where typo = ? order by position"),
-    @NamedQuery(name = "RPNestedProperty.findAll", query = "from RPNestedProperty order by id"),    
-    @NamedQuery(name = "RPNestedProperty.findPropertyByParentAndTypo", query = "from RPNestedProperty  where (parent.id = ? and typo.id = ?) order by position"),   
+    @NamedQuery(name = "RPNestedProperty.findPropertyByPropertiesDefinition", query = "from RPNestedProperty where typo = ? order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "RPNestedProperty.findAll", query = "from RPNestedProperty order by id", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "RPNestedProperty.findPropertyByParentAndTypo", query = "from RPNestedProperty  where (parent.id = ? and typo.id = ?) order by positionDef", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
     @NamedQuery(name = "RPNestedProperty.deleteAllPropertyByPropertiesDefinition", query = "delete from RPNestedProperty property where typo = ?)")
 })
 public class RPNestedProperty extends ANestedProperty<RPNestedPropertiesDefinition>
@@ -44,7 +44,7 @@ public class RPNestedProperty extends ANestedProperty<RPNestedPropertiesDefiniti
     
     
     @ManyToOne
-    @Index(name = "cris_rp_nestedobject_prop_parent_id")
+    @Index(name = "cris_rp_no_pprop_idx")
     private RPNestedObject parent;
 
 

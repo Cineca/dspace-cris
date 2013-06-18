@@ -23,6 +23,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
@@ -47,7 +48,7 @@ public class ScriptUpdateRPItemSearchIndex
             .getLogger(ScriptUpdateRPItemSearchIndex.class);
 
     private static final String plugInBrowserIndex = ConfigurationManager
-            .getProperty("researcherpage.browseindex");
+            .getProperty(CrisConstants.CFG_MODULE, "researcherpage.browseindex");
 
     /**
      * Batch script to update DSpace browse and search indexes with the last

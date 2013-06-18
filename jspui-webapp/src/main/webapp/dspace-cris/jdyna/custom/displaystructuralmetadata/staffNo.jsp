@@ -8,6 +8,6 @@ The contents of this file are subject to the license and copyright
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:message key="jsp.layout.hku.primarydata.label.staffno" />
-${researcher.staffNo}
+${researcher.sourceID}
 <br/>
 

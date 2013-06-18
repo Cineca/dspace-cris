@@ -184,6 +184,10 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+  <listener>
+     <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
+  </listener>
+
 	<!-- Servlets -->
 
 	<servlet>
@@ -467,6 +471,10 @@
 		<servlet-class>org.dspace.app.webui.servlet.AuthorityChooseServlet</servlet-class>
 	</servlet>
 	
+	<servlet>
+    	<servlet-name>authority-management</servlet-name>
+    	<servlet-class>org.dspace.app.webui.servlet.admin.AuthorityManagementServlet</servlet-class>
+  	</servlet>
 		
 	  	
 	<!-- spring mvc cris -->
@@ -772,6 +780,11 @@
 		<url-pattern>/choices/*</url-pattern>
 	</servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>authority-management</servlet-name>
+        <url-pattern>/dspace-admin/authority</url-pattern>
+    </servlet-mapping>
+    
 	<servlet-mapping>
 		<servlet-name>springmvc-rp</servlet-name>
 		<url-pattern>/cris/*</url-pattern>
@@ -815,4 +828,110 @@
 	</jsp-config>
 
 
+	<!-- CRIS -->
+	<servlet>
+		<servlet-name>researcherImageServlet</servlet-name>
+		<servlet-class>org.dspace.app.webui.cris.servlet.ResearcherPictureServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>researcherImageServlet</servlet-name>
+		<url-pattern>/cris/network/researcherimage/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>researcherImageServlet</servlet-name>
+		<url-pattern>/cris/dnetwork/researcherimage/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>collaborationnetworkservice</servlet-name>
+		<servlet-class>org.dspace.app.webui.cris.servlet.ResearcherNetworkServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>metricsservice</servlet-name>
+		<servlet-class>org.dspace.app.webui.cris.servlet.DeptMetricsNetworkServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>metricsservice</servlet-name>
+		<url-pattern>/dnetwork/metrics</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>collaborationnetworkdeptservice</servlet-name>
+		<servlet-class>org.dspace.app.webui.cris.servlet.DeptNetworkServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>networkprofileservice</servlet-name>
+		<servlet-class>org.dspace.app.webui.cris.servlet.ProfileResearcherNetworkServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>networkprofileservice</servlet-name>
+		<url-pattern>/networkdataprofile/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>networkrelationsservice</servlet-name>
+		<servlet-class>org.dspace.app.webui.cris.servlet.RelationsResearcherNetworkServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>networkrelationsservice</servlet-name>
+		<url-pattern>/networkdatarelations/*</url-pattern>
+	</servlet-mapping>
+	<!-- Pubmed retrieval -->
+	<servlet>
+		<servlet-name>PMCGetCitedByCount</servlet-name>
+		<servlet-class>org.dspace.app.cris.pmc.servlet.PMCServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>PMCGetCitedByCount</servlet-name>
+		<url-pattern>/pmcCitedBy</url-pattern>
+	</servlet-mapping>
+
+	<!-- CRIS Web-Services -->
+	<servlet>
+		<servlet-name>wsuploadcommonxs</servlet-name>
+		<servlet-class>org.dspace.app.cris.webui.servlet.XSDServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>wsuploadcommonxs</servlet-name>
+		<url-pattern>/webservices/xsd/*</url-pattern>
+	</servlet-mapping>
+    <!-- <servlet-mapping>
+        <servlet-name>wsuploadcommonxs</servlet-name>
+        <url-pattern>/webservices/requestresearchergrants.xsd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>wsuploadcommonxs</servlet-name>
+        <url-pattern>/webservices/responseresearcherpage.xsd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>wsuploadcommonxs</servlet-name>
+        <url-pattern>/webservices/responseresearchergrants.xsd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>wsuploadcommonxs</servlet-name>
+        <url-pattern>/webservices/staticrequestpublications.xsd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>wsuploadcommonxs</servlet-name>
+        <url-pattern>/webservices/staticresponsepublication.xsd</url-pattern>
+    </servlet-mapping>     -->
+      
+            
+    <servlet>
+        <servlet-name>spring-ws</servlet-name>
+        <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>spring-ws</servlet-name>
+        <url-pattern>/webservices/*</url-pattern>
+    </servlet-mapping>
 </web-app>

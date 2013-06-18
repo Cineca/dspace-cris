@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dspace.app.cris.integration.BindItemToRP;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.service.ApplicationService;
+import org.dspace.app.cris.service.RelationPreferenceService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
@@ -38,6 +39,8 @@ public class ReBindItemToRPController extends ParameterizableViewController
      */  
     private ApplicationService applicationService;
 
+    private RelationPreferenceService relationPreferenceService;
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest arg0,
             HttpServletResponse arg1) throws Exception
@@ -51,7 +54,7 @@ public class ReBindItemToRPController extends ParameterizableViewController
         }
         List<ResearcherPage> r = new LinkedList<ResearcherPage>();
         r.add(researcher);
-        BindItemToRP.work(r, applicationService);
+        BindItemToRP.work(r, relationPreferenceService);
         return new ModelAndView(getViewName()+ ResearcherPageUtils.getPersistentIdentifier(researcher));
     }
 
@@ -64,5 +67,17 @@ public class ReBindItemToRPController extends ParameterizableViewController
     public void setApplicationService(ApplicationService applicationService)
     {
         this.applicationService = applicationService;
+    }
+
+
+    public void setRelationPreferenceService(RelationPreferenceService relationPreferenceService)
+    {
+        this.relationPreferenceService = relationPreferenceService;
+    }
+
+
+    public RelationPreferenceService getRelationPreferenceService()
+    {
+        return relationPreferenceService;
     }
 }

@@ -7,10 +7,10 @@
  */
 package org.dspace.app.cris.dao;
 
+import it.cilea.osd.jdyna.dao.PropertyDao;
+
 import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.ProjectProperty;
-
-import it.cilea.osd.jdyna.dao.PropertyDao;
 
 public interface ProjectPropertyDao extends PropertyDao<ProjectProperty, ProjectPropertiesDefinition> {
 

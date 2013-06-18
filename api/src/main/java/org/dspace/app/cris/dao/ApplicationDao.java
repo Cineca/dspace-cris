@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.dspace.app.cris.model.ACrisObject;
 import org.hibernate.CacheMode;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
 /**

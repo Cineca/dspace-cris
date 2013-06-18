@@ -20,6 +20,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ImportExportUtils;
 import org.dspace.core.ConfigurationManager;
@@ -105,7 +106,7 @@ public class ScriptHKURG {
 		try {
 			if (xmlFilePath != null) {
 				String path = ConfigurationManager
-						.getProperty("researchergrant.file.import.path");
+						.getProperty(CrisConstants.CFG_MODULE, "researchergrant.file.import.path");
 				File dir = new File(path);
 				ImportExportUtils.importGrantsXML(new FileInputStream(
 						xmlFilePath), dir, applicationService, dspaceContext,

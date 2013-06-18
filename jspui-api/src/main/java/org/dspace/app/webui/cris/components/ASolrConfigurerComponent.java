@@ -7,10 +7,7 @@
  */
 package org.dspace.app.webui.cris.components;
 
-import it.cilea.osd.jdyna.components.IBeanComponent;
-
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,17 +15,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.app.cris.configuration.RelationConfiguration;
 import org.dspace.app.cris.discovery.CrisSearchService;
+import org.dspace.app.cris.integration.ICRISComponent;
 import org.dspace.app.cris.model.ACrisObject;
-import org.dspace.app.cris.util.ResearcherPageUtils;
+import org.dspace.app.cris.model.CrisConstants;
+import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.webui.cris.dto.ComponentInfoDTO;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
-import org.dspace.core.I18nUtil;
 import org.dspace.discovery.DiscoverQuery;
 import org.dspace.discovery.DiscoverQuery.SORT_ORDER;
 import org.dspace.discovery.DiscoverResult;
@@ -37,70 +35,68 @@ import org.dspace.discovery.SearchServiceException;
 import org.dspace.sort.SortOption;
 import org.dspace.utils.DSpace;
 
-public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
-        implements IRPComponent
+public abstract class ASolrConfigurerComponent<T extends DSpaceObject, IBC extends ICrisBeanComponent>
+        implements ICRISComponent<IBC>
 {
 
     /** log4j logger */
     private static Logger log = Logger
             .getLogger(ASolrConfigurerComponent.class);
 
-    DSpace dspace = new DSpace();
+    private ApplicationService applicationService;
 
-    private SearchService searcher;
+    private SearchService searchService;
 
-    private Map<String, IBeanComponent> types = new HashMap<String, IBeanComponent>();
+    private RelationConfiguration relationConfiguration;
 
-    private String componentIdentifier;
+    private String commonFilter;
 
-    private int objectType;
-    
-    private String shortName;
-    
-    private Class<ACrisObject> target;
-    
-    public List<String[]> addActiveTypeInRequest(HttpServletRequest request)
-            throws Exception
+    public ApplicationService getApplicationService()
     {
-        String authority = getAuthority(request);
-        Context c = UIUtil.obtainContext(request);
-        List<String[]> subLinks = new ArrayList<String[]>();
-        for (String type : types.keySet())
-        {            
-            DiscoverResult docs = search(c, type, authority, 0, 0, null, true);
-            if (docs.getTotalSearchResults() > 0)
-            {
-                subLinks.add(new String[] {
-                        type,
-                        MessageFormat.format(I18nUtil.getMessage(
-                                "jsp.layout.dspace.detail.fieldset-legend.component."
-                                        + type, c), docs
-                                .getTotalSearchResults()),
-                        "" + docs.getTotalSearchResults() });
-            }
+        if (applicationService == null)
+        {
+            DSpace dspace = new DSpace();
+            applicationService = dspace.getServiceManager().getServiceByName(
+                    "applicationService", ApplicationService.class);
         }
-        request.setAttribute("activeTypes"+ getComponentIdentifier(), subLinks);
-        return subLinks;
+        return applicationService;
     }
 
-    @Override
-    public List<String[]> sublinks(HttpServletRequest request,
-            HttpServletResponse response) throws Exception
+    public SearchService getSearchService()
     {
-        List<String[]> subLinks = (List<String[]>) request
-                .getAttribute("activeTypes"+getComponentIdentifier());
-        if (subLinks == null)
+        if (searchService == null)
         {
-            return addActiveTypeInRequest(request);
+            DSpace dspace = new DSpace();
+            searchService = dspace.getServiceManager().getServiceByName(
+                    SearchService.class.getName(), CrisSearchService.class);
         }
-        return subLinks;
+        return searchService;
+    }
+
+    private Map<String, IBC> types = new HashMap<String, IBC>();
+
+    private String shortName;
+
+    private Class<ACrisObject> target;
+
+    protected ACrisObject getCrisObject(HttpServletRequest request)
+    {
+        ACrisObject cris = (ACrisObject) request
+                .getAttribute(this.getClass().getName() + "-"
+                        + getRelationConfiguration().getRelationName());
+        if (cris == null)
+        {
+            Integer entityID = (Integer) request.getAttribute("entityID");
+            cris = getApplicationService().get(getTarget(), entityID);
+        }
+        return cris;
     }
 
     @Override
     public void evalute(HttpServletRequest request, HttpServletResponse response)
             throws Exception
     {
-        String authority = getAuthority(request);
+        ACrisObject cris = getCrisObject(request);
         // Get the query from the box name
         String type = getType(request);
         List<String[]> activeTypes = addActiveTypeInRequest(request);
@@ -112,15 +108,16 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         int rpp = -1;
         int etAl = -1;
         String orderfield = "";
-        boolean ascending = false; 
-        
+        boolean ascending = false;
+
         Context context = UIUtil.obtainContext(request);
         DiscoverResult docs = null;
         long docsNumFound = 0;
-        
+
         if (types.keySet().contains(type))
         {
-            start = UIUtil.getIntParameter(request, "start" + getTypes().get(type).getComponentIdentifier());
+            start = UIUtil.getIntParameter(request,
+                    "start" + getTypes().get(type).getComponentIdentifier());
             // can't start earlier than 0 in the results!
             if (start < 0)
             {
@@ -130,12 +127,12 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
             order = getOrder(request, type);
             rpp = getRPP(request, type);
             etAl = getEtAl(request, type);
-            orderfield = sortBy != -1 ? "bi_sort_" + sortBy +"_sort": null;
+            orderfield = sortBy != -1 ? "bi_sort_" + sortBy + "_sort" : null;
             ascending = SortOption.ASCENDING.equalsIgnoreCase(order);
 
             // Perform the search
-            
-            docs = search(context, type, authority, start, rpp, orderfield,
+
+            docs = search(context, type, cris, start, rpp, orderfield,
                     ascending);
             if (docs != null)
             {
@@ -150,16 +147,15 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
             order = getOrder(request, type);
             rpp = getRPP(request, type);
             etAl = getEtAl(request, type);
-            orderfield = sortBy != -1 ? "bi_sort_" + sortBy +"_sort": null;
+            orderfield = sortBy != -1 ? "bi_sort_" + sortBy + "_sort" : null;
             ascending = SortOption.ASCENDING.equalsIgnoreCase(order);
-            docs = search(context, type, authority, start, rpp, orderfield,
+            docs = search(context, type, cris, start, rpp, orderfield,
                     ascending);
             if (docs != null)
             {
                 docsNumFound = docs.getTotalSearchResults();
             }
         }
-       
 
         // Pass in some page qualities
         // total number of pages
@@ -186,25 +182,28 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         }
 
         // Pass the results to the display JSP
-           
-        
-        Map<String, ComponentInfoDTO<T>> componentInfoMap = (Map<String, ComponentInfoDTO<T>>)request.getAttribute("componentinfomap");
-        if(componentInfoMap==null || componentInfoMap.isEmpty()) {
+
+        Map<String, ComponentInfoDTO<T>> componentInfoMap = (Map<String, ComponentInfoDTO<T>>) request
+                .getAttribute("componentinfomap");
+        if (componentInfoMap == null || componentInfoMap.isEmpty())
+        {
             componentInfoMap = new HashMap<String, ComponentInfoDTO<T>>();
         }
-        else {
-            if(componentInfoMap.containsKey(getShortName())) {
+        else
+        {
+            if (componentInfoMap.containsKey(getShortName()))
+            {
                 componentInfoMap.remove(getShortName());
             }
         }
-               
-        ComponentInfoDTO<T> componentInfo = buildComponentInfo(docs, context, type, start,
-                order, rpp, etAl, docsNumFound, pageTotal,
+
+        ComponentInfoDTO<T> componentInfo = buildComponentInfo(docs, context,
+                type, start, order, rpp, etAl, docsNumFound, pageTotal,
                 pageCurrent, pageLast, pageFirst, sortOption);
 
         componentInfoMap.put(getShortName(), componentInfo);
         request.setAttribute("componentinfomap", componentInfoMap);
-        
+
         if (AuthorizeManager.isAdmin(context))
         {
             // Set a variable to create admin buttons
@@ -212,13 +211,18 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         }
     }
 
-    public ComponentInfoDTO<T> buildComponentInfo(DiscoverResult docs, Context context, String type, int start,
-            String order, int rpp, int etAl, long docsNumFound,
-            int pageTotal, int pageCurrent, int pageLast,
-            int pageFirst, SortOption sortOption) throws Exception
+    protected abstract List<String[]> addActiveTypeInRequest(
+            HttpServletRequest request) throws Exception;
+
+    private ComponentInfoDTO<T> buildComponentInfo(DiscoverResult docs,
+            Context context, String type, int start, String order, int rpp,
+            int etAl, long docsNumFound, int pageTotal, int pageCurrent,
+            int pageLast, int pageFirst, SortOption sortOption)
+            throws Exception
     {
         ComponentInfoDTO<T> componentInfo = new ComponentInfoDTO<T>();
-        if(docs!=null) {
+        if (docs != null)
+        {
             componentInfo.setItems(getObjectFromSolrResult(docs, context));
         }
 
@@ -237,11 +241,11 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         return componentInfo;
     }
 
-    public abstract T[] getObjectFromSolrResult(DiscoverResult docs,
+    protected abstract T[] getObjectFromSolrResult(DiscoverResult docs,
             Context context) throws Exception;
 
     public DiscoverResult search(Context context, String type,
-            String authority, int start, int rpp, String orderfield,
+            ACrisObject cris, int start, int rpp, String orderfield,
             boolean ascending) throws SearchServiceException
     {
         // can't start earlier than 0 in the results!
@@ -249,12 +253,30 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         {
             start = 0;
         }
-        String query = getQuery(type, authority);
+        String authority = cris.getCrisID();
+        String uuid = cris.getUuid();
+        String query = MessageFormat.format(getRelationConfiguration()
+                .getQuery(), authority, uuid);
         List<String> filters = getFilters(type);
 
         DiscoverQuery solrQuery = new DiscoverQuery();
-        solrQuery.addFilterQueries("NOT(withdrawn:true)",
-                "search.resourcetype:" + getObjectType());
+        try
+        {
+            solrQuery.addFilterQueries(
+                    "NOT(withdrawn:true)",
+                    "search.resourcetype:"
+                            + CrisConstants
+                                    .getEntityType(getRelationConfiguration()
+                                            .getRelationClass()));
+        }
+        catch (InstantiationException e)
+        {
+            log.error(e.getMessage(), e);
+        }
+        catch (IllegalAccessException e)
+        {
+            log.error(e.getMessage(), e);
+        }
         solrQuery.setQuery(query);
         solrQuery.addSearchField("search.resourceid");
         solrQuery.addSearchField("search.resourcetype");
@@ -271,16 +293,16 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         {
             for (String filter : filters)
             {
-                solrQuery.addFilterQueries(filter);
+                solrQuery.addFilterQueries(MessageFormat.format(filter,
+                        authority, uuid));
             }
         }
 
-        return getSearcher().search(context, solrQuery);
+        return getSearchService().search(context, solrQuery);
 
     }
-    
 
-    public String getType(HttpServletRequest request)
+    private String getType(HttpServletRequest request)
     {
         String type = request.getParameter("open");
         if (type == null)
@@ -290,9 +312,9 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         return type;
     }
 
-    public int getEtAl(HttpServletRequest request, String type)
+    private int getEtAl(HttpServletRequest request, String type)
     {
-        int etAl = UIUtil.getIntParameter(request, "etAl"+ getComponentIdentifier());
+        int etAl = UIUtil.getIntParameter(request, "etAl" + type);
         if (etAl == -1)
         {
             etAl = types.get(type).getEtal();
@@ -300,9 +322,9 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         return etAl;
     }
 
-    public int getRPP(HttpServletRequest request, String type)
+    private int getRPP(HttpServletRequest request, String type)
     {
-        int rpp = UIUtil.getIntParameter(request, "rpp"+ getComponentIdentifier());
+        int rpp = UIUtil.getIntParameter(request, "rpp" + type);
         if (rpp == -1)
         {
             rpp = getTypes().get(type).getRpp();
@@ -310,9 +332,9 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         return rpp;
     }
 
-    public String getOrder(HttpServletRequest request, String type)
+    private String getOrder(HttpServletRequest request, String type)
     {
-        String order = request.getParameter("order"+ getComponentIdentifier());
+        String order = request.getParameter("order" + type);
         if (order == null)
         {
             order = getTypes().get(type).getOrder();
@@ -320,9 +342,9 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         return order;
     }
 
-    public int getSortBy(HttpServletRequest request, String type)
+    private int getSortBy(HttpServletRequest request, String type)
     {
-        int sortBy = UIUtil.getIntParameter(request, "sort_by"+ getComponentIdentifier());
+        int sortBy = UIUtil.getIntParameter(request, "sort_by" + type);
         if (sortBy == -1)
         {
             sortBy = getTypes().get(type).getSortby();
@@ -330,124 +352,28 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         return sortBy;
     }
 
-    public List<String> getFilters(String type)
+    private List<String> getFilters(String type)
     {
         return getTypes().get(type).getFilters();
     }
 
-    public String getQuery(String type, String authority)
-    {
-        return MessageFormat.format(getTypes().get(type).getQuery(), authority);
-    }
-
-    public Map<String, IBeanComponent> getTypes()
+    public Map<String, IBC> getTypes()
     {
         return types;
     }
 
-    public void setTypes(Map<String, IBeanComponent> types)
+    public void setTypes(Map<String, IBC> types)
     {
         this.types = types;
     }
 
-    public SearchService getSearcher()
-    {
-        if (searcher == null)
-        {
-            searcher = dspace.getServiceManager().getServiceByName(
-                    SearchService.class.getName(), CrisSearchService.class);
-        }
-        return searcher;
-    }
-
-    public long count(String type, Integer id)
-    {
-        Context context = null;
-
-        try
-        {
-            context = new Context();
-
-            String query = getQuery(type, getAuthority(id));
-            List<String> filters = getFilters(type);
-            DiscoverQuery solrQuery = new DiscoverQuery();
-            solrQuery.addFilterQueries("NOT(withdrawn:true)",
-                    "search.resourcetype:" + getObjectType());
-            solrQuery.setQuery(query);
-            solrQuery.addSearchField("search.resourceid");
-            solrQuery.addSearchField("search.resourcetype");
-
-            if (filters != null)
-            {
-                for (String filter : filters)
-                {
-                    solrQuery.addFilterQueries(filter);
-                }
-            }
-            return getSearcher().search(context, solrQuery)
-                    .getTotalSearchResults();
-        }
-
-        catch (Exception ex)
-        {
-            log.error(ex.getMessage(), ex);
-        }
-        finally
-        {
-            if (context != null && context.isValid())
-            {
-                context.abort();
-            }
-        }
-        return -1;
-    }
-    
-  
-
-    public String getComponentIdentifier()
-    {
-        return componentIdentifier;
-    }
-    
-    public int getObjectType()
-    {
-        return objectType;
-    }
-
-    public void setComponentIdentifier(String componentIdentifier)
-    {
-        this.componentIdentifier = componentIdentifier;
-    }
-
-    public void setObjectType(int objectType)
-    {
-        this.objectType = objectType;
-    }
-    
-    public String getAuthority(HttpServletRequest request)
-    {
-        String result = (String) request.getAttribute("authority");
-        if(StringUtils.isEmpty(result)) {
-            Integer entityID = Integer.parseInt(String.valueOf(request.getAttribute("entityID")));
-            return getAuthority(entityID);
-        }
-        return result;
-    }
-    
-    public String getAuthority(Integer id)
-    {      
-        return ResearcherPageUtils.getPersistentIdentifier(id, getTarget());
-    }
-    
-    @Override
     public void setShortName(String shortName)
     {
         this.shortName = shortName;
     }
 
-    @Override
     public String getShortName()
-    {      
+    {
         return this.shortName;
     }
 
@@ -461,6 +387,29 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject>
         this.target = target;
     }
 
+    public RelationConfiguration getRelationConfiguration()
+    {
+        return relationConfiguration;
+    }
 
+    public void setRelationConfiguration(
+            RelationConfiguration relationConfiguration)
+    {
+        this.relationConfiguration = relationConfiguration;
+    }
+
+    public void setCommonFilter(String commonFilter)
+    {
+        this.commonFilter = commonFilter;
+    }
+
+    public String getCommonFilter()
+    {
+        if (commonFilter == null)
+        {
+            return "";
+        }
+        return commonFilter;
+    }
 
 }

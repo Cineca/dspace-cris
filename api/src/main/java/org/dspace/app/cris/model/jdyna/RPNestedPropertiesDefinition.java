@@ -18,7 +18,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="cris_rp_nestedobject_propertiesdefinition")
+@Table(name="cris_rp_no_pdef")
 @NamedQueries( {
     @NamedQuery(name = "RPNestedPropertiesDefinition.findAll", query = "from RPNestedPropertiesDefinition order by id"),    
     @NamedQuery(name = "RPNestedPropertiesDefinition.findValoriOnCreation", query = "from RPNestedPropertiesDefinition where onCreation=true"),

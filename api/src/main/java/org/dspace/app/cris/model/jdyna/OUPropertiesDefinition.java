@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="cris_ou_propertiesdefinition")
+@Table(name="cris_ou_pdef")
 @NamedQueries( {
     @NamedQuery(name = "OUPropertiesDefinition.findAll", query = "from OUPropertiesDefinition order by id"),    
     @NamedQuery(name = "OUPropertiesDefinition.findValoriOnCreation", query = "from OUPropertiesDefinition where onCreation=true"),

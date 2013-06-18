@@ -7,11 +7,11 @@
  */
 package org.dspace.app.cris.model;
 
-import it.cilea.osd.jdyna.model.AnagraficaObject;
+import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
-public interface IExportableDynamicObject<TP extends PropertiesDefinition, P extends Property<TP>, AO extends AnagraficaObject<P, TP>>
+public interface IExportableDynamicObject<TP extends PropertiesDefinition, P extends Property<TP>, AS extends AnagraficaSupport<P, TP>>
 {
 
     String getNamePublicIDAttribute();
@@ -30,7 +30,7 @@ public interface IExportableDynamicObject<TP extends PropertiesDefinition, P ext
 
     String getValueTypeIDAttribute();
 
-    AO getDynamicField();
+    AS getAnagraficaSupport();
 
     String getNameSingleRowElement();
 

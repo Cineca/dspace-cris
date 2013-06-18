@@ -7,9 +7,9 @@
  */
 package org.dspace.app.cris.dao;
 
-import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
-
 import it.cilea.osd.common.dao.PaginableObjectDao;
+
+import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
 
 public interface ProjectAdditionalFieldStorageDao extends PaginableObjectDao<ProjectAdditionalFieldStorage, Integer> {
 

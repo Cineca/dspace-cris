@@ -7,10 +7,9 @@
  */
 package org.dspace.app.cris.model;
 
-import it.cilea.osd.common.core.HasTimeStampInfo;
 import it.cilea.osd.common.core.TimeStampInfo;
-import it.cilea.osd.jdyna.model.AnagraficaSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +24,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.dspace.app.cris.model.jdyna.OUAdditionalFieldStorage;
+import org.dspace.app.cris.model.jdyna.OUNestedObject;
 import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.OUProperty;
+import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
 
 @Entity
-@Table(name = "cris_organizationunit")
+@Table(name = "cris_orgunit")
 @NamedQueries({
         @NamedQuery(name = "OrganizationUnit.findAll", query = "from OrganizationUnit order by id"),
         @NamedQuery(name = "OrganizationUnit.count", query = "select count(*) from OrganizationUnit"),
@@ -47,7 +48,7 @@ import org.dspace.app.cris.model.jdyna.OUProperty;
 })
 public class OrganizationUnit extends
 		ACrisObject<OUProperty, OUPropertiesDefinition> implements
-		HasTimeStampInfo, Cloneable
+		Cloneable
 {
 
     @Transient
@@ -215,5 +216,50 @@ public class OrganizationUnit extends
     public String getAuthorityPrefix()
     {
         return "ou";
+    }
+    
+    @Override
+    public Class<OUNestedObject> getClassNested()
+    {
+        return OUNestedObject.class;
+    }
+
+    @Override
+    public  Class<OUTypeNestedObject> getClassTypeNested()
+    {
+        return OUTypeNestedObject.class;
+    }
+
+
+    /**
+     * Convenience method to get data from ResearcherPage by a string. For any
+     * existent field name the method must return the relative value (i.e
+     * getMetadata("fullName") is equivalent to getFullName()) but the method
+     * always return a list (with 0, 1 or more elements). For dynamic field it
+     * returns the value of the dynamic field with the shorter name equals to
+     * the argument. Only public values are returned!
+     * 
+     * 
+     * @param dcField
+     *            the field (not null) to retrieve the value
+     * @return a list of 0, 1 or more values
+     */
+    public List<String> getMetadata(String field)
+    {
+        List<String> result = new ArrayList();
+
+        List<OUProperty> dyna = getDynamicField().getAnagrafica4view().get(
+                field);
+        for (OUProperty prop : dyna)
+        {
+            if (prop.getVisibility() == VisibilityConstants.PUBLIC)
+                result.add(prop.toString());
+        }
+
+        return result;
+    }
+
+    public String getTypeText() {
+        return CrisConstants.getEntityTypeText(CrisConstants.OU_TYPE_ID);
     }
 }

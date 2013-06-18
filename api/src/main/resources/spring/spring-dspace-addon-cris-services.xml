@@ -8,10 +8,10 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
-           http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 	
 	<bean id="txProxyTemplate" abstract="true"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
@@ -30,6 +30,9 @@
 		abstract="true">		
 		<property name="modelDaos">
 			<map>			
+				<entry key="org.dspace.app.cris.model.RelationPreference">
+					<ref bean="relationPreferenceDao" />
+				</entry>
 				<entry key="it.cilea.osd.jdyna.model.ANestedObject">
 					<ref bean="nestedObjectDao" />
 				</entry>
@@ -220,8 +223,14 @@
 				<entry key="it.cilea.osd.jdyna.model.AWidget">
 					<ref bean="widgetDao" />
 				</entry>				
-				<entry key="org.dspace.app.cris.model.RPSubscription">
-					<ref bean="rpSubscriptionDao" />
+				<entry key="org.dspace.app.cris.model.StatSubscription">
+					<ref bean="statSubscriptionDao" />
+				</entry>
+				<entry key="org.dspace.app.cris.model.CrisSubscription">
+					<ref bean="crisSubscriptionDao" />
+				</entry>
+				<entry key="org.dspace.app.cris.model.ws.User">
+					<ref bean="userWSDao" />
 				</entry>
 			</map>
 		</property>		
@@ -230,8 +239,25 @@
 	<bean id="applicationService" parent="txProxyTemplate">
 		<property name="target">
 			<bean class="org.dspace.app.cris.service.ApplicationService"
-				init-method="init" parent="baseService">
+				init-method="init" destroy-method="destroy" parent="baseService">
 				<property name="applicationDao" ref="applicationDao" />
+				<property name="listenerOnPostUpdate">
+					<list>
+						<ref local="crisIndexerListener" />
+						<ref local="nestedIndexerListener" />		
+					</list>
+				</property>
+				<property name="listenerOnPostDelete">
+					<list>
+						<ref local="crisIndexerListener" />
+						<ref local="nestedIndexerListener" />		
+					</list>
+				</property>
+				<property name="listenerOnPreInsert">
+					<list>
+						<ref local="nestedPositionListener" />		
+					</list>
+				</property>				
 			</bean>
 		</property>
 	</bean>
@@ -244,6 +270,15 @@
 		<constructor-arg ref="applicationService" />
 	</bean>	
 	
+	<bean id="statSubscribeService" class="org.dspace.app.cris.statistics.service.StatSubscribeService">			
+		<constructor-arg ref="applicationService" />
+		<property name="statsLogger" ref="org.dspace.statistics.SolrLogger"/>
+	</bean>	
+
+	<bean id="CrisSubscribeService" class="org.dspace.app.cris.service.CrisSubscribeService">			
+		<constructor-arg ref="applicationService" />		
+	</bean>	
+		
 	<!--  DAO  -->
 	
 	<bean id="applicationDao" class="org.dspace.app.cris.dao.ApplicationDao">
@@ -564,6 +599,23 @@
 				<constructor-arg>
 					<value>
 						org.dspace.app.cris.model.jdyna.OUNestedProperty
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="relationPreferenceDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.RelationPreferenceDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.RelationPreference
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1025,14 +1077,27 @@
 		</property>
 	</bean>
 
-	<bean id="rpSubscriptionDao" parent="abstractDao">
+	<bean id="crisSubscriptionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
-			<value>org.dspace.app.cris.dao.RPSubscriptionDao</value>
+			<value>org.dspace.app.cris.dao.CrisSubscriptionDao</value>
 		</property>
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg>
-					<value>org.dspace.app.cris.model.RPSubscription</value>
+					<value>org.dspace.app.cris.model.CrisSubscription</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="statSubscriptionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>org.dspace.app.cris.dao.StatSubscriptionDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>org.dspace.app.cris.model.StatSubscription</value>
 				</constructor-arg>
 			</bean>
 		</property>
@@ -1141,54 +1206,51 @@
 		</property>
 	</bean>
 				
-	<!--  resources  -->
-	<!-- dspace-config is a system variable, set it as jvm parameter -->
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">	
-		<property name="searchSystemEnvironment" value="true"/>							
-		<property name="locations">
-			<list>				
-				<value>classpath:hibernate/hibernate-rp.properties</value>
-			</list>
+
+	<bean id="userWSDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>org.dspace.app.cris.dao.UserWSDao</value>
 		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>org.dspace.app.cris.model.ws.User</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>		
+
+	<!--  resources  -->
+	<bean id="dspaceDatasource" class="org.dspace.app.cris.util.DSpaceDataSource">
+		<property name="configurationService" ref="org.dspace.services.ConfigurationService" />
 	</bean>
 	
+	<bean id="dspaceDBDriver" factory-bean="dspaceDatasource" factory-method="getDriver" />
+	<bean id="dspaceDBUsername" factory-bean="dspaceDatasource" factory-method="getUsername" />
+	<bean id="dspaceDBPassword" factory-bean="dspaceDatasource" factory-method="getPassword" />
+	<bean id="dspaceDBUrl" factory-bean="dspaceDatasource" factory-method="getUrl" />
+	<bean id="hibernateProperties" factory-bean="dspaceDatasource" factory-method="getHibernateProperties" />
 
 	<bean id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-		<property name="driverClass" value="${hibernate.connection.driver_class}" />
-		<property name="jdbcUrl" value="${hibernate.connection.url}" />
-		<property name="user" value="${hibernate.connection.username}" />
-		<property name="password" value="${hibernate.connection.password}" />
+		<property name="driverClass" ref="dspaceDBDriver" />
+		<property name="jdbcUrl" ref="dspaceDBUrl" />
+		<property name="user" ref="dspaceDBUsername" />
+		<property name="password" ref="dspaceDBPassword" />
 		
 		<!-- these are C3P0 properties -->
-        <property name="acquireIncrement" value="${c3p0.acquire_increment}" />
-        <property name="minPoolSize" value="${c3p0.idle_test_period}" />
-        <property name="maxPoolSize" value="${c3p0.max_size}" />
-        <property name="maxIdleTime" value="${c3p0.min_size}" />
+        <property name="acquireIncrement" value="5" />
+        <property name="minPoolSize" value="20" />
+        <property name="maxPoolSize" value="100" />
+        <property name="maxIdleTime" value="100" />
 		
 	</bean>
 
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:hibernate/hibernate-rp.cfg.xml" />
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.connection.driver_class">
-					${hibernate.connection.driver_class}
-				</prop>
-				<prop key="hibernate.connection.url">
-					${hibernate.connection.url}
-				</prop>
-				<prop key="hibernate.connection.username">
-					${hibernate.connection.username}
-				</prop>
-				<prop key="hibernate.connection.password">
-					${hibernate.connection.password}
-				</prop>
-			</props>
-		</property>
+		<property name="configLocation" value="classpath:hibernate/hibernate-cris.cfg.xml" />
+		<property name="hibernateProperties" ref="hibernateProperties" />
 		<!--
 			event listenter for indexing with Hibernate Seach and naming RP change
 		-->
@@ -1207,30 +1269,39 @@
 					<ref local="RPListener" />											
 				</entry>				
 				<entry key="post-load">
+					<list>
 					<ref local="RPListener" />
+						<ref local="rpResourcePolicyListener" />																	
+					</list>
 				</entry>
 				<entry key="post-insert">
 					<list>
-						<ref local="crisIndexerListner" />						
+						<ref local="rpResourcePolicyListener" />											
 					</list>
 				</entry>
 				<entry key="post-update">	
 					<list>
-						<ref local="crisIndexerListner" />
+						<ref local="rpResourcePolicyListener" />						
 					</list>				
 				</entry>				
 				<entry key="post-delete">
 					<list>
-						<ref local="crisIndexerListner" />
+						<ref local="rpResourcePolicyListener" />						
 					</list>
 				</entry>				
 			</map>
 		</property>
 	</bean>
 
-	<bean id="crisIndexerListner" class="org.dspace.app.cris.discovery.CrisListenerSolrIndexer">
+	<bean id="crisIndexerListener" class="org.dspace.app.cris.discovery.NativeCrisListenerSolrIndexer">
 		<property name="crisSearchService" ref="org.dspace.discovery.IndexingService" />
 	</bean>
+	
+	<bean id="nestedIndexerListener" class="org.dspace.app.cris.discovery.NativeNestedListenerSolrIndexer">
+		<property name="crisSearchService" ref="org.dspace.discovery.IndexingService" />
+	</bean>
+	
+	<bean id="rpResourcePolicyListener" class="org.dspace.app.cris.model.listener.RPResourcePolicyListener"/>
 	
 	<bean id="RPListener" class="org.dspace.app.cris.model.listener.RPListener"/>
 
@@ -1238,16 +1309,30 @@
 	
 	<bean id="CRISIDListener" class="org.dspace.app.cris.model.listener.CrisIDListener"/>
 	
+	<bean id="nestedPositionListener" class="org.dspace.app.cris.model.listener.NestedPositionListener"/>
+
+	<bean id="visualNetworkSolrService" class="org.dspace.app.cris.network.VisualizationGraphSolrService">
+		<property name="searcher" ref="org.dspace.discovery.SearchService" />
+	</bean>
+	
+	<bean id="visualNetworkIndexer" class="org.dspace.app.cris.network.VisualizationGraphIndexer">
+		<property name="indexer" ref="org.dspace.discovery.IndexingService" />
+	</bean>
+	
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-	<bean id="crisConstants" class="org.dspace.app.cris.model.CrisConstants" scope="prototype">
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<bean id="crisConstants" class="org.dspace.app.cris.model.CrisConstants">
 		<!-- example configuration -->
-		<property name="otherTypeMap">
+		<property name="typeMap">
 			<map>
-				<entry key="inserttyposhortnamefordynamicentity" value="assignedtype"/>
+				<entry key="CRISRP" value="9"/>
+				<entry key="CRISPJ" value="10"/>
+				<entry key="CRISOU" value="11"/>
 			</map>
 		</property>
 		<property name="authorityPrefixMap">
@@ -1256,4 +1341,25 @@
 			</map>
 		</property>		
 	</bean>
+	
+	<bean id="org.dspace.app.cris.service.RelationPreferenceService"
+		class="org.dspace.app.cris.service.RelationPreferenceService">
+		<property name="applicationService" ref="applicationService" />
+		<property name="crisSearchService" ref="org.dspace.discovery.SearchService" />
+	</bean>
+	
+	
+	<bean id="sectionStatsExtraIndexer" 
+    	class="org.dspace.app.cris.statistics.SectionStatsIndexPlugin">
+    </bean>     
+
+	
+	 <bean id="org.dspace.app.cris.statistics.GeoRefAdditionalStatisticsData" 
+    	class="org.dspace.app.cris.statistics.GeoRefAdditionalStatisticsData">
+    </bean>
+    
+    <bean id="org.dspace.app.cris.statistics.YearsAdditionalStatisticsData" 
+    	class="org.dspace.app.cris.statistics.YearsAdditionalStatisticsData">
+    </bean>              
+       
 </beans>

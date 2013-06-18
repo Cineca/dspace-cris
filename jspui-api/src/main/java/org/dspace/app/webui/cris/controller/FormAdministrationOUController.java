@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.service.ApplicationService;
@@ -65,7 +66,7 @@ public class FormAdministrationOUController extends
         int page = paramPage != null ? Integer.parseInt(paramPage) : 1;
         long count = applicationService.count(OrganizationUnit.class);
         Integer pagesize = Integer.parseInt(ConfigurationManager
-                .getProperty("project.administration.table.pagesize"));
+                .getProperty(CrisConstants.CFG_MODULE,"project.administration.table.pagesize"));
         
         //mode position only when administrator click on direct link on RP page  
         Integer id = null;

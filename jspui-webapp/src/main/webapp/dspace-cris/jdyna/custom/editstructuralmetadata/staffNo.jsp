@@ -58,7 +58,7 @@ The contents of this file are subject to the license and copyright
 			%>
 			<tr>
 				<td><fmt:message key="jsp.layout.hku.primarydata.label.staffno" /></td>
-				<td>${anagraficadto.staffNo}</td>
+				<td>${anagraficadto.sourceID}</td>
 				<td></td>
 			</tr>
 			<tr>

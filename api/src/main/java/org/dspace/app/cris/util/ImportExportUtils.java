@@ -58,15 +58,12 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.IExportableDynamicObject;
 import org.dspace.app.cris.model.Investigator;
 import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.RestrictedField;
-import org.dspace.app.cris.model.RestrictedFieldFile;
-import org.dspace.app.cris.model.RestrictedFieldLocalOrRemoteFile;
 import org.dspace.app.cris.model.VisibilityConstants;
 import org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
@@ -212,7 +209,8 @@ public class ImportExportUtils
             sheet.addCell(new Label(2, i, ""));
             label = (Label) sheet.getCell(2, i);
             label.setString(ConfigurationManager.getProperty("dspace.url")
-                    + "/rp/" + ResearcherPageUtils.getPersistentIdentifier(rp));
+                    + "/cris/" + rp.getPublicPath() + "/"
+                    + ResearcherPageUtils.getPersistentIdentifier(rp));
 
             for (IContainable containable : metadata)
             {
@@ -1281,6 +1279,9 @@ public class ImportExportUtils
     }
 
     /**
+     * 
+     * TODO 
+     * 
      * Import RGs from RPs finded on database
      * 
      * @param applicationService
@@ -1400,7 +1401,7 @@ public class ImportExportUtils
                                         UtilsXML.GRANT_TAG_INVESTIGATOR);
                         for (ValoreDTO vv : investigatorDTO)
                         {
-                            Investigator inv = new Investigator();
+
                             EmbeddedLinkValue link = (EmbeddedLinkValue) vv
                                     .getObject();
                             if (link != null)
@@ -1408,26 +1409,33 @@ public class ImportExportUtils
                                 if (link.getValueLink() != null
                                         && !link.getValueLink().isEmpty())
                                 {
-                                    inv.setIntInvestigator(applicationService
-                                            .getResearcherByAuthorityKey(link
-                                                    .getValueLink()
-                                                    .substring(3)));
+                                    dtoRG.getAnagraficaProperties()
+                                            .put("principalinvestigator",
+                                                    dtoNested
+                                                            .getAnagraficaProperties()
+                                                            .get("principalinvestigator")
+                                                            );
+
                                 }
                                 else
                                 {
-                                    inv.setExtInvestigator(link
-                                            .getDescriptionLink());
+                                    dtoRG.getAnagraficaProperties()
+                                    .put("extprincipalinvestigator",
+                                            dtoNested
+                                                    .getAnagraficaProperties()
+                                                    .get("extprincipalinvestigator")
+                                                    );
                                 }
                             }
-                            rg.setInvestigator(inv);
+                            
                         }
                         List<ValoreDTO> coinvestigatorDTO = dtoRG
                                 .getAnagraficaProperties().get(
                                         UtilsXML.GRANT_TAG_COINVESTIGATOR);
-                        List<Investigator> coinvestigators = new LinkedList<Investigator>();
+                        
                         for (ValoreDTO vv : coinvestigatorDTO)
                         {
-                            Investigator co = new Investigator();
+                            
                             EmbeddedLinkValue link = (EmbeddedLinkValue) vv
                                     .getObject();
                             if (link != null)
@@ -1435,23 +1443,29 @@ public class ImportExportUtils
                                 if (link.getValueLink() != null
                                         && !link.getValueLink().isEmpty())
                                 {
-                                    co.setIntInvestigator(applicationService
-                                            .getResearcherByAuthorityKey(link
-                                                    .getValueLink()));
+                                    dtoRG.getAnagraficaProperties()
+                                    .put("coinvestigator",
+                                            dtoNested
+                                                    .getAnagraficaProperties()
+                                                    .get("coinvestigator")
+                                                    );
                                 }
                                 else
                                 {
-                                    co.setExtInvestigator(link
-                                            .getDescriptionLink());
+                                    dtoRG.getAnagraficaProperties()
+                                    .put("extcoinvestigator",
+                                            dtoNested
+                                                    .getAnagraficaProperties()
+                                                    .get("extcoinvestigator")
+                                                    );
 
                                 }
                             }
-                            coinvestigators.add(co);
+                            
                         }
-                        rg.setCoInvestigators(coinvestigators);
+                        
                         AnagraficaUtils.reverseDTO(dtoRG, rg, rgTps);
-                        applicationService.saveOrUpdate(Project.class,
-                                rg);
+                        applicationService.saveOrUpdate(Project.class, rg);
                     }
                 }
             }
@@ -1465,6 +1479,7 @@ public class ImportExportUtils
     }
 
     /**
+     * TODO
      * 
      * Import grant from xml file, matching validation with xsd builded at
      * runtime execution associate to list of dynamic fields
@@ -1646,82 +1661,7 @@ public class ImportExportUtils
 
                 importDynAXML(applicationService, realFillTPS, node, dto,
                         clonedto, update);
-
-                // import investigator and coinvestigators
-                Element control_value = XMLUtils.getSingleElement(node,
-                        UtilsXML.GRANT_ELEMENT_INVESTIGATOR);
-
-                if (control_value != null)
-                {
-                    String value = control_value.getTextContent();
-                    boolean isRP = false;
-                    if (value.isEmpty())
-                    {
-                        value = control_value
-                                .getAttribute(UtilsXML.GRANT_NAMEATTRIBUTE_RPID);
-                        isRP = true;
-                    }
-
-                    if (!value.isEmpty())
-                    {
-                        Investigator investigator = new Investigator();
-                        if (isRP)
-                        {
-                            investigator.setIntInvestigator(applicationService
-                                    .getResearcherByAuthorityKey(value));
-                        }
-                        else
-                        {
-                            investigator.setExtInvestigator(value);
-                        }
-                        grant.setInvestigator(investigator);
-                    }
-                    else
-                    {
-                        if (update)
-                        {
-                            log.info("Principal investigator can't empty");
-                        }
-                    }
-                }
-
-                List<Element> nodeslist = XMLUtils.getElementList(node,
-                        UtilsXML.GRANT_ELEMENT_COINVESTIGATOR);
-                List<Investigator> object = (List<Investigator>) grant
-                        .getCoInvestigators();
-
-                for (int y = 0; y < nodeslist.size(); y++)
-                {
-                    if (update == true && y == 0)
-                    {
-                        object.clear();
-                    }
-                    Element nsublist = nodeslist.get(y);
-                    String value = nsublist.getTextContent();
-                    boolean isRP = false;
-                    if (value.isEmpty())
-                    {
-                        value = nsublist
-                                .getAttribute(UtilsXML.GRANT_NAMEATTRIBUTE_RPID);
-                        isRP = true;
-                    }
-
-                    if (value != null && !value.isEmpty())
-                    {
-                        Investigator investigator = new Investigator();
-                        if (isRP)
-                        {
-                            investigator.setIntInvestigator(applicationService
-                                    .getResearcherByAuthorityKey(value));
-                        }
-                        else
-                        {
-                            investigator.setExtInvestigator(value);
-                        }
-                        object.add(investigator);
-                    }
-
-                }
+       
                 AnagraficaUtils.reverseDTO(dto, grant, realFillTPS);
 
                 applicationService.saveOrUpdate(Project.class, grant);

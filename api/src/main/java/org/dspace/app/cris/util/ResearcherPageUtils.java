@@ -7,6 +7,7 @@
  */
 package org.dspace.app.cris.util;
 
+import it.cilea.osd.jdyna.model.ANestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -16,9 +17,6 @@ import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.ACrisObject;
-import org.dspace.app.cris.model.CrisConstants;
-import org.dspace.app.cris.model.OrganizationUnit;
-import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.VisibilityConstants;
 import org.dspace.app.cris.service.ApplicationService;
@@ -75,7 +73,8 @@ public class ResearcherPageUtils
     /**
      * Build the cris identifier starting from the db internal primary key
     */
-    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getPersistentIdentifier(Integer crisID, Class<T> clazz)
+    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getPersistentIdentifier(
+            Integer crisID, Class<T> clazz)
     {
         T cris = null;
         try
@@ -97,15 +96,19 @@ public class ResearcherPageUtils
     
     /**
      * Format the cris suffix identifier starting from the db internal primary key
+     * key
     */
     private static String formatIdentifier(Integer rp, Class className)
     {
-        ACrisObject crisObject = (ACrisObject)applicationService.get(className,rp);
+        ACrisObject crisObject = (ACrisObject) applicationService.get(
+                className, rp);
         String crisId = crisObject.getCrisID();
-        if(crisId!=null && !crisId.isEmpty()) {
+        if (crisId != null && !crisId.isEmpty())
+        {
             return crisId;    
         }
-        return crisObject.getAuthorityPrefix() + persIdentifierFormat.format(rp);
+        return crisObject.getAuthorityPrefix()
+                + persIdentifierFormat.format(rp);
     }
 
     /**
@@ -115,13 +118,16 @@ public class ResearcherPageUtils
      *            the cris identifier
      * @return the db primary key
      */
-    public static Integer getRealPersistentIdentifier(String authorityKey, Class className)
+    public static Integer getRealPersistentIdentifier(String authorityKey,
+            Class className)
     {
         try
         {
             String id = authorityKey.substring(2);
-            ACrisObject crisObject = applicationService.getEntityByCrisId(authorityKey, className);
-            if(crisObject!=null) {
+            ACrisObject crisObject = applicationService.getEntityByCrisId(
+                    authorityKey, className);
+            if (crisObject != null)
+            {
                  return crisObject.getId();
             }
             return Integer.parseInt(id); 
@@ -172,7 +178,8 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class),
+                    true);
             return getLabel(alternativeName, rp);
         }
         return alternativeName;
@@ -193,7 +200,8 @@ public class ResearcherPageUtils
         if (alternativeName != null && rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class),
+                    true);
             return alternativeName.equals(rp.getFullName());
         }
         return false;
@@ -214,7 +222,8 @@ public class ResearcherPageUtils
         if (alternativeName != null && rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class),
+                    true);
             return alternativeName.equals(rp.getTranslatedName().getValue());
         }
         return false;
@@ -232,7 +241,8 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class),
+                    true);
             return rp.getFullName();
         }
         return null;
@@ -250,7 +260,8 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class),
+                    true);
             return rp != null ? rp.getSourceID() : null;
         }
         return null;
@@ -289,12 +300,42 @@ public class ResearcherPageUtils
         if (rpkey != null)
         {
             ResearcherPage rp = applicationService.get(ResearcherPage.class,
-                    getRealPersistentIdentifier(rpkey, ResearcherPage.class));
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class),
+                    true);
             return VisibilityConstants.PUBLIC == rp.getTranslatedName()
                     .getVisibility() ? rp.getTranslatedName().getValue() : "";
         }
         return null;
     }
   
+    /**
+     * Get the AcademicName of the ResearcherPage
+     * 
+     * @param rpkey
+     *            the rp identifier
+     * @return the Chinese name of the ResearcherPage
+     */
+    public static String getAcademicName(String rpkey)
+    {
+        if (rpkey != null)
+        {
+            ResearcherPage rp = applicationService.get(ResearcherPage.class,
+                    getRealPersistentIdentifier(rpkey, ResearcherPage.class),
+                    true);
+            return VisibilityConstants.PUBLIC == rp.getPreferredName()
+                    .getVisibility() ? rp.getPreferredName().getValue() : "";
+        }
+        return null;
+    }
 
+    public static Integer getNestedMaxPosition(ANestedObject nested)
+    {
+        return applicationService.getNestedMaxPosition(nested);
+    }
+
+    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> T getCrisObject(
+            Integer id, Class<T> clazz)
+    {
+        return (T)applicationService.get(clazz, id);
+    }
 }

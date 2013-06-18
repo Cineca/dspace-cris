@@ -7,7 +7,7 @@
  */
 package org.dspace.app.webui.cris.web.tag;
 
-import it.cilea.osd.jdyna.components.IBeanComponent;
+import it.cilea.osd.jdyna.components.IBeanSubComponent;
 import it.cilea.osd.jdyna.components.IComponent;
 import it.cilea.osd.jdyna.model.ADecoratorPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ADecoratorTypeDefinition;
@@ -23,10 +23,15 @@ import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.web.Box;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +39,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dspace.app.cris.integration.ICRISComponent;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.ResearcherPage;
@@ -53,6 +60,7 @@ import org.dspace.app.cris.model.jdyna.RPTypeNestedObject;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.Researcher;
 import org.dspace.app.cris.util.ResearcherPageUtils;
+import org.dspace.app.webui.cris.dto.AllMonthsStatsDTO;
 import org.dspace.core.ConfigurationManager;
 
 public class ResearcherTagLibraryFunctions
@@ -67,6 +75,12 @@ public class ResearcherTagLibraryFunctions
             .getLog(ResearcherTagLibraryFunctions.class);
 
     public static boolean isGroupFieldsHidden(
+            ResearcherPage anagraficaObject, String logicGroup)
+    {
+    	return isGroupFieldsHidden(anagraficaObject.getDynamicField(), logicGroup);
+    }
+    
+    private static boolean isGroupFieldsHidden(
             RPAdditionalFieldStorage anagraficaObject, String logicGroup)
     {
         boolean result = true;
@@ -75,7 +89,7 @@ public class ResearcherTagLibraryFunctions
         log.debug("Get from configuration additional containables object : "
                 + dspaceProperty);
         String confContainables = ConfigurationManager
-                .getProperty(dspaceProperty);
+                .getProperty(CrisConstants.CFG_MODULE,dspaceProperty);
         if (confContainables != null && !confContainables.isEmpty())
         {
             String[] listConfContainables = confContainables.split(",");
@@ -111,7 +125,7 @@ public class ResearcherTagLibraryFunctions
         log.debug("Get from configuration additional containables object : "
                 + dspaceProperty);
         String confContainables = ConfigurationManager
-                .getProperty(dspaceProperty);
+                .getProperty(CrisConstants.CFG_MODULE,dspaceProperty);
 
         if (confContainables != null && !confContainables.isEmpty())
         {
@@ -226,7 +240,7 @@ public class ResearcherTagLibraryFunctions
 
         Researcher researcher = new Researcher();
 
-        Map<String, IComponent> rpComponent = researcher.getRPComponents();
+        Map<String, ICRISComponent> rpComponent = researcher.getRPComponents();
         if (rpComponent != null && !rpComponent.isEmpty())
         {
             for (String key : rpComponent.keySet())
@@ -236,7 +250,7 @@ public class ResearcherTagLibraryFunctions
                 {
                     IComponent component = rpComponent.get(key);
                     component.setShortName(box.getShortName());
-                    Map<String, IBeanComponent> comp = component.getTypes();
+                    Map<String, IBeanSubComponent> comp = component.getTypes();
 
                     for (String compp : comp.keySet())
                     {
@@ -259,7 +273,7 @@ public class ResearcherTagLibraryFunctions
     {
         Researcher researcher = new Researcher();
 
-        Map<String, IComponent> rpComponent = researcher.getProjectComponents();
+        Map<String, ICRISComponent> rpComponent = researcher.getProjectComponents();
         if (rpComponent != null && !rpComponent.isEmpty())
         {
             for (String key : rpComponent.keySet())
@@ -269,7 +283,7 @@ public class ResearcherTagLibraryFunctions
                 {
                     IComponent component = rpComponent.get(key);
                     component.setShortName(box.getShortName());
-                    Map<String, IBeanComponent> comp = component.getTypes();
+                    Map<String, IBeanSubComponent> comp = component.getTypes();
 
                     for (String compp : comp.keySet())
                     {
@@ -292,7 +306,7 @@ public class ResearcherTagLibraryFunctions
     {
         Researcher researcher = new Researcher();
 
-        Map<String, IComponent> rpComponent = researcher.getOUComponents();
+        Map<String, ICRISComponent> rpComponent = researcher.getOUComponents();
         if (rpComponent != null && !rpComponent.isEmpty())
         {
             for (String key : rpComponent.keySet())
@@ -302,7 +316,7 @@ public class ResearcherTagLibraryFunctions
                 {
                     IComponent component = rpComponent.get(key);
                     component.setShortName(box.getShortName());
-                    Map<String, IBeanComponent> comp = component.getTypes();
+                    Map<String, IBeanSubComponent> comp = component.getTypes();
 
                     for (String compp : comp.keySet())
                     {
@@ -491,6 +505,108 @@ public class ResearcherTagLibraryFunctions
 
     }
 
+    public static List<AllMonthsStatsDTO> getAllMonthsStats(Object object)
+            throws ParseException
+    {
+
+        String[][] temp = (String[][]) object;
+        List<AllMonthsStatsDTO> result = new LinkedList<AllMonthsStatsDTO>();
+
+        Map<String, List<String>> tempMap = new LinkedHashMap<String, List<String>>();
+        boolean foundit = false;
+        int countIntegrityMonth = 12;
+        /*for (int i = 0; i < temp.length; i++)
+        {
+
+            String tempKey = temp[i][0];
+            String key = tempKey.substring(0, 4);
+            if (!tempMap.containsKey(key))
+            {
+                tempMap.put(key, new LinkedList<String>());
+                if (countIntegrityMonth > 0 && countIntegrityMonth != 12
+                        && i > 0)
+                {
+                    while (countIntegrityMonth != 0)
+                    {
+                        String check = temp[i - 1][0].substring(0, 4);
+                        List<String> array = tempMap.get(check);
+                        array.add(0, null);
+                        countIntegrityMonth--;
+                    }
+                    countIntegrityMonth = 12;
+                }
+            }
+            countIntegrityMonth--;
+            List<String> array = tempMap.get(key);
+            array.add(temp[i][1]);
+
+            if (countIntegrityMonth > 0 && i == temp.length - 1)
+            {
+                while (countIntegrityMonth != 0)
+                {
+                    array.add(null);
+                    countIntegrityMonth--;
+                }
+            }
+            if (countIntegrityMonth == 0)
+            {
+                countIntegrityMonth = 12;
+            }
+        }*/
+	for (int i = 0;i < temp.length;i++) {
+		String tempKey = temp[i][0];
+		String year = tempKey.substring(0, 4);
+		String month = tempKey.substring(5, 7);
+		String key = Integer.parseInt(month) < 7 ? String.valueOf(Integer.parseInt(year) - 1) + "/" + year :  year + "/" + String.valueOf(Integer.parseInt(year) + 1);
+		if (!tempMap.containsKey(key)) {
+			final ArrayList<String> list = new ArrayList<String>();
+			for (int j = 0;j < countIntegrityMonth;j++)
+				list.add(null);
+			tempMap.put(key, list);
+		}
+		tempMap.get(key).set(Integer.parseInt(month) - 1, temp[i][1]);
+	}
+
+        for (String key : tempMap.keySet())
+        {
+            AllMonthsStatsDTO dto = new AllMonthsStatsDTO();
+            dto.setYear(key);
+            Integer total = 0;
+            List<String> tempToken = tempMap.get(key);
+            for (String token : tempToken)
+            {
+                if (token != null && !token.isEmpty())
+                {
+                    Integer addendum = Integer.parseInt(token);
+                    total += addendum;
+                    if (addendum > 0)
+                    {
+                        foundit = true;
+                    }
+                }
+            }
+            if (foundit == true)
+            {
+                dto.setJan(StringUtils.defaultString(tempToken.get(0), "0"));
+                dto.setFeb(StringUtils.defaultString(tempToken.get(1), "0"));
+                dto.setMar(StringUtils.defaultString(tempToken.get(2), "0"));
+                dto.setApr(StringUtils.defaultString(tempToken.get(3), "0"));
+                dto.setMay(StringUtils.defaultString(tempToken.get(4), "0"));
+                dto.setJun(StringUtils.defaultString(tempToken.get(5), "0"));
+                dto.setJul(StringUtils.defaultString(tempToken.get(6), "0"));
+                dto.setAug(StringUtils.defaultString(tempToken.get(7), "0"));
+                dto.setSep(StringUtils.defaultString(tempToken.get(8), "0"));
+                dto.setOct(StringUtils.defaultString(tempToken.get(9), "0"));
+                dto.setNov(StringUtils.defaultString(tempToken.get(10), "0"));
+                dto.setDec(StringUtils.defaultString(tempToken.get(11), "0"));
+                dto.setTotal(total);
+                result.add(dto);
+            }
+        }
+        //Collections.sort(result);
+        return result;
+    }
+
     public static int countBoxPublicMetadata(ResearcherPage anagrafica,
             String boxName, Boolean onlyComplexValue)
             throws IllegalArgumentException, IllegalAccessException,
@@ -655,6 +771,11 @@ public class ResearcherTagLibraryFunctions
         return ResearcherPageUtils.getPersistentIdentifier(id, ResearcherPage.class);
     }
 
+    public static String criskey(Integer id, Class clazz)
+    {        
+        return ResearcherPageUtils.getPersistentIdentifier(id, clazz);
+    }
+    
     public static <TP extends PropertiesDefinition, P extends Property<TP>> List<Containable<P>> sortContainableByComparator(
             List<Containable<P>> containables, String comparatorName)
             throws InstantiationException, IllegalAccessException,
@@ -703,4 +824,7 @@ public class ResearcherTagLibraryFunctions
                 researcherID, typoNested, RPNestedObject.class);
     }
 
+    public static String encode(String value, String charset) throws UnsupportedEncodingException {
+        return URLEncoder.encode(value, charset);
+    }
 }

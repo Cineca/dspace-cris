@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.util.ResearcherPageUtils;
+import org.dspace.app.webui.util.JSPManager;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
 
@@ -40,7 +42,41 @@ public class RedirectResearcherPageDetailsController extends
             HttpServletResponse response) throws Exception
     {        
         String paramRPId = request.getParameter("id");
-        return new ModelAndView("redirect:/cris/rp/"+ResearcherPageUtils.getPersistentIdentifier(Integer.parseInt(paramRPId), ResearcherPage.class));     
+        String auth = null;
+        if (paramRPId == null)
+        {
+            try
+            {
+                paramRPId = request.getParameter("crisid");
+                if (paramRPId == null)
+                {
+                    paramRPId = request.getParameter("sourceid");
+                }
+                else
+                {
+                    paramRPId = ResearcherPageUtils.getStaffNumber(paramRPId);
+                }
+                auth = ResearcherPageUtils.getRPIdentifierByStaffno(paramRPId);
+            }
+            catch (Exception ex)
+            {
+                log.error(ex.getMessage(), ex);
+                JSPManager.showInvalidIDError(request, response, paramRPId,
+                        CrisConstants.RP_TYPE_ID);
+            }
+        }
+        else
+        {
+            auth = ResearcherPageUtils.getPersistentIdentifier(
+                    Integer.parseInt(paramRPId), ResearcherPage.class);
+        }
+        if (auth == null || auth.isEmpty())
+        {
+            // JSPManager.showInternalError(request, response);
+            JSPManager.showInvalidIDError(request, response, paramRPId,
+                    CrisConstants.RP_TYPE_ID);
+        }
+        return new ModelAndView("redirect:/cris/rp/" + auth);
     }
 
  

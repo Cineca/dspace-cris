@@ -7,16 +7,12 @@
  */
 package org.dspace.app.webui.cris.controller;
 
-import it.cilea.osd.jdyna.components.IBeanComponent;
+import it.cilea.osd.jdyna.components.IBeanSubComponent;
 import it.cilea.osd.jdyna.components.IComponent;
-import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.web.controller.SimpleDynaController;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +30,8 @@ import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.RPProperty;
 import org.dspace.app.cris.model.jdyna.TabResearcherPage;
 import org.dspace.app.cris.service.ApplicationService;
-import org.dspace.app.cris.service.ExtendedTabService;
-import org.dspace.app.cris.service.RPSubscribeService;
+import org.dspace.app.cris.service.CrisSubscribeService;
+import org.dspace.app.cris.statistics.util.StatsConfig;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.app.webui.util.Authenticate;
 import org.dspace.app.webui.util.JSPManager;
@@ -48,6 +44,8 @@ import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.eperson.EPerson;
+import org.dspace.usage.UsageEvent;
+import org.dspace.utils.DSpace;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -76,11 +74,11 @@ public class ResearcherPageDetailsController
     private static Logger log = Logger
             .getLogger(ResearcherPageDetailsController.class);
 
-    private RPSubscribeService rpSubscribeService;
+    private CrisSubscribeService subscribeService;
 
-    public void setRpSubscribeService(RPSubscribeService rpSubscribeService)
+    public void setSubscribeService(CrisSubscribeService rpSubscribeService)
     {
-        this.rpSubscribeService = rpSubscribeService;
+        this.subscribeService = rpSubscribeService;
     }
 
     @Override
@@ -165,11 +163,15 @@ public class ResearcherPageDetailsController
         }
 
         
-        if (rpSubscribeService != null)
+        if (subscribeService != null)
         {
-            boolean subscribed = rpSubscribeService.isSubscribed(currUser,
+            boolean subscribed = subscribeService.isSubscribed(currUser,
                     researcher);
             model.put("subscribed", subscribed);
+            EPerson eperson = EPerson.findByNetid(context, researcher.getSourceID());
+            if (eperson != null) {
+            	model.put("subscriptions", subscribeService.getSubscriptions(eperson));
+            }
         }
 
         ModelAndView mvc = null;
@@ -191,7 +193,20 @@ public class ResearcherPageDetailsController
         mvc.getModel()
                 .put("showStatsOnlyAdmin",
                         ConfigurationManager
-                                .getBooleanProperty("statistics.item.authorization.admin"));
+                                .getBooleanProperty(StatsConfig.CFG_MODULE,"authorization.admin"));
+        
+        
+        // Fire usage event.
+        request.setAttribute("sectionid", StatsConfig.DETAILS_SECTION);
+        new DSpace().getEventService().fireEvent(
+                    new UsageEvent(
+                            UsageEvent.Action.VIEW,
+                            request,
+                            context,
+                            researcher));
+        
+        
+        log.debug("end servlet handleRequest");
 
         return mvc;
     }
@@ -290,7 +305,7 @@ public class ResearcherPageDetailsController
                 for (String key : getComponents().keySet())
                 {
                     IComponent component = getComponents().get(key);
-                    Map<String, IBeanComponent> comp = component.getTypes();
+                    Map<String, IBeanSubComponent> comp = component.getTypes();
 
                     if (comp.containsKey(type))
                     {

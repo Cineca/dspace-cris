@@ -1150,3 +1150,13 @@ span#cris-rp-status-value {text-decoration: underline;}
 .cris-edit-record-info {display: inline-block; padding: 10px;}
 .cris-edit-record-info span {padding: 0.3em;}
 .cris-edit-record-info span {display:block;}
+
+div.subscription-current {
+	background: url('../images/double_arrow.png') 0% 30% no-repeat;
+	font-weight: bold;
+	padding-left: 15px;
+	/*	margin-left: -25px;
+	padding-left: 25px;
+	line-height: 250%;
+	background-color: #ebebeb;*/
+}

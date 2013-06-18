@@ -22,6 +22,9 @@
     <!-- Acquires reference to Cris SearchService --> 
     <bean id="crisSearchService" factory-bean="researcher" factory-method="getCrisSearchService" />
     
+    <!-- Acquires reference to RelationPreferenceService relationPreferenceService --> 
+    <bean id="relationPreferenceService" factory-bean="researcher" factory-method="getRelationPreferenceService" />
+    
     <bean id="rpComponents" factory-bean="researcher" factory-method="getRPComponents" />
     <bean id="pjComponents" factory-bean="researcher" factory-method="getProjectComponents" />
     <bean id="ouComponents" factory-bean="researcher" factory-method="getOUComponents" />
@@ -39,4 +42,16 @@
 	<bean id="validatorService" class="org.dspace.app.webui.cris.validator.ExtendedValidatorService">
 		<constructor-arg ref="applicationService" />
 	</bean>
+
+	
+	<bean id="CrisSubscribeService" factory-bean="researcher" factory-method="getCrisSubscribeService" />
+    <bean id="statSubscribeService" factory-bean="researcher" factory-method="getStatSubscribeService" />
+    
+    <bean id="ouStatisticRequestsManager" factory-bean="researcher" factory-method="getOUStatsComponents" />
+    <bean id="pjStatisticRequestsManager" factory-bean="researcher" factory-method="getPJStatsComponents" />
+    <bean id="rpStatisticRequestsManager" factory-bean="researcher" factory-method="getRPStatsComponents" />
+    <bean id="collectionRequestsManager" factory-bean="researcher" factory-method="getCollectionStatsComponents" />
+    <bean id="itemRequestsManager" factory-bean="researcher" factory-method="getItemStatsComponents" />
+    <bean id="communityRequestsManager" factory-bean="researcher" factory-method="getCommunityStatsComponents" />
+    
 </beans>

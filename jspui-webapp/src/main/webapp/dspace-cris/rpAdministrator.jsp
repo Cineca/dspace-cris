@@ -16,6 +16,8 @@ The contents of this file are subject to the license and copyright
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 
 <c:set var="dspace.layout.head.last" scope="request">
+	<script type='text/javascript' src='<%= request.getContextPath() %>/static/js/jquery/jquery-1.8.2.min.js'></script>
+	<script type='text/javascript' src='<%= request.getContextPath() %>/static/js/jquery/jquery-ui-1.8.24.custom.min.js'></script>
     <script type="text/javascript"><!--
 
 		var j = jQuery.noConflict();

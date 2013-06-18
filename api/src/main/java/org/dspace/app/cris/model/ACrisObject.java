@@ -7,8 +7,10 @@
  */
 package org.dspace.app.cris.model;
 
-import it.cilea.osd.common.model.Identifiable;
-import it.cilea.osd.jdyna.model.AnagraficaSupport;
+import it.cilea.osd.common.core.TimeStampInfo;
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -20,6 +22,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.StringUtils;
+import org.dspace.app.cris.model.export.ExportConstants;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.browse.BrowsableDSpaceObject;
 import org.dspace.content.DCValue;
@@ -28,8 +32,7 @@ import org.dspace.content.authority.Choices;
 
 @MappedSuperclass
 public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesDefinition>
-        extends DSpaceObject implements UUIDSupport, Identifiable,
-        AnagraficaSupport<P, TP>, BrowsableDSpaceObject
+        extends DSpaceObject implements ICrisObject<P, TP>, BrowsableDSpaceObject, IExportableDynamicObject<TP, P, ACrisObject<P,TP>>
 {
     /** Cris internal unique identifier, must be null */
     @Column(nullable = true, unique = true)
@@ -85,7 +88,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     @Override
     public String getHandle()
     {
-        return null;
+        return uuid;
     }
 
     @Override
@@ -106,6 +109,34 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         return getStatus() != null ? !getStatus() : false;
     }
 
+    /**
+     * Convenience method to get data from ResearcherPage by a string. For any
+     * existent field name the method must return the relative value (i.e
+     * getMetadata("fullName") is equivalent to getFullName()) but the method
+     * always return a list (with 0, 1 or more elements). For dynamic field it
+     * returns the value of the dynamic field with the shorter name equals to
+     * the argument. Only public values are returned!
+     * 
+     * 
+     * @param dcField
+     *            the field (not null) to retrieve the value
+     * @return a list of 0, 1 or more values
+     */
+    public List<String> getMetadata(String field)
+    {
+        List<String> result = new ArrayList();
+
+        List<P> dyna = getAnagrafica4view().get(
+                field);
+        for (P prop : dyna)
+        {
+            if (prop.getVisibility() == VisibilityConstants.PUBLIC)
+                result.add(prop.toString());
+        }
+
+        return result;
+    }
+    
     @Override
     public DCValue[] getMetadata(String schema, String element,
             String qualifier, String lang)
@@ -201,4 +232,57 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     {
         this.crisID = crisID;
     }
+
+	abstract public TimeStampInfo getTimeStampInfo();
+
+	public String getNamePublicIDAttribute()
+    {
+        return ExportConstants.NAME_PUBLICID_ATTRIBUTE;
+    }
+
+	
+	public String getValuePublicIDAttribute() {
+        return "" + this.getId();
+    }
+
+    public String getNameIDAttribute() {
+        return ExportConstants.NAME_ID_ATTRIBUTE;
+    }
+
+    public String getValueIDAttribute() {
+        if (this.getUuid() == null) {
+            return "";
+        }
+        return "" + this.getUuid().toString();
+    }
+
+    public String getNameBusinessIDAttribute() {
+        return ExportConstants.NAME_BUSINESSID_ATTRIBUTE;
+    }
+
+    public String getValueBusinessIDAttribute() {
+        return this.getSourceID();
+    }
+
+    public String getNameTypeIDAttribute() {
+        return ExportConstants.NAME_TYPE_ATTRIBUTE;
+    }
+
+    public String getValueTypeIDAttribute() {
+        return "" + getType();
+    }
+
+    public String getNameSingleRowElement() {
+        return ExportConstants.ELEMENT_SINGLEROW;
+    }
+
+    public ACrisObject<P, TP> getAnagraficaSupport()
+    {
+        return this;
+    }    
+    
+    public abstract <NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition> Class<ACrisNestedObject<NP, NTP, P, TP>> getClassNested(); 
+    public abstract <NTP extends ANestedPropertiesDefinition> Class<ATypeNestedObject<NTP>> getClassTypeNested();
+    
+    
 }

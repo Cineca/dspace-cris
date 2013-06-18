@@ -14,6 +14,7 @@ import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ImportExportUtils;
@@ -51,7 +52,7 @@ public class NewImportFormController extends BaseFormController {
 
 		// read folder from configuration and make dir
 		String path = ConfigurationManager
-				.getProperty("researcherpage.file.import.path");
+				.getProperty(CrisConstants.CFG_MODULE,"researcherpage.file.import.path");
 		File dir = new File(path);
 		dir.mkdir();
 		try {
@@ -70,7 +71,7 @@ public class NewImportFormController extends BaseFormController {
 			} else {
 				if (fileDTO != null && !fileDTO.getOriginalFilename().isEmpty()) {
 					Boolean defaultStatus = ConfigurationManager
-							.getBooleanProperty("researcherpage.file.import.rpdefaultstatus");
+							.getBooleanProperty(CrisConstants.CFG_MODULE,"researcherpage.file.import.rpdefaultstatus");
 					if (AuthorizeManager.isAdmin(dspaceContext)) {
 						dspaceContext.turnOffAuthorisationSystem();
 					}

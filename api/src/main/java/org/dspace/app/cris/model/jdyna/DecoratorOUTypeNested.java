@@ -33,7 +33,7 @@ public class DecoratorOUTypeNested extends
 {
 
     @OneToOne(optional=true)
-    @JoinColumn(name="typeounestedobject_fk")
+    @JoinColumn(name="cris_ou_no_tp_fk")
     @Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     private OUTypeNestedObject real;
 

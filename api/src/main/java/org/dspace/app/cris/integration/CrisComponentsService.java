@@ -7,20 +7,18 @@
  */
 package org.dspace.app.cris.integration;
 
-import it.cilea.osd.jdyna.components.IComponent;
-
 import java.util.Map;
 
 public class CrisComponentsService
 {
-    private Map<String, IComponent> components;
+    private Map<String, ICRISComponent> components;
 
-    public void setComponents(Map<String, IComponent> components)
+    public void setComponents(Map<String, ICRISComponent> components)
     {
         this.components = components;
     }
 
-    public Map<String, IComponent> getComponents()
+    public Map<String, ICRISComponent> getComponents()
     {
         return components;
     }

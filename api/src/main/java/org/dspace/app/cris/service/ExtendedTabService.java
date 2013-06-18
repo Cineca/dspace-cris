@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.jdyna.DecoratorRestrictedField;
 import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
@@ -54,7 +55,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
         log.debug("Get from configuration additional containables object : "
                 + dspaceProperty);
         String confContainables = ConfigurationManager
-                .getProperty(dspaceProperty);
+                .getProperty(CrisConstants.CFG_MODULE, dspaceProperty);
         if (confContainables != null && !confContainables.isEmpty())
         {
             String[] listConfContainables = confContainables.split(",");
@@ -81,7 +82,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             DecoratorRestrictedField drf, String extraPrefixConfiguration)
     {
         String fieldsNotNullable = ConfigurationManager
-                .getProperty(extraPrefixConfiguration
+                .getProperty(CrisConstants.CFG_MODULE,extraPrefixConfiguration
                         + ".containables.structural.mandatory");
         boolean notnullable = fieldsNotNullable.contains(containable);
         drf.setMandatory(notnullable);
@@ -98,7 +99,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             DecoratorRestrictedField drf, String extraPrefixConfiguration)
     {
         String fieldsAccessLevelHIGH = ConfigurationManager
-                .getProperty(extraPrefixConfiguration
+                .getProperty(CrisConstants.CFG_MODULE,extraPrefixConfiguration
                         + ".containables.box.staticfields.visibility.high");
         boolean accessLevel = fieldsAccessLevelHIGH.contains(containable);
         if (accessLevel)
@@ -107,7 +108,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             return;
         }
         String fieldsAccessLevelSTANDARD = ConfigurationManager
-                .getProperty(extraPrefixConfiguration
+                .getProperty(CrisConstants.CFG_MODULE,extraPrefixConfiguration
                         + ".containables.box.staticfields.visibility.standard");
         accessLevel = fieldsAccessLevelSTANDARD.contains(containable);
         if (accessLevel)
@@ -116,7 +117,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             return;
         }
         String fieldsAccessLevelADMIN = ConfigurationManager
-                .getProperty(extraPrefixConfiguration
+                .getProperty(CrisConstants.CFG_MODULE,extraPrefixConfiguration
                         + ".containables.box.staticfields.visibility.admin");
         accessLevel = fieldsAccessLevelADMIN.contains(containable);
         if (accessLevel)
@@ -125,7 +126,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             return;
         }
         String fieldsAccessLevelLOW = ConfigurationManager
-                .getProperty(extraPrefixConfiguration
+                .getProperty(CrisConstants.CFG_MODULE,extraPrefixConfiguration
                         + ".containables.box.staticfields.visibility.low");
         accessLevel = fieldsAccessLevelLOW.contains(containable);
         if (accessLevel)
@@ -189,7 +190,7 @@ public class ExtendedTabService<H extends Box<Containable>, D extends AbstractTa
             log.debug("Get from configuration additional containables object : "
                     + dspaceProperty);
             String confContainables = ConfigurationManager
-                    .getProperty(dspaceProperty);
+                    .getProperty(CrisConstants.CFG_MODULE,dspaceProperty);
             List<IContainable> tmp = new LinkedList<IContainable>();
             if (confContainables != null && !confContainables.isEmpty())
             {
