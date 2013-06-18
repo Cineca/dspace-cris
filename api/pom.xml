@@ -68,22 +68,22 @@
 			<artifactId>jxl</artifactId>
 		</dependency>
 
-    <dependency>
-       <groupId>commons-httpclient</groupId>
-       <artifactId>commons-httpclient</artifactId>
-    </dependency>
-
-	<dependency>
-		<groupId>javassist</groupId>
-		<artifactId>javassist</artifactId>
-		<version>3.4.GA</version>
-	</dependency>
-
-	<dependency>
-		<groupId>cglib</groupId>
-		<artifactId>cglib-nodep</artifactId>
-		<version>2.2</version>
-	</dependency>
+	    <dependency>
+	       <groupId>commons-httpclient</groupId>
+	       <artifactId>commons-httpclient</artifactId>
+	    </dependency>
+	
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.4.GA</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.2</version>
+		</dependency>
 
 		<dependency>
 			<artifactId>spring-core</artifactId>
@@ -95,7 +95,6 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -104,36 +103,30 @@
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-core</artifactId>
-
 		</dependency>
-
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-date</artifactId>
-
 		</dependency>
-
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-pointer</artifactId>
-
 		</dependency>
-
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-web-api</artifactId>
-
 		</dependency>
 		<dependency>
 			<groupId>it.cilea</groupId>
 			<artifactId>commons-cilea-genericdao</artifactId>
 			<version>1.0</version>
 		</dependency>
+		
     	<dependency>
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
             <version>1.7.0</version>
-         </dependency>
+        </dependency>
 
 	<dependency>
 		<groupId>org.dspace</groupId>
@@ -173,7 +166,7 @@
 						</goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
 						inheritRefs="true"> <target name="create-tables-and-GEN-DDL" /> </ant> </tasks> 
 						</configuration> </execution> 
-			-->	
+			
 			
 					<execution>
 						<id>generate-ddl</id>
@@ -192,7 +185,7 @@
 							</tasks>
 						</configuration>
 					</execution>
-					
+					-->	
 <!-- 
 				<execution>
 						<id>generate-drop-ddl</id>
@@ -321,21 +314,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>maven.dspace.org-snapshot</id>
-			<name>DSpace Maven Snapshot Repository</name>
-			<url>http://maven.dspace.org/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-				<checksumPolicy>fail</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-		</repository>
-	</repositories>
 
 </project>
