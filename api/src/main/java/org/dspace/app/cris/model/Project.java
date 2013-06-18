@@ -8,11 +8,8 @@
 package org.dspace.app.cris.model;
 
 import it.cilea.osd.common.core.TimeStampInfo;
-import it.cilea.osd.jdyna.value.TextValue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +21,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.ProjectNestedObject;
+import org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.ProjectNestedProperty;
 import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.ProjectProperty;
 import org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject;
@@ -49,7 +47,7 @@ import org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject;
         @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?"),
         @NamedQuery(name = "Project.uniqueByCrisID", query = "from Project where crisID = ?")        
   })
-public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefinition>
+public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefinition, ProjectNestedProperty, ProjectNestedPropertiesDefinition, ProjectNestedObject, ProjectTypeNestedObject>
         implements                
         Cloneable
 {

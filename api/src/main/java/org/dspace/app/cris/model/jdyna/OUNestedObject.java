@@ -127,5 +127,10 @@ public class OUNestedObject extends ACrisNestedObject<OUNestedProperty, OUNested
     {
         return CrisConstants.NOU_TYPE_ID;
     }
-   
+
+    @Override
+    public String getPublicPath()
+    {
+        return parent.getPublicPath();
+    }
 }

@@ -53,23 +53,10 @@
     	<site>
             <id>website</id>
             <url>http://cilea.github.io/dspace-cris/index.html</url>
-        </site>
+        </site>        
 	</distributionManagement>
 	
-	<repositories>
-		<repository>
-			<id>maven.dspace.org-snapshot</id>
-			<name>DSpace Maven Snapshot Repository</name>
-			<url>http://maven.dspace.org/snapshot</url>
-			<releases>
-				<enabled>false</enabled>
-				<checksumPolicy>fail</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-		</repository>
+	<repositories>		
 		<repository>
 			<id>cilea-repo</id>
 			<name>CILEA Maven Repository</name>
@@ -162,6 +149,7 @@
 		</dependencies>
 	</dependencyManagement>
 
+	
 	<developers>
 		<developer>
 			<name>Andrea Bollini</name>

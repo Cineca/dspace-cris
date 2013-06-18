@@ -243,8 +243,8 @@ public class CrisSearchService extends SolrServiceImpl
         super.buildDocument(context, (Item) pf.getProxy());
     }
 
-    public <P extends Property<TP>, TP extends PropertiesDefinition> boolean indexCrisObject(
-            ACrisObject<P, TP> dso, boolean b)
+    public <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> boolean indexCrisObject(
+            ACrisObject<P, TP, NP, NTP, ACNO, ATNO> dso, boolean b)
     {
         boolean result = false;
         SolrInputDocument doc = buildDocument(dso.getType(), dso.getID(), null,
@@ -626,8 +626,8 @@ public class CrisSearchService extends SolrServiceImpl
         }
 
     }
-
-    private <P extends Property<TP>, TP extends PropertiesDefinition, T extends ACrisObject<P, TP>> void createCrisIndex(
+    
+    private <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void createCrisIndex(
             Context context, Class<T> classCrisObject)
     {
         List<T> rpObjects = getApplicationService().getList(classCrisObject);
@@ -638,12 +638,12 @@ public class CrisSearchService extends SolrServiceImpl
             {
                 indexCrisObject(cris, true);
                 // indexing nested
-                for (ATypeNestedObject<ANestedPropertiesDefinition> anestedtype : getApplicationService()
+                for (ATNO anestedtype : getApplicationService()
                         .getList(cris.getClassTypeNested()))
                 {
-                    for (ACrisNestedObject anested : getApplicationService()
-                            .getNestedObjectsByParentIDAndTypoID(cris.getId(),
-                                    anestedtype.getId(), cris.getClassNested()))
+                    List<ACNO> anesteds = getApplicationService()
+                    .getNestedObjectsByParentIDAndTypoID(cris.getId(), anestedtype.getId(), cris.getClassNested());
+                    for (ACNO anested : anesteds)
                     {
                         indexNestedObject(anested, true);
                     }
@@ -653,8 +653,8 @@ public class CrisSearchService extends SolrServiceImpl
 
     }
 
-    public <P extends ANestedProperty<TP>, TP extends ANestedPropertiesDefinition, PP extends Property<PTP>, PTP extends PropertiesDefinition> boolean indexNestedObject(
-            ACrisNestedObject<P, TP, PP, PTP> dso, boolean b)
+    public <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> boolean indexNestedObject(
+            ACNO dso, boolean b)
     {
         boolean result = false;
         SolrInputDocument doc = buildDocument(dso.getType(), dso.getID(), null,
@@ -662,7 +662,7 @@ public class CrisSearchService extends SolrServiceImpl
 
         log.debug("Building Cris: " + dso.getUuid());
 
-        ACrisObject<PP, PTP> parent = (ACrisObject<PP, PTP>) dso.getParent();
+        ICrisObject<P, TP> parent = (ICrisObject<P, TP>)dso.getParent();
         doc.addField("search.parentfk", parent.getType() + "-" + parent.getID());
         String confName = "ncris" + parent.getPublicPath();
         String schema = confName + dso.getTypo().getShortName();

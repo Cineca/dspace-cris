@@ -1,5 +1,15 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ *  detailed in the LICENSE and NOTICE files at the root of the source
+ *  tree and available online at
+ *  
+ *  https://github.com/CILEA/dspace-cris/wiki/License
+ */
 package org.dspace.app.cris.discovery;
 
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -13,6 +23,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.content.DCValue;
@@ -181,8 +192,8 @@ public class CrisItemEnhancerUtility
         return result;
     }
 
-    private static <P extends Property<TP>, TP extends PropertiesDefinition> List<String[]> getPathAsMetadata(
-            ApplicationService as, ACrisObject<P, TP> aCrisObject, String path)
+    private static <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> List<String[]> getPathAsMetadata(
+            ApplicationService as, ACrisObject<P, TP, NP, NTP, ACNO, ATNO> aCrisObject, String path)
     {
         String[] splitted = path.split("\\.", 2);
         List<String[]> result = new ArrayList<String[]>();

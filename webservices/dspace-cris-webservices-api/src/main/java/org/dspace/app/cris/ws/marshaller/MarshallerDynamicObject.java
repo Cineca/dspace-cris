@@ -1,6 +1,8 @@
 package org.dspace.app.cris.ws.marshaller;
 
-import it.cilea.osd.jdyna.model.AnagraficaObject;
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.IContainable;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
@@ -16,14 +18,14 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.ACrisObject;
-import org.dspace.app.cris.model.IExportableDynamicObject;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.UtilsXML;
 import org.dspace.app.cris.ws.WSConstants;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-public class MarshallerDynamicObject<T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition>
+public class MarshallerDynamicObject<T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>>
         implements Marshaller<T>
 {
     /** log4j logger */

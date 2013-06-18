@@ -7,6 +7,9 @@
  */
 package org.dspace.app.cris.discovery;
 
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -16,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrInputDocument;
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.RelationPreference;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
@@ -36,10 +40,10 @@ public class RelationsPreferencesSolrIndexPlugin implements
     }
 
     @Override
-    public <P extends Property<TP>, TP extends PropertiesDefinition> void additionalIndex(
-            ACrisObject<P, TP> dso, SolrInputDocument document)
+    public <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void additionalIndex(
+            ACrisObject<P, TP, NP, NTP, ACNO, ATNO> dso, SolrInputDocument document)
     {
-        ACrisObject<P, TP> item = (ACrisObject<P, TP>) dso;
+        ACrisObject<P, TP, NP, NTP, ACNO, ATNO> item = dso;
         List<RelationPreference> preferences = applicationService
                 .findRelationsPreferencesForUUID(item.getUuid());
         if (preferences != null)

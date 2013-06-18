@@ -123,4 +123,9 @@ public class RPNestedObject
         return CrisConstants.NRP_TYPE_ID;
     }
 
+    @Override
+    public String getPublicPath()
+    {
+        return parent.getPublicPath();
+    }
 }

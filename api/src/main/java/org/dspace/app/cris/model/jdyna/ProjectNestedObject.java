@@ -130,5 +130,10 @@ public class ProjectNestedObject extends ACrisNestedObject<ProjectNestedProperty
     {        
         return CrisConstants.NPROJECT_TYPE_ID;
     }
-   
+
+    @Override
+    public String getPublicPath()
+    {
+        return parent.getPublicPath();
+    }
 }

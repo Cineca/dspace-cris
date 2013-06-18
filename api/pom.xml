@@ -315,4 +315,19 @@
 		</pluginManagement>
 	</build>
 
+	<repositories>		
+		<repository>
+			<id>cilea-repo</id>
+			<name>CILEA Maven Repository</name>
+			<url>https://github.com/CILEA/mvn-repo/raw/master/</url>
+			<releases>
+				<enabled>false</enabled>
+				<checksumPolicy>fail</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 </project>

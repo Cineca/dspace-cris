@@ -9,6 +9,9 @@ package org.dspace.app.cris.service;
 
 import it.cilea.osd.common.dao.IApplicationDao;
 import it.cilea.osd.common.model.Identifiable;
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -38,6 +41,7 @@ import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.RelationPreference;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.StatSubscription;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.model.jdyna.RPProperty;
 import org.dspace.app.cris.model.ws.User;
 import org.dspace.app.cris.util.ResearcherPageUtils;
@@ -613,7 +617,7 @@ public class ApplicationService extends ExtendedTabService
                 relationType);
     }
 
-    public <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> T get(
+    public <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> T get(
             Class<T> model, Integer objectId, boolean forceDetach)
     {
         T rp = getFromCache(model, objectId);

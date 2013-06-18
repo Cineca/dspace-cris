@@ -8,6 +8,9 @@
 package org.dspace.app.cris.util;
 
 import it.cilea.osd.jdyna.model.ANestedObject;
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -19,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.VisibilityConstants;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.service.ApplicationService;
 
 /**
@@ -73,7 +77,7 @@ public class ResearcherPageUtils
     /**
      * Build the cris identifier starting from the db internal primary key
     */
-    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getPersistentIdentifier(
+    public static <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> String getPersistentIdentifier(
             Integer crisID, Class<T> clazz)
     {
         T cris = null;
@@ -333,9 +337,9 @@ public class ResearcherPageUtils
         return applicationService.getNestedMaxPosition(nested);
     }
 
-    public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> T getCrisObject(
+    public static <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> T getCrisObject(
             Integer id, Class<T> clazz)
     {
-        return (T)applicationService.get(clazz, id);
+        return applicationService.get(clazz, id);
     }
 }

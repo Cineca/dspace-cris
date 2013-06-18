@@ -33,6 +33,8 @@ import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.export.ExportConstants;
 import org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.RPNestedObject;
+import org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.RPNestedProperty;
 import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.RPProperty;
 import org.dspace.app.cris.model.jdyna.RPTypeNestedObject;
@@ -89,7 +91,7 @@ import org.dspace.eperson.EPerson;
         @NamedQuery(name = "ResearcherPage.idFindMax", query = "select max(id) from ResearcherPage"),
         @NamedQuery(name = "ResearcherPage.uniqueByEPersonId", query = "from ResearcherPage where epersonID = ?") })
 public class ResearcherPage extends
-        ACrisObject<RPProperty, RPPropertiesDefinition> implements Cloneable
+        ACrisObject<RPProperty, RPPropertiesDefinition, RPNestedProperty, RPNestedPropertiesDefinition, RPNestedObject, RPTypeNestedObject> implements Cloneable
 {
 
     @Column(unique = true, nullable = true)

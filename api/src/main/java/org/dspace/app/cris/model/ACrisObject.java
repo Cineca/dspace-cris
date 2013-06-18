@@ -31,8 +31,8 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.content.authority.Choices;
 
 @MappedSuperclass
-public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesDefinition>
-        extends DSpaceObject implements ICrisObject<P, TP>, BrowsableDSpaceObject, IExportableDynamicObject<TP, P, ACrisObject<P,TP>>
+public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>>
+        extends DSpaceObject implements ICrisObject<P, TP>, BrowsableDSpaceObject, IExportableDynamicObject<TP, P, ACrisObject<P,TP, NP, NTP, ACNO, ATNO>>
 {
     /** Cris internal unique identifier, must be null */
     @Column(nullable = true, unique = true)
@@ -276,13 +276,13 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         return ExportConstants.ELEMENT_SINGLEROW;
     }
 
-    public ACrisObject<P, TP> getAnagraficaSupport()
+    public ACrisObject<P, TP, NP, NTP, ACNO, ATNO> getAnagraficaSupport()
     {
         return this;
     }    
     
-    public abstract <NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition> Class<ACrisNestedObject<NP, NTP, P, TP>> getClassNested(); 
-    public abstract <NTP extends ANestedPropertiesDefinition> Class<ATypeNestedObject<NTP>> getClassTypeNested();
+    public abstract Class<ACNO> getClassNested(); 
+    public abstract Class<ATNO> getClassTypeNested();
     
     
 }

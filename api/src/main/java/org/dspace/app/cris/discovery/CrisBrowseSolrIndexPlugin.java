@@ -7,6 +7,9 @@
  */
 package org.dspace.app.cris.discovery;
 
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.AValue;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
@@ -21,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.solr.common.SolrInputDocument;
 import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
 import org.dspace.discovery.SolrServiceImpl;
@@ -53,14 +57,14 @@ public class CrisBrowseSolrIndexPlugin implements CrisServiceIndexPlugin
     }
 
     @Override
-    public <P extends Property<TP>, TP extends PropertiesDefinition> void additionalIndex(
-            ACrisObject<P, TP> dso, SolrInputDocument doc)
+    public <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void additionalIndex(
+            ACrisObject<P, TP, NP, NTP, ACNO, ATNO> dso, SolrInputDocument doc)
     {
         if (!(dso instanceof ACrisObject))
         {
             return;
         }
-        ACrisObject<P, TP> item = (ACrisObject<P, TP>) dso;
+        ACrisObject<P, TP, NP, NTP, ACNO, ATNO> item = dso;
 
         // faceting for metadata browsing. It is different than search facet
         // because if there are authority with variants support we wan't all the

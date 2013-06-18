@@ -7,6 +7,9 @@
  */
 package org.dspace.app.webui.cris.controller.jdyna;
 
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 import it.cilea.osd.jdyna.web.controller.FileServiceController;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.CrisConstants;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.model.jdyna.widget.AWidgetFileCris;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.statistics.util.StatsConfig;
@@ -31,7 +35,7 @@ import org.dspace.usage.UsageEvent;
 import org.dspace.utils.DSpace;
 import org.springframework.web.servlet.ModelAndView;
 
-public class CrisFileServiceController<P extends Property<TP>, TP extends PropertiesDefinition, T extends ACrisObject<P, TP>>
+public class CrisFileServiceController<T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>>
         extends FileServiceController
 {
 

@@ -1,5 +1,15 @@
+/**
+ * The contents of this file are subject to the license and copyright
+ *  detailed in the LICENSE and NOTICE files at the root of the source
+ *  tree and available online at
+ *  
+ *  https://github.com/CILEA/dspace-cris/wiki/License
+ */
 package org.dspace.app.webui.cris.controller.statistics;
 
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -21,22 +31,17 @@ import org.dspace.app.cris.integration.statistics.IStatsDualComponent;
 import org.dspace.app.cris.integration.statistics.StatComponentsService;
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.CrisConstants;
-import org.dspace.app.cris.model.ResearcherPage;
-import org.dspace.app.cris.model.StatSubscription;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.statistics.bean.ResultBean;
 import org.dspace.app.cris.statistics.bean.RightMenuBean;
 import org.dspace.app.cris.statistics.bean.TreeKeyMap;
 import org.dspace.app.cris.statistics.bean.TwoKeyMap;
-import org.dspace.app.cris.util.ResearcherPageUtils;
-import org.dspace.app.webui.cris.components.BrowseItemConfigurerComponent;
 import org.dspace.app.webui.cris.components.statistics.StatsComponent;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.content.DSpaceObject;
-import org.dspace.core.Context;
-import org.dspace.eperson.EPerson;
 import org.springframework.web.servlet.ModelAndView;
 
-public class CrisStatisticsController<P extends Property<TP>, TP extends PropertiesDefinition>
+public class CrisStatisticsController<T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>>
         extends AStatisticsController<IStatsDualComponent>
 {
     
@@ -44,7 +49,7 @@ public class CrisStatisticsController<P extends Property<TP>, TP extends Propert
     private static Logger log = Logger
             .getLogger(CrisStatisticsController.class);
     
-    private Class<ACrisObject<P, TP>> target;
+    private Class<T> target;
 
     public ModelAndView handleRequest(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException
@@ -195,12 +200,12 @@ public class CrisStatisticsController<P extends Property<TP>, TP extends Propert
         return getApplicationService().getEntityByUUID(uuid).getName();        
     }
 
-    public void setTarget(Class<ACrisObject<P, TP>> target)
+    public void setTarget(Class<T> target)
     {
         this.target = target;
     }
 
-    public Class<ACrisObject<P, TP>> getTarget()
+    public Class<T> getTarget()
     {
         return target;
     }

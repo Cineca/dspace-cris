@@ -25,6 +25,8 @@ import javax.persistence.Transient;
 
 import org.dspace.app.cris.model.jdyna.OUAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.OUNestedObject;
+import org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.OUNestedProperty;
 import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.OUProperty;
 import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
@@ -47,7 +49,7 @@ import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
         @NamedQuery(name = "OrganizationUnit.uniqueByCrisID", query = "from OrganizationUnit where crisID = ?")  
 })
 public class OrganizationUnit extends
-		ACrisObject<OUProperty, OUPropertiesDefinition> implements
+		ACrisObject<OUProperty, OUPropertiesDefinition, OUNestedProperty, OUNestedPropertiesDefinition, OUNestedObject, OUTypeNestedObject> implements
 		Cloneable
 {
 

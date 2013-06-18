@@ -7,6 +7,9 @@
  */
 package org.dspace.app.cris.model;
 
+import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
+import it.cilea.osd.jdyna.model.ANestedProperty;
+import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -14,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
@@ -52,7 +56,7 @@ public class CrisConstants {
         return CrisConstants.getEntityType(clazz.newInstance());
     }
 	
-	public static <T extends ACrisObject<P, TP>, P extends Property<TP>, TP extends PropertiesDefinition> String getAuthorityPrefix(T crisObject) {
+	public static <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> String getAuthorityPrefix(T crisObject) {
         return crisObject.getAuthorityPrefix();
     }
 
