@@ -39,7 +39,7 @@
 
 <ul><li><b>current line of development</b>: <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a></li>
 
-<li><b>tagged release</b>: <ul><li>dspace-cris-1.8.2.0-alpha: <a href="https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83">https://github.com/CILEA/DSpace/commit/cdd2ba7df986a2a72a164f1ceac6a52fad472d83</a></li></ul></li>
+<li><b>tagged release</b>: <ul><li>dspace-cris-1.8.2.0-beta : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta</a></li></ul></li>
 </ul>
 
 <h2>Installation steps</h2>
@@ -54,42 +54,12 @@
 <li>
 Pre-Installation: install required artifacts in maven local repository
 
-<pre><code>
-wget <a href="https://java.net/downloads/dwr/Version%202.0.6/dwr.jar">https://java.net/downloads/dwr/Version%202.0.6/dwr.jar</a>
 
-usercris@servercris /e/crisinstallation
-
-$ mvn install:install-file -Dfile=dwr.jar -DgroupId=org.directwebremoting /
-	-DartifactId=dwr -Dversion=2.0.6 -Dpackaging=jar
-</code></pre>
-</li>
-
-<li>Checkout and install in your maven repository the CILEA extra libraries required by DSpace CRIS
-
-<pre><code>
-$ git clone <a href="https://github.com/CILEA/CCommons.git">https://github.com/CILEA/CCommons.git</a> --branch master ccommons
-
-$ cd ccommons/
-
-usercris@servercris /e/crisinstallation/ccommons
-
-$ mvn install
-
-$ git clone <a href="https://github.com/CILEA/JDynA.git">https://github.com/CILEA/JDynA.git</a> --branch master jdyna/
-
-$ cd jdyna/
-
-usercris@servercris /e/crisinstallation/jdyna
-
-$ mvn install
-</code></pre>
-</li>
 <li>
 Checkout the source of the pre-integrated DSpace 1.8.2 version
 
 <pre><code>
-$ git clone <a href="https://github.com/CILEA/DSpace.git">https://github.com/CILEA/DSpace.git</a> /
-	--branch dspace-1_8_x-cris dspace-parent
+$ git clone <a href="https://github.com/CILEA/DSpace.git">https://github.com/CILEA/DSpace.git</a> --branch dspace-cris-1.8.2.0-beta dspace-parent/
 
 usercris@servercris /e/crisinstallation
 
@@ -136,25 +106,7 @@ alert.recipient - mailbox for server errors/alerts (not essential but very usefu
 registration.notify - mailbox for emails when new users register (optional) 
 </code></pre>
 
-<p>Edit <b>[dspace-source]/dspace-cris/api/src/main/resources/hibernate/hibernate-rp.properties</b>
-</p>
 
-<pre><code>
-hibernate.connection.url=
-
-hibernate.connection.username=
-
-hibernate.connection.password=
-</code></pre>
-e.g.
-<pre><code>
-hibernate.connection.url=jdbc:postgresql://localhost:5432/dspace
-
-hibernate.connection.username=dspace
-
-hibernate.connection.password=dspace
-</code></pre>
-</li>
 <li>
 Installation Package: 
 
@@ -169,28 +121,36 @@ $ mvn package
 
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
-[INFO]
-[INFO] DSpace Parent Project ............................. SUCCESS [0.874s]
-[INFO] DSpace CRIS .................................... SUCCESS [0.031s]
-[INFO] DSpace CRIS :: Web Application Resources ....... SUCCESS [2.465s]
-[INFO] DSpace Kernel :: API and Implementation ........... SUCCESS [3.260s]
-[INFO] DSpace Solr Statistics Logging Client Library ..... SUCCESS [1.295s]
-[INFO] DSpace JSP-UI ..................................... SUCCESS [0.016s]
-[INFO] DSpace JSP-UI :: API and Implementation ........... SUCCESS [0.530s]
-[INFO] DSpace JSP-UI :: Web Application Resources ........ SUCCESS [2.434s]
-[INFO] DSpace CRIS :: API ............................ SUCCESS [4.945s]
-[INFO] DSpace CRIS :: JSPUI API ...................... SUCCESS [1.279s]
-[INFO] DSpace Addon Modules .............................. SUCCESS [0.000s]
-[INFO] DSpace JSP-UI :: Web Application .................. SUCCESS [20.670s]
-[INFO] DSpace SOLR :: Web Application .................... SUCCESS [15.382s]
-[INFO] DSpace Assembly and Configuration ................. SUCCESS [47.783s]
 [INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
+[INFO] DSpace Parent Project ................................. SUCCESS [10.408s]
+[INFO] DSpace Kernel :: API and Implementation ............... SUCCESS [1:01.623s]
+[INFO] DSpace Solr Statistics Logging Client Library ......... SUCCESS [4.127s]
+[INFO] Article Metrics :: Modules ............................ SUCCESS [0.007s]
+[INFO] Article Metrics :: PubMed ............................. SUCCESS [0.009s]
+[INFO] Article Metrics :: PubMed :: Retrieve API ............. SUCCESS [10.846s]
+[INFO] DSpace JSP-UI ......................................... SUCCESS [0.007s]
+[INFO] DSpace JSP-UI :: API and Implementation ............... SUCCESS [14.494s]
+[INFO] Article Metrics :: PubMed :: Lookup API ............... SUCCESS [1.616s]
+[INFO] Article Metrics :: PubMed :: Lookup JSP Web ........... SUCCESS [3.366s]
+[INFO] DSpace CRIS ........................................... SUCCESS [0.007s]
+[INFO] DSpace CRIS :: Web Application Resources .............. SUCCESS [10.324s]
+[INFO] DSpace JSP-UI :: Web Application Resources ............ SUCCESS [36.206s]
+[INFO] DSpace CRIS :: API .................................... SUCCESS [28.156s]
+[INFO] DSpace CRIS :: JSPUI API .............................. SUCCESS [17.557s]
+[INFO] DSpace CRIS :: API .................................... SUCCESS [0.011s]
+[INFO] CRIS :: WS API ........................................ SUCCESS [9.352s]
+[INFO] CRIS webservices-webapp Spring-WS Application ......... SUCCESS [43.629s]
+[INFO] DSpace Addon Modules .................................. SUCCESS [0.008s]
+[INFO] DSpace JSP-UI :: Web Application ...................... SUCCESS [2:53.549s]
+[INFO] DSpace Assembly and Configuration ..................... SUCCESS [1:52.530s]
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 1:42.087s
-[INFO] Finished at: Wed Nov 21 11:56:03 CET 2012
-[INFO] Final Memory: 41M/546M
-[INFO] ------------------------------------------------------------------------`
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 8 minutes 59 seconds
+[INFO] Finished at: Wed Jun 19 17:19:01 CEST 2013
+[INFO] Final Memory: 55M/161M
+[INFO] ------------------------------------------------------------------------
 </code></pre>
 </li>
 <li>
@@ -218,12 +178,22 @@ $ mkdir rg-files
 $ mkdir ou-files`
 </code></pre>
 </li>
-<li>Update database to CRIS: run sql update <pre><code>[dspace]/etc/postgres/addon-crismodule.sql</code></pre></li>
+<li>Update database to CRIS: run the files sql that generate update <pre><code>[dspace]/etc/postgres/addon-*.sql</code></pre></li>
 <li>
-Deploy the Web Application
+
+Deploy the Web Applications
 
 <pre><code>
-cp -R [dspace]/webapps/jspui* [tomcat]/webapps
+cp -R [dspace]/webapps/dspace/jspui* [tomcat]/webapps/
+</code></pre>
+</li>
+<li>
+Deploy the Solr 4
+
+<pre><code>
+Download from http://lucene.apache.org/solr/mirrors-solr-latest-redir.html? and copy webapp downloaded under [tomcat]/webapps
+Edit the env-entry tag onto the web.xml file to point at [dspace]/solr
+
 </code></pre>
 </li>
 </ol><h2>Post installation</h2>

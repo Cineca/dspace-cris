@@ -45,6 +45,7 @@ DSpace-CRIS Installation Overview
 -- Apache Ant(TM) version 1.7.x or later (Java build tool) -- suggest the 1.8.4 -- download Ant from http://ant.apache.org/
 -- Relational database PostgreSQL version 9.0 -- suggest the 9.0.3 -- download pgsql from http://www.postgresql.org/
 -- Servlet engine Apache Tomcat version 6 -- suggest the 6.0.35 -- download tomcat from http://tomcat.apache.org/
+-- Solr search engine version 4.x.x -- download from http://lucene.apache.org/solr/mirrors-solr-latest-redir.html?
 
 0) Create the DSpace user. This needs to be the same user that Tomcat will run as. e.g. as root run:
 	 
@@ -59,7 +60,7 @@ usercris@servercris /e
 $ cd crisinstallation/
 
 usercris@servercris /e/crisinstallation
-$ git clone https://github.com/CILEA/DSpace.git --branch dspace-1_8_x-cris dspace-parent/
+$ git clone https://github.com/CILEA/DSpace.git --branch dspace-cris-1_8_2_0-beta dspace-parent/
 Cloning into 'dspace-parent'...
 remote: Counting objects: 72473, done.
 remote: Compressing objects: 100% (20138/20138), done.
@@ -87,25 +88,6 @@ Submodule path 'dspace-cris': checked out '1fafb49c393d99adf1f14220229db0dea6eeb
 
 usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
 $ cd ..
-
-usercris@servercris /e/crisinstallation
-$ git clone https://github.com/CILEA/CCommons.git --branch master ccommons/
-Cloning into 'ccommons'...
-remote: Counting objects: 304, done.
-remote: Compressing objects: 100% (148/148), done.
-Remote: Total 304 (delta 101), reused 289 (delta 86)
-
-Receiving objects: 100% (304/304), 57.86 KiB, done.
-Resolving deltas: 100% (101/101), done.
-
-usercris@servercris /e/crisinstallation
-$ git clone https://github.com/CILEA/JDynA.git --branch master jdyna/
-Cloning into 'jdyna'...
-remote: Counting objects: 4870, done.
-remote: Compressing objects: 100% (1890/1890), done.
-remote: Total 4870 (delta 2069), reused 4566 (delta 1765)
-Receiving objects: 100% (4870/4870), 1.16 MiB | 355 KiB/s, done.
-Resolving deltas: 100% (2069/2069), done.
 
 
 2) Database Setup 
@@ -139,16 +121,6 @@ Resolving deltas: 100% (2069/2069), done.
     alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
     registration.notify - mailbox for emails when new users register (optional) 
 
-3.1) Edit [dspace-source]/dspace-cris/api/src/main/resources/hibernate/hibernate-rp.properties 
-		
-	hibernate.connection.url=<INSERTHERETHEPROPERTYVALUE-db.url-SEEDSPACECONFIGURATIONFILE>
-    hibernate.connection.username=<INSERTHERETHEPROPERTYVALUE-db.username-SEEDSPACECONFIGURATIONFILE>
-    hibernate.connection.password=<INSERTHERETHEPROPERTYVALUE-db.password-SEEDSPACECONFIGURATIONFILE>
-
-e.g.
-		hibernate.connection.url=jdbc:postgresql://localhost:5432/dspace
-		hibernate.connection.username=dspace
-		hibernate.connection.password=dspace
 
 4) DSpace Directory: 
 
@@ -157,56 +129,7 @@ Create the directory for the DSpace installation (i.e. [dspace]). As root (or a 
 mkdir [dspace]
 chown dspace [dspace]
 
-
-5) Pre-Installation: install artifacts in maven local repository
-
-5.1) prerequisite install dwr artifact download in /e/crisinstallation from https://java.net/downloads/dwr/Version%202.0.6/dwr.jar
-
-usercris@servercris /e/crisinstallation
-$ mvn install:install-file -Dfile=dwr.jar -DgroupId=org.directwebremoting -DartifactId=dwr -Dversion=2.0.6 -Dpackaging=jar
-[INFO] Scanning for projects...
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] Building Maven Stub Project (No POM) 1
-....
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 1.680s
-[INFO] Finished at: Wed Nov 21 10:47:16 CET 2012
-[INFO] Final Memory: 2M/90M
-[INFO] ------------------------------------------------------------------------
-
-5.2) install in local maven repository CCommons and JDynA artifacts
-
-usercris@servercris /e/crisinstallation
-$ cd ccommons/
-
-usercris@servercris /e/crisinstallation/ccommons
-$ mvn install
-
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-
-
-usercris@servercris /e/crisinstallation
-$ cd ..
-
-usercris@servercris /e/crisinstallation
-$ cd jdyna/
-
-usercris@servercris /e/crisinstallation/jdyna
-$ mvn install
-
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-
-
-6) Installation Package: 
+5) Installation Package: 
 
 usercris@servercris /e/crisinstallation
 $ cd dspace-parent/
@@ -214,29 +137,38 @@ $ cd dspace-parent/
 usercris@servercris /e/crisinstallation/dspace-parent
 $ mvn package
 
+
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
-[INFO]
-[INFO] DSpace Parent Project ............................. SUCCESS [0.874s]
-[INFO] DSpace CRIS .................................... SUCCESS [0.031s]
-[INFO] DSpace CRIS :: Web Application Resources ....... SUCCESS [2.465s]
-[INFO] DSpace Kernel :: API and Implementation ........... SUCCESS [3.260s]
-[INFO] DSpace Solr Statistics Logging Client Library ..... SUCCESS [1.295s]
-[INFO] DSpace JSP-UI ..................................... SUCCESS [0.016s]
-[INFO] DSpace JSP-UI :: API and Implementation ........... SUCCESS [0.530s]
-[INFO] DSpace JSP-UI :: Web Application Resources ........ SUCCESS [2.434s]
-[INFO] DSpace CRIS :: API ............................ SUCCESS [4.945s]
-[INFO] DSpace CRIS :: JSPUI API ...................... SUCCESS [1.279s]
-[INFO] DSpace Addon Modules .............................. SUCCESS [0.000s]
-[INFO] DSpace JSP-UI :: Web Application .................. SUCCESS [20.670s]
-[INFO] DSpace SOLR :: Web Application .................... SUCCESS [15.382s]
-[INFO] DSpace Assembly and Configuration ................. SUCCESS [47.783s]
 [INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
+[INFO] DSpace Parent Project ................................. SUCCESS [10.408s]
+[INFO] DSpace Kernel :: API and Implementation ............... SUCCESS [1:01.623s]
+[INFO] DSpace Solr Statistics Logging Client Library ......... SUCCESS [4.127s]
+[INFO] Article Metrics :: Modules ............................ SUCCESS [0.007s]
+[INFO] Article Metrics :: PubMed ............................. SUCCESS [0.009s]
+[INFO] Article Metrics :: PubMed :: Retrieve API ............. SUCCESS [10.846s]
+[INFO] DSpace JSP-UI ......................................... SUCCESS [0.007s]
+[INFO] DSpace JSP-UI :: API and Implementation ............... SUCCESS [14.494s]
+[INFO] Article Metrics :: PubMed :: Lookup API ............... SUCCESS [1.616s]
+[INFO] Article Metrics :: PubMed :: Lookup JSP Web ........... SUCCESS [3.366s]
+[INFO] DSpace CRIS ........................................... SUCCESS [0.007s]
+[INFO] DSpace CRIS :: Web Application Resources .............. SUCCESS [10.324s]
+[INFO] DSpace JSP-UI :: Web Application Resources ............ SUCCESS [36.206s]
+[INFO] DSpace CRIS :: API .................................... SUCCESS [28.156s]
+[INFO] DSpace CRIS :: JSPUI API .............................. SUCCESS [17.557s]
+[INFO] DSpace CRIS :: API .................................... SUCCESS [0.011s]
+[INFO] CRIS :: WS API ........................................ SUCCESS [9.352s]
+[INFO] CRIS webservices-webapp Spring-WS Application ......... SUCCESS [43.629s]
+[INFO] DSpace Addon Modules .................................. SUCCESS [0.008s]
+[INFO] DSpace JSP-UI :: Web Application ...................... SUCCESS [2:53.549s]
+[INFO] DSpace Assembly and Configuration ..................... SUCCESS [1:52.530s]
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 1:42.087s
-[INFO] Finished at: Wed Nov 21 11:56:03 CET 2012
-[INFO] Final Memory: 41M/546M
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 8 minutes 59 seconds
+[INFO] Finished at: Wed Jun 19 17:19:01 CEST 2013
+[INFO] Final Memory: 55M/161M
 [INFO] ------------------------------------------------------------------------
 
 
@@ -261,23 +193,21 @@ $ mkdir ou-files
 
 9) Update database to CRIS: run sql update
 [dspace]/etc/postgres/addon-crismodule.sql
+[dspace]/etc/postgres/addon-pubmed.sql
+[dspace]/etc/postgres/addon-subscription.sql
 
-10) Deploy Web Applications: You have two choices or techniques for having Tomcat serve up your web applications:
+10) Deploy Web Applications: 
 
-    Technique A. Simple and complete. You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
+    You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
     cp -R [dspace]/webapps/* [tomcat]/webapps* (This will copy all the web applications to Tomcat).
     
-    Technique B. Tell your Tomcat installation where to find your DSpace web application(s). As an example, in the <Host> section of your [tomcat]/conf/server.xml you could add lines similar to the following (but replace [dspace] with your installation location):
-     	&lt;!-- Define the default virtual host
-        Note:  XML Schema validation will not work with Xerces 2.2.
-        --&gt;
-         	&lt;Host name="localhost"  appBase="[dspace]/webapps"
-        
-        
-11) copy lib
-$ cp -R  [tomcat]/webapps/jspui/WEB-INF/lib/* [dspace]/lib/
+	Deploy the Solr 4
+	copy solr 4 into [tomcat]/webapps
+	Edit the env-entry tag onto [tomcat]/webapps/solr/WebContent/WEB-INF/web.xml file to point at [dspace]/solr
 
-12) Administrator Account: Create an initial administrator account:
+    
+
+11) Administrator Account: Create an initial administrator account:
 [dspace]/bin/dspace create-administrator
 
 -----------------------------
