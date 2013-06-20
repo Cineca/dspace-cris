@@ -1,27 +1,27 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-/.project
-/.classpath
-/.settings
+## Ignore the MVN compiled output directories from version tracking
 target/
 
+## Ignore project files created by Eclipse
+.settings/
+.project
+.classpath
 
-/jspui-webapp/.settings
-/jspui-webapp/target
-/jspui-webapp/.classpath
-/jspui-webapp/.project
+## Ignore project files created by IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
 
-/jspui-api/.settings
-/jspui-api/target
-/jspui-api/.classpath
-/jspui-api/.project
+## Ignore project files created by NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+META-INF/
 
-/api/.settings
-/api/target
-/api/.classpath
-/api/.project
+## Ignore all *.properties file in root folder, EXCEPT build.properties (the default)
+/*.properties
+!/build.properties
