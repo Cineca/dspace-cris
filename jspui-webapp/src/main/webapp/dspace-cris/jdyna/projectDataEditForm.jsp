@@ -397,7 +397,7 @@ The contents of this file are subject to the license and copyright
 </c:set>
 <dspace:layout titlekey="jsp.researcher-page.primary-data-form" navbar="off">
 
-<h1>${project.title} <c:if test="${admin}"><a id="delete" href="delete.htm?id=${project.id}"> <fmt:message key="jsp.layout.hku.researcher.button.delete"/> </a></c:if></h1> 
+<h1>${project.name} <c:if test="${admin}"><a id="delete" href="delete.htm?id=${project.id}"> <fmt:message key="jsp.layout.hku.researcher.button.delete"/> </a></c:if></h1> 
 
 
 <c:if test="${not empty messages}">

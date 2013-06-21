@@ -15,5 +15,34 @@
         <version>1.8.2</version>
    </parent>
    
-	
+	<build>
+	  <finalName>dspace-cris-jspui-webapp</finalName>	
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+               <archiveClasses>false</archiveClasses>
+               <!-- In version 2.1-alpha-1, this was incorrectly named warSourceExcludes -->
+               <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+               <warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+               <webResources>
+                  <resource>
+                     <filtering>true</filtering>
+                     <directory>${basedir}/src/main/webapp</directory>
+                     <includes>
+                        <include>WEB-INF/web.xml</include>
+                     </includes>
+                  </resource>
+               </webResources>
+            </configuration>
+            <executions>
+               <execution>
+                  <phase>prepare-package</phase>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+   
 </project>
