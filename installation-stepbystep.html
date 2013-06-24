@@ -45,7 +45,7 @@ DSpace-CRIS Installation Overview
 -- Apache Ant(TM) version 1.7.x or later (Java build tool) -- suggest the 1.8.4 -- download Ant from http://ant.apache.org/
 -- Relational database PostgreSQL version 9.0 -- suggest the 9.0.3 -- download pgsql from http://www.postgresql.org/
 -- Servlet engine Apache Tomcat version 6 -- suggest the 6.0.35 -- download tomcat from http://tomcat.apache.org/
--- Solr search engine version 4.x.x -- download from http://lucene.apache.org/solr/mirrors-solr-latest-redir.html?
+-- Solr search engine version 4.1.0 -- download from http://archive.apache.org/dist/lucene/solr/4.1.0/solr-4.1.0.zip
 
 0) Create the DSpace user. This needs to be the same user that Tomcat will run as. e.g. as root run:
 	 
@@ -62,12 +62,6 @@ $ cd crisinstallation/
 usercris@servercris /e/crisinstallation
 $ git clone https://github.com/CILEA/DSpace.git --branch dspace-cris-1_8_2_0-beta dspace-parent/
 Cloning into 'dspace-parent'...
-remote: Counting objects: 72473, done.
-remote: Compressing objects: 100% (20138/20138), done.
-remote: Total 72473 (delta 39654), reused 71901 (delta 39325) 
-Receiving objects: 100% (72473/72473), 72.70 MiB | 2.19 MiB/s, done.
-
-Resolving deltas: 100% (39654/39654), done.
 
 usercris@servercris /e/crisinstallation
 $ cd dspace-parent/
@@ -79,12 +73,6 @@ usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
 $ git submodule update --init dspace-cris/
 Submodule 'dspace-cris' (https://github.com/CILEA/dspace-cris.git) registered for path 'dspace-cris'
 Cloning into 'dspace-cris'...
-remote: Counting objects: 4443, done.
-remote: Compressing objects: 100% (1660/1660), done.
-remote: Total 4443 (delta 2561), reused 3785 (delta 1903)
-Receiving objects: 100% (4443/4443), 1.38 MiB | 622 KiB/s, done.
-Resolving deltas: 100% (2561/2561), done.
-Submodule path 'dspace-cris': checked out '1fafb49c393d99adf1f14220229db0dea6eebd79'
 
 usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
 $ cd ..
@@ -172,7 +160,7 @@ $ mvn package
 [INFO] ------------------------------------------------------------------------
 
 
-8) Build DSpace and Initialize Database: As the dspace UNIX user, initialize the DSpace database and install DSpace to [dspace]_:
+6) Build DSpace and Initialize Database: As the dspace UNIX user, initialize the DSpace database and install DSpace to [dspace]_:
 
 cd [dspace-source]/dspace/target/dspace-[version]-build
 ant fresh_install
@@ -181,33 +169,25 @@ ant fresh_install
 BUILD SUCCESSFUL
 Total time: 49 seconds
 -----------------------
-8.1) Create CRIS folders:
 
-usercris@servercris [dspace-source]/dspace/target/dspace-[version]-build
-$ cd [dspace]
-
-usercris@servercris [dspace]
-$ mkdir rp-files
-$ mkdir rg-files
-$ mkdir ou-files
-
-9) Update database to CRIS: run sql update
-[dspace]/etc/postgres/addon-crismodule.sql
-[dspace]/etc/postgres/addon-pubmed.sql
-[dspace]/etc/postgres/addon-subscription.sql
-
-10) Deploy Web Applications: 
-
-    You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
+7) Deploy Web Applications (Tips: rename webapp folder to jspui and solr): 
+<ul>
+    <li>
+7.1)You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
     cp -R [dspace]/webapps/* [tomcat]/webapps* (This will copy all the web applications to Tomcat).
-    
-	Deploy the Solr 4
-	copy solr 4 into [tomcat]/webapps
-	Edit the env-entry tag onto [tomcat]/webapps/solr/WebContent/WEB-INF/web.xml file to point at [dspace]/solr
+    </li><li>
+7.2)Deploy the Solr 4, download 4.1.0 version and copy war distribution to [tomcat]/webapps, deploy war and configure to recognize the solr home directory 
+     To configure your solr/home you can follow this steps:
+	 - start the tomcat service to deploy war
+	 - stop the service and edit solr webapps descriptor aks web.xml (located under [tomcat]/webapps/yoursolrwebapps/WebContent/WEB-INF/web.xml 
+	 - hardcode solr home [dspace]/solr as JNDI property (uncomment and modify the env-entry)
+ 	 - start the tomcat service to deploy war
+	 </li>
+</ul>
 
     
 
-11) Administrator Account: Create an initial administrator account:
+8) Administrator Account: Create an initial administrator account:
 [dspace]/bin/dspace create-administrator
 
 -----------------------------
@@ -215,7 +195,7 @@ Administrator account created
 -----------------------------
 
 
-13) Initial Startup! Now the moment of truth! Start up (or restart) Tomcat. Visit the base URL(s) of your server.  
+9) Initial Startup! Now the moment of truth! Start up (or restart) Tomcat. Visit the base URL(s) of your server.  
 		Base URL of DSpace Web Applications:
         JSP User Interface - (e.g.) http://localhost:8080/jspui        
 

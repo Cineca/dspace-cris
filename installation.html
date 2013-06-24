@@ -39,7 +39,10 @@
 
 <ul><li><b>current line of development</b>: <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a></li>
 
-<li><b>tagged release</b>: <ul><li>dspace-cris-1.8.2.0-beta : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta</a></li></ul></li>
+<li><b>tagged releases</b>: <ul>
+<li>dspace-cris-1.8.2.0-alpha : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-alpha">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-alpha</a></li>
+<li>dspace-cris-1.8.2.0-beta : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta</a></li>
+</ul></li>
 </ul>
 
 <h2>Installation steps</h2>
@@ -52,7 +55,8 @@
 <ol>
 
 <li>
-Pre-Installation: install required artifacts in maven local repository
+Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Solr
+Requisite: Oracle JDK 6
 
 
 <li>
@@ -65,15 +69,14 @@ usercris@servercris /e/crisinstallation
 
 $ cd dspace-parent/
 
-usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+usercris@servercris /e/crisinstallation/dspace-parent
 
 $ git submodule sync
 
-usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+usercris@servercris /e/crisinstallation/dspace-parent
 
 $ git submodule update --init dspace-cris/
 
-usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
 </code></pre>
 </li>
 <li>
@@ -123,26 +126,7 @@ $ mvn package
 [INFO] Reactor Summary:
 [INFO] ------------------------------------------------------------------------
 [INFO] DSpace Parent Project ................................. SUCCESS [10.408s]
-[INFO] DSpace Kernel :: API and Implementation ............... SUCCESS [1:01.623s]
-[INFO] DSpace Solr Statistics Logging Client Library ......... SUCCESS [4.127s]
-[INFO] Article Metrics :: Modules ............................ SUCCESS [0.007s]
-[INFO] Article Metrics :: PubMed ............................. SUCCESS [0.009s]
-[INFO] Article Metrics :: PubMed :: Retrieve API ............. SUCCESS [10.846s]
-[INFO] DSpace JSP-UI ......................................... SUCCESS [0.007s]
-[INFO] DSpace JSP-UI :: API and Implementation ............... SUCCESS [14.494s]
-[INFO] Article Metrics :: PubMed :: Lookup API ............... SUCCESS [1.616s]
-[INFO] Article Metrics :: PubMed :: Lookup JSP Web ........... SUCCESS [3.366s]
-[INFO] DSpace CRIS ........................................... SUCCESS [0.007s]
-[INFO] DSpace CRIS :: Web Application Resources .............. SUCCESS [10.324s]
-[INFO] DSpace JSP-UI :: Web Application Resources ............ SUCCESS [36.206s]
-[INFO] DSpace CRIS :: API .................................... SUCCESS [28.156s]
-[INFO] DSpace CRIS :: JSPUI API .............................. SUCCESS [17.557s]
-[INFO] DSpace CRIS :: API .................................... SUCCESS [0.011s]
-[INFO] CRIS :: WS API ........................................ SUCCESS [9.352s]
-[INFO] CRIS webservices-webapp Spring-WS Application ......... SUCCESS [43.629s]
-[INFO] DSpace Addon Modules .................................. SUCCESS [0.008s]
-[INFO] DSpace JSP-UI :: Web Application ...................... SUCCESS [2:53.549s]
-[INFO] DSpace Assembly and Configuration ..................... SUCCESS [1:52.530s]
+...
 [INFO] ------------------------------------------------------------------------
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESSFUL
@@ -162,24 +146,6 @@ ant fresh_install`
 </code></pre>
 </li>
 <li>
-Create CRIS folders:
-
-<pre><code>
-usercris@servercris [dspace-source]/dspace/target/dspace-[version]-build
-
-$ cd [dspace]
-
-usercris@servercris [dspace]
-
-$ mkdir rp-files
-
-$ mkdir rg-files
-
-$ mkdir ou-files`
-</code></pre>
-</li>
-<li>Update database to CRIS: run the files sql that generate update <pre><code>[dspace]/etc/postgres/addon-*.sql</code></pre></li>
-<li>
 
 Deploy the Web Applications
 
@@ -191,8 +157,9 @@ cp -R [dspace]/webapps/dspace/jspui* [tomcat]/webapps/
 Deploy the Solr 4
 
 <pre><code>
-Download from http://lucene.apache.org/solr/mirrors-solr-latest-redir.html? and copy webapp downloaded under [tomcat]/webapps
-Edit the env-entry tag onto the web.xml file to point at [dspace]/solr
+
+To detailed info see http://wiki.apache.org/solr/SolrTomcat <br/>
+Please, set solr home to refer [dspace]/solr folder.
 
 </code></pre>
 </li>
