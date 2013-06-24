@@ -39,7 +39,7 @@ public class XSDServlet extends HttpServlet
         InputStream is = null;
         try
         {            
-            String dspacedir = ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "webservices.xsd.path");
+            String dspacedir = ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "webservices.xsd.path") + File.separatorChar + "xsd" + File.separatorChar;
             is = new FileInputStream(new File(dspacedir + path));
             response.setContentType("text/xml");           
 

@@ -15,6 +15,7 @@
 
 	<bean id="WSConfiguration.mainSchema" factory-bean="WSConfiguration" factory-method="getMainSchema" />
 	<bean id="WSConfiguration.locationUri" factory-bean="WSConfiguration" factory-method="getLocationUri" />
+	<bean id="WSConfiguration.fileMainSchema" factory-bean="WSConfiguration" factory-method="getFileMainSchema" />
 	
 	<bean id="authenticationWS" class="org.dspace.app.cris.ws.AuthenticationWS">		
 		<property name="applicationService" ref="applicationService" />				
@@ -78,7 +79,7 @@
 		<property name="builder">
 			<bean
 				class="org.springframework.ws.wsdl.wsdl11.builder.XsdBasedSoap11Wsdl4jDefinitionBuilder">				
-				<property name="schema" value="/WEB-INF/classes/crisrequestforwsdl.xsd" />
+				<property name="schema" ref="WSConfiguration.fileMainSchema" />
 				<property name="portTypeName" value="cris" />
 				<property name="locationUri" ref="WSConfiguration.locationUri" />
 				<property name="targetNamespace">

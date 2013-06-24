@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.services.ConfigurationService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 public class WSConfigurationService
 {
@@ -22,16 +24,27 @@ public class WSConfigurationService
     
     public String getMainSchema()
     {
+        String property = getXSDFolder();
+        return "file:"+property+"crisrequest.xsd";
+    }
+
+    private String getXSDFolder()
+    {
         String property = configurationService.getProperty("cris.webservices.xsd.path");
         if (!property.endsWith(File.separator))
         {
             property += File.separator;
         }
-        return "file:"+property+"crisrequest.xsd";
+        return property;
     }
     
     public String getLocationUri()
     {
         return configurationService.getProperty("dspace.url")+"/webservices/";
+    }
+    
+    public Resource getFileMainSchema()
+    {        
+        return new FileSystemResource(getXSDFolder()+"crisrequest.xsd");
     }
 }

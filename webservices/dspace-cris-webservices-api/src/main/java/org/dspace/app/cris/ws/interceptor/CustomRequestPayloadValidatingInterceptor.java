@@ -35,7 +35,7 @@ public class CustomRequestPayloadValidatingInterceptor extends
     /**
      * Default absolute path where find the contact data excel file to import
      */
-    public static final String PATH_DIR = ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "webservices.xsd.path");
+    public static final String PATH_DIR = ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "webservices.xsd.path") + File.separatorChar + "xsd";
 
     @Override
     public void setSchema(Resource schema)
