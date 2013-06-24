@@ -171,7 +171,7 @@ BUILD SUCCESSFUL
 Total time: 49 seconds
 -----------------------
 
-7) Deploy Web Applications (Tips: rename webapp folder to jspui and solr):
+7) Deploy Web Applications (suggestion: after this step rename webapps folders to jspui and solr):
  
 
     You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
@@ -179,7 +179,7 @@ Total time: 49 seconds
     
     Deploy Solr 4, download 4.1.0 version and copy war distribution to [tomcat]/webapps, deploy war and configure to recognize your solr home directory. To configure your solr/home you can follow this steps:
     -start the tomcat service to deploy war
-    -stop the service and edit solr webapps descriptor aks web.xml (located under [tomcat]/webapps/yoursolrwebapps/WebContent/WEB-INF/web.xml
+    -stop the service and edit solr webapp descriptor aka web.xml (located under [tomcat]/webapps/yoursolrwebapps/WebContent/WEB-INF/web.xml
     -hardcode solr home [dspace]/solr as JNDI property (uncomment and modify the env-entry)
     -start the tomcat service to deploy war
 
@@ -195,8 +195,8 @@ Administrator account created
 
 
 9) Initial Startup! Now the moment of truth! Start up (or restart) Tomcat. Visit the base URL(s) of your server.  
-		Base URL of DSpace Web Applications:
-        JSP User Interface - (e.g.) http://localhost:8080/jspui        
+
+Base URL of DSpace Web Applications: JSP User Interface - (e.g.) http://localhost:8080/jspui        
 
 You should see the DSpace home page. Congratulations! DSpace is live! And your journey to the world of DSpace-CRIS is just started! 
 
