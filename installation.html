@@ -55,8 +55,7 @@
 <ol>
 
 <li>
-Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Solr
-Requisite: Oracle JDK 6
+Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Solr 4.1.0 - Oracle JDK 6
 
 
 <li>
@@ -152,17 +151,16 @@ Deploy the Web Applications
 <pre><code>
 cp -R [dspace]/webapps/dspace/jspui* [tomcat]/webapps/
 </code></pre>
-</li>
-<li>
-Deploy the Solr 4
+
 
 <pre><code>
 
-To detailed info see http://wiki.apache.org/solr/SolrTomcat <br/>
+To Deploy Solr 4 detailed info see http://wiki.apache.org/solr/SolrTomcat <br/>
 Please, set solr home to refer [dspace]/solr folder.
 
 </code></pre>
 </li>
+
 </ol><h2>Post installation</h2>
 
 <p>Now the DSpace-CRIS module is setup and running but the configuration is empty, you can populate the database with a basic configuration running the base-configuration-crismodule.sql:
