@@ -60,6 +60,28 @@ The contents of this file are subject to the license and copyright
 		
 		<div>&nbsp;</div>
 		</li>
+		<li>
+
+		<div style="padding: 0; margin: 0 10px;"><a
+			href="<%=request.getContextPath()%>/cris/administrator/do/index.htm"><fmt:message
+			key="jsp.dspace-admin.cris.dynobj.index" /></a></div>	
+		
+		<div>&nbsp;</div>
+		
+		</li>
+		
+		<c:forEach var="researchobject" items="${researchobjects}">
+		
+			<li>
+				<div style="padding: 0; margin: 0 10px;"><a
+					href="<%=request.getContextPath()%>/cris/administrator/${researchobject.shortname}/index.htm"><fmt:message
+					key="jsp.dspace-admin.cris.${researchobject.shortname}.index" /></a></div>	
+				
+				<div>&nbsp;</div>
+			</li>
+		
+		</c:forEach>
+		
 	<%-- 		
 	<li>
 		<div style="padding: 0; margin: 0 10px;"><a

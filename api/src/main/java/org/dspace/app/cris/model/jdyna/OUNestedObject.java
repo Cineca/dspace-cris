@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.jdyna.model.ATipologia;
+import it.cilea.osd.jdyna.model.AType;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -104,7 +104,7 @@ public class OUNestedObject extends ACrisNestedObject<OUNestedProperty, OUNested
 
 
     @Override
-    public void setTypo(ATipologia<OUNestedPropertiesDefinition> typo)
+    public void setTypo(AType<OUNestedPropertiesDefinition> typo)
     {
         this.typo = (OUTypeNestedObject)typo;
     }

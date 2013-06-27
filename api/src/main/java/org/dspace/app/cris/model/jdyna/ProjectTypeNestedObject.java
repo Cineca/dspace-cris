@@ -31,7 +31,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "cris_pj_no_tp")
 @NamedQueries ({
     @NamedQuery(name="ProjectTypeNestedObject.findAll", query = "from ProjectTypeNestedObject order by id" ),
-    @NamedQuery(name="ProjectTypeNestedObject.uniqueByNome", query = "from ProjectTypeNestedObject where shortName = ?" )
+    @NamedQuery(name="ProjectTypeNestedObject.uniqueByShortName", query = "from ProjectTypeNestedObject where shortName = ?" )
     
 })
 public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedPropertiesDefinition>

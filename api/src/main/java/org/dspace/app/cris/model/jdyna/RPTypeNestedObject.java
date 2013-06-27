@@ -31,7 +31,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "cris_rp_no_tp")
 @NamedQueries ({
     @NamedQuery(name="RPTypeNestedObject.findAll", query = "from RPTypeNestedObject order by id" ),
-    @NamedQuery(name="RPTypeNestedObject.uniqueByNome", query = "from RPTypeNestedObject where shortName = ?" )              
+    @NamedQuery(name="RPTypeNestedObject.uniqueByShortName", query = "from RPTypeNestedObject where shortName = ?" )              
 })
 public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefinition>
 {

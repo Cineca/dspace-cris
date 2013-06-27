@@ -28,46 +28,47 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 *
 */
 @Entity
-@Table(name = "cris_ou_no_tp")
+@Table(name = "cris_do_no_tp")
 @NamedQueries ({
-    @NamedQuery(name="OUTypeNestedObject.findAll", query = "from OUTypeNestedObject order by id" ),
-    @NamedQuery(name="OUTypeNestedObject.uniqueByShortName", query = "from OUTypeNestedObject where shortName = ?" )              
+    @NamedQuery(name="DynamicNestedObjectType.findAll", query = "from DynamicNestedObjectType order by id" ),
+    @NamedQuery(name="DynamicNestedObjectType.uniqueByShortName", query = "from DynamicNestedObjectType where shortName = ?" )    
 })
-public class OUTypeNestedObject extends ATypeNestedObject<OUNestedPropertiesDefinition>
+public class DynamicNestedObjectType extends ATypeNestedObject<DynamicNestedPropertiesDefinition>
 {
+    
     @ManyToMany    
-    @JoinTable(name = "cris_ou_no_tp2pdef", joinColumns = { 
-            @JoinColumn(name = "cris_ou_no_tp_id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "cris_ou_no_pdef_id") })
+    @JoinTable(name = "cris_do_no_tp2pdef", joinColumns = { 
+            @JoinColumn(name = "cris_do_no_tp_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "cris_do_no_pdef_id") })    
     @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private List<OUNestedPropertiesDefinition> mask;
+    private List<DynamicNestedPropertiesDefinition> mask;
 
     @Override
-    public List<OUNestedPropertiesDefinition> getMask()
+    public List<DynamicNestedPropertiesDefinition> getMask()
     {
         return mask;
     }
 
-    public void setMask(List<OUNestedPropertiesDefinition> mask) {
+    public void setMaschera(List<DynamicNestedPropertiesDefinition> mask) {
         this.mask = mask;
     }
 
     @Override
     public Class getDecoratorClass()
     {
-        return DecoratorOUTypeNested.class;
+        return DecoratorDynamicTypeNested.class;
     }
 
     @Override
     public Class getAnagraficaHolderClass()
     {
-        return OUNestedObject.class;
+        return DynamicNestedObject.class;
     }
 
     @Override
     public Class getPropertyHolderClass()
     {
-        return OUNestedProperty.class;
+        return DynamicNestedProperty.class;
     }
 
     @Override

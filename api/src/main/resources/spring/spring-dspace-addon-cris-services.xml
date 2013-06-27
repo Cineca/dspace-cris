@@ -232,6 +232,9 @@
 				<entry key="org.dspace.app.cris.model.ws.User">
 					<ref bean="userWSDao" />
 				</entry>
+				<entry key="org.dspace.app.cris.model.jdyna.DynamicObjectType">
+					<ref bean="dynamicObjectDao" />
+				</entry>
 			</map>
 		</property>		
 	</bean>

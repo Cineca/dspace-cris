@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.jdyna.model.ATipologia;
+import it.cilea.osd.jdyna.model.AType;
 import it.cilea.osd.jdyna.model.AnagraficaSupport;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -99,7 +99,7 @@ public class RPNestedObject
     }
 
     @Override
-    public void setTypo(ATipologia<RPNestedPropertiesDefinition> typo)
+    public void setTypo(AType<RPNestedPropertiesDefinition> typo)
     {
         this.typo = (RPTypeNestedObject)typo;
     }

@@ -3970,6 +3970,39 @@
 			</value>
 		</property>
 	</bean>
+	
+	
+	<!-- Dynamic object -->
+	<bean id="adminDOController" class="org.dspace.app.webui.cris.controller.DOAdminController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="viewName">
+			<value>doAdministrator</value>
+		</property>
+	</bean>
+
+	
+	<bean id="adminEditTypeDOController"
+		class="org.dspace.app.webui.cris.controller.FormAdministrationTypeDOController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/administrator/do/index.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.TypeDynamicObject</value>
+		</property>
+		<property name="commandName">
+			<value>dto</value>
+		</property>
+		<property name="formView">
+			<value>administratorTypeResearchObjectForm</value>
+		</property>
+	</bean>
+	
+	
 	<!-- url mapping -->	
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -4046,7 +4079,7 @@
 				<prop key="/administrator/index.htm">adminController</prop>
 				<prop key="/administrator/rp/index.htm">adminRPController</prop>
 				<prop key="/administrator/project/index.htm">adminProjectController</prop>
-				<prop key="/administrator/ou/index.htm">adminOUController</prop>
+				<prop key="/administrator/ou/index.htm">adminOUController</prop>				
 				
 				<!-- Administration RP list and add functionality -->							
 				<prop key="/administrator/rp/list.htm">adminListResearcherPageController</prop>								
@@ -4207,15 +4240,68 @@
 				<prop key="/administrator/ou/deleteNestedFieldDefinition.htm">deleteOUNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/ou/deleteNestedField.htm">deleteOUNestedFieldController</prop>
 				
+				<!-- normal java servlet handler -->				
+				<prop key="/network/*">researcherNetworkServletForwardingController</prop>
+				<prop key="/dnetwork/*">researcherDeptNetworkServletForwardingController</prop>
+
 				<!-- webservices UI -->
 				<prop key="/administrator/webservices/authorizations.htm">listUsersWSController</prop>
 				<prop key="/administrator/webservices/edit.htm">editUsersWSController</prop>
 				<prop key="/administrator/webservices/delete.htm">deleteUsersWSController</prop>
 				
-				<!-- normal java servlet handler -->
+				<!-- Administration of the 2nd level Entities  -->
+				<prop key="/administrator/do/index.htm">adminDOController</prop>			
+				<prop key="/administrator/do/add.htm">adminEditTypeDOController</prop>
+				<prop key="/administrator/do/edit.htm">adminEditTypeDOController</prop>			
 				
-				<prop key="/network/*">researcherNetworkServletForwardingController</prop>
-				<prop key="/dnetwork/*">researcherDeptNetworkServletForwardingController</prop>
+				<!-- 2nd level Entities Tabs/Box and properties definitions -->
+				<prop key="/administrator/*/listTabs.htm">listDOTabController</prop>
+				<prop key="/administrator/*/editTabs.htm">editDOTabController</prop>
+				<prop key="/administrator/*/deleteTabs.htm">deleteDOTabController</prop>
+				<prop key="/administrator/*/createTabs.htm">editDOTabController</prop>
+				<prop key="/administrator/*/createBox.htm">editDOBoxController</prop>				
+				<prop key="/administrator/*/listBoxs.htm">listDOBoxController</prop>
+				<prop key="/administrator/*/editBox.htm">editDOBoxController</prop>				
+				<prop key="/administrator/*/deleteBox.htm">deleteDOBoxController</prop>
+			    <prop key="/administrator/*/createDOPointerDynamicField.htm">editDOPointerDODynamicFieldController</prop>
+				<prop key="/administrator/*/editDOPointerDynamicField.htm">editDOPointerDODynamicFieldController</prop>					
+				<prop key="/administrator/*/createProjectPointerDynamicField.htm">editDOPointerProjectDynamicFieldController</prop>
+				<prop key="/administrator/*/editProjectPointerDynamicField.htm">editDOPointerProjectDynamicFieldController</prop>
+				<prop key="/administrator/*/createOUPointerDynamicField.htm">editDOPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/*/editOUPointerDynamicField.htm">editDOPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/*/createDateDynamicField.htm">editDODateDynamicFieldController</prop>
+				<prop key="/administrator/*/editDateDynamicField.htm">editDODateDynamicFieldController</prop>
+				<prop key="/administrator/*/createTextDynamicField.htm">editDOTextDynamicFieldController</prop>
+				<prop key="/administrator/*/editTextDynamicField.htm">editDOTextDynamicFieldController</prop>
+				<prop key="/administrator/*/createLinkDynamicField.htm">editDOLinkDynamicFieldController</prop>
+				<prop key="/administrator/*/editLinkDynamicField.htm">editDOLinkDynamicFieldController</prop>
+				<prop key="/administrator/*/createFileDynamicField.htm">editDOFileDynamicFieldController</prop>
+				<prop key="/administrator/*/editFileDynamicField.htm">editDOFileDynamicFieldController</prop>
+				<prop key="/administrator/*/deleteFieldDefinition.htm">deleteDOFieldDefinitionController</prop>
+				<prop key="/administrator/*/listEditTabs.htm">listDOEditTabController</prop>
+				<prop key="/administrator/*/createEditTabs.htm">editDOEditTabController</prop>
+				<prop key="/administrator/*/editEditTabs.htm">editDOEditTabController</prop>
+				<prop key="/administrator/*/deleteEditTabs.htm">deleteDOEditTabController</prop>				
+			    <prop key="/administrator/*/createNestedDynamicField.htm">editDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/editNestedDynamicField.htm">editDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/addDateToNestedDynamicField.htm">addDateToDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/addTextToNestedDynamicField.htm">addTextToDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/addLinkToNestedDynamicField.htm">addLinkToDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/addFileToNestedDynamicField.htm">addFileToDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/addPointerDOToNestedDynamicField.htm">addPointerDOToDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/addPointerProjectToNestedDynamicField.htm">addPointerProjectToDONestedDynamicFieldController
+				</prop>
+				<prop key="/administrator/*/addPointerOUToNestedDynamicField.htm">addPointerOUToDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/deleteNestedFieldDefinition.htm">deleteDONestedFieldDefinitionController</prop>								
+				<prop key="/administrator/*/deleteNestedField.htm">deleteDONestedFieldController</prop>
+			
+				<!-- 2nd level Entities administration controllers -->
+				<prop key="/administrator/*/list.htm">adminListDOController</prop>								
+				<prop key="/administrator/*/addObject.htm">adminAddDOController</prop>
+				<!-- 2nd level Entities details URL this entries MUST be the last in this mapping-->
+				<prop key="/**/*">detailsDOController</prop>		
+				<prop key="/*/details.htm">redirectDetailsDOController</prop>
+				
 			</props>
 		</property>
 		<property name="order" value="1" />

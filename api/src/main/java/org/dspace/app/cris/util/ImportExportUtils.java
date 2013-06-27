@@ -1379,7 +1379,7 @@ public class ImportExportUtils
                         }
 
                         List<RPNestedPropertiesDefinition> subTps = applicationService
-                                .findTipologieProprietaAssegnabili(nestedObject);
+                                .findPropertiesDefinitionsInTypo(nestedObject);
                         AnagraficaUtils
                                 .fillDTO(dtoNested, nestedObject, subTps);
 

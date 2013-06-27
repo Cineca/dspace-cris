@@ -34,7 +34,9 @@ public class CrisConstants {
     public static final int NRP_TYPE_ID = 109;
     public static final int NPROJECT_TYPE_ID = 110;
     public static final int NOU_TYPE_ID = 111;
-	
+    public static final Integer CRIS_DYNAMIC_TYPE_ID_START = 1000;
+    public static final Integer CRIS_NDYNAMIC_TYPE_ID_START = 10000;
+    
 	//injected via bean configuration for dynamic jdyna entity
 	public static Map<String, Integer> typeMap = new HashMap<String, Integer>();
 	public static Map<String, String> authorityPrefixMap = new HashMap<String, String>();
