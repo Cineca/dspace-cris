@@ -316,7 +316,7 @@ The contents of this file are subject to the license and copyright
 		</c:forEach>
 		
 		<c:if test="${fn:length(containablesList) > count}"> 
-		<a class="show" id="show" href="#" onclick="Effect.toggle('othermetadata', 'appear'); return false;" title="Show other"><img alt="Show/Hide other fields" src="<%= request.getContextPath() %>/images/cris/showotherfields.png"></a>
+		<a class="show" id="show" href="#" title="Show other"><img alt="Show/Hide other fields" src="<%= request.getContextPath() %>/images/cris/showotherfields.png"></a>
 		
 		<div id="othermetadata" style="display: none">
 		<c:forEach
@@ -504,4 +504,15 @@ The contents of this file are subject to the license and copyright
 		</c:if>
 
 	</form:form>
+	
+	<script type="text/javascript">
+	<!--
+	var j = jQuery.noConflict();
+    j(document).ready(function() {	
+		j( "#show" ).click(function() {
+			j( "#othermetadata" ).toggle();
+		});		
+    });
+	-->
+	</script>
 </dspace:layout>

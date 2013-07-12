@@ -30,13 +30,13 @@ import org.hibernate.annotations.CascadeType;
 @DiscriminatorValue(value = "typedonestedobject")
 public class DecoratorDynamicTypeNested
         extends
-        ADecoratorTypeDefinition<DynamicNestedObjectType, DynamicNestedPropertiesDefinition>
+        ADecoratorTypeDefinition<DynamicTypeNestedObject, DynamicNestedPropertiesDefinition>
 {
 
     @OneToOne(optional = true)
     @JoinColumn(name = "cris_do_no_tp_fk")
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    private DynamicNestedObjectType real;
+    private DynamicTypeNestedObject real;
 
     @Override
     public String getShortName()
@@ -71,23 +71,23 @@ public class DecoratorDynamicTypeNested
     @Override
     public int compareTo(IContainable o)
     {
-        DynamicNestedObjectType oo = null;
+        DynamicTypeNestedObject oo = null;
         if (o instanceof DecoratorDynamicTypeNested)
         {
-            oo = (DynamicNestedObjectType) o.getObject();
+            oo = (DynamicTypeNestedObject) o.getObject();
             return this.real.compareTo(oo);
         }
         return 0;
     }
 
     @Override
-    public void setReal(DynamicNestedObjectType object)
+    public void setReal(DynamicTypeNestedObject object)
     {
         this.real = object;
     }
 
     @Override
-    public DynamicNestedObjectType getObject()
+    public DynamicTypeNestedObject getObject()
     {
         return real;
     }

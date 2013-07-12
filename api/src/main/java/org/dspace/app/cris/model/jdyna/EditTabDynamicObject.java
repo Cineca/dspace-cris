@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.jdyna.web.AbstractEditTab;
+import it.cilea.osd.jdyna.web.TypedAbstractEditTab;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -37,11 +38,15 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@NamedQuery(name = "EditTabDynamicObject.findByAccessLevel", query = "from EditTabDynamicObject tab where visibility = ? order by priority"),
         @NamedQuery(name = "EditTabDynamicObject.findByAdmin", query = "from EditTabDynamicObject tab where visibility = 1 or visibility = 2 or visibility = 3 order by priority"),
         @NamedQuery(name = "EditTabDynamicObject.findByOwner", query = "from EditTabDynamicObject tab where visibility = 0 or visibility = 2 or visibility = 3 order by priority"),
-        @NamedQuery(name = "EditTabDynamicObject.findByAnonimous", query = "from EditTabDynamicObject tab where visibility = 3 order by priority")
+        @NamedQuery(name = "EditTabDynamicObject.findByAnonimous", query = "from EditTabDynamicObject tab where visibility = 3 order by priority"),
+        @NamedQuery(name = "EditTabDynamicObject.findTabByType", query = "from EditTabDynamicObject where typeDef = ?"),
+        @NamedQuery(name = "EditTabDynamicObject.findByAdminAndTypoDef", query = "from EditTabDynamicObject tab where ((visibility = 1 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority"),
+        @NamedQuery(name = "EditTabDynamicObject.findByOwnerAndTypoDef", query = "from EditTabDynamicObject tab where ((visibility = 0 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority"),
+        @NamedQuery(name = "EditTabDynamicObject.findByAnonimousAndTypoDef", query = "from EditTabDynamicObject tab where (visibility = 3 and typeDef = ?) order by priority")        
 })
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class EditTabDynamicObject extends
-		AbstractEditTab<BoxDynamicObject,TabDynamicObject> {
+		TypedAbstractEditTab<BoxDynamicObject,DynamicObjectType, DynamicPropertiesDefinition, TabDynamicObject> {
 
 	/** Showed holder in this tab */
 	@ManyToMany	
@@ -54,6 +59,9 @@ public class EditTabDynamicObject extends
 	@OneToOne
 	private TabDynamicObject displayTab;
 
+	@ManyToOne
+	private DynamicObjectType typeDef;
+	
 	public EditTabDynamicObject() {
 		this.visibility = VisibilityTabConstant.ADMIN;
 	}
@@ -88,6 +96,16 @@ public class EditTabDynamicObject extends
     @Override
     public String getFileSystemPath()
     {
-        return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "dynamicobject.file.path");
+        return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE, "otherresearchobject.file.path");
+    }
+ 
+    public DynamicObjectType getTypeDef()
+    {
+        return typeDef;
+    }
+
+    public void setTypeDef(DynamicObjectType typeDef)
+    {
+        this.typeDef = typeDef;
     }
 }

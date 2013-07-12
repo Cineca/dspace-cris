@@ -7,8 +7,9 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.jdyna.model.AType;
+import it.cilea.osd.jdyna.model.ATypeWithTypeNestedObjectSupport;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -35,11 +36,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "cris_do_tp")
 @NamedQueries({
         @NamedQuery(name = "DynamicObjectType.findAll", query = "from DynamicObjectType order by id"),
-        @NamedQuery(name = "DynamicObjectType.uniqueByShortName", query = "from DynamicObjectType where shortName = ?"),
-        @NamedQuery(name = "DynamicObjectType.findPropertiesDefinitionsByTypo", query = "???")
-})
-        
-public class DynamicObjectType extends AType<DynamicPropertiesDefinition>
+        @NamedQuery(name = "DynamicObjectType.paginate.id.asc", query = "from DynamicObjectType order by id asc"),
+        @NamedQuery(name = "DynamicObjectType.paginate.id.desc", query = "from DynamicObjectType order by id desc"),
+        @NamedQuery(name = "DynamicObjectType.uniqueByShortName", query = "from DynamicObjectType where shortName = ?")        
+})        
+public class DynamicObjectType extends ATypeWithTypeNestedObjectSupport<DynamicPropertiesDefinition, DynamicTypeNestedObject, DynamicNestedPropertiesDefinition>
 {
 
     /** DB Primary key */
@@ -55,9 +56,19 @@ public class DynamicObjectType extends AType<DynamicPropertiesDefinition>
     @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private List<DynamicPropertiesDefinition> mask;
 
+    @ManyToMany    
+    @JoinTable(name = "cris_do_tp2notp", joinColumns = { 
+            @JoinColumn(name = "cris_do_tp_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "cris_do_no_tp_id") })
+    @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private List<DynamicTypeNestedObject> typeNestedDefinitionMask;
+    
     @Override
     public List<DynamicPropertiesDefinition> getMask()
     {
+        if(this.mask==null) {
+            this.mask = new LinkedList<DynamicPropertiesDefinition>();
+        }
         return mask;
     }
 
@@ -74,5 +85,38 @@ public class DynamicObjectType extends AType<DynamicPropertiesDefinition>
     public void setId(Integer id)
     {
         this.id = id;
+    }
+
+    @Override
+    public Class<DynamicPropertiesDefinition> getClassPropertyDefinition()
+    {
+        return DynamicPropertiesDefinition.class;
+    }
+
+    @Override
+    public List<DynamicTypeNestedObject> getTypeNestedDefinitionMask()
+    {
+        if(this.typeNestedDefinitionMask==null) {
+            this.typeNestedDefinitionMask = new LinkedList<DynamicTypeNestedObject>();
+        }
+        return this.typeNestedDefinitionMask;
+    }
+
+    @Override
+    public Class<DynamicTypeNestedObject> getClassTypeNestedObject()
+    {
+        return DynamicTypeNestedObject.class;
+    }
+
+    @Override
+    public Class<DynamicNestedPropertiesDefinition> getClassNestedPropertyDefinition()
+    {
+        return DynamicNestedPropertiesDefinition.class;
+    }
+
+    public void setTypeNestedDefinitionMask(
+            List<DynamicTypeNestedObject> typeNestedDefinitionMask)
+    {
+        this.typeNestedDefinitionMask = typeNestedDefinitionMask;
     }
 }

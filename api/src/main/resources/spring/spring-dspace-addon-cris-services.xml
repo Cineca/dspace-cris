@@ -231,9 +231,59 @@
 				</entry>
 				<entry key="org.dspace.app.cris.model.ws.User">
 					<ref bean="userWSDao" />
+				</entry>				
+				<entry
+					key="org.dspace.app.cris.model.jdyna.DecoratorDynamicPropertiesDefinition">
+					<ref bean="dynamicDecoratorPropertiesDefinitionDao" />
 				</entry>
-				<entry key="org.dspace.app.cris.model.jdyna.DynamicObjectType">
-					<ref bean="dynamicObjectDao" />
+				<entry				                  
+					key="org.dspace.app.cris.model.jdyna.DecoratorDynamicNestedPropertiesDefinition">
+					<ref bean="dynamicDecoratorNestedPropertiesDefinitionDao" />
+				</entry>
+				<entry
+					key="org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested">
+					<ref bean="dynamicDecoratorTypeNestedDao" />
+				</entry>					
+				<entry
+					key="org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject">
+					<ref bean="dynamicNestedTypeDefinitionDao" />
+				</entry>								
+				<entry
+					key="org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition">
+					<ref bean="dynamicPropertiesDao" />
+				</entry>
+				<entry
+					key="org.dspace.app.cris.model.ResearchObject">
+					<ref bean="dynamicDao" />
+				</entry>				
+				<entry
+					key="org.dspace.app.cris.model.jdyna.DynamicObjectType">
+					<ref bean="dynamicTypeDao" />
+				</entry>				
+				<entry
+					key="org.dspace.app.cris.model.jdyna.TabDynamicObject">
+					<ref bean="dynamicTabDao" />
+				</entry>
+				<entry
+					key="org.dspace.app.cris.model.jdyna.BoxDynamicObject">
+					<ref bean="dynamicBoxDao" />
+				</entry>				
+				<entry
+					key="org.dspace.app.cris.model.jdyna.EditTabDynamicObject">
+					<ref bean="dynamicEditTabDao" />
+				</entry>
+				<entry key="org.dspace.app.cris.model.jdyna.DynamicProperty">
+					<ref bean="dynamicPropertyDao" />
+				</entry>
+				<entry key="org.dspace.app.cris.model.jdyna.DynamicNestedProperty">
+					<ref bean="dynamicNestedPropertyDao" />
+				</entry>
+				<entry				         
+					key="org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition">
+					<ref bean="dynamicNestedPropertiesDefinitionDao" />
+				</entry>			
+				<entry key="org.dspace.app.cris.model.jdyna.DynamicNestedObject">
+					<ref bean="dynamicNestedObjectDao" />
 				</entry>
 			</map>
 		</property>		
@@ -384,7 +434,33 @@
 			</bean>
 		</property>
 	</bean>
-		
+
+	<bean id="dynamicDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>org.dspace.app.cris.dao.DynamicObjectDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>org.dspace.app.cris.model.ResearchObject</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+			
+	<bean id="dynamicAdditionalDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>org.dspace.app.cris.dao.DynamicAdditionalFieldStorageDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>org.dspace.app.cris.model.jdyna.DynamicAdditionalFieldStorage</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+			
 	<bean id="widgetDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -692,7 +768,7 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="rpPropertiesDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -792,6 +868,23 @@
 				<constructor-arg>
 					<value>
 						org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dynamicPropertiesDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.DynamicPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition
 					</value>
 				</constructor-arg>
 			</bean>
@@ -1063,6 +1156,40 @@
 		</property>
 	</bean>
 	
+	<bean id="dynamicDecoratorPropertiesDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.DynamicDecoratorPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DecoratorDynamicPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dynamicDecoratorNestedPropertiesDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.DynamicDecoratorNestedPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DecoratorDynamicNestedPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="containableDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>
@@ -1106,6 +1233,22 @@
 		</property>
 	</bean>
 	
+	<bean id="dynamicNestedTypeDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.DynamicTypeNestedObjectDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
 
 	<bean id="rpTypeDefinitionDao" parent="abstractDao">
 		<property name="proxyInterfaces">
@@ -1209,7 +1352,23 @@
 		</property>
 	</bean>
 				
-
+	<bean id="dynamicDecoratorTypeNestedDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.DynamicDecoratorTypeNestedDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="userWSDao" parent="abstractDao">
 		<property name="proxyInterfaces">
 			<value>org.dspace.app.cris.dao.UserWSDao</value>
@@ -1222,7 +1381,134 @@
 			</bean>
 		</property>
 	</bean>		
+	
+	
+	<bean id="dynamicTypeDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>org.dspace.app.cris.dao.DynamicObjectTypeDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>org.dspace.app.cris.model.jdyna.DynamicObjectType</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+		
+	<bean id="dynamicBoxDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>it.cilea.osd.jdyna.dao.TypedBoxDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.BoxDynamicObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dynamicTabDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>it.cilea.osd.jdyna.dao.TypedTabDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.TabDynamicObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dynamicEditTabDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>it.cilea.osd.jdyna.dao.EditTypedTabDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.EditTabDynamicObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dynamicPropertyDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.DynamicPropertyDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DynamicProperty
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
 
+	<bean id="dynamicNestedPropertyDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.osd.jdyna.dao.PropertyDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DynamicNestedProperty
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dynamicNestedPropertiesDefinitionDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				org.dspace.app.cris.dao.DynamicNestedPropertiesDefinitionDao
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dynamicNestedObjectDao" parent="abstractDao">
+		<property name="proxyInterfaces">
+			<value>
+				it.cilea.osd.jdyna.dao.NestedObjectDAO
+			</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg>
+					<value>
+						org.dspace.app.cris.model.jdyna.DynamicNestedObject
+					</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
 	<!--  resources  -->
 	<bean id="dspaceDatasource" class="org.dspace.app.cris.util.DSpaceDataSource">
 		<property name="configurationService" ref="org.dspace.services.ConfigurationService" />
@@ -1330,19 +1616,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<bean id="crisConstants" class="org.dspace.app.cris.model.CrisConstants">
-		<!-- example configuration -->
-		<property name="typeMap">
-			<map>
-				<entry key="CRISRP" value="9"/>
-				<entry key="CRISPJ" value="10"/>
-				<entry key="CRISOU" value="11"/>
-			</map>
-		</property>
-		<property name="authorityPrefixMap">
-			<map>
-				<entry key="inserttyposhortnamefordynamicentity" value="assignedauthority"/>
-			</map>
-		</property>		
+		<property name="applicationService" ref="applicationService" />
 	</bean>
 	
 	<bean id="org.dspace.app.cris.service.RelationPreferenceService"

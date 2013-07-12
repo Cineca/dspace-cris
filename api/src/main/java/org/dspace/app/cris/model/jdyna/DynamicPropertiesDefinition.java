@@ -23,11 +23,11 @@ import javax.persistence.Table;
     @NamedQuery(name = "DynamicPropertiesDefinition.findAdvancedSearch", query = "from DynamicPropertiesDefinition where advancedSearch=true"),
     @NamedQuery(name = "DynamicPropertiesDefinition.uniqueIdByShortName", query = "select id from DynamicPropertiesDefinition where shortName = ?"),
     @NamedQuery(name = "DynamicPropertiesDefinition.uniqueByShortName", query = "from DynamicPropertiesDefinition where shortName = ?"),
-    @NamedQuery(name = "DynamicPropertiesDefinition.findValoriDaMostrare", query = "from DynamicPropertiesDefinition where showInList = true")
+    @NamedQuery(name = "DynamicPropertiesDefinition.findValoriDaMostrare", query = "from DynamicPropertiesDefinition where showInList = true")    
 })
 public class DynamicPropertiesDefinition extends PropertiesDefinition
 {
-
+    
     @Override
     public Class<DynamicAdditionalFieldStorage> getAnagraficaHolderClass()
     {

@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.dspace.app.cris.model.ResearchObject;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
@@ -41,7 +42,7 @@ public class DynamicProperty extends Property<DynamicPropertiesDefinition>
     
     @ManyToOne  
     @Index(name = "cris_do_pprop_idx")
-    private DynamicObject parent;
+    private ResearchObject parent;
     
     @Override
     public DynamicPropertiesDefinition getTypo()

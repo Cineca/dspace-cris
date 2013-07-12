@@ -18,6 +18,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
+import org.dspace.app.cris.model.jdyna.DynamicObjectType;
+import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
@@ -25,6 +27,11 @@ import org.dspace.content.Item;
 import org.dspace.core.Constants;
 
 public class CrisConstants {
+    
+    private static final String PREFIX_TYPE = "CRIS";
+
+    private static ApplicationService applicationService;
+    
     public static final String CFG_MODULE = "cris";
     public static final String CFG_NETWORK_MODULE = "network";
 	public static final int CRIS_TYPE_ID_START = 9;
@@ -36,10 +43,8 @@ public class CrisConstants {
     public static final int NOU_TYPE_ID = 111;
     public static final Integer CRIS_DYNAMIC_TYPE_ID_START = 1000;
     public static final Integer CRIS_NDYNAMIC_TYPE_ID_START = 10000;
-    
-	//injected via bean configuration for dynamic jdyna entity
-	public static Map<String, Integer> typeMap = new HashMap<String, Integer>();
-	public static Map<String, String> authorityPrefixMap = new HashMap<String, String>();
+
+    public static final String[] typeText = { "CRISRP", "CRISPJ", "CRISOU"};
 	
 	public static <T extends DSpaceObject> Integer getEntityType(T crisObject) {
 	    return crisObject.getType();
@@ -63,27 +68,26 @@ public class CrisConstants {
     }
 
 	public static String getEntityTypeText(Integer type) {
-	    	    
-        if(type >= CrisConstants.CRIS_TYPE_ID_START) {
-            for(Entry<String, Integer> entry : typeMap.entrySet()) {
-                if(type.equals(entry.getValue())) {
-                    return entry.getKey();
-                }
-            }                
+	    if(type >= CrisConstants.CRIS_DYNAMIC_TYPE_ID_START) {
+	        return (PREFIX_TYPE+getApplicationService().get(DynamicObjectType.class, type-CRIS_DYNAMIC_TYPE_ID_START).getShortName()).toLowerCase();
+	    }
+	    else if(type >= CrisConstants.CRIS_TYPE_ID_START) {
+            return typeText[type-CRIS_TYPE_ID_START].toLowerCase();         
         }
         else {
             return Constants.typeText[type].toLowerCase();
-        }        	    
-	    return null;
+        }
 	}
+
+    public static ApplicationService getApplicationService()
+    {
+        return applicationService;
+    }
+
+    public void setApplicationService(ApplicationService applicationService)
+    {
+        this.applicationService = applicationService;
+    }
   
-    public void setTypeMap(Map<String, Integer> otherTypeMap)
-    {
-        CrisConstants.typeMap = otherTypeMap;
-    }
     
-    public void setAuthorityPrefixMap(Map<String, String> authorityPrefixMap)
-    {
-        CrisConstants.authorityPrefixMap = authorityPrefixMap;
-    }
 }

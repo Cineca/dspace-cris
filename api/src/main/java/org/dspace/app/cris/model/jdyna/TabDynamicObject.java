@@ -7,7 +7,7 @@
  */
 package org.dspace.app.cris.model.jdyna;
 
-import it.cilea.osd.jdyna.web.AbstractTab;
+import it.cilea.osd.jdyna.web.TypedAbstractTab;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.dspace.app.cris.model.CrisConstants;
@@ -33,9 +34,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAccessLevel", query = "from TabDynamicObject tab where visibility = ? order by priority", cacheable=true),
 		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAdmin", query = "from TabDynamicObject tab where visibility = 1 or visibility = 2 or visibility = 3 order by priority", cacheable=true),
 		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByOwner", query = "from TabDynamicObject tab where visibility = 0 or visibility = 2 or visibility = 3 order by priority", cacheable=true),
-		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAnonimous", query = "from TabDynamicObject tab where visibility = 3 order by priority", cacheable=true)
+		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAnonimous", query = "from TabDynamicObject tab where visibility = 3 order by priority", cacheable=true),
+		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findTabByType", query = "from TabDynamicObject where typeDef = ?", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAdminAndTypeDef", query = "from TabDynamicObject tab where ((visibility = 1 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByOwnerAndTypeDef", query = "from TabDynamicObject tab where ((visibility = 0 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAnonimousAndTypeDef", query = "from TabDynamicObject tab where (visibility = 3 and typeDef = ?) order by priority", cacheable=true)
+		
 })
-public class TabDynamicObject extends AbstractTab<BoxDynamicObject> {
+public class TabDynamicObject extends TypedAbstractTab<BoxDynamicObject, DynamicObjectType, DynamicPropertiesDefinition> {
 
 	/** Showed holder in this tab */
 	@ManyToMany	
@@ -44,7 +50,9 @@ public class TabDynamicObject extends AbstractTab<BoxDynamicObject> {
             inverseJoinColumns = { @JoinColumn(name = "cris_do_box_id") })
 	@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<BoxDynamicObject> mask;
-
+	
+	@ManyToOne
+	private DynamicObjectType typeDef;
 	
 	public TabDynamicObject() {
 		this.visibility = VisibilityTabConstant.ADMIN;
@@ -67,6 +75,18 @@ public class TabDynamicObject extends AbstractTab<BoxDynamicObject> {
     @Override
     public String getFileSystemPath()
     {
-        return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE,"dynamicobject.file.path");
+        return ConfigurationManager.getProperty(CrisConstants.CFG_MODULE,"otherresearchobject.file.path");
     }
+
+    public DynamicObjectType getTypeDef()
+    {
+        return typeDef;
+    }
+
+    public void setTypeDef(DynamicObjectType typeDef)
+    {
+        this.typeDef = typeDef;
+    }
+    
+   
 }

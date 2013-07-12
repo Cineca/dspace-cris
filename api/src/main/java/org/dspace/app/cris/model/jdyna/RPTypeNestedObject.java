@@ -78,5 +78,11 @@ public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefi
         return null;
     }
 
+    @Override
+    public Class<RPNestedPropertiesDefinition> getClassPropertyDefinition()
+    {
+        return RPNestedPropertiesDefinition.class;
+    }
+
 
 }

@@ -23,6 +23,7 @@ import org.dspace.core.Context;
 import org.dspace.core.I18nUtil;
 import org.dspace.discovery.DiscoverQuery;
 import org.dspace.discovery.DiscoverQuery.SORT_ORDER;
+import org.dspace.discovery.DiscoverResult.FacetResult;
 import org.dspace.discovery.DiscoverResult;
 import org.dspace.discovery.SearchServiceException;
 
@@ -142,7 +143,11 @@ public abstract class AFacetedQueryConfigurerComponent<T extends DSpaceObject>
         {
             context = new Context();
             ACrisObject cris = getApplicationService().get(getTarget(), id);
-            return search(context, cris, 0, 0, null, true).getFacetResult(type).get(0).getCount();
+            List<FacetResult> facetresults = search(context, cris, 0, 0, null, true).getFacetResult(type);
+            if(facetresults.isEmpty()) {
+                return 0;    
+            }
+            return facetresults.get(0).getCount();
         }
 
         catch (Exception ex)

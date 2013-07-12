@@ -26,6 +26,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.dspace.app.cris.model.CrisConstants;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -63,10 +64,10 @@ public class DynamicNestedObject
     private List<DynamicNestedProperty> anagrafica;
 
     @ManyToOne
-    private DynamicNestedObjectType typo;
+    private DynamicTypeNestedObject typo;
 
-    @ManyToOne(targetEntity = DynamicObject.class)
-    private DynamicObject parent;
+    @ManyToOne(targetEntity = ResearchObject.class)
+    private ResearchObject parent;
 
     @Override
     public List<DynamicNestedProperty> getAnagrafica()
@@ -91,7 +92,7 @@ public class DynamicNestedObject
     }
 
     @Override
-    public DynamicNestedObjectType getTypo()
+    public DynamicTypeNestedObject getTypo()
     {
         return typo;
     }
@@ -99,10 +100,10 @@ public class DynamicNestedObject
     @Override
     public void setTypo(AType<DynamicNestedPropertiesDefinition> typo)
     {
-        this.typo = (DynamicNestedObjectType) typo;
+        this.typo = (DynamicTypeNestedObject) typo;
     }
 
-    public DynamicObject getParent()
+    public ResearchObject getParent()
     {
         return parent;
     }
@@ -110,14 +111,14 @@ public class DynamicNestedObject
     @Override
     public Class getClassParent()
     {
-        return DynamicObject.class;
+        return ResearchObject.class;
     }
 
     @Override
     public void setParent(
             AnagraficaSupport<? extends Property<DynamicPropertiesDefinition>, DynamicPropertiesDefinition> parent)
     {
-        this.parent = (DynamicObject) parent;
+        this.parent = (ResearchObject) parent;
     }
 
     @Override

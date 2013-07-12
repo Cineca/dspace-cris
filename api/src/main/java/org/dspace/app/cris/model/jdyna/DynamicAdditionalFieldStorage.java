@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -44,7 +45,7 @@ public class DynamicAdditionalFieldStorage extends
 
     @OneToOne
     @JoinColumn(name = "id")
-    private DynamicObject dynamicObject;
+    private ResearchObject dynamicObject;
 
     @OneToMany(mappedBy = "parent")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -81,12 +82,12 @@ public class DynamicAdditionalFieldStorage extends
         this.anagrafica = pp;
     }
 
-    public DynamicObject getDynamicObject()
+    public ResearchObject getDynamicObject()
     {
         return dynamicObject;
     }
 
-    public void setDynamicObject(DynamicObject dynamicObject)
+    public void setDynamicObject(ResearchObject dynamicObject)
     {
         this.dynamicObject = dynamicObject;
     }

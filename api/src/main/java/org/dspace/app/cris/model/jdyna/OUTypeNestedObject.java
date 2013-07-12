@@ -75,4 +75,10 @@ public class OUTypeNestedObject extends ATypeNestedObject<OUNestedPropertiesDefi
     {        
         return null;
     }
+
+    @Override
+    public Class<OUNestedPropertiesDefinition> getClassPropertyDefinition()
+    {
+        return OUNestedPropertiesDefinition.class;
+    }
 }

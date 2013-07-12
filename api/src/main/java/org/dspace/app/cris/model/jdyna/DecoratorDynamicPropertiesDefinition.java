@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.dspace.app.cris.model.ResearchObject;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
@@ -46,7 +47,7 @@ public class DecoratorDynamicPropertiesDefinition extends
     @Override
     public Class getAnagraficaHolderClass()
     {
-       return DynamicObject.class;
+       return ResearchObject.class;
     }
 
     @Override

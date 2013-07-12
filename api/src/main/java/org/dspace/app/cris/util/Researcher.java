@@ -76,7 +76,16 @@ public class Researcher
         }
         return compService.getComponents();
     }
- 
+
+    public Map<String, ICRISComponent> getDOComponents() {
+        CrisComponentsService compService = dspace.getServiceManager().getServiceByName("doComponentsService", CrisComponentsService.class);
+        if (compService == null)
+        {
+            return null;
+        }
+        return compService.getComponents();
+    }
+    
     public SessionFactory getSessionFactory()
     {
         return (SessionFactory) dspace.getServiceManager().getServiceByName("&sessionFactory", AnnotationSessionFactoryBean.class).getObject();

@@ -31,7 +31,7 @@ import org.hibernate.annotations.CascadeType;
     @NamedQuery(name = "DecoratorDynamicNestedPropertiesDefinition.uniqueContainableByShortName", query = "from DecoratorDynamicNestedPropertiesDefinition where real.shortName = ?")
     
 })
-@DiscriminatorValue(value="propertiesdefinitiondonestedobject")
+@DiscriminatorValue(value="pddonestedobject")
 public class DecoratorDynamicNestedPropertiesDefinition extends
         ADecoratorNestedPropertiesDefinition<DynamicNestedPropertiesDefinition>
 {

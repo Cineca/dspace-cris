@@ -77,4 +77,10 @@ public class ProjectTypeNestedObject extends ATypeNestedObject<ProjectNestedProp
         return null;
     }
 
+    @Override
+    public Class<ProjectNestedPropertiesDefinition> getClassPropertyDefinition()
+    {
+        return ProjectNestedPropertiesDefinition.class;
+    }
+
 }

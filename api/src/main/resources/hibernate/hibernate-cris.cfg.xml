@@ -110,12 +110,12 @@
 		<mapping class="org.dspace.app.cris.model.jdyna.EditTabDynamicObject" />
 		<mapping class="org.dspace.app.cris.model.jdyna.BoxDynamicObject" />
 
-		<mapping class="org.dspace.app.cris.model.jdyna.DynamicObject" />
+		<mapping class="org.dspace.app.cris.model.ResearchObject" />
 		<mapping class="org.dspace.app.cris.model.jdyna.DynamicProperty" />
 		<mapping class="org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition" />
 		<mapping class="org.dspace.app.cris.model.jdyna.DynamicObjectType" />
 		<mapping class="org.dspace.app.cris.model.jdyna.DynamicNestedObject" />
-		<mapping class="org.dspace.app.cris.model.jdyna.DynamicNestedObjectType" />
+		<mapping class="org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject" />
 		<mapping class="org.dspace.app.cris.model.jdyna.DynamicNestedProperty" />
 		<mapping
 			class="org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition" />
@@ -163,6 +163,8 @@
 		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetFileProject" />
 
 		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetFileOU" />
+		
+		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetFileDO" />
 
 
 		<mapping class="org.dspace.app.cris.model.StatSubscription" />
