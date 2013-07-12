@@ -86,6 +86,17 @@
 		<property name="targetObject"><value>org.dspace.app.cris.model.OrganizationUnit</value></property>
 		<property name="targetPropertyDefinition"><value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition</value></property>
 	</bean>		
+	<bean id="loadFileDO"
+		class="org.dspace.app.webui.cris.controller.jdyna.CrisFileServiceController">
+		<property name="applicationService" >
+			<ref bean="applicationService" />
+		</property>
+		<property name="filePath">
+			<value>otherresearchobject.file.path</value>
+		</property>	
+		<property name="targetObject"><value>org.dspace.app.cris.model.ResearchObject</value></property>
+		<property name="targetPropertyDefinition"><value>org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition</value></property>
+	</bean>
 		
 	<!-- the application context definition for the springapp DispatcherServlet -->
 	<bean id="messageSource"
@@ -662,32 +673,28 @@
 			<value>rp</value>
 		</property>						
 	    <property name="addTextView">
-			<value>redirect:/cris/administrator/rp/addTextToNestedDynamicField.htm
-			</value>
+			<value>redirect:/cris/administrator/rp/addTextToNestedDynamicField.htm</value>
 		</property>
 		<property name="addDateView">
-			<value>redirect:/cris/administrator/rp/addDateToNestedDynamicField.htm
-			</value>
+			<value>redirect:/cris/administrator/rp/addDateToNestedDynamicField.htm</value>
 		</property>
 		<property name="addLinkView">
-			<value>redirect:/cris/administrator/rp/addLinkToNestedDynamicField.htm
-			</value>
+			<value>redirect:/cris/administrator/rp/addLinkToNestedDynamicField.htm</value>
 		</property>
 		<property name="addFileView">
-			<value>redirect:/cris/administrator/rp/addFileToNestedDynamicField.htm
-			</value>
+			<value>redirect:/cris/administrator/rp/addFileToNestedDynamicField.htm</value>
 		</property>
 		<property name="addPointerRPView">		
-			<value>redirect:/cris/administrator/rp/addPointerRPToNestedDynamicField.htm
-			</value>
+			<value>redirect:/cris/administrator/rp/addPointerRPToNestedDynamicField.htm</value>
 		</property>
 		<property name="addPointerOUView">		
-			<value>redirect:/cris/administrator/rp/addPointerOUToNestedDynamicField.htm
-			</value>
+			<value>redirect:/cris/administrator/rp/addPointerOUToNestedDynamicField.htm</value>
 		</property>
 		<property name="addPointerPJView">		
-			<value>redirect:/cris/administrator/rp/addPointerProjectToNestedDynamicField.htm
-			</value>
+			<value>redirect:/cris/administrator/rp/addPointerProjectToNestedDynamicField.htm</value>
+		</property>
+	    <property name="addPointerDOView">		
+			<value>redirect:/cris/administrator/other/2ndlevel/addPointerDOToNestedDynamicField.htm</value>
 		</property>
 		<property name="validator" ref="rpNestedDynamicFieldValidator" />	
 	</bean>
@@ -814,6 +821,48 @@
 		</property>
 		<property name="validator" ref="rpDynamicFieldValidator" />
 	</bean>
+	
+	<bean id="editRPPointerDODynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.RPPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>
+		<property name="validator" ref="rpDynamicFieldValidator" />
+	</bean>
+	
 	
 	<bean id="editRPDateDynamicFieldController" parent="baseFormController"
 		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
@@ -1411,6 +1460,49 @@
 		<property name="validator" ref="rpNestedPDFieldValidator" />
 	</bean>
 	
+	<bean id="addPointerDOToRPNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>org.dspace.app.cris.model.jdyna.BoxResearcherPage</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorRPTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/rp/editNestedDynamicField.htm
+			</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorRPNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>rp</value>
+		</property>		
+		<property name="validator" ref="rpNestedPDFieldValidator" />
+	</bean>
 	
 	<bean id="deleteRPNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
@@ -1844,6 +1936,48 @@
 		<constructor-arg index="3">
 			<value>
 				org.dspace.app.cris.model.jdyna.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+				<property name="specificPartPath">
+			<value>project</value>
+		</property>
+		<property name="validator" ref="grantDynamicFieldValidator" />
+	</bean>
+		
+	<bean id="editProjectPointerDODynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				org.dspace.app.cris.model.jdyna.BoxProject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
@@ -2475,6 +2609,50 @@
 		<property name="validator" ref="grantNestedPDFieldValidator" />
 	</bean>
 	
+	<bean id="addPointerDOToProjectNestedDynamicFieldController"
+		parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>org.dspace.app.cris.model.jdyna.BoxProject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectTypeNested
+			</value>
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/project/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorProjectNestedPropertiesDefinition</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>project</value>
+		</property>		
+		<property name="validator" ref="grantNestedPDFieldValidator" />
+	</bean>
+	
 	<bean id="deleteProjectNestedFieldController"
 		class="it.cilea.osd.jdyna.controller.DecoratorATypeNestedController">
 		<constructor-arg index="0">			
@@ -2547,6 +2725,9 @@
 		</property>
 		<property name="addPointerPJView">		
 			<value>redirect:/cris/administrator/project/addPointerProjectToNestedDynamicField.htm</value>
+		</property>
+		<property name="addPointerDOView">		
+			<value>redirect:/cris/administrator/other/2ndlevel/addPointerDOToNestedDynamicField.htm</value>
 		</property>
 		<property name="validator" ref="grantNestedDynamicFieldValidator" />
 	</bean>
@@ -3005,6 +3186,47 @@
 		<property name="validator" ref="ouDynamicFieldValidator" />
 	</bean>
 	
+	<bean id="editOUPointerDODynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>
+				org.dspace.app.cris.model.jdyna.BoxOrganizationUnit
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>
+		<property name="validator" ref="ouDynamicFieldValidator" />
+	</bean>
 	
 	<bean id="editOUDateDynamicFieldController" parent="baseFormController"
 		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
@@ -3556,7 +3778,8 @@
 		<property name="validator" ref="ouNestedPDFieldValidator" />	
 	</bean>
 	
-	<bean id="addPointerOUToOUNestedDynamicFieldController" parent="baseFormController"
+	<bean id="addPointerOUToOUNestedDynamicFieldController"
+		parent="baseFormController"
 		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -3578,6 +3801,49 @@
 		<constructor-arg index="4">
 			<value>
 				org.dspace.app.cris.model.jdyna.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/ou/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>
+		<property name="specificPartPath">
+			<value>ou</value>
+		</property>	
+		<property name="validator" ref="ouNestedPDFieldValidator" />	
+	</bean>
+	
+	<bean id="addPointerDOToOUNestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
 			</value>
 		</constructor-arg>
 		<property name="successView">
@@ -3669,6 +3935,9 @@
 		<property name="addPointerPJView">		
 			<value>redirect:/cris/administrator/ou/addPointerProjectToNestedDynamicField.htm</value>
 		</property>
+		<property name="addPointerDOView">		
+			<value>redirect:/cris/administrator/other/2ndlevel/addPointerDOToNestedDynamicField.htm</value>
+		</property>				
 		<property name="validator" ref="ouNestedDynamicFieldValidator" />
 	</bean>
 	
@@ -3800,6 +4069,22 @@
 		</property>
 		<property name="clazzPD">
 			<value>org.dspace.app.cris.model.jdyna.OUPropertiesDefinition</value>
+		</property>				
+		<property name="viewName">
+			<value>resultSearchPointer</value>
+		</property>		
+	</bean>
+	
+	<bean id="searchDOPointer"
+		class="org.dspace.app.webui.cris.controller.jdyna.CrisSearchPointerController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<property name="searchService">
+			<ref bean="crisSearchService" />
+		</property>
+		<property name="clazzPD">
+			<value>org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition</value>
 		</property>				
 		<property name="viewName">
 			<value>resultSearchPointer</value>
@@ -4336,6 +4621,9 @@
 		<property name="addPointerPJView">		
 			<value>redirect:/cris/administrator/other/2ndlevel/addPointerProjectToNestedDynamicField.htm</value>
 		</property>
+		<property name="addPointerDOView">		
+			<value>redirect:/cris/administrator/other/2ndlevel/addPointerDOToNestedDynamicField.htm</value>
+		</property>
 		<property name="validator" ref="doNestedDynamicFieldValidator" />	
 	</bean>
 
@@ -4441,6 +4729,47 @@
 		<constructor-arg index="3">
 			<value>
 				org.dspace.app.cris.model.jdyna.value.OUPointer
+			</value>
+		</constructor-arg>
+		<property name="typoModel">
+			<value>org.dspace.app.cris.model.jdyna.DynamicObjectType</value>
+		</property>
+		<property name="successView">
+			<value>redirect:/cris/administrator/other/2ndlevel/editBox.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorDynamicPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>		
+		<property name="validator" ref="doDynamicFieldValidator" />
+	</bean>
+	
+	<bean id="editDOPointerDODynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormWidgetPointerDecoratorPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<value>org.dspace.app.cris.model.jdyna.BoxDynamicObject
+			</value>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
 			</value>
 		</constructor-arg>
 		<property name="typoModel">
@@ -5008,6 +5337,46 @@
 		<property name="validator" ref="doNestedPDFieldValidator" />			
 	</bean>
 	
+	<bean id="addPointerDOToDONestedDynamicFieldController" parent="baseFormController"
+		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		<property name="applicationService">
+			<ref bean="applicationService" />
+		</property>
+		<constructor-arg index="0">
+			<value>org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition
+			</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>it.cilea.osd.jdyna.widget.WidgetPointer
+			</value>
+		</constructor-arg>
+		<constructor-arg index="2">			
+				<value>org.dspace.app.cris.model.jdyna.BoxDynamicObject</value>			
+		</constructor-arg>
+		<constructor-arg index="3">			
+				<value>org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested</value>			
+		</constructor-arg>
+		<constructor-arg index="4">
+			<value>
+				org.dspace.app.cris.model.jdyna.value.DOPointer
+			</value>
+		</constructor-arg>
+		<property name="successView">
+			<value>redirect:/cris/administrator/other/2ndlevel/editNestedDynamicField.htm</value>
+		</property>
+		<property name="commandClass">
+			<value>org.dspace.app.cris.model.jdyna.DecoratorDynamicNestedPropertiesDefinition
+			</value>
+		</property>
+		<property name="commandName">
+			<value>propertiesdefinition</value>
+		</property>
+		<property name="formView">
+			<value>/tabs/propertiesDefinitionForm</value>
+		</property>		
+		<property name="validator" ref="doNestedPDFieldValidator" />			
+	</bean>
+	
 	<bean id="editDODynamicDataController" parent="baseFormController"
 		class="org.dspace.app.webui.cris.controller.jdyna.FormDODynamicMetadataController">
 		<property name="applicationService">
@@ -5037,7 +5406,7 @@
 		<property name="commandName">
 			<value>anagraficadto</value>
 		</property>		
-		<property name="validator" ref="anagraficaValidator" />		
+		<property name="validator" ref="doAnagraficaValidator" />		
 	</bean>
 	
 	
@@ -5159,6 +5528,7 @@
 				<prop key="/rp/fileservice/**">loadFileRP</prop>				
 				<prop key="/project/fileservice/**">loadFileProject</prop>
 				<prop key="/ou/fileservice/**">loadFileOU</prop>
+				<prop key="/do/fileservice/**">loadFileDO</prop>
 											
 				<prop key="/uuid/*/relMgmt/*.json">jsonRelationManagement</prop>
 				<prop key="/uuid/*/relMgmt/*">formRelationManagement</prop>
@@ -5176,6 +5546,7 @@
 				<prop key="/tools/rp/searchPointer.htm">searchRPPointer</prop>
 				<prop key="/tools/project/searchPointer.htm">searchProjectPointer</prop>
 				<prop key="/tools/ou/searchPointer.htm">searchOUPointer</prop>
+				<prop key="/tools/*/searchPointer.htm">searchDOPointer</prop>
 				
 				<!-- Management of nested objects -->				
 				<prop key="/rp/viewNested.htm">viewRPNestedDetailsController</prop>
@@ -5231,6 +5602,8 @@
 				<prop key="/administrator/rp/editProjectPointerDynamicField.htm">editRPPointerProjectDynamicFieldController</prop>
 				<prop key="/administrator/rp/createOUPointerDynamicField.htm">editRPPointerOUDynamicFieldController</prop>
 				<prop key="/administrator/rp/editOUPointerDynamicField.htm">editRPPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/rp/createDOPointerDynamicField.htm">editRPPointerDODynamicFieldController</prop>
+				<prop key="/administrator/rp/editDOPointerDynamicField.htm">editRPPointerDODynamicFieldController</prop>
 				<prop key="/administrator/rp/createDateDynamicField.htm">editRPDateDynamicFieldController</prop>
 				<prop key="/administrator/rp/editDateDynamicField.htm">editRPDateDynamicFieldController</prop>
 				<prop key="/administrator/rp/createTextDynamicField.htm">editRPTextDynamicFieldController</prop>
@@ -5251,9 +5624,9 @@
 				<prop key="/administrator/rp/addLinkToNestedDynamicField.htm">addLinkToRPNestedDynamicFieldController</prop>
 				<prop key="/administrator/rp/addFileToNestedDynamicField.htm">addFileToRPNestedDynamicFieldController</prop>
 				<prop key="/administrator/rp/addPointerRPToNestedDynamicField.htm">addPointerRPToRPNestedDynamicFieldController</prop>
-				<prop key="/administrator/rp/addPointerProjectToNestedDynamicField.htm">addPointerProjectToRPNestedDynamicFieldController
-				</prop>
+				<prop key="/administrator/rp/addPointerProjectToNestedDynamicField.htm">addPointerProjectToRPNestedDynamicFieldController</prop>
 				<prop key="/administrator/rp/addPointerOUToNestedDynamicField.htm">addPointerOUToRPNestedDynamicFieldController</prop>
+				<prop key="/administrator/rp/addPointerDOToNestedDynamicField.htm">addPointerDOToRPNestedDynamicFieldController</prop>
 				<prop key="/administrator/rp/deleteNestedFieldDefinition.htm">deleteRPNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/rp/deleteNestedField.htm">deleteRPNestedFieldController</prop>
 							
@@ -5290,7 +5663,9 @@
 				<prop key="/administrator/project/editProjectPointerDynamicField.htm">editProjectPointerProjectDynamicFieldController
 				</prop>
 				<prop key="/administrator/project/createOUPointerDynamicField.htm">editProjectPointerOUDynamicFieldController</prop>
-				<prop key="/administrator/project/editOUPointerDynamicField.htm">editProjectPointerOUDynamicFieldController</prop>	
+				<prop key="/administrator/project/editOUPointerDynamicField.htm">editProjectPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/project/createDOPointerDynamicField.htm">editProjectPointerDODynamicFieldController</prop>
+				<prop key="/administrator/project/editDOPointerDynamicField.htm">editProjectPointerDODynamicFieldController</prop>	
 				<prop key="/administrator/project/createDateDynamicField.htm">editProjectDateDynamicFieldController</prop>
 				<prop key="/administrator/project/editDateDynamicField.htm">editProjectDateDynamicFieldController</prop>
 				<prop key="/administrator/project/createTextDynamicField.htm">editProjectTextDynamicFieldController</prop>
@@ -5310,12 +5685,11 @@
 				<prop key="/administrator/project/addTextToNestedDynamicField.htm">addTextToProjectNestedDynamicFieldController</prop>
 				<prop key="/administrator/project/addLinkToNestedDynamicField.htm">addLinkToProjectNestedDynamicFieldController</prop>
 				<prop key="/administrator/project/addFileToNestedDynamicField.htm">addFileToProjectNestedDynamicFieldController</prop>
-				<prop key="/administrator/project/addPointerRPToNestedDynamicField.htm">addPointerRPToProjectNestedDynamicFieldController
-				</prop>
+				<prop key="/administrator/project/addPointerRPToNestedDynamicField.htm">addPointerRPToProjectNestedDynamicFieldController</prop>
 				<prop
 					key="/administrator/project/addPointerProjectToNestedDynamicField.htm">addPointerProjectToProjectNestedDynamicFieldController</prop>
-				<prop key="/administrator/project/addPointerOUToNestedDynamicField.htm">addPointerOUToProjectNestedDynamicFieldController
-				</prop>
+				<prop key="/administrator/project/addPointerOUToNestedDynamicField.htm">addPointerOUToProjectNestedDynamicFieldController</prop>
+				<prop key="/administrator/project/addPointerDOToNestedDynamicField.htm">addPointerDOToProjectNestedDynamicFieldController</prop>
 				<prop key="/administrator/project/deleteNestedFieldDefinition.htm">deleteProjectNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/project/deleteNestedField.htm">deleteProjectNestedFieldController</prop>
 								
@@ -5344,7 +5718,9 @@
 					key="/administrator/ou/createProjectProjectPointerDynamicField.htm">editOUPointerProjectDynamicFieldController</prop>
 				<prop key="/administrator/ou/editProjectPointerDynamicField.htm">editOUPointerProjectDynamicFieldController</prop>				
 				<prop key="/administrator/ou/createOUPointerDynamicField.htm">editOUPointerOUDynamicFieldController</prop>
-				<prop key="/administrator/ou/editOUPointerDynamicField.htm">editOUPointerOUDynamicFieldController</prop>				
+				<prop key="/administrator/ou/editOUPointerDynamicField.htm">editOUPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/ou/createDOPointerDynamicField.htm">editOUPointerDODynamicFieldController</prop>
+				<prop key="/administrator/ou/editDOPointerDynamicField.htm">editOUPointerDODynamicFieldController</prop>				
 				<prop key="/administrator/ou/createDateDynamicField.htm">editOUDateDynamicFieldController</prop>
 				<prop key="/administrator/ou/editDateDynamicField.htm">editOUDateDynamicFieldController</prop>
 				<prop key="/administrator/ou/createTextDynamicField.htm">editOUTextDynamicFieldController</prop>
@@ -5367,6 +5743,7 @@
 				<prop key="/administrator/ou/addPointerRPToNestedDynamicField.htm">addPointerRPToOUNestedDynamicFieldController</prop>
 				<prop key="/administrator/ou/addPointerProjectToNestedDynamicField.htm">addPointerProjectToOUNestedDynamicFieldController</prop>
 				<prop key="/administrator/ou/addPointerOUToNestedDynamicField.htm">addPointerOUToOUNestedDynamicFieldController</prop>
+				<prop key="/administrator/ou/addPointerDOToNestedDynamicField.htm">addPointerDOToOUNestedDynamicFieldController</prop>
 				<prop key="/administrator/ou/deleteNestedFieldDefinition.htm">deleteOUNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/ou/deleteNestedField.htm">deleteOUNestedFieldController</prop>
 				
@@ -5404,6 +5781,8 @@
 				<prop key="/administrator/*/editProjectPointerDynamicField.htm">editDOPointerProjectDynamicFieldController</prop>
 				<prop key="/administrator/*/createOUPointerDynamicField.htm">editDOPointerOUDynamicFieldController</prop>
 				<prop key="/administrator/*/editOUPointerDynamicField.htm">editDOPointerOUDynamicFieldController</prop>
+				<prop key="/administrator/*/createDOPointerDynamicField.htm">editDOPointerDODynamicFieldController</prop>
+				<prop key="/administrator/*/editDOPointerDynamicField.htm">editDOPointerDODynamicFieldController</prop>
 				<prop key="/administrator/*/createDateDynamicField.htm">editDODateDynamicFieldController</prop>
 				<prop key="/administrator/*/editDateDynamicField.htm">editDODateDynamicFieldController</prop>
 				<prop key="/administrator/*/createTextDynamicField.htm">editDOTextDynamicFieldController</prop>
@@ -5426,6 +5805,7 @@
 				<prop key="/administrator/*/addPointerRPToNestedDynamicField.htm">addPointerRPToDONestedDynamicFieldController</prop>
 				<prop key="/administrator/*/addPointerProjectToNestedDynamicField.htm">addPointerProjectToDONestedDynamicFieldController</prop>
 				<prop key="/administrator/*/addPointerOUToNestedDynamicField.htm">addPointerOUToDONestedDynamicFieldController</prop>
+				<prop key="/administrator/*/addPointerDOToNestedDynamicField.htm">addPointerDOToDONestedDynamicFieldController</prop>
 				<prop key="/administrator/*/deleteNestedFieldDefinition.htm">deleteDONestedFieldDefinitionController</prop>								
 				<prop key="/administrator/*/deleteNestedField.htm">deleteDONestedFieldController</prop>
 			
@@ -5779,7 +6159,17 @@
 		<property name="clazzTipologiaProprieta"
 			value="org.dspace.app.cris.model.jdyna.OUPropertiesDefinition" />
 	</bean>
-
+	<bean id="doAnagraficaValidator"
+		class="it.cilea.osd.jdyna.validator.AnagraficaObjectDTOAreaValidator">
+		<property name="applicationService" ref="applicationService" />		
+		<property name="clazzAnagraficaObject" value="org.dspace.app.cris.model.ResearchObject" />
+		<property name="clazzTab"
+			value="org.dspace.app.cris.model.jdyna.EditTabDynamicObject" />
+		<property name="clazzPropertyHolder"
+			value="org.dspace.app.cris.model.jdyna.BoxDynamicObject" />
+		<property name="clazzTipologiaProprieta"
+			value="org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition" />
+	</bean>
 	
 	<bean id="researcherPageValidator"
 		class="org.dspace.app.webui.cris.validator.ResearcherPageValidator">

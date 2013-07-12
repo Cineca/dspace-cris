@@ -40,6 +40,8 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 public class FormAdministrationDOController extends
         SimpleFormController
 {
+    private static final String JSP_DSPACE_ADMIN_HKU_CHANGESTATUS_DYNAMICOBJECT_MESSAGE = "jsp.dspace-admin.hku.changestatus-dynamicobject.message";
+    private static final String OTHERRESEARCHOBJECT_ADMINISTRATION_TABLE_PAGESIZE = "otherresearchobject.administration.table.pagesize";
     /**
      * the applicationService for query the RP db, injected by Spring IoC
      */
@@ -70,7 +72,7 @@ public class FormAdministrationDOController extends
         int page = paramPage != null ? Integer.parseInt(paramPage) : 1;
         long count = applicationService.countResearchObjectByType(typo);
         Integer pagesize = Integer.parseInt(ConfigurationManager
-                .getProperty(CrisConstants.CFG_MODULE,"project.administration.table.pagesize"));
+                .getProperty(CrisConstants.CFG_MODULE,OTHERRESEARCHOBJECT_ADMINISTRATION_TABLE_PAGESIZE));
         
         //mode position only when administrator click on direct link on RP page  
         Integer id = null;
@@ -82,8 +84,8 @@ public class FormAdministrationDOController extends
         
 
         List<ResearchObject> researchers = applicationService
-                .getResearchObjectPaginateListByType(sort,
-                        "desc".equals(dir), page, pagesize, typo);
+                .getResearchObjectPaginateListByType(typo, sort,
+                        "desc".equals(dir), page, pagesize);
         LinkedList<DynamicObjectDTO> objectList = new LinkedList<DynamicObjectDTO>();
         for(ResearchObject r : researchers) {             
             DynamicObjectDTO rpd = new DynamicObjectDTO();
@@ -113,7 +115,8 @@ public class FormAdministrationDOController extends
             HttpServletResponse response, Object command, BindException errors)
             throws Exception
     {
-
+        String path = Utils.getAdminSpecificPath(request, null);
+       
         DODisplayTagData dto = (DODisplayTagData) command;
         boolean check_change = false;
         for (DynamicObjectDTO researcher : dto.getList())
@@ -132,14 +135,14 @@ public class FormAdministrationDOController extends
                
         if(check_change) {
             Map<String, Object> model = new HashMap<String, Object>();        
-            model.put("message", "jsp.dspace-admin.hku.changestatus-dynamicobject.message");        
+            model.put("message", JSP_DSPACE_ADMIN_HKU_CHANGESTATUS_DYNAMICOBJECT_MESSAGE);        
             model.put("sort", request.getParameter("sort"));
             model.put("page", request.getParameter("page"));
             model.put("oldpage", request.getParameter("page")!=null?request.getParameter("page"):1);
             model.put("dir", request.getParameter("dir"));            
-            return new ModelAndView(getSuccessView(),model);
+            return new ModelAndView(getSuccessView()+"?path="+path,model);
         }
-        return new ModelAndView(getSuccessView());
+        return new ModelAndView(getSuccessView()+"?path="+path);
     }
 
     public void setApplicationService(ApplicationService applicationService)

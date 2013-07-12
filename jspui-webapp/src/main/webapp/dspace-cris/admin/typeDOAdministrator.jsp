@@ -15,8 +15,9 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
+<%@page import="org.dspace.app.cris.model.CrisConstants"%>
 
-
+<c:set var="CRIS_DYNAMIC_TYPE_ID_START"><%=CrisConstants.CRIS_DYNAMIC_TYPE_ID_START%></c:set>
 <dspace:layout locbar="link" navbar="admin"	titlekey="jsp.dspace-admin.do">
 	<table width="95%">
 		<tr>
@@ -65,6 +66,9 @@ The contents of this file are subject to the license and copyright
 				<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/administrator/${objectList.shortName}/index.htm" paramId="id" paramProperty="id" sortable="true" />							
 				<display:column headerClass="shortname" titleKey="jsp.layout.table.cris.admin-list.shortname" property="shortName" sortable="true" />										
 				<display:column headerClass="label" class="label" titleKey="jsp.layout.table.cris.admin-list.label" property="label" sortable="true"/>
+				<display:column headerClass="typodef" titleKey="jsp.layout.table.cris.admin-list.typodef" sortable="true">
+					${objectList.id + CRIS_DYNAMIC_TYPE_ID_START}
+				</display:column>
 				<display:column>
 					<a href="<%=request.getContextPath()%>/cris/administrator/do/edit.htm?id=${objectList.id}">Edit</a>
 					<a href="<%=request.getContextPath()%>/cris/administrator/do/delete.htm?id=${objectList.id}">Delete</a>					

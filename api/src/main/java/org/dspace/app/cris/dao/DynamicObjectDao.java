@@ -25,7 +25,7 @@ public interface DynamicObjectDao extends CrisObjectDao<ResearchObject>
 
     public long countByType(DynamicObjectType typo);
 
-    public List<ResearchObject> paginateByType(String sort, boolean inverse,
-            int page, Integer pagesize, DynamicObjectType typo);
+    public List<ResearchObject> paginateByType(DynamicObjectType typo, String sort, boolean inverse,
+            int page, Integer pagesize);
     
 }

@@ -45,7 +45,6 @@ import org.dspace.app.cris.model.StatSubscription;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.model.jdyna.DynamicObjectType;
 import org.dspace.app.cris.model.jdyna.RPProperty;
-import org.dspace.app.cris.model.jdyna.TabDynamicObject;
 import org.dspace.app.cris.model.ws.User;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.hibernate.Session;
@@ -92,7 +91,8 @@ public class ApplicationService extends ExtendedTabService
         statSubscriptionDao = (StatSubscriptionDao) getDaoByModel(StatSubscription.class);
         userWSDao = (UserWSDao) getDaoByModel(User.class);
         relationPreferenceDao = (RelationPreferenceDao) getDaoByModel(RelationPreference.class);
-
+        researchDao = (DynamicObjectDao) getDaoByModel(ResearchObject.class);
+        
         if (cache == null)
         {
             try
@@ -690,11 +690,12 @@ public class ApplicationService extends ExtendedTabService
         return researchDao.countByType(typo);
     }
 
-    public List<ResearchObject> getResearchObjectPaginateListByType(
+    public List<ResearchObject> getResearchObjectPaginateListByType(DynamicObjectType typo,
             String sort, boolean inverse,
-            int page, Integer pagesize, DynamicObjectType typo)
-    {        
-        return researchDao.paginateByType(sort, inverse, page, pagesize, typo);
+            int page, Integer maxResults)
+    {    
+        return researchDao.paginateByType(typo, sort, inverse, (page - 1)
+                * maxResults, maxResults);
     }
    
    

@@ -19,6 +19,7 @@ import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.Project;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.util.Researcher;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
@@ -47,6 +48,9 @@ public class CrisSearchPointerController extends SearchPointerController<Propert
             else if (target.equals(OrganizationUnit.class))
             {
                 resourcetype = "search.resourcetype:"+CrisConstants.OU_TYPE_ID;    
+            }
+            else if (target.equals(ResearchObject.class)) {
+                resourcetype = "search.resourcetype:["+ CrisConstants.CRIS_DYNAMIC_TYPE_ID_START + " TO "+ CrisConstants.CRIS_NDYNAMIC_TYPE_ID_START +"]";
             }
             
             List<DSpaceObject> objects = getSearchService().search(context,

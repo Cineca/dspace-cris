@@ -142,6 +142,8 @@
 		<mapping class="org.dspace.app.cris.model.jdyna.value.ProjectPointer" />
 
 		<mapping class="org.dspace.app.cris.model.jdyna.value.OUPointer" />
+		
+		<mapping class="org.dspace.app.cris.model.jdyna.value.DOPointer" />
 
 
 		<mapping class="it.cilea.osd.jdyna.model.AWidget" />

@@ -43,6 +43,7 @@ import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ICrisObject;
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.Project;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.VisibilityConstants;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
@@ -67,16 +68,16 @@ import org.dspace.utils.DSpace;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
 public class CrisSearchService extends SolrServiceImpl
-{    
+{
 
     private final class CrisItemWrapper implements MethodInterceptor
     {
         @Override
         public Object invoke(MethodInvocation invocation) throws Throwable
         {
-            
+
             if (invocation.getMethod().getName().equals("getMetadata"))
-            {                
+            {
                 if (invocation.getArguments().length == 4)
                 {
                     DCValue[] basic = (DCValue[]) invocation.proceed();
@@ -211,19 +212,30 @@ public class CrisSearchService extends SolrServiceImpl
         if (type != null && type >= CrisConstants.CRIS_TYPE_ID_START)
         {
             Integer id = (Integer) doc.getFirstValue("search.resourceid");
-            switch (type)
+
+            if (type > CrisConstants.CRIS_DYNAMIC_TYPE_ID_START)
             {
-            case CrisConstants.RP_TYPE_ID:
-                return getApplicationService().get(ResearcherPage.class, id);
+                return getApplicationService()
+                .get(ResearchObject.class, id);
+            }
+            else
+            {
+                switch (type)
+                {
+                case CrisConstants.RP_TYPE_ID:
+                    return getApplicationService()
+                            .get(ResearcherPage.class, id);
 
-            case CrisConstants.PROJECT_TYPE_ID:
-                return getApplicationService().get(Project.class, id);
+                case CrisConstants.PROJECT_TYPE_ID:
+                    return getApplicationService().get(Project.class, id);
 
-            case CrisConstants.OU_TYPE_ID:
-                return getApplicationService().get(OrganizationUnit.class, id);
+                case CrisConstants.OU_TYPE_ID:
+                    return getApplicationService().get(OrganizationUnit.class,
+                            id);
 
-            default:
-                return null;
+                default:
+                    return null;
+                }
             }
         }
         else
@@ -263,33 +275,30 @@ public class CrisSearchService extends SolrServiceImpl
         List<String> sortFieldsAdded = new ArrayList<String>();
         Set<String> hitHighlightingFields = new HashSet<String>();
         List<String> toIgnoreFields = new ArrayList<String>();
-            // A map used to save each sidebarFacet config by the metadata
-            // fields
-            Map<String, List<DiscoverySearchFilter>> searchFilters = new HashMap<String, List<DiscoverySearchFilter>>();
-            Map<String, DiscoverySortFieldConfiguration> sortFields = new HashMap<String, DiscoverySortFieldConfiguration>();
-            Set<String> moreLikeThisFields = new HashSet<String>();
-            List<String> toProjectionFields = new ArrayList<String>();
+        // A map used to save each sidebarFacet config by the metadata
+        // fields
+        Map<String, List<DiscoverySearchFilter>> searchFilters = new HashMap<String, List<DiscoverySearchFilter>>();
+        Map<String, DiscoverySortFieldConfiguration> sortFields = new HashMap<String, DiscoverySortFieldConfiguration>();
+        Set<String> moreLikeThisFields = new HashSet<String>();
+        List<String> toProjectionFields = new ArrayList<String>();
 
         commonIndexerDiscovery(schema, toIgnoreFields, searchFilters,
                 toProjectionFields, sortFields);
-            
-            // add the special crisXX.this metadata
-            indexProperty(doc, dso.getUuid(), schema + ".this", dso.getName(),
-                    ResearcherPageUtils.getPersistentIdentifier(dso),
+
+        // add the special crisXX.this metadata
+        indexProperty(doc, dso.getUuid(), schema + ".this", dso.getName(),
+                ResearcherPageUtils.getPersistentIdentifier(dso),
                 toIgnoreFields, searchFilters, toProjectionFields, sortFields,
-                sortFieldsAdded, hitHighlightingFields,
-                    moreLikeThisFields);
-            
+                sortFieldsAdded, hitHighlightingFields, moreLikeThisFields);
+
         commonsIndexerAnagrafica(dso, doc, schema, sortFieldsAdded,
                 hitHighlightingFields, uuid, toIgnoreFields, searchFilters,
-                toProjectionFields, sortFields,
-                moreLikeThisFields);
-            
+                toProjectionFields, sortFields, moreLikeThisFields);
+
         commonsIndexerEnhancer(dso, doc, schema, sortFieldsAdded,
                 hitHighlightingFields, uuid, toIgnoreFields, searchFilters,
-                toProjectionFields, sortFields,
-                                    moreLikeThisFields);
-                            
+                toProjectionFields, sortFields, moreLikeThisFields);
+
         commonsIndexerTimestamp(dso, doc, schema);
 
         log.debug("  Added Metadata");
@@ -346,19 +355,15 @@ public class CrisSearchService extends SolrServiceImpl
                     e);
         }
     }
-    
-    
+
     private <P extends Property<TP>, TP extends PropertiesDefinition> void indexProperty(
-            SolrInputDocument doc,
-            String uuid,
-            String field,
-            P meta,
+            SolrInputDocument doc, String uuid, String field, P meta,
             List<String> toIgnoreFields,
             Map<String, List<DiscoverySearchFilter>> searchFilters,
             List<String> toProjectionFields,
             Map<String, DiscoverySortFieldConfiguration> sortFields,
-            List<String> sortFieldsAdded,
-            Set<String> hitHighlightingFields, Set<String> moreLikeThisFields)
+            List<String> sortFieldsAdded, Set<String> hitHighlightingFields,
+            Set<String> moreLikeThisFields)
     {
         AValue value = meta.getValue();
 
@@ -375,7 +380,7 @@ public class CrisSearchService extends SolrServiceImpl
             authority = ResearcherPageUtils
                     .getPersistentIdentifier((ACrisObject) value.getObject());
         }
-        
+
         if (value instanceof DateValue)
         {
             // TODO: make this date format configurable !
@@ -384,34 +389,29 @@ public class CrisSearchService extends SolrServiceImpl
         }
 
         indexProperty(doc, uuid, field, svalue, authority, toIgnoreFields,
-                searchFilters, toProjectionFields, sortFields,
-                sortFieldsAdded, hitHighlightingFields,
-                moreLikeThisFields);
+                searchFilters, toProjectionFields, sortFields, sortFieldsAdded,
+                hitHighlightingFields, moreLikeThisFields);
     }
-    
-    private void indexProperty(
-            SolrInputDocument doc,
-            String uuid,
-            String field,
-            String svalue,
-            String authority,
+
+    private void indexProperty(SolrInputDocument doc, String uuid,
+            String field, String svalue, String authority,
             List<String> toIgnoreFields,
             Map<String, List<DiscoverySearchFilter>> searchFilters,
             List<String> toProjectionFields,
             Map<String, DiscoverySortFieldConfiguration> sortFields,
-            List<String> sortFieldsAdded,
-            Set<String> hitHighlightingFields, Set<String> moreLikeThisFields)
+            List<String> sortFieldsAdded, Set<String> hitHighlightingFields,
+            Set<String> moreLikeThisFields)
     {
         if (toIgnoreFields.contains(field))
         {
             return;
         }
-    
+
         if ((searchFilters.get(field) != null))
         {
             List<DiscoverySearchFilter> searchFilterConfigs = searchFilters
                     .get(field);
-    
+
             for (DiscoverySearchFilter searchFilter : searchFilterConfigs)
             {
                 String separator = new DSpace().getConfigurationService()
@@ -433,11 +433,11 @@ public class CrisSearchService extends SolrServiceImpl
                             svalue.toLowerCase() + separator + svalue
                                     + AUTHORITY_SEPARATOR + authority);
                 }
-    
+
                 // Add a dynamic fields for auto complete in search
                 doc.addField(searchFilter.getIndexFieldName() + "_ac",
                         svalue.toLowerCase() + separator + svalue);
-    
+
                 if (searchFilter.getFilterType().equals(
                         DiscoverySearchFilterFacet.FILTER_TYPE_FACET))
                 {
@@ -454,7 +454,7 @@ public class CrisSearchService extends SolrServiceImpl
                             String facetValue = svalue;
                             doc.addField(searchFilter.getIndexFieldName()
                                     + "_filter", facetValue.toLowerCase()
-                                            + separator + facetValue
+                                    + separator + facetValue
                                     + AUTHORITY_SEPARATOR + authority);
                         }
                         else
@@ -473,7 +473,7 @@ public class CrisSearchService extends SolrServiceImpl
                             String indexField = searchFilter
                                     .getIndexFieldName() + ".year";
                             doc.addField(searchFilter.getIndexFieldName()
-                                            + "_keyword",
+                                    + "_keyword",
                                     DateFormatUtils.formatUTC(date, "yyyy"));
                             doc.addField(indexField,
                                     DateFormatUtils.formatUTC(date, "yyyy"));
@@ -516,10 +516,10 @@ public class CrisSearchService extends SolrServiceImpl
                                                     .getSplitter());
                                 }
                             }
-    
+
                             String indexValue = valueBuilder.toString().trim();
                             doc.addField(searchFilter.getIndexFieldName()
-                                            + "_tax_" + i + "_filter",
+                                    + "_tax_" + i + "_filter",
                                     indexValue.toLowerCase() + separator
                                             + indexValue);
                             // We add the field x times that it has
@@ -537,7 +537,7 @@ public class CrisSearchService extends SolrServiceImpl
                 }
             }
         }
-    
+
         if ((sortFields.get(field) != null && !sortFieldsAdded.contains(field)))
         {
             // Only add sort value once
@@ -546,7 +546,7 @@ public class CrisSearchService extends SolrServiceImpl
             {
                 type = sortFields.get(field).getType();
             }
-    
+
             if (type.equals(DiscoveryConfigurationParameters.TYPE_DATE))
             {
                 Date date = toDate(svalue);
@@ -567,21 +567,21 @@ public class CrisSearchService extends SolrServiceImpl
             }
             sortFieldsAdded.add(field);
         }
-    
+
         if (hitHighlightingFields.contains(field)
                 || hitHighlightingFields.contains("*"))
         {
             doc.addField(field + "_hl", svalue);
         }
-    
+
         if (moreLikeThisFields.contains(field))
         {
             doc.addField(field + "_mlt", svalue);
         }
-    
+
         doc.addField(field, svalue);
         if (authority != null)
-        {         
+        {
             doc.addField(field + "_authority", authority);
         }
         if (toProjectionFields.contains(field))
@@ -626,23 +626,24 @@ public class CrisSearchService extends SolrServiceImpl
         }
 
     }
-    
+
     private <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void createCrisIndex(
             Context context, Class<T> classCrisObject)
     {
         List<T> rpObjects = getApplicationService().getList(classCrisObject);
-        
+
         if (rpObjects != null)
         {
             for (T cris : rpObjects)
             {
                 indexCrisObject(cris, true);
                 // indexing nested
-                for (ATNO anestedtype : getApplicationService()
-                        .getList(cris.getClassTypeNested()))
+                for (ATNO anestedtype : getApplicationService().getList(
+                        cris.getClassTypeNested()))
                 {
                     List<ACNO> anesteds = getApplicationService()
-                    .getNestedObjectsByParentIDAndTypoID(cris.getId(), anestedtype.getId(), cris.getClassNested());
+                            .getNestedObjectsByParentIDAndTypoID(cris.getId(),
+                                    anestedtype.getId(), cris.getClassNested());
                     for (ACNO anested : anesteds)
                     {
                         indexNestedObject(anested, true);
@@ -662,7 +663,7 @@ public class CrisSearchService extends SolrServiceImpl
 
         log.debug("Building Cris: " + dso.getUuid());
 
-        ICrisObject<P, TP> parent = (ICrisObject<P, TP>)dso.getParent();
+        ICrisObject<P, TP> parent = (ICrisObject<P, TP>) dso.getParent();
         doc.addField("search.parentfk", parent.getType() + "-" + parent.getID());
         String confName = "ncris" + parent.getPublicPath();
         String schema = confName + dso.getTypo().getShortName();
@@ -680,7 +681,7 @@ public class CrisSearchService extends SolrServiceImpl
         // A map used to save each sidebarFacet config by the metadata
         // fields
         Map<String, List<DiscoverySearchFilter>> searchFilters = new HashMap<String, List<DiscoverySearchFilter>>();
-        Map<String, DiscoverySortFieldConfiguration> sortFields = new HashMap<String, DiscoverySortFieldConfiguration>();        
+        Map<String, DiscoverySortFieldConfiguration> sortFields = new HashMap<String, DiscoverySortFieldConfiguration>();
         Set<String> moreLikeThisFields = new HashSet<String>();
         List<String> toProjectionFields = new ArrayList<String>();
 
@@ -689,13 +690,11 @@ public class CrisSearchService extends SolrServiceImpl
 
         commonsIndexerAnagrafica(dso, doc, schema, sortFieldsAdded,
                 hitHighlightingFields, uuid, toIgnoreFields, searchFilters,
-                toProjectionFields, sortFields,
-                moreLikeThisFields);
+                toProjectionFields, sortFields, moreLikeThisFields);
 
         commonsIndexerEnhancer(dso, doc, schema, sortFieldsAdded,
                 hitHighlightingFields, uuid, toIgnoreFields, searchFilters,
-                toProjectionFields, sortFields,
-                moreLikeThisFields);
+                toProjectionFields, sortFields, moreLikeThisFields);
 
         commonsIndexerTimestamp(dso, doc, schema);
 
@@ -743,22 +742,32 @@ public class CrisSearchService extends SolrServiceImpl
     {
         try
         {
-            if (dso.getTimeStampInfo() != null && dso.getTimeStampInfo().getTimestampCreated() != null
-                    && dso.getTimeStampInfo().getTimestampCreated().getTimestamp() != null)
+            if (dso.getTimeStampInfo() != null
+                    && dso.getTimeStampInfo().getTimestampCreated() != null
+                    && dso.getTimeStampInfo().getTimestampCreated()
+                            .getTimestamp() != null)
             {
-                doc.addField(schema + ".time_creation_dt", dso.getTimeStampInfo()
-                        .getTimestampCreated().getTimestamp());
-                doc.addField("crisDateIssued.year", DateFormatUtils.formatUTC(dso.getTimeStampInfo()
-                        .getTimestampCreated().getTimestamp(), "yyyy"));
+                doc.addField(schema + ".time_creation_dt", dso
+                        .getTimeStampInfo().getTimestampCreated()
+                        .getTimestamp());
+                doc.addField(
+                        "crisDateIssued.year",
+                        DateFormatUtils.formatUTC(dso.getTimeStampInfo()
+                                .getTimestampCreated().getTimestamp(), "yyyy"));
             }
 
-            if (dso.getTimeStampInfo() != null && dso.getTimeStampInfo().getTimestampLastModified() != null
-                    && dso.getTimeStampInfo().getTimestampLastModified().getTimestamp() != null)
+            if (dso.getTimeStampInfo() != null
+                    && dso.getTimeStampInfo().getTimestampLastModified() != null
+                    && dso.getTimeStampInfo().getTimestampLastModified()
+                            .getTimestamp() != null)
             {
                 doc.addField(schema + ".time_lastmodified_dt", dso
-                        .getTimeStampInfo().getTimestampLastModified().getTimestamp());
-                doc.addField("crisDateIssued.year_lastmodified", DateFormatUtils.formatUTC(dso.getTimeStampInfo()
-                        .getTimestampCreated().getTimestamp(), "yyyy"));
+                        .getTimeStampInfo().getTimestampLastModified()
+                        .getTimestamp());
+                doc.addField(
+                        "crisDateIssued.year_lastmodified",
+                        DateFormatUtils.formatUTC(dso.getTimeStampInfo()
+                                .getTimestampCreated().getTimestamp(), "yyyy"));
             }
         }
         catch (Exception e)
@@ -768,13 +777,9 @@ public class CrisSearchService extends SolrServiceImpl
     }
 
     private <P extends Property<TP>, TP extends PropertiesDefinition> void commonsIndexerEnhancer(
-            ICrisObject<P, TP> dso,
-            SolrInputDocument doc,
-            String schema,
-            List<String> sortFieldsAdded,
-            Set<String> hitHighlightingFields,
-            String uuid,
-            List<String> toIgnoreFields,
+            ICrisObject<P, TP> dso, SolrInputDocument doc, String schema,
+            List<String> sortFieldsAdded, Set<String> hitHighlightingFields,
+            String uuid, List<String> toIgnoreFields,
             Map<String, List<DiscoverySearchFilter>> searchFilters,
             List<String> toProjectionFields,
             Map<String, DiscoverySortFieldConfiguration> sortFields,
@@ -799,8 +804,8 @@ public class CrisSearchService extends SolrServiceImpl
                             indexProperty(doc, uuid, field, meta,
                                     toIgnoreFields, searchFilters,
                                     toProjectionFields, sortFields,
-                                    sortFieldsAdded,
-                                    hitHighlightingFields, moreLikeThisFields);
+                                    sortFieldsAdded, hitHighlightingFields,
+                                    moreLikeThisFields);
 
                         }
                     }
@@ -814,13 +819,9 @@ public class CrisSearchService extends SolrServiceImpl
     }
 
     private <P extends Property<TP>, TP extends PropertiesDefinition> void commonsIndexerAnagrafica(
-            AnagraficaSupport<P, TP> dso,
-            SolrInputDocument doc,
-            String schema,
-            List<String> sortFieldsAdded,
-            Set<String> hitHighlightingFields,
-            String uuid,
-            List<String> toIgnoreFields,
+            AnagraficaSupport<P, TP> dso, SolrInputDocument doc, String schema,
+            List<String> sortFieldsAdded, Set<String> hitHighlightingFields,
+            String uuid, List<String> toIgnoreFields,
             Map<String, List<DiscoverySearchFilter>> searchFilters,
             List<String> toProjectionFields,
             Map<String, DiscoverySortFieldConfiguration> sortFields,

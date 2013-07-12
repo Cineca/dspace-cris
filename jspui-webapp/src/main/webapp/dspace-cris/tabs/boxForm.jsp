@@ -501,6 +501,11 @@ The contents of this file are subject to the license and copyright
 			<fmt:message
 				key="jsp.dspace-admin.hku.jdyna-configuration.newoupointerdynamicfield" />
 			</a></div>
+			<div style="padding: 0; margin: 0 10px;"><a
+				href="<%=request.getContextPath()%>/cris/administrator/${specificPartPath}/createDOPointerDynamicField.htm?boxId=${box.id}&tabId=${tabId}">
+			<fmt:message
+				key="jsp.dspace-admin.hku.jdyna-configuration.newdopointerdynamicfield" />
+			</a></div>
 		</c:if>
 
 	</form:form>

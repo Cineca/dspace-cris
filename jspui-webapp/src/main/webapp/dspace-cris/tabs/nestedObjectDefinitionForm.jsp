@@ -182,6 +182,8 @@ The contents of this file are subject to the license and copyright
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addpjpointernesteddynamicfield" />" />
 						<input type="submit" name="pointerou"
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addoupointernesteddynamicfield" />" />
+						<input type="submit" name="pointerdo"
+							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.adddopointernesteddynamicfield" />" />
 							
 						<c:forEach
 							items="${propertiesdefinition.real.mask}"
