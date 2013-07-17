@@ -210,34 +210,6 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     }
 
 
-    /**
-     * Convenience method to get data from ResearcherPage by a string. For any
-     * existent field name the method must return the relative value (i.e
-     * getMetadata("fullName") is equivalent to getFullName()) but the method
-     * always return a list (with 0, 1 or more elements). For dynamic field it
-     * returns the value of the dynamic field with the shorter name equals to
-     * the argument. Only public values are returned!
-     * 
-     * 
-     * @param dcField
-     *            the field (not null) to retrieve the value
-     * @return a list of 0, 1 or more values
-     */
-    public List<String> getMetadata(String field)
-    {
-        List<String> result = new ArrayList();
-
-        List<ProjectProperty> dyna = getDynamicField().getAnagrafica4view().get(
-                field);
-        for (ProjectProperty prop : dyna)
-        {
-            if (prop.getVisibility() == VisibilityConstants.PUBLIC)
-                result.add(prop.toString());
-        }
-
-        return result;
-    }
-
     public String getPublicPath()
     {        
         return "project";

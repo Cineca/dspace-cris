@@ -36,9 +36,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByOwner", query = "from TabDynamicObject tab where visibility = 0 or visibility = 2 or visibility = 3 order by priority", cacheable=true),
 		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAnonimous", query = "from TabDynamicObject tab where visibility = 3 order by priority", cacheable=true),
 		@org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findTabByType", query = "from TabDynamicObject where typeDef = ?", cacheable=true),
-        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAdminAndTypeDef", query = "from TabDynamicObject tab where ((visibility = 1 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority", cacheable=true),
-        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByOwnerAndTypeDef", query = "from TabDynamicObject tab where ((visibility = 0 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority", cacheable=true),
-        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAnonimousAndTypeDef", query = "from TabDynamicObject tab where (visibility = 3 and typeDef = ?) order by priority", cacheable=true)
+        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAdminAndTypoDef", query = "from TabDynamicObject tab where ((visibility = 1 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority", cacheable=true),
+        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByOwnerAndTypoDef", query = "from TabDynamicObject tab where ((visibility = 0 or visibility = 2 or visibility = 3) and typeDef = ?) order by priority", cacheable=true),                                                      
+        @org.hibernate.annotations.NamedQuery(name = "TabDynamicObject.findByAnonimousAndTypoDef", query = "from TabDynamicObject tab where (visibility = 3 and typeDef = ?) order by priority", cacheable=true)
 		
 })
 public class TabDynamicObject extends TypedAbstractTab<BoxDynamicObject, DynamicObjectType, DynamicPropertiesDefinition> {

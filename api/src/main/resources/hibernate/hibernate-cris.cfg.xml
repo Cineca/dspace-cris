@@ -167,6 +167,11 @@
 		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetFileOU" />
 		
 		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetFileDO" />
+		
+		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetPointerOU" />
+		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetPointerPJ" />
+		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetPointerRP" />
+		<mapping class="org.dspace.app.cris.model.jdyna.widget.WidgetPointerDO" />
 
 
 		<mapping class="org.dspace.app.cris.model.StatSubscription" />

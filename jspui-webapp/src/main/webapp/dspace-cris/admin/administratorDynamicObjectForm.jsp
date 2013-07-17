@@ -57,7 +57,7 @@ The contents of this file are subject to the license and copyright
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
 			<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/${objectList.dynamicObject.typo.shortName}/details.htm" paramId="id" paramProperty="id" sortable="true" />							
 			<display:column headerClass="uuid" titleKey="jsp.layout.table.cris.admin-list.uuid" property="uuid" url="/cris/${objectList.dynamicObject.typo.shortName}/details.htm" paramId="id" paramProperty="id" sortable="true" />										
-			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="sourceID" url="/cris/${objectList.dynamicObject.typo.shortName}/details.htm" paramId="sourceID" paramProperty="sourceID" sortable="true"/>		
+			<display:column headerClass="sourceID" class="sourceID" titleKey="jsp.layout.table.cris.admin-list.sourceID" property="sourceID" url="/cris/${objectList.dynamicObject.typo.shortName}/details.htm" paramId="code" paramProperty="sourceID" sortable="true"/>		
 			<display:column headerClass="name" titleKey="jsp.layout.table.cris.admin-list.name" property="name" sortable="false"/>			
 			<display:column headerClass="active" titleKey="jsp.layout.table.cris.admin-list.status" sortable="true" sortProperty="status">				
 				<form:checkbox cssClass="active" path="list[${objectList_rowNum-1}].status" value="1"/>				

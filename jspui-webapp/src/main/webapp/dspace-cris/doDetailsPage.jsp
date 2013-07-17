@@ -22,10 +22,10 @@ The contents of this file are subject to the license and copyright
 <c:choose>
 <c:when test="${param.onlytab}">
 <c:forEach items="${tabList}" var="areaIter" varStatus="rowCounter">
-	<c:if test="${areaIter.id == tabId}">
-	<c:set var="area" scope="request" value="${areaIter}"></c:set>
-	<c:set var="currTabIdx" scope="request" value="${rowCounter.count}" />
-	<jsp:include page="singleTabDetailsPage.jsp"></jsp:include>
+	<c:if test="${areaIter.id == tabId}">	
+		<c:set var="area" scope="request" value="${areaIter}"></c:set>
+		<c:set var="currTabIdx" scope="request" value="${rowCounter.count}" />
+		<jsp:include page="singleTabDetailsPage.jsp"></jsp:include>
 	</c:if>
 </c:forEach>
 </c:when>

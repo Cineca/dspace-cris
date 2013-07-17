@@ -333,6 +333,7 @@ public class CrisSearchService extends SolrServiceImpl
         createCrisIndex(context, ResearcherPage.class);
         createCrisIndex(context, Project.class);
         createCrisIndex(context, OrganizationUnit.class);
+        createCrisIndex(context, ResearchObject.class);
     }
 
     private void updateCrisIndex(Context context, boolean force)
@@ -608,23 +609,29 @@ public class CrisSearchService extends SolrServiceImpl
     public void updateIndex(Context context, boolean force, int type)
     {
 
-        if (CrisConstants.RP_TYPE_ID == type)
+        if (type > CrisConstants.CRIS_DYNAMIC_TYPE_ID_START)
         {
-            createCrisIndex(context, ResearcherPage.class);
-        }
-        else if (CrisConstants.PROJECT_TYPE_ID == type)
-        {
-            createCrisIndex(context, Project.class);
-        }
-        else if (CrisConstants.OU_TYPE_ID == type)
-        {
-            createCrisIndex(context, OrganizationUnit.class);
+            createCrisIndex(context, ResearchObject.class);
         }
         else
         {
-            super.updateIndex(context, force, type);
+            if (CrisConstants.RP_TYPE_ID == type)
+            {
+                createCrisIndex(context, ResearcherPage.class);
+            }
+            else if (CrisConstants.PROJECT_TYPE_ID == type)
+            {
+                createCrisIndex(context, Project.class);
+            }
+            else if (CrisConstants.OU_TYPE_ID == type)
+            {
+                createCrisIndex(context, OrganizationUnit.class);
+            }
+            else
+            {
+                super.updateIndex(context, force, type);
+            }
         }
-
     }
 
     private <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void createCrisIndex(

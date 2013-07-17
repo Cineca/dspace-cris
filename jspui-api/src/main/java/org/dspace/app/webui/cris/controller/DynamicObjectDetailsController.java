@@ -162,8 +162,8 @@ public class DynamicObjectDetailsController
             isAdmin = true; // admin
         }
 
-        List<TabDynamicObject> tabs = applicationService.getTabsByVisibility(
-                TabDynamicObject.class, isAdmin);
+        List<TabDynamicObject> tabs = applicationService.getTabsByVisibilityAndTypo(
+                TabDynamicObject.class, isAdmin, extractDynamicObject(request).getTypo());
 
         return tabs;
     }

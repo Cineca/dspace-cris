@@ -16,8 +16,6 @@ import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
 import org.dspace.app.cris.model.jdyna.DecoratorDynamicPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested;
-import org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition;
-import org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested;
 import org.dspace.app.cris.model.jdyna.DynamicNestedObject;
 import org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DynamicNestedProperty;
@@ -49,7 +47,7 @@ public class DONavigationController
         {
 
 
-            if (cont instanceof DecoratorOUTypeNested)
+            if (cont instanceof DecoratorDynamicTypeNested)
             {
                 DecoratorDynamicTypeNested decorator = (DecoratorDynamicTypeNested) cont;
                 DynamicTypeNestedObject real = (DynamicTypeNestedObject)decorator.getReal();
@@ -82,13 +80,13 @@ public class DONavigationController
             }
 
              
-            if (cont instanceof DecoratorOUPropertiesDefinition)
+            if (cont instanceof DecoratorDynamicPropertiesDefinition)
             {
                 DecoratorDynamicPropertiesDefinition decorator = (DecoratorDynamicPropertiesDefinition) cont;
                 result += ResearcherTagLibraryFunctions.countDynamicPublicMetadata(
                         p.getDynamicField(), decorator.getShortName(),
                         decorator.getRendering(), decorator.getReal(),
-                        true);
+                        false);
             }
              
 
