@@ -7,7 +7,6 @@
  */
 package org.dspace.app.cris.service;
 
-import it.cilea.osd.common.dao.IApplicationDao;
 import it.cilea.osd.common.model.Identifiable;
 import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ANestedProperty;
@@ -28,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.dspace.app.cris.dao.ApplicationDao;
 import org.dspace.app.cris.dao.CrisObjectDao;
 import org.dspace.app.cris.dao.CrisSubscriptionDao;
+import org.dspace.app.cris.dao.DynamicObjectDao;
 import org.dspace.app.cris.dao.OrganizationUnitDao;
 import org.dspace.app.cris.dao.ProjectDao;
 import org.dspace.app.cris.dao.RelationPreferenceDao;
@@ -39,9 +39,11 @@ import org.dspace.app.cris.model.CrisSubscription;
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.RelationPreference;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.StatSubscription;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
+import org.dspace.app.cris.model.jdyna.DynamicObjectType;
 import org.dspace.app.cris.model.jdyna.RPProperty;
 import org.dspace.app.cris.model.ws.User;
 import org.dspace.app.cris.util.ResearcherPageUtils;
@@ -61,7 +63,8 @@ public class ApplicationService extends ExtendedTabService
     private ResearcherPageDao researcherPageDao;
     private ProjectDao projectDao;
     private OrganizationUnitDao organizationUnitDao;
-
+    private DynamicObjectDao researchDao;
+    
     private CrisSubscriptionDao crisSubscriptionDao;
 
     private StatSubscriptionDao statSubscriptionDao;
@@ -88,7 +91,8 @@ public class ApplicationService extends ExtendedTabService
         statSubscriptionDao = (StatSubscriptionDao) getDaoByModel(StatSubscription.class);
         userWSDao = (UserWSDao) getDaoByModel(User.class);
         relationPreferenceDao = (RelationPreferenceDao) getDaoByModel(RelationPreference.class);
-
+        researchDao = (DynamicObjectDao) getDaoByModel(ResearchObject.class);
+        
         if (cache == null)
         {
             try
@@ -121,17 +125,6 @@ public class ApplicationService extends ExtendedTabService
         }
     }
 
-    /**
-     * Setter for the applicationDao
-     * 
-     * @param applicationDao
-     *            the dao to use for generic query
-     */
-    public void setApplicationDao(IApplicationDao applicationDao)
-    {
-        this.applicationDao = applicationDao;
-    }
-   
     /**
      * Evict a persistent object from the HibernateSession
      * 
@@ -691,4 +684,19 @@ public class ApplicationService extends ExtendedTabService
         }
         return result;
     }
+
+    public long countResearchObjectByType(DynamicObjectType typo)
+    {
+        return researchDao.countByType(typo);
+    }
+
+    public List<ResearchObject> getResearchObjectPaginateListByType(DynamicObjectType typo,
+            String sort, boolean inverse,
+            int page, Integer maxResults)
+    {    
+        return researchDao.paginateByType(typo, sort, inverse, (page - 1)
+                * maxResults, maxResults);
+    }
+   
+   
 }

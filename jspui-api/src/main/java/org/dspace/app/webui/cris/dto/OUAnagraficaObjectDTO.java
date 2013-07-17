@@ -7,8 +7,6 @@
  */
 package org.dspace.app.webui.cris.dto;
 
-import it.cilea.osd.jdyna.dto.AnagraficaObjectAreaDTO;
-
 import java.util.List;
 
 import org.apache.commons.collections.FactoryUtils;

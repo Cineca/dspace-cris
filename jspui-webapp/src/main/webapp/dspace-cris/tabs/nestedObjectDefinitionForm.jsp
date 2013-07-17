@@ -16,6 +16,12 @@ The contents of this file are subject to the license and copyright
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 <%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@page import="it.cilea.osd.jdyna.widget.Size"%>
+<%@page import="java.util.LinkedList"%>
+<%@page import="java.util.List"%>
+<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
+<%@page import="it.cilea.osd.jdyna.utils.SimpleSelectableObject"%>
+<%@page import="org.dspace.app.cris.model.jdyna.DynamicObjectType"%>
+<%@page import="org.dspace.app.cris.model.CrisConstants"%>
 
 <%@ taglib uri="jdynatags" prefix="dyna" %>
 <c:set var="STANDARD_ACCESS" value="<%=  AccessLevelConstants.STANDARD_ACCESS %>"></c:set>
@@ -182,6 +188,8 @@ The contents of this file are subject to the license and copyright
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addpjpointernesteddynamicfield" />" />
 						<input type="submit" name="pointerou"
 							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.addoupointernesteddynamicfield" />" />
+						<input type="submit" name="pointerdo"
+							value="<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.adddopointernesteddynamicfield" />" />
 							
 						<c:forEach
 							items="${propertiesdefinition.real.mask}"
@@ -310,6 +318,24 @@ The contents of this file are subject to the license and copyright
 											</div>
 											<dyna:text propertyPath="real.mask[${i.count - 1}].rendering.filtro"  visibility="false"
 												labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filter" helpKey="help.jdyna.message.rendering.pointer.filter"/>
+												
+											<div class="dynaClear">
+												&nbsp;
+											</div>												
+											<c:if test="${dyna:instanceOf(subtypo.rendering,'org.dspace.app.cris.model.jdyna.widget.WidgetPointerDO')}">
+							
+												<% 
+													List<DynamicObjectType> researchobjects = (List<DynamicObjectType>)request.getAttribute("researchobjects");
+													List<SimpleSelectableObject>  types = new LinkedList<SimpleSelectableObject>(); 
+													for(DynamicObjectType objs : researchobjects) {
+													    SimpleSelectableObject sso = new SimpleSelectableObject();
+													    sso.setDisplayValue(objs.getLabel());
+													    sso.setIdentifyingValue("search.resourcetype:"+ (objs.getId() + CrisConstants.CRIS_DYNAMIC_TYPE_ID_START));
+													    types.add(sso);
+													}												
+												%>
+												<dyna:select propertyPath="real.mask[${i.count - 1}].rendering.filterExtended" labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filterextended" collection="<%= types %>"/>												
+											</c:if>
 											<div class="dynaClear">
 												&nbsp;
 											</div>

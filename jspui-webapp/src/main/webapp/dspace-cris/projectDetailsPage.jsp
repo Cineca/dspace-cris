@@ -49,10 +49,6 @@ The contents of this file are subject to the license and copyright
 
 %>
 <c:set var="admin" scope="request"><%= isAdmin %></c:set>
-<c:set var="dspace.layout.head" scope="request">
-    <link href="<%=request.getContextPath() %>/css/item.css" type="text/css" rel="stylesheet" />
-	<link href="<%=request.getContextPath() %>/css/grant.css" type="text/css" rel="stylesheet" />
-</c:set>
 <c:set var="dspace.layout.head.last" scope="request">
 	<!--[if lte IE 8]>
 			

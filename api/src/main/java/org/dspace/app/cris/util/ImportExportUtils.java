@@ -60,7 +60,6 @@ import jxl.write.WriteException;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.IExportableDynamicObject;
-import org.dspace.app.cris.model.Investigator;
 import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.RestrictedField;
@@ -1378,8 +1377,7 @@ public class ImportExportUtils
                             editImported++;
                         }
 
-                        List<RPNestedPropertiesDefinition> subTps = applicationService
-                                .findTipologieProprietaAssegnabili(nestedObject);
+                        List<RPNestedPropertiesDefinition> subTps = nestedObject.getTypo().getMask();
                         AnagraficaUtils
                                 .fillDTO(dtoNested, nestedObject, subTps);
 

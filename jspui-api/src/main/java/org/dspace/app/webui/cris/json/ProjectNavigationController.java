@@ -84,7 +84,7 @@ public class ProjectNavigationController
                 result += ResearcherTagLibraryFunctions.countDynamicPublicMetadata(
                         p.getDynamicField(), decorator.getShortName(),
                         decorator.getRendering(), decorator.getReal(),
-                        true);
+                        false);
 
             }
              

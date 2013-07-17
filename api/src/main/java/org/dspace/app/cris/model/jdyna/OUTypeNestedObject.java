@@ -31,7 +31,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "cris_ou_no_tp")
 @NamedQueries ({
     @NamedQuery(name="OUTypeNestedObject.findAll", query = "from OUTypeNestedObject order by id" ),
-    @NamedQuery(name="OUTypeNestedObject.uniqueByNome", query = "from OUTypeNestedObject where shortName = ?" )              
+    @NamedQuery(name="OUTypeNestedObject.uniqueByShortName", query = "from OUTypeNestedObject where shortName = ?" )              
 })
 public class OUTypeNestedObject extends ATypeNestedObject<OUNestedPropertiesDefinition>
 {
@@ -74,5 +74,11 @@ public class OUTypeNestedObject extends ATypeNestedObject<OUNestedPropertiesDefi
     public AWidget getRendering()
     {        
         return null;
+    }
+
+    @Override
+    public Class<OUNestedPropertiesDefinition> getClassPropertyDefinition()
+    {
+        return OUNestedPropertiesDefinition.class;
     }
 }
