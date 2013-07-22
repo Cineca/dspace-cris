@@ -88,6 +88,8 @@ public abstract class ASolrStatsConfigurerComponent<T extends DSpaceObject>
     protected TreeKeyMap statisticDatasBeans = new TreeKeyMap();
 
     public QueryResponse solrResponse;
+    
+    private Integer relationObjectType;
 
     protected BarrChartStatisticDatasBean generateTotalView(String key1,
             String key2, String key3)
@@ -557,5 +559,16 @@ public abstract class ASolrStatsConfigurerComponent<T extends DSpaceObject>
             limitedData.add(new StatisticDatasBeanRow(_NotAvailable, null));
         }
         return pieStatisticBean;
+    }
+    
+   
+    public Integer getRelationObjectType()
+    {
+        return this.relationObjectType;
+    }
+
+    public void setRelationObjectType(Integer relationObjectType)
+    {
+        this.relationObjectType = relationObjectType;
     }
 }

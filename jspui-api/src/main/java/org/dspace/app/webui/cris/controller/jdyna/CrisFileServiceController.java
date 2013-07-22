@@ -82,8 +82,10 @@ public class CrisFileServiceController<T extends ACrisObject<P, TP, NP, NTP, ACN
             String idString = request.getPathInfo();
             String[] pathInfo = idString.split("/", 4);
             String folder = pathInfo[3];
-            String id = folder.substring(0, 7);
-            String idTP = folder.substring(8, folder.length() - 1);
+            
+            int indexOf = folder.indexOf("/");
+            String id = folder.substring(0, indexOf);
+            String idTP = folder.substring((indexOf+1), folder.length() - 1);
             TP tp = applicationService.get(getTargetPropertyDefinition(),
                     Integer.parseInt(idTP));
             if (tp.getRendering() instanceof AWidgetFileCris)

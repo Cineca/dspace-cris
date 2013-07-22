@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
+import org.dspace.app.cris.batch.ScriptUpdateRPItemSearchIndex;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.model.jdyna.DynamicObjectType;
 import org.dspace.app.cris.service.ApplicationService;
@@ -27,6 +29,10 @@ import org.dspace.content.Item;
 import org.dspace.core.Constants;
 
 public class CrisConstants {
+    
+    /** log4j logger */
+    private static Logger log = Logger
+            .getLogger(CrisConstants.class);
     
     private static final String PREFIX_TYPE = "CRIS";
 
@@ -59,6 +65,10 @@ public class CrisConstants {
         }
         else if(Community.class.isAssignableFrom(clazz)) {
             return Constants.COMMUNITY;
+        }
+        else if(ResearchObject.class.isAssignableFrom(clazz)) {
+            log.warn("Impossible to retrieve exact type definition from a dynamic object class, returned "+CRIS_DYNAMIC_TYPE_ID_START+" - the start placeholder");
+            return CRIS_DYNAMIC_TYPE_ID_START;
         }
         return CrisConstants.getEntityType(clazz.newInstance());
     }

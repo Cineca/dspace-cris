@@ -13,5 +13,6 @@ public interface IStatsGenericComponent<T extends DSpaceObject>
 {
     public Class<T> getRelationObjectClass();
     public Integer getRelationObjectType();
+    public void setRelationObjectType(Integer type);
     
 }

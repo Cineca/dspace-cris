@@ -25,12 +25,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.dspace.app.cris.integration.ICRISComponent;
 import org.dspace.app.cris.integration.statistics.AStatComponentService;
 import org.dspace.app.cris.integration.statistics.IStatsComponent;
 import org.dspace.app.cris.integration.statistics.IStatsDualComponent;
 import org.dspace.app.cris.integration.statistics.StatComponentsService;
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.CrisConstants;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.statistics.bean.ResultBean;
 import org.dspace.app.cris.statistics.bean.RightMenuBean;
@@ -44,11 +46,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class CrisStatisticsController<T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>>
         extends AStatisticsController<IStatsDualComponent>
 {
-    
+
     /** log4j logger */
     private static Logger log = Logger
             .getLogger(CrisStatisticsController.class);
-    
+
     private Class<T> target;
 
     public ModelAndView handleRequest(HttpServletRequest request,
@@ -88,37 +90,58 @@ public class CrisStatisticsController<T extends ACrisObject<P, TP, NP, NTP, ACNO
                 RightMenuBean menuV = new RightMenuBean();
                 menuV.setMode(StatsComponent.VIEW);
                 menuV.setType(AStatComponentService._SELECTED_OBJECT);
-                if (type.equals(menuV.getType()) && mode.equals(menuV.getMode())) {
+                if (type.equals(menuV.getType())
+                        && mode.equals(menuV.getMode()))
+                {
                     menuV.setCurrent(true);
-                }                    
+                }
                 rightMenu.add(menuV);
 
                 RightMenuBean menuD = new RightMenuBean();
                 menuD.setMode(StatsComponent.DOWNLOAD);
                 menuD.setType(AStatComponentService._SELECTED_OBJECT);
-                if (type.equals(menuD.getType()) && mode.equals(menuD.getMode())) {
+                if (type.equals(menuD.getType())
+                        && mode.equals(menuD.getMode()))
+                {
                     menuD.setCurrent(true);
-                }                    
+                }
                 rightMenu.add(menuD);
             }
-             
+
             for (String key : components.keySet())
             {
-                RightMenuBean menuV = new RightMenuBean();
-                menuV.setMode(StatsComponent.VIEW);
-                menuV.setType(key);
-                if (type.equals(menuV.getType()) && mode.equals(menuV.getMode())) {
-                    menuV.setCurrent(true);
-                }                    
-                rightMenu.add(menuV);
+                boolean createMenu = true;
+                if (ResearchObject.class.isAssignableFrom(getTarget()))
+                {
+                    String relationName = ((ICRISComponent) components.get(key))
+                            .getRelationConfiguration().getRelationName();
+                    if(!relationName.startsWith(getApplicationService().get(ResearchObject.class, Integer.parseInt(id)).getTypeText())) {
+                        createMenu = false;
+                    }
+                }
 
-                RightMenuBean menuD = new RightMenuBean();
-                menuD.setMode(StatsComponent.DOWNLOAD);
-                menuD.setType(key);
-                if (type.equals(menuD.getType()) && mode.equals(menuD.getMode())) {
-                    menuD.setCurrent(true);
-                }                    
-                rightMenu.add(menuD);
+                if (createMenu)
+                {
+                    RightMenuBean menuV = new RightMenuBean();
+                    menuV.setMode(StatsComponent.VIEW);
+                    menuV.setType(key);
+                    if (type.equals(menuV.getType())
+                            && mode.equals(menuV.getMode()))
+                    {
+                        menuV.setCurrent(true);
+                    }
+                    rightMenu.add(menuV);
+
+                    RightMenuBean menuD = new RightMenuBean();
+                    menuD.setMode(StatsComponent.DOWNLOAD);
+                    menuD.setType(key);
+                    if (type.equals(menuD.getType())
+                            && mode.equals(menuD.getMode()))
+                    {
+                        menuD.setCurrent(true);
+                    }
+                    rightMenu.add(menuD);
+                }
             }
 
             if (components.containsKey(type))
@@ -151,10 +174,18 @@ public class CrisStatisticsController<T extends ACrisObject<P, TP, NP, NTP, ACNO
 
             }
 
+            Integer relationObjectType = statcomponent.getRelationObjectType();
+            if (relationObjectType
+                    .equals(CrisConstants.CRIS_DYNAMIC_TYPE_ID_START))
+            {
+                relationObjectType = getApplicationService().get(
+                        ResearchObject.class, Integer.parseInt(id)).getType();
+                statcomponent.setRelationObjectType(relationObjectType);
+            }
+
             dataBeans.putAll(statcomponent.query(id, solrServer));
             label.putAll(statcomponent.getLabels(UIUtil.obtainContext(request),
-                    CrisConstants.getEntityTypeText(statcomponent
-                            .getRelationObjectType())));
+                    CrisConstants.getEntityTypeText(relationObjectType)));
 
             ResultBean result = new ResultBean(dataBeans,
                     statsComponentsService.getCommonsParams());
@@ -164,8 +195,8 @@ public class CrisStatisticsController<T extends ACrisObject<P, TP, NP, NTP, ACNO
             data.put("object", getObject(request));
             data.put("target", getTarget());
             data.put("rightMenu", rightMenu);
-            data.put("relationType", CrisConstants
-                    .getEntityTypeText(statcomponent.getRelationObjectType()));
+            data.put("relationType",
+                    CrisConstants.getEntityTypeText(relationObjectType));
             data.put("showExtraTab", statsComponentsService.isShowExtraTab());
             modelAndView.addObject("data", data);
             addSubscriptionStatus(modelAndView, request);
@@ -182,22 +213,23 @@ public class CrisStatisticsController<T extends ACrisObject<P, TP, NP, NTP, ACNO
     @Override
     public String getId(HttpServletRequest request)
     {
-        String uuid = request.getParameter("id");     
-        return String.valueOf(getApplicationService().getEntityByUUID(uuid).getId());
+        String uuid = request.getParameter("id");
+        return String.valueOf(getApplicationService().getEntityByUUID(uuid)
+                .getId());
     }
 
     @Override
     public DSpaceObject getObject(HttpServletRequest request)
     {
         String uuid = request.getParameter("id");
-        return getApplicationService().getEntityByUUID(uuid);        
+        return getApplicationService().getEntityByUUID(uuid);
     }
 
     @Override
     public String getTitle(HttpServletRequest request)
     {
         String uuid = request.getParameter("id");
-        return getApplicationService().getEntityByUUID(uuid).getName();        
+        return getApplicationService().getEntityByUUID(uuid).getName();
     }
 
     public void setTarget(Class<T> target)

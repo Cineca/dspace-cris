@@ -20,8 +20,11 @@ public class CustomBoxComparator<P extends Property<TP>, TP extends PropertiesDe
 
 	@Override
 	public int compare(B o1, B o2) {
-		if(o2==null) return -1;				
-		return o1.getTitle().trim().compareTo(o2.getTitle().trim());
+		if(o2==null) return -1;
+		if(o1.getTitle()!=null && o2.getTitle()!=null) {
+		    return o1.getTitle().trim().compareTo(o2.getTitle().trim());    
+		}
+		return o1.compareTo(o2);
 	}
 
 }
