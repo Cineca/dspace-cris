@@ -19,7 +19,7 @@ import javax.persistence.Transient;
 @Table(name="cris_rp_pdef")
 @NamedQueries( {
     @NamedQuery(name = "RPPropertiesDefinition.findAll", query = "from RPPropertiesDefinition order by id", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
-  @NamedQuery(name = "RPPropertiesDefinition.findValoriOnCreation", query = "from RPPropertiesDefinition where onCreation=true", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
+    @NamedQuery(name = "RPPropertiesDefinition.findValoriOnCreation", query = "from RPPropertiesDefinition where onCreation=true", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
     @NamedQuery(name = "RPPropertiesDefinition.findSimpleSearch", query = "from RPPropertiesDefinition where simpleSearch=true", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
     @NamedQuery(name = "RPPropertiesDefinition.findAdvancedSearch", query = "from RPPropertiesDefinition where advancedSearch=true", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),
     @NamedQuery(name = "RPPropertiesDefinition.uniqueIdByShortName", query = "select id from RPPropertiesDefinition where shortName = ?", hints = { @javax.persistence.QueryHint(name = "org.hibernate.cacheable", value = "true") }),

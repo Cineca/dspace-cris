@@ -32,16 +32,20 @@ import org.dspace.content.authority.Choices;
 
 @MappedSuperclass
 public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>>
-        extends DSpaceObject implements ICrisObject<P, TP>, BrowsableDSpaceObject, IExportableDynamicObject<TP, P, ACrisObject<P,TP, NP, NTP, ACNO, ATNO>>
+        extends DSpaceObject
+        implements
+        ICrisObject<P, TP>,
+        BrowsableDSpaceObject,
+        IExportableDynamicObject<TP, P, ACrisObject<P, TP, NP, NTP, ACNO, ATNO>>
 {
     /** Cris internal unique identifier, must be null */
     @Column(nullable = true, unique = true)
     private String sourceID;
 
-    /** Cris public unique identifier, must be null  */
+    /** Cris public unique identifier, must be null */
     @Column(nullable = true, unique = true)
     private String crisID;
-    
+
     private Boolean status;
 
     @Column(nullable = false, unique = true)
@@ -82,7 +86,8 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         return sourceID;
     }
 
-    public abstract String getPublicPath();    
+    public abstract String getPublicPath();
+
     public abstract String getAuthorityPrefix();
 
     @Override
@@ -126,8 +131,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     {
         List<String> result = new ArrayList();
 
-        List<P> dyna = getAnagrafica4view().get(
-                field);
+        List<P> dyna = getAnagrafica4view().get(field);
         for (P prop : dyna)
         {
             if (prop.getVisibility() == VisibilityConstants.PUBLIC)
@@ -136,54 +140,62 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
 
         return result;
     }
-    
+
     @Override
     public DCValue[] getMetadata(String schema, String element,
             String qualifier, String lang)
     {
-        if (!schema.equalsIgnoreCase("cris" + this.getPublicPath()))
+        List values = new ArrayList();
+        String authority = null;
+        if ("crisdo".equals(schema) && "name".equals(element))
+        {
+            values.add(getName());            
+        }
+        else if (!schema.equalsIgnoreCase("cris" + this.getPublicPath()))
         {
             return new DCValue[0];
         }
-
-        element = getCompatibleJDynAShortName(this, element);
-
-        List<P> proprieties = this.getAnagrafica4view().get(element);
-        List values = new ArrayList();
-        String authority = null;
-        if (proprieties != null)
+        else
         {
-            for (P prop : proprieties)
+            element = getCompatibleJDynAShortName(this, element);
+
+            List<P> proprieties = this.getAnagrafica4view().get(element);
+            
+            if (proprieties != null)
             {
-                Object val = prop.getObject();
-                if (StringUtils.isNotEmpty(qualifier)
-                        && val instanceof ACrisObject)
+                for (P prop : proprieties)
                 {
-                    authority = ResearcherPageUtils.getPersistentIdentifier((ACrisObject) val);
-                    qualifier = getCompatibleJDynAShortName((ACrisObject) val,
-                            qualifier);
-                    List pointProps = (List) ((ACrisObject) val)
-                            .getAnagrafica4view().get(qualifier);
-                    if (pointProps != null && pointProps.size() > 0)
+                    Object val = prop.getObject();
+                    if (StringUtils.isNotEmpty(qualifier)
+                            && val instanceof ACrisObject)
                     {
-                        for (Object pprop : pointProps)
+                        authority = ResearcherPageUtils
+                                .getPersistentIdentifier((ACrisObject) val);
+                        qualifier = getCompatibleJDynAShortName(
+                                (ACrisObject) val, qualifier);
+                        List pointProps = (List) ((ACrisObject) val)
+                                .getAnagrafica4view().get(qualifier);
+                        if (pointProps != null && pointProps.size() > 0)
                         {
-                            values.add(((Property) pprop).getObject());
+                            for (Object pprop : pointProps)
+                            {
+                                values.add(((Property) pprop).getObject());
+                            }
                         }
                     }
-                }
-                else if (val instanceof ACrisObject)
-                {
-                    authority = ResearcherPageUtils.getPersistentIdentifier((ACrisObject) val);
-                    values.add(((ACrisObject) val).getName());
-                }
-                else
-                {
-                    values.add(val);
+                    else if (val instanceof ACrisObject)
+                    {
+                        authority = ResearcherPageUtils
+                                .getPersistentIdentifier((ACrisObject) val);
+                        values.add(((ACrisObject) val).getName());
+                    }
+                    else
+                    {
+                        values.add(val);
+                    }
                 }
             }
         }
-
         DCValue[] result = new DCValue[values.size()];
         for (int idx = 0; idx < values.size(); idx++)
         {
@@ -233,56 +245,64 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         this.crisID = crisID;
     }
 
-	abstract public TimeStampInfo getTimeStampInfo();
+    abstract public TimeStampInfo getTimeStampInfo();
 
-	public String getNamePublicIDAttribute()
+    public String getNamePublicIDAttribute()
     {
         return ExportConstants.NAME_PUBLICID_ATTRIBUTE;
     }
 
-	
-	public String getValuePublicIDAttribute() {
+    public String getValuePublicIDAttribute()
+    {
         return "" + this.getId();
     }
 
-    public String getNameIDAttribute() {
+    public String getNameIDAttribute()
+    {
         return ExportConstants.NAME_ID_ATTRIBUTE;
     }
 
-    public String getValueIDAttribute() {
-        if (this.getUuid() == null) {
+    public String getValueIDAttribute()
+    {
+        if (this.getUuid() == null)
+        {
             return "";
         }
         return "" + this.getUuid().toString();
     }
 
-    public String getNameBusinessIDAttribute() {
+    public String getNameBusinessIDAttribute()
+    {
         return ExportConstants.NAME_BUSINESSID_ATTRIBUTE;
     }
 
-    public String getValueBusinessIDAttribute() {
+    public String getValueBusinessIDAttribute()
+    {
         return this.getSourceID();
     }
 
-    public String getNameTypeIDAttribute() {
+    public String getNameTypeIDAttribute()
+    {
         return ExportConstants.NAME_TYPE_ATTRIBUTE;
     }
 
-    public String getValueTypeIDAttribute() {
+    public String getValueTypeIDAttribute()
+    {
         return "" + getType();
     }
 
-    public String getNameSingleRowElement() {
+    public String getNameSingleRowElement()
+    {
         return ExportConstants.ELEMENT_SINGLEROW;
     }
 
     public ACrisObject<P, TP, NP, NTP, ACNO, ATNO> getAnagraficaSupport()
     {
         return this;
-    }    
-    
-    public abstract Class<ACNO> getClassNested(); 
+    }
+
+    public abstract Class<ACNO> getClassNested();
+
     public abstract Class<ATNO> getClassTypeNested();
-    
-    
+
 }

@@ -28,6 +28,7 @@
     <bean id="rpComponents" factory-bean="researcher" factory-method="getRPComponents" />
     <bean id="pjComponents" factory-bean="researcher" factory-method="getProjectComponents" />
     <bean id="ouComponents" factory-bean="researcher" factory-method="getOUComponents" />
+    <bean id="doComponents" factory-bean="researcher" factory-method="getDOComponents" />
 	
 	<bean id="sessionFactory" factory-bean="researcher" factory-method="getSessionFactory"/>
 	

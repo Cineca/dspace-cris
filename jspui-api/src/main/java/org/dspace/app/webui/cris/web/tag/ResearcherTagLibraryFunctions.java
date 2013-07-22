@@ -43,8 +43,10 @@ import org.dspace.app.cris.integration.ICRISComponent;
 import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.Project;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.RestrictedField;
+import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
 import org.dspace.app.cris.model.jdyna.BoxOrganizationUnit;
 import org.dspace.app.cris.model.jdyna.BoxProject;
 import org.dspace.app.cris.model.jdyna.BoxResearcherPage;
@@ -74,12 +76,13 @@ public class ResearcherTagLibraryFunctions
     public static final Log log = LogFactory
             .getLog(ResearcherTagLibraryFunctions.class);
 
-    public static boolean isGroupFieldsHidden(
-            ResearcherPage anagraficaObject, String logicGroup)
+    public static boolean isGroupFieldsHidden(ResearcherPage anagraficaObject,
+            String logicGroup)
     {
-    	return isGroupFieldsHidden(anagraficaObject.getDynamicField(), logicGroup);
+        return isGroupFieldsHidden(anagraficaObject.getDynamicField(),
+                logicGroup);
     }
-    
+
     private static boolean isGroupFieldsHidden(
             RPAdditionalFieldStorage anagraficaObject, String logicGroup)
     {
@@ -88,8 +91,8 @@ public class ResearcherTagLibraryFunctions
                 + logicGroup;
         log.debug("Get from configuration additional containables object : "
                 + dspaceProperty);
-        String confContainables = ConfigurationManager
-                .getProperty(CrisConstants.CFG_MODULE,dspaceProperty);
+        String confContainables = ConfigurationManager.getProperty(
+                CrisConstants.CFG_MODULE, dspaceProperty);
         if (confContainables != null && !confContainables.isEmpty())
         {
             String[] listConfContainables = confContainables.split(",");
@@ -124,8 +127,8 @@ public class ResearcherTagLibraryFunctions
                 + logicGroup + ".structural";
         log.debug("Get from configuration additional containables object : "
                 + dspaceProperty);
-        String confContainables = ConfigurationManager
-                .getProperty(CrisConstants.CFG_MODULE,dspaceProperty);
+        String confContainables = ConfigurationManager.getProperty(
+                CrisConstants.CFG_MODULE, dspaceProperty);
 
         if (confContainables != null && !confContainables.isEmpty())
         {
@@ -227,6 +230,12 @@ public class ResearcherTagLibraryFunctions
                     BoxOrganizationUnit.class, boxName);
             return isBoxHidden((OrganizationUnit) anagrafica, box);
         }
+        if (anagrafica instanceof ResearchObject)
+        {
+            BoxDynamicObject box = applicationService.getBoxByShortName(
+                    BoxDynamicObject.class, boxName);
+            return isBoxHidden((ResearchObject) anagrafica, box);
+        }
         BoxResearcherPage box = applicationService.getBoxByShortName(
                 BoxResearcherPage.class, boxName);
 
@@ -245,7 +254,7 @@ public class ResearcherTagLibraryFunctions
         {
             for (String key : rpComponent.keySet())
             {
-                                
+
                 if (box.getShortName().equals(key))
                 {
                     IComponent component = rpComponent.get(key);
@@ -273,12 +282,46 @@ public class ResearcherTagLibraryFunctions
     {
         Researcher researcher = new Researcher();
 
-        Map<String, ICRISComponent> rpComponent = researcher.getProjectComponents();
+        Map<String, ICRISComponent> rpComponent = researcher
+                .getProjectComponents();
         if (rpComponent != null && !rpComponent.isEmpty())
         {
             for (String key : rpComponent.keySet())
             {
-                                
+
+                if (box.getShortName().equals(key))
+                {
+                    IComponent component = rpComponent.get(key);
+                    component.setShortName(box.getShortName());
+                    Map<String, IBeanSubComponent> comp = component.getTypes();
+
+                    for (String compp : comp.keySet())
+                    {
+                        if (component.count(comp.get(compp)
+                                .getComponentIdentifier(), anagrafica.getId()) > 0)
+                        {
+                            return false;
+                        }
+                    }
+
+                }
+            }
+
+        }
+        return isBoxHiddenInternal(anagrafica, box);
+    }
+
+    public static boolean isBoxHidden(ResearchObject anagrafica,
+            BoxDynamicObject box)
+    {
+        Researcher researcher = new Researcher();
+
+        Map<String, ICRISComponent> rpComponent = researcher.getDOComponents();
+        if (rpComponent != null && !rpComponent.isEmpty())
+        {
+            for (String key : rpComponent.keySet())
+            {
+
                 if (box.getShortName().equals(key))
                 {
                     IComponent component = rpComponent.get(key);
@@ -311,7 +354,7 @@ public class ResearcherTagLibraryFunctions
         {
             for (String key : rpComponent.keySet())
             {
-                                
+
                 if (box.getShortName().equals(key))
                 {
                     IComponent component = rpComponent.get(key);
@@ -515,57 +558,40 @@ public class ResearcherTagLibraryFunctions
         Map<String, List<String>> tempMap = new LinkedHashMap<String, List<String>>();
         boolean foundit = false;
         int countIntegrityMonth = 12;
-        /*for (int i = 0; i < temp.length; i++)
+        /*
+         * for (int i = 0; i < temp.length; i++) {
+         * 
+         * String tempKey = temp[i][0]; String key = tempKey.substring(0, 4); if
+         * (!tempMap.containsKey(key)) { tempMap.put(key, new
+         * LinkedList<String>()); if (countIntegrityMonth > 0 &&
+         * countIntegrityMonth != 12 && i > 0) { while (countIntegrityMonth !=
+         * 0) { String check = temp[i - 1][0].substring(0, 4); List<String>
+         * array = tempMap.get(check); array.add(0, null);
+         * countIntegrityMonth--; } countIntegrityMonth = 12; } }
+         * countIntegrityMonth--; List<String> array = tempMap.get(key);
+         * array.add(temp[i][1]);
+         * 
+         * if (countIntegrityMonth > 0 && i == temp.length - 1) { while
+         * (countIntegrityMonth != 0) { array.add(null); countIntegrityMonth--;
+         * } } if (countIntegrityMonth == 0) { countIntegrityMonth = 12; } }
+         */
+        for (int i = 0; i < temp.length; i++)
         {
-
             String tempKey = temp[i][0];
-            String key = tempKey.substring(0, 4);
+            String year = tempKey.substring(0, 4);
+            String month = tempKey.substring(5, 7);
+            String key = Integer.parseInt(month) < 7 ? String.valueOf(Integer
+                    .parseInt(year) - 1) + "/" + year : year + "/"
+                    + String.valueOf(Integer.parseInt(year) + 1);
             if (!tempMap.containsKey(key))
             {
-                tempMap.put(key, new LinkedList<String>());
-                if (countIntegrityMonth > 0 && countIntegrityMonth != 12
-                        && i > 0)
-                {
-                    while (countIntegrityMonth != 0)
-                    {
-                        String check = temp[i - 1][0].substring(0, 4);
-                        List<String> array = tempMap.get(check);
-                        array.add(0, null);
-                        countIntegrityMonth--;
-                    }
-                    countIntegrityMonth = 12;
-                }
+                final ArrayList<String> list = new ArrayList<String>();
+                for (int j = 0; j < countIntegrityMonth; j++)
+                    list.add(null);
+                tempMap.put(key, list);
             }
-            countIntegrityMonth--;
-            List<String> array = tempMap.get(key);
-            array.add(temp[i][1]);
-
-            if (countIntegrityMonth > 0 && i == temp.length - 1)
-            {
-                while (countIntegrityMonth != 0)
-                {
-                    array.add(null);
-                    countIntegrityMonth--;
-                }
-            }
-            if (countIntegrityMonth == 0)
-            {
-                countIntegrityMonth = 12;
-            }
-        }*/
-	for (int i = 0;i < temp.length;i++) {
-		String tempKey = temp[i][0];
-		String year = tempKey.substring(0, 4);
-		String month = tempKey.substring(5, 7);
-		String key = Integer.parseInt(month) < 7 ? String.valueOf(Integer.parseInt(year) - 1) + "/" + year :  year + "/" + String.valueOf(Integer.parseInt(year) + 1);
-		if (!tempMap.containsKey(key)) {
-			final ArrayList<String> list = new ArrayList<String>();
-			for (int j = 0;j < countIntegrityMonth;j++)
-				list.add(null);
-			tempMap.put(key, list);
-		}
-		tempMap.get(key).set(Integer.parseInt(month) - 1, temp[i][1]);
-	}
+            tempMap.get(key).set(Integer.parseInt(month) - 1, temp[i][1]);
+        }
 
         for (String key : tempMap.keySet())
         {
@@ -603,7 +629,7 @@ public class ResearcherTagLibraryFunctions
                 result.add(dto);
             }
         }
-        //Collections.sort(result);
+        // Collections.sort(result);
         return result;
     }
 
@@ -768,14 +794,15 @@ public class ResearcherTagLibraryFunctions
 
     public static String rpkey(Integer id)
     {
-        return ResearcherPageUtils.getPersistentIdentifier(id, ResearcherPage.class);
+        return ResearcherPageUtils.getPersistentIdentifier(id,
+                ResearcherPage.class);
     }
 
     public static String criskey(Integer id, Class clazz)
-    {        
+    {
         return ResearcherPageUtils.getPersistentIdentifier(id, clazz);
     }
-    
+
     public static <TP extends PropertiesDefinition, P extends Property<TP>> List<Containable<P>> sortContainableByComparator(
             List<Containable<P>> containables, String comparatorName)
             throws InstantiationException, IllegalAccessException,
@@ -824,7 +851,9 @@ public class ResearcherTagLibraryFunctions
                 researcherID, typoNested, RPNestedObject.class);
     }
 
-    public static String encode(String value, String charset) throws UnsupportedEncodingException {
+    public static String encode(String value, String charset)
+            throws UnsupportedEncodingException
+    {
         return URLEncoder.encode(value, charset);
     }
 }

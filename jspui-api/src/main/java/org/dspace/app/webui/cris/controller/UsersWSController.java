@@ -58,7 +58,7 @@ public class UsersWSController extends BaseAbstractController
         User user = applicationService.get(User.class, id);       
                         
         model.put("user", user);                
-        return new ModelAndView(detailsView, model);
+        return new ModelAndView(getDetailsView(), model);
 
     }
     
@@ -74,13 +74,13 @@ public class UsersWSController extends BaseAbstractController
         catch (Exception e) {
             saveMessage(request, getText("action.ws.deleted.noSuccess"));          
         }
-        return new ModelAndView(listView, model);
+        return new ModelAndView(getListView(), model);
     }
 
 
     protected ModelAndView handleList(HttpServletRequest arg0) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();               
         model.put("listUsers", applicationService.getList(User.class));
-        return new ModelAndView(listView,model);
+        return new ModelAndView(getListView(),model);
     }
 }

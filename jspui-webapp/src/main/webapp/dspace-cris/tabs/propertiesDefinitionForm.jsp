@@ -5,8 +5,6 @@ The contents of this file are subject to the license and copyright
  
  https://github.com/CILEA/dspace-cris/wiki/License
 --%>
-
-<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -17,6 +15,12 @@ The contents of this file are subject to the license and copyright
 <%@ taglib uri="http://www.dspace.org/dspace-tags.tld" prefix="dspace"%>
 <%@page import="javax.servlet.jsp.jstl.fmt.LocaleSupport"%>
 <%@page import="it.cilea.osd.jdyna.widget.Size"%>
+<%@page import="java.util.LinkedList"%>
+<%@page import="java.util.List"%>
+<%@page import="it.cilea.osd.jdyna.model.AccessLevelConstants"%>
+<%@page import="it.cilea.osd.jdyna.utils.SimpleSelectableObject"%>
+<%@page import="org.dspace.app.cris.model.jdyna.DynamicObjectType"%>
+<%@page import="org.dspace.app.cris.model.CrisConstants"%>
 <%@ taglib uri="jdynatags" prefix="dyna" %>
 
 <dspace:layout locbar="link" navbar="admin"
@@ -269,9 +273,31 @@ The contents of this file are subject to the license and copyright
 							helpKey="help.jdyna.message.rendering.pointer.display"/>
 						<div class="dynaClear">
 							&nbsp;
-						</div>						
+						</div>
+
 						<dyna:text propertyPath="real.rendering.filtro"  visibility="false"
-							labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filter" helpKey="help.jdyna.message.rendering.pointer.filter"/>
+							labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filter" helpKey="help.jdyna.message.rendering.pointer.filter"/>						
+
+						<div class="dynaClear">
+							&nbsp;
+						</div>
+												
+						<c:if test="${dyna:instanceOf(propertiesdefinition.rendering,'org.dspace.app.cris.model.jdyna.widget.WidgetPointerDO')}">
+							
+							<% 
+								List<DynamicObjectType> researchobjects = (List<DynamicObjectType>)request.getAttribute("researchobjects");
+								List<SimpleSelectableObject>  types = new LinkedList<SimpleSelectableObject>(); 
+								for(DynamicObjectType objs : researchobjects) {
+								    SimpleSelectableObject sso = new SimpleSelectableObject();
+								    sso.setDisplayValue(objs.getLabel());
+								    sso.setIdentifyingValue("search.resourcetype:"+ (objs.getId() + CrisConstants.CRIS_DYNAMIC_TYPE_ID_START));
+								    types.add(sso);
+								}												
+							%>
+							<dyna:select propertyPath="real.rendering.filterExtended" labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.filterextended" collection="<%= types %>"/>												
+						</c:if>
+						
+																
 						<div class="dynaClear">
 							&nbsp;
 						</div>

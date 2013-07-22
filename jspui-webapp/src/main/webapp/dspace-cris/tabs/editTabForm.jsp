@@ -260,8 +260,7 @@ The contents of this file are subject to the license and copyright
 		</c:forEach></fieldset>
 
 		<c:if test="${empty tab.displayTab}">
-			<div id="hidden_first" style="padding: 0; margin: 0 10px;"><a
-				onclick="Effect.toggle('hidden_appear', 'appear'); return false;"
+			<div id="hidden_first" style="padding: 0; margin: 0 10px;"><a id="hookuptab"				
 				href="#"> <span id="toggle_appear"> <fmt:message
 				key="jsp.dspace-admin.hku.jdyna-configuration.edittab-hookup" /></span> </a></div>
 			<div id="hidden_appear" style="display: none; float: right;"><c:set
@@ -289,36 +288,16 @@ The contents of this file are subject to the license and copyright
 		<fmt:message key="jsp.dspace-admin.hku.jdyna-configuration.newbox" />
 		</a></div>
 	</c:if>
-		<script language="javascript" type="text/javascript">
-	//          	
-	// horizontal slider control
-	var slider1 = new Control.Slider('handle1', 'track1', {
-		onSlide : function(v) {
-			$('debug1').innerHTML = (v * 100).toFixed();
-			$('priority').value = (v * 100).toFixed();
-		},
-		onChange : function(v) {
-			$('debug1').innerHTML = (v * 100).toFixed();
-			$('priority').value = (v * 100).toFixed();
-		}
-	});
+	
+	<script type="text/javascript">
+	<!--
+	var j = jQuery.noConflict();
+    j(document).ready(function() {	
+		j( "#hookuptab" ).click(function() {
+			j( "#hidden_appear" ).show( "fold", 1000 );
+		});		
+    });
+	-->
+	</script>
 
-	//
-</script>
-
-	<script language="javascript" type="text/javascript">
-	setSliderValue(slider1, document.getElementById('priority').value);
-
-	function setSliderValue(slider, value) {
-
-		if (value == '') {
-			return;
-		}
-		if (isNaN(value)) {
-			slider.setValue(0);
-		} else {
-			slider.setValue(value / 100);
-		}
-	}
-</script>
 </dspace:layout>

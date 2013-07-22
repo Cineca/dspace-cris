@@ -86,7 +86,7 @@ public class OUNavigationController
                 result += ResearcherTagLibraryFunctions.countDynamicPublicMetadata(
                         p.getDynamicField(), decorator.getShortName(),
                         decorator.getRendering(), decorator.getReal(),
-                        true);
+                        false);
             }
              
 

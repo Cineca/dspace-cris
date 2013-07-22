@@ -31,7 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author cilea
  * 
  */
-public class FormSendMailController extends AFormResearcherPageController
+public class FormSendMailController extends BaseFormController
 {
     /*
      * constants to define the scope of the send mail page
