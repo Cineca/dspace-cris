@@ -10,6 +10,7 @@ package org.dspace.app.webui.cris.components;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingResourceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.CrisConstants;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.webui.util.UIUtil;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
 import org.dspace.core.I18nUtil;
+import org.dspace.core.LogManager;
 import org.dspace.discovery.DiscoverQuery;
 import org.dspace.discovery.DiscoverQuery.SORT_ORDER;
 import org.dspace.discovery.DiscoverResult.FacetResult;
@@ -51,11 +54,24 @@ public abstract class AFacetedQueryConfigurerComponent<T extends DSpaceObject>
             for (String type : docs.getFacetResults().keySet())
             {
                 Long size = docs.getFacetResults().get(type).get(0).getCount();
+                String message = "";
+                try
+                {
+                    message = I18nUtil.getMessage(
+                            "jsp.layout.dspace.detail.fieldset-legend.component."
+                            + type, c);
+                }
+                catch (MissingResourceException e)
+                {
+                    log.warn("Missing Resource: jsp.layout.dspace.detail.fieldset-legend.component." + type);
+                    message = I18nUtil.getMessage(
+                            "jsp.layout.dspace.detail.fieldset-legend.component.default"
+                            , c);
+                }
+                
                 subLinks.add(new String[] {
                         type,
-                        MessageFormat.format(I18nUtil.getMessage(
-                                "jsp.layout.dspace.detail.fieldset-legend.component."
-                                        + type, c), size), "" + size });
+                        MessageFormat.format(message, size), "" + size });
             }
         }
         request.setAttribute("activeTypes"
@@ -82,8 +98,7 @@ public abstract class AFacetedQueryConfigurerComponent<T extends DSpaceObject>
         solrQuery.setFacetMinCount(1);
         try
         {
-            solrQuery.addFilterQueries("search.resourcetype:"
-                            + CrisConstants.getEntityType(getRelationConfiguration().getRelationClass()));
+            solrQuery.addFilterQueries(getTypeFilterQuery());
         }
         catch (InstantiationException e)
         {
@@ -121,6 +136,7 @@ public abstract class AFacetedQueryConfigurerComponent<T extends DSpaceObject>
         
         return getSearchService().search(context, solrQuery);
     }
+    
     
     @Override
     public List<String[]> sublinks(HttpServletRequest request,

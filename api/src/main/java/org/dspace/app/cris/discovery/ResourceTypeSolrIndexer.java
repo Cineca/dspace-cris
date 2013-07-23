@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.dspace.app.cris.model.ACrisObject;
+import org.dspace.app.cris.model.ACrisObjectWithTypeSupport;
 import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
@@ -47,7 +48,7 @@ public class ResourceTypeSolrIndexer implements CrisServiceIndexPlugin, SolrServ
             }
                         
             if(acvalue==null || PLACEHOLDER.equals(acvalue)) {
-                String label = ((ResearchObject)crisObject).getTypo().getLabel();
+                String label = ((ACrisObjectWithTypeSupport<P, TP, NP, NTP, ACNO, ATNO>)crisObject).getTypo().getLabel();                
                 acvalue = label.toLowerCase()+"|||"+label;
             }
             fvalue = acvalue;

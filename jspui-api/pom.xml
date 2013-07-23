@@ -133,7 +133,7 @@
 		<dependency>
 			<groupId>it.cilea</groupId>
 			<artifactId>commons-cilea-webapi</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 		</dependency>
 
 		<dependency>
@@ -144,7 +144,7 @@
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-webmvc-webapp</artifactId>
-			<version>3.0</version>
+			<version>4.0</version>
 			<type>war</type>
 		</dependency>  
 

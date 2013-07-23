@@ -151,6 +151,15 @@ public class Researcher
         return compService;        
     }
 
+    public CrisStatComponentsService getDOStatsComponents() {
+        CrisStatComponentsService compService = dspace.getServiceManager().getServiceByName("doStatsComponent", CrisStatComponentsService.class);
+        if (compService == null)
+        {
+            return null;
+        }
+        return compService;        
+    }
+
     public List<CrisComponentsService> getAllCrisComponents()
     {
         return dspace.getServiceManager().getServicesByType(CrisComponentsService.class);   

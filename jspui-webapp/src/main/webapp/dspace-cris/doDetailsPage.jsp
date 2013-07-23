@@ -274,7 +274,7 @@ The contents of this file are subject to the license and copyright
 </span>
 <span>
         <img src="${root}/image/stats/feed.png">
-        <a href="<%= request.getContextPath() %>/open-search?query=dc.description.sponsorship_authority:${authority}&amp;format=rss">RSS Feed</a>
+        <a href="<%= request.getContextPath() %>/open-search?query=dc.relation.ispartof_authority:${authority}&amp;format=rss">RSS Feed</a>
 </span>
 		
 		</div>

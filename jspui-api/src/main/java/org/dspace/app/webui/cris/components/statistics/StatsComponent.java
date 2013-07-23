@@ -20,8 +20,7 @@ public abstract class StatsComponent<T extends DSpaceObject> extends ASolrStatsC
     private IBeanSubComponent bean;    
     private Class<T> targetObjectClass;
     private Class<T> relationObjectClass;
-    private Integer relationObjectType;
-    
+        
     public void setBean(IBeanSubComponent bean)
     {
         this.bean = bean;
@@ -52,15 +51,7 @@ public abstract class StatsComponent<T extends DSpaceObject> extends ASolrStatsC
         return relationObjectClass;
     }
 
-    public Integer getRelationObjectType()
-    {
-        return relationObjectType;
-    }
 
-    public void setRelationObjectType(Integer relationObjectType)
-    {
-        this.relationObjectType = relationObjectType;
-    }
     
     public abstract String getMode();
 

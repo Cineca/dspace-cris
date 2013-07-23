@@ -21,6 +21,7 @@ import org.dspace.app.cris.discovery.CrisSearchService;
 import org.dspace.app.cris.integration.ICRISComponent;
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.model.CrisConstants;
+import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.webui.cris.dto.ComponentInfoDTO;
 import org.dspace.app.webui.util.UIUtil;
@@ -51,6 +52,8 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject, IBC exten
 
     private String commonFilter;
 
+    private Integer relationObjectType;
+    
     public ApplicationService getApplicationService()
     {
         if (applicationService == null)
@@ -262,12 +265,8 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject, IBC exten
         DiscoverQuery solrQuery = new DiscoverQuery();
         try
         {
-            solrQuery.addFilterQueries(
-                    "NOT(withdrawn:true)",
-                    "search.resourcetype:"
-                            + CrisConstants
-                                    .getEntityType(getRelationConfiguration()
-                                            .getRelationClass()));
+            solrQuery.addFilterQueries("NOT(withdrawn:true)",
+                    getTypeFilterQuery());
         }
         catch (InstantiationException e)
         {
@@ -412,4 +411,23 @@ public abstract class ASolrConfigurerComponent<T extends DSpaceObject, IBC exten
         return commonFilter;
     }
 
+    protected String getTypeFilterQuery() throws InstantiationException,
+            IllegalAccessException
+    {
+        if (ResearchObject.class.isAssignableFrom(getRelationConfiguration()
+                .getRelationClass()))
+        {
+            return "search.resourcetype:["
+                    + CrisConstants.CRIS_DYNAMIC_TYPE_ID_START + " TO "
+                    + CrisConstants.CRIS_NDYNAMIC_TYPE_ID_START + "]";
+        }
+        return "search.resourcetype:"
+                + CrisConstants.getEntityType(getRelationConfiguration()
+                        .getRelationClass());
+    }
+
+    public void setRelationObjectType(Integer relationObjectType)
+    {
+        this.relationObjectType = relationObjectType;
+    }
 }

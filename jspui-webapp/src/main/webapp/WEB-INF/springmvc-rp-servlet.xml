@@ -5442,7 +5442,7 @@
 		<property name="components" ref="doComponents" />
 	</bean>
 	
-		<bean id="detailsDOController"
+	<bean id="detailsDOController"
 		class="org.dspace.app.webui.cris.controller.DynamicObjectDetailsController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
@@ -5513,8 +5513,10 @@
  				<prop key="/stats/collection.html">collectionStatisticsController</prop>
 				<prop key="/stats/community.html">communityStatisticsController</prop>
 				<prop key="/stats/rp.html">rpStatisticsController</prop>
-				<prop key="/stats/project.html">pjStatisticsController</prop>
+				<prop key="/stats/pj.html">pjStatisticsController</prop>
 				<prop key="/stats/ou.html">ouStatisticsController</prop>
+				<prop key="/stats/do.html">doStatisticsController</prop>
+				<prop key="/stats/*.html">doStatisticsController</prop>
 				
 				<!-- Search -->
 				<prop key="/rp/search.htm">searchRPFormController</prop>
@@ -5524,20 +5526,19 @@
 				<prop key="/login">myRPController</prop>
 				<prop key="/tools/subscription/*">crisSubscriptionController</prop>
 				<prop key="/rp/myRp.json">jsonMyRPController</prop>
+				
+				<!-- Image and file Loader -->
 				<prop key="/researchertabimage/*">loadTabIcon</prop>
 				<prop key="/rp/fileservice/**">loadFileRP</prop>				
 				<prop key="/project/fileservice/**">loadFileProject</prop>
 				<prop key="/ou/fileservice/**">loadFileOU</prop>
 				<prop key="/do/fileservice/**">loadFileDO</prop>
-											
+				
+				<!-- Authority relation manager -->											
 				<prop key="/uuid/*/relMgmt/*.json">jsonRelationManagement</prop>
 				<prop key="/uuid/*/relMgmt/*">formRelationManagement</prop>
 				<prop key="/uuid/*">redirectDetailsController</prop>
 				
-				<!-- RP details URLs -->								
-				<prop key="/rp/*">detailsResearcherController</prop>
-				<prop key="/rp/*/*">detailsResearcherController</prop>
-				<prop key="/rp/details.htm">redirectDetailsResearcherController</prop>
 				<!-- autocomplete eperson -->				
 				<prop key="/tools/rp/epersons.json">jsonEpersonController</prop>
 				<prop key="/tools/rp/eperson.json">jsonEpersonController</prop>
@@ -5576,6 +5577,11 @@
 				<!-- RP tools -->
 				<prop key="/tools/rp/rebindItemsToRP.htm">reBindItemToRpController</prop>
 				<prop key="/tools/rp/requestChanges.htm">requestChangesController</prop>
+				
+				<!-- RP details URLs -->								
+				<prop key="/rp/*">detailsResearcherController</prop>
+				<prop key="/rp/*/*">detailsResearcherController</prop>
+				<prop key="/rp/details.htm">redirectDetailsResearcherController</prop>
 				
 				<!-- Administration -->
 				<prop key="/administrator/index.htm">adminController</prop>
@@ -5630,7 +5636,7 @@
 				<prop key="/administrator/rp/deleteNestedFieldDefinition.htm">deleteRPNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/rp/deleteNestedField.htm">deleteRPNestedFieldController</prop>
 							
-				<!-- Edit Handlers for dynamic objects -->
+				<!-- Edit and delete handlers -->
 				<prop key="/tools/rp/editDynamicData.htm">editRPDynamicDataController</prop>
 				<prop key="/tools/project/editDynamicData.htm">editProjectDynamicDataController</prop>
 				<prop key="/tools/ou/editDynamicData.htm">editOUDynamicDataController</prop>
@@ -5702,7 +5708,7 @@
 		        <prop key="/administrator/ou/list.htm">adminListOUController</prop>								
 		        <prop key="/administrator/ou/addOrganizationUnit.htm">adminAddOUController</prop>		        
 		        
-		        <!-- Project Tabs/Box and properties definitions -->		        				
+		        <!-- OrganizationUnit Tabs/Box and properties definitions -->		        				
 				<prop key="/administrator/ou/listTabs.htm">listOUTabController</prop>
 				<prop key="/administrator/ou/editTabs.htm">editOUTabController</prop>
 				<prop key="/administrator/ou/createTabs.htm">editOUTabController</prop>
@@ -5747,7 +5753,7 @@
 				<prop key="/administrator/ou/deleteNestedFieldDefinition.htm">deleteOUNestedFieldDefinitionController</prop>								
 				<prop key="/administrator/ou/deleteNestedField.htm">deleteOUNestedFieldController</prop>
 				
-				<!-- normal java servlet handler -->				
+				<!-- redirect to servlet handler -->				
 				<prop key="/network/*">researcherNetworkServletForwardingController</prop>
 				<prop key="/dnetwork/*">researcherDeptNetworkServletForwardingController</prop>
 
@@ -5762,7 +5768,7 @@
 				<prop key="/administrator/do/edit.htm">adminEditTypeDOController</prop>
 				<prop key="/administrator/do/delete.htm">deleteTypeDOController</prop>			
 				
-				<!-- filter to redirect to exact controller -->
+				<!-- filter to redirect -->
 				<prop key="/administrator/other/**">filterDOController</prop>
 				<prop key="/tools/other/**">filterDOController</prop>
 				
@@ -5817,7 +5823,8 @@
 				<!-- 2nd level Entities edit, delete and details controller -->
 				<prop key="/tools/*/editDynamicData.htm">editDODynamicDataController</prop>
 				<prop key="/tools/*/delete.htm">doDeleteController</prop>
-																
+				
+				<!-- Other research entities details URL -->												
 				<prop key="/**/*">detailsDOController</prop>	        		
 		        <prop key="/*/details.htm">redirectDetailsDOController</prop>		
 				
@@ -6255,7 +6262,22 @@
 		<property name="error" value="stats/error" />
 		<property name="applicationService" ref="applicationService" />
 	</bean>
-	
+
+	<bean id="doStatisticsController"
+		class="org.dspace.app.webui.cris.controller.statistics.CrisStatisticsController">
+		<property name="solrConfig">
+			<ref bean="solrConfig" />
+		</property>
+		<property name="statsComponentsService">
+			<ref bean="doStatisticRequestsManager" />
+		</property>
+		<property name="target" value="org.dspace.app.cris.model.ResearchObject" />
+		<property name="jspKey" value="stats-crisStatistics" />
+		<property name="success" value="stats/crisStatistic/crisStatisticReport" />
+		<property name="error" value="stats/error" />
+		<property name="applicationService" ref="applicationService" />
+	</bean>
+		
 	<bean id="itemStatisticsController"
 		class="org.dspace.app.webui.cris.controller.statistics.StatisticsController">
 		<property name="solrConfig">

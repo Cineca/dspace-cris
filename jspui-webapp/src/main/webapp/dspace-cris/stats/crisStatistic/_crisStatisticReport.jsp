@@ -7,7 +7,7 @@
 </c:when>
 <c:otherwise>
 
-	<c:set var="objectName" scope="page">${data.relationType}</c:set>
+	<c:set var="objectName" scope="page">${data.relationType}</c:set>	
 	<%@include file="../common/topObject.jsp"%>	
 	
 </c:otherwise>
