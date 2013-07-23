@@ -26,8 +26,8 @@
 			
 			
 			<div class="target_stats" id="${targetDiv}"></div>
-	
-	
+
+
 <stats:table data="${data}" statType="${statType}" objectName="${objectName}" pieType="${pieType}" useLocalMap="${useLocalMap}" useFmt="${useFmt}" />
 
 <c:set var="jsDataObjectName" scope="page"> data_${statType}_${objectName}_${pieType}_${pieType}</c:set>

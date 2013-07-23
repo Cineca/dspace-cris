@@ -24,7 +24,8 @@
 								<c:when test="${useLocalMap}">
 									<c:choose>
 										<c:when test="${objectName eq 'geo' || pieType eq 'sectionid'}">
-											ID: ${row.label} - ${data.label[objectName][row.label].label}
+											<%-- Warning - (ONLY CRIS entities), the label could't showed because properties definition have no label --%>
+											ID: ${row.label} <c:if test="${!empty data.label[objectName][row.label].label}">- ${data.label[objectName][row.label].label}</c:if>
 										</c:when>
 										<c:otherwise>										
 											<c:choose>

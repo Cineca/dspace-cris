@@ -50,7 +50,7 @@ public abstract class StatCrisDownloadSelectedObjectComponent extends
                     
                     PropertiesDefinition def = innerCall(Integer.parseInt(pkey));
                            
-                    labels.addValue(row.getLabel(), "label", def.getLabel());
+                    labels.addValue(row.getLabel(), "label", def.getLabel()!=null?def.getLabel():def.getShortName());
                     
                     if (def != null)
                     {
