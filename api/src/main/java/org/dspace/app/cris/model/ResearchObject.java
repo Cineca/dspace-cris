@@ -55,7 +55,7 @@ import org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject;
         @NamedQuery(name = "ResearchObject.paginateByType.id.asc", query = "from ResearchObject where (typo = :par0) order by id asc"),
         @NamedQuery(name = "ResearchObject.paginateByType.id.desc", query = "from ResearchObject where (typo = :par0) order by id desc")
   })
-public class ResearchObject extends ACrisObject<DynamicProperty, DynamicPropertiesDefinition, DynamicNestedProperty, DynamicNestedPropertiesDefinition, DynamicNestedObject, DynamicTypeNestedObject> implements TypeSupport<DynamicProperty, DynamicPropertiesDefinition>
+public class ResearchObject extends ACrisObjectWithTypeSupport<DynamicProperty, DynamicPropertiesDefinition, DynamicNestedProperty, DynamicNestedPropertiesDefinition, DynamicNestedObject, DynamicTypeNestedObject>
 {
     
     /** DB Primary key */
