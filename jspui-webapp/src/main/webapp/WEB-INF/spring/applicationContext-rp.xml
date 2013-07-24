@@ -48,6 +48,7 @@
 	<bean id="CrisSubscribeService" factory-bean="researcher" factory-method="getCrisSubscribeService" />
     <bean id="statSubscribeService" factory-bean="researcher" factory-method="getStatSubscribeService" />
     
+    <bean id="doStatisticRequestsManager" factory-bean="researcher" factory-method="getDOStatsComponents" />
     <bean id="ouStatisticRequestsManager" factory-bean="researcher" factory-method="getOUStatsComponents" />
     <bean id="pjStatisticRequestsManager" factory-bean="researcher" factory-method="getPJStatsComponents" />
     <bean id="rpStatisticRequestsManager" factory-bean="researcher" factory-method="getRPStatsComponents" />

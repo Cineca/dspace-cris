@@ -38,4 +38,6 @@ public abstract class CrisStatsDualComponent<T extends DSpaceObject> extends ASo
 
     public abstract Integer getRelationObjectType();
     public abstract Class<T> getRelationObjectClass();
+    
+
 }

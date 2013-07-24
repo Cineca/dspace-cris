@@ -16,7 +16,7 @@
 	<li id="statstab-menu-countryCode"><a id="statstab-ahref-countryCode" class="statstabahref" href="#statstab-content-countryCode">Country</a></li>
 	<li id="statstab-menu-city"><a id="statstab-ahref-city" class="statstabahref" href="#statstab-content-city">City</a></li>
 	<c:choose>
-	<c:when test="${mode == 'download' && type!='dspaceitems'}">	
+	<c:when test="${mode == 'download' && objectName!='bitstream'}">	
 		<li id="statstab-menu-id"><a id="statstab-ahref-id" class="statstabahref" href="#statstab-content-id">File</a></li>
 	</c:when>
 	<c:otherwise>
@@ -43,7 +43,7 @@
 		<stats:piewithtable data="${data}" statType="${statType}" objectName="${objectName}" pieType="${pieType}"/>
 	</div>
 	<c:choose>	
-	<c:when test="${mode == 'download' && type!='dspaceitems'}">
+	<c:when test="${mode == 'download' && objectName!='bitstream'}">
 		<div id="statstab-content-id" class="statstab-content-item">		 
 		<c:set var="pieType">sectionid</c:set>
 		<stats:piewithtable data="${data}" statType="${statType}" objectName="${objectName}" pieType="${pieType}" useLocalMap="true"/>

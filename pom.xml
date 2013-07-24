@@ -119,31 +119,31 @@
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-core</artifactId>
-			<version>3.0</version>
+			<version>4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-date</artifactId>
-			<version>3.0</version>
+			<version>4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-pointer</artifactId>
-			<version>3.0</version>
+			<version>4.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-web-api</artifactId>
-			<version>3.0</version>
+			<version>4.0</version>
 		</dependency>      
 		
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-webmvc-api</artifactId>
-			<version>3.0</version>
+			<version>4.0</version>
 		</dependency>
 		
 		</dependencies>

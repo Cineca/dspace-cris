@@ -13,106 +13,25 @@ import org.dspace.app.cris.integration.statistics.IStatsComponent;
 import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.webui.cris.components.statistics.ASolrStatsConfigurerComponent;
 import org.dspace.app.webui.cris.components.statistics.CrisStatDownloadTopObjectComponent;
+import org.dspace.app.webui.cris.components.statistics.CrisStatRPDownloadTopObjectComponent;
 import org.dspace.app.webui.cris.components.statistics.CrisStatTopObjectComponent;
 import org.dspace.app.webui.cris.components.statistics.CrisStatOUDownloadTopObjectComponent;
 import org.dspace.content.DSpaceObject;
 
 public class CRISOUConfigurerComponent extends
-        BrowseItemConfigurerComponent
+        ACRISConfigurerComponent
 {
 
     /** log4j logger */
     private static Logger log = Logger
             .getLogger(CRISOUConfigurerComponent.class);
 
-
+    
     @Override
-    public IStatsComponent getStatsDownloadComponent()
+    protected CrisStatDownloadTopObjectComponent instanceNewCrisStatsDownloadComponent()
     {
-        CrisStatDownloadTopObjectComponent component = new CrisStatOUDownloadTopObjectComponent();
-
-        BeanFacetComponent bean = new BeanFacetComponent();
-        
-        bean.setFacetQuery(ASolrStatsConfigurerComponent.FILE + ":*");
-        bean.setFacetField(ASolrStatsConfigurerComponent.FILE);        
-        bean.setQuery(getRelationConfiguration().getQuery());
-        for(String key : getTypes().keySet()) {
-            bean.getSubQueries().put(key, getTypes().get(key).getFacetQuery());
-        }
-        
-        component.setFromField("search.uniqueid");
-        component.setBean(bean);
-        component.setTargetObjectClass(getTarget());
-        component.setRelationObjectClass(getRelationObjectClass());
-        component.setApplicationService(getApplicationService());
-        try
-        {
-            component.setRelationObjectType(CrisConstants.getEntityType(getRelationObjectClass()));
-        }
-        catch (InstantiationException e)
-        {
-            log.error(e.getMessage(), e);
-        }
-        catch (IllegalAccessException e)
-        {
-            log.error(e.getMessage(), e);
-        }
-        component.setCrisSearchService((CrisSearchService) getSearchService());
-        return component;
-
+        return new CrisStatOUDownloadTopObjectComponent();
     }
 
-    @Override
-    public IStatsComponent getStatsViewComponent()
-    {
-        CrisStatTopObjectComponent component = new CrisStatTopObjectComponent();
-
-        BeanComponent bean = new BeanComponent();
-        bean.setQuery(getRelationConfiguration().getQuery());
-        for(String key : getTypes().keySet()) {
-            bean.getSubQueries().put(key, getTypes().get(key).getFacetQuery());
-        }
-        
-        component.setBean(bean);
-        component.setTargetObjectClass(getTarget());
-        component.setRelationObjectClass(getRelationObjectClass());
-        try
-        {
-            component.setRelationObjectType(CrisConstants.getEntityType(getRelationObjectClass()));
-        }
-        catch (InstantiationException e)
-        {
-            log.error(e.getMessage(), e);
-        }
-        catch (IllegalAccessException e)
-        {
-            log.error(e.getMessage(), e);
-        }
-        return component;
-    }
-
-    @Override
-    public Class<? extends DSpaceObject> getRelationObjectClass()
-    {
-        return getRelationConfiguration().getRelationClass();
-    }
-
-    @Override
-    public Integer getRelationObjectType()
-    {
-        try
-        {
-            return CrisConstants.getEntityType(getRelationObjectClass());
-        }
-        catch (InstantiationException e)
-        {
-            log.error(e.getMessage(), e);
-        }
-        catch (IllegalAccessException e)
-        {
-            log.error(e.getMessage(), e);
-        }
-        return null;
-    }
 
 }

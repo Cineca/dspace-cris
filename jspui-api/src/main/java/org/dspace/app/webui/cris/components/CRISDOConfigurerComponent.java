@@ -8,21 +8,23 @@
 package org.dspace.app.webui.cris.components;
 
 import org.apache.log4j.Logger;
+import org.dspace.app.webui.cris.components.statistics.CrisStatDODownloadTopObjectComponent;
 import org.dspace.app.webui.cris.components.statistics.CrisStatDownloadTopObjectComponent;
-import org.dspace.app.webui.cris.components.statistics.CrisStatPJDownloadTopObjectComponent;
 
-public class CRISPJConfigurerComponent extends
+public class CRISDOConfigurerComponent extends
         ACRISConfigurerComponent
 {
 
     /** log4j logger */
     private static Logger log = Logger
-            .getLogger(CRISPJConfigurerComponent.class);
+            .getLogger(CRISDOConfigurerComponent.class);
+
 
     @Override
     protected CrisStatDownloadTopObjectComponent instanceNewCrisStatsDownloadComponent()
     {
-        return new CrisStatPJDownloadTopObjectComponent();
+        return new CrisStatDODownloadTopObjectComponent();
     }
+
 
 }
