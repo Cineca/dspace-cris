@@ -6,13 +6,13 @@
 	<packaging>pom</packaging>
 	<groupId>org.dspace</groupId>
 	<artifactId>dspace-cris</artifactId>
-	<version>1.8.2</version>
+	<version>3.3-SNAPSHOT</version>
 	<name>DSpace CRIS</name>
 
 	<parent>
 		<artifactId>dspace-parent</artifactId>
 		<groupId>org.dspace</groupId>
-		<version>3.2-SNAPSHOT</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -26,6 +26,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.hibernate.version>3.6.10.Final</org.hibernate.version>
+		<org.dspace.version>3.3-SNAPSHOT</org.dspace.version>
+		<org.jdyna.version>4.0</org.jdyna.version>
 	</properties>
     
 	<build>
@@ -118,42 +120,42 @@
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-api</artifactId>
-				<version>3.2-SNAPSHOT</version>
+				<version>${org.dspace.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-jspui</artifactId>
-				<version>3.2-SNAPSHOT</version>
+				<version>${org.dspace.version}</version>
 			</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-core</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-date</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-pointer</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-web-api</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>      
 		
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-webmvc-api</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 		
 		</dependencies>

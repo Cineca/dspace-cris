@@ -4,13 +4,12 @@
 	<parent>
 		<artifactId>dspace-cris-webservices</artifactId>
 		<groupId>org.dspace</groupId>
-		<version>1.8.2</version>
+		<version>3.3-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>dspace-cris-webservices-api</artifactId>
 	<name>CRIS :: WS API</name>
 	<groupId>org.dspace</groupId>
-	<version>1.8.2</version>
 
 	<dependencies>
 		<dependency>
