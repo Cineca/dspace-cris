@@ -17,16 +17,20 @@
 			<groupId>org.dspace</groupId>
 			<artifactId>dspace-api</artifactId>						
 		</dependency>
-     <dependency>
-         <groupId>org.dspace</groupId>
-         <artifactId>dspace-stats</artifactId>         
-     </dependency>
-
 		<dependency>
 		  <groupId>org.hibernate</groupId>
-		  <artifactId>hibernate-entitymanager</artifactId>		  
+		  <artifactId>hibernate-core</artifactId>		  
 		</dependency>
 		<dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-commons-annotations</artifactId>		  
+		</dependency>
+	
+		<dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-validator</artifactId>		  
+		</dependency>				
+		<dependency>		
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>		
 		</dependency>
@@ -75,8 +79,7 @@
 	
 		<dependency>
 			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.4.GA</version>
+			<artifactId>javassist</artifactId>			
 		</dependency>
 	
 		<dependency>
@@ -86,8 +89,8 @@
 		</dependency>
 
 		<dependency>
-			<artifactId>spring-core</artifactId>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>			
 		</dependency>
 
 		<dependency>
@@ -128,13 +131,13 @@
             <version>1.7.0</version>
         </dependency>
 
-	<dependency>
-		<groupId>org.dspace</groupId>
-		<artifactId>pubmed-retrieve</artifactId>
-		<version>0.1</version>
-		<type>jar</type>
-		<scope>compile</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.dspace</groupId>
+			<artifactId>pubmed-retrieve</artifactId>
+			<version>0.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

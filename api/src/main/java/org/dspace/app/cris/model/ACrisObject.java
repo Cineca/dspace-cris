@@ -14,6 +14,7 @@ import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.dspace.app.cris.model.export.ExportConstants;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.util.ResearcherPageUtils;
+import org.dspace.authorize.AuthorizeException;
 import org.dspace.browse.BrowsableDSpaceObject;
 import org.dspace.content.DCValue;
 import org.dspace.content.DSpaceObject;
@@ -305,4 +307,17 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
 
     public abstract Class<ATNO> getClassTypeNested();
 
+    @Override
+    public void update() throws SQLException, AuthorizeException
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void updateLastModified()
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

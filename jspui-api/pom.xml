@@ -13,10 +13,6 @@
 	</parent>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.dspace</groupId>
-			<artifactId>dspace-stats</artifactId>						
-		</dependency>
 		
 		<dependency>
 			<groupId>org.dspace</groupId>
@@ -27,15 +23,14 @@
 			on dspace-api -->
 		<dependency>
 			<groupId>org.dspace</groupId>
-			<artifactId>dspace-api</artifactId>
-			<version>1.8.3-SNAPSHOT</version>
+			<artifactId>dspace-api</artifactId>			
 		</dependency>
 		<dependency>
 			<groupId>org.dspace</groupId>
-			<artifactId>dspace-jspui-api</artifactId>
-			<version>1.8.3-SNAPSHOT</version>
+			<artifactId>dspace-jspui</artifactId>
+			<type>jar</type>
+			<classifier>classes</classifier>			
 		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -44,10 +39,19 @@
 		</dependency>
 
 		<dependency>
-  			<groupId>org.hibernate</groupId>
-  			<artifactId>hibernate-entitymanager</artifactId>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-core</artifactId>		  
+		</dependency>		
+		<dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-commons-annotations</artifactId>		  
 		</dependency>
-
+		
+		<dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-validator</artifactId>		  
+		</dependency>	
+		
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
