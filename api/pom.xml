@@ -122,7 +122,7 @@
 		<dependency>
 			<groupId>it.cilea</groupId>
 			<artifactId>commons-cilea-genericdao</artifactId>
-			<version>1.1</version>
+			<version>1.2</version>
 		</dependency>
 		
     	<dependency>
@@ -270,13 +270,13 @@
 					<dependency>
 						<groupId>it.cilea</groupId>
 						<artifactId>commons-cilea-genericdao</artifactId>
-						<version>1.1</version>
+						<version>1.2</version>
 					</dependency>
 					
 					<dependency>
 						<groupId>org.dspace</groupId>
 						<artifactId>dspace-cris-api</artifactId>
-						<version>1.8.2</version>
+						<version>3.3-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 			</plugin>
