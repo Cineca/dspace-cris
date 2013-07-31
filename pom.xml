@@ -6,13 +6,13 @@
 	<packaging>pom</packaging>
 	<groupId>org.dspace</groupId>
 	<artifactId>dspace-cris</artifactId>
-	<version>1.8.2</version>
+	<version>3.3-SNAPSHOT</version>
 	<name>DSpace CRIS</name>
 
 	<parent>
 		<artifactId>dspace-parent</artifactId>
 		<groupId>org.dspace</groupId>
-		<version>1.8.3-SNAPSHOT</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -25,8 +25,11 @@
 	<!--Force UTF-8 encoding during build on all platforms -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<org.hibernate.version>3.6.10.Final</org.hibernate.version>
+		<org.dspace.version>3.3-SNAPSHOT</org.dspace.version>
+		<org.jdyna.version>4.1</org.jdyna.version>
 	</properties>
-
+    
 	<build>
 		<plugins>
 			<plugin>
@@ -74,21 +77,24 @@
 
 	<dependencyManagement>
 		<dependencies>
+		
+		
 			<dependency>
-  				<groupId>org.hibernate</groupId>
-  				<artifactId>hibernate-entitymanager</artifactId>
-  				<version>3.6.10.Final</version>
-			</dependency>			
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${org.hibernate.version}</version>
+			</dependency>
+						        
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-ehcache</artifactId>
-				<version>3.6.10.Final</version>
+				<version>${org.hibernate.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-c3p0</artifactId>
-				<version>3.6.3.Final</version>
-			</dependency>
+				<version>${org.hibernate.version}</version>
+			</dependency>          
 			<dependency>
 				<groupId>c3p0</groupId>
 				<artifactId>c3p0</artifactId>
@@ -97,53 +103,47 @@
 				<scope>compile</scope>
 			</dependency>    
 
-			<dependency>
-				<groupId>org.dspace</groupId>
-				<artifactId>dspace-stats</artifactId>
-				<version>1.8.3-SNAPSHOT</version>
-			</dependency>
-
 			<!-- we have customization and patched jspui classes so we directly depend 
 				on dspace-api -->
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-api</artifactId>
-				<version>1.8.3-SNAPSHOT</version>
+				<version>${org.dspace.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>
-				<artifactId>dspace-jspui-api</artifactId>
-				<version>1.8.3-SNAPSHOT</version>
+				<artifactId>dspace-jspui</artifactId>
+				<version>${org.dspace.version}</version>
 			</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-core</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-date</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-pointer</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-web-api</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>      
 		
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-webmvc-api</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 		</dependency>
 		
 		</dependencies>
