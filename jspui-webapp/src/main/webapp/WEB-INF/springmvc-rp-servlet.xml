@@ -4143,10 +4143,10 @@
 			<value>org.dspace.app.cris.model.jdyna.BoxOrganizationUnit</value>
 		</constructor-arg>		
 		<property name="detailsView">
-			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
+			<value>redirect:/cris/tools/ou/editDynamicData.htm</value>
 		</property>		
 		<property name="listView">
-			<value>redirect:/cris/administrator/project/list.htm</value>
+			<value>redirect:/cris/administrator/ou/list.htm</value>
 		</property>		
 		<property name="method">
 			<value>delete</value>
@@ -4175,10 +4175,10 @@
 			<value>org.dspace.app.cris.model.jdyna.BoxProject</value>
 		</constructor-arg>		
 		<property name="detailsView">
-			<value>redirect:/cris/tools/rp/editDynamicData.htm</value>
+			<value>redirect:/cris/tools/project/editDynamicData.htm</value>
 		</property>
 		<property name="listView">
-			<value>redirect:/cris/administrator/ou/list.htm</value>
+			<value>redirect:/cris/administrator/project/list.htm</value>
 		</property>		
 		<property name="method">
 			<value>delete</value>

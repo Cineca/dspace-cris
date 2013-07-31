@@ -17,19 +17,12 @@
 			<groupId>org.dspace</groupId>
 			<artifactId>dspace-api</artifactId>						
 		</dependency>
-		<dependency>
-		  <groupId>org.hibernate</groupId>
-		  <artifactId>hibernate-core</artifactId>		  
-		</dependency>
-		<dependency>
-		  <groupId>org.hibernate</groupId>
-		  <artifactId>hibernate-commons-annotations</artifactId>		  
-		</dependency>
 	
 		<dependency>
 		  <groupId>org.hibernate</groupId>
-		  <artifactId>hibernate-validator</artifactId>		  
-		</dependency>				
+		  <artifactId>hibernate-entitymanager</artifactId>		  
+		</dependency>
+					
 		<dependency>		
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>		
@@ -236,8 +229,9 @@
 					<dependency>
 						<groupId>postgresql</groupId>
 						<artifactId>postgresql</artifactId>
-						<version>9.0-801.jdbc3</version>
+						<version>9.1-901.jdbc4</version>
 					</dependency>
+									
 
 					<dependency>
 						<groupId>org.hibernate</groupId>
