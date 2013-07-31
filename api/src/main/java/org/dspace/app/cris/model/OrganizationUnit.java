@@ -9,6 +9,7 @@ package org.dspace.app.cris.model;
 
 import it.cilea.osd.common.core.TimeStampInfo;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.dspace.app.cris.model.jdyna.OUNestedProperty;
 import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.OUProperty;
 import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
+import org.dspace.authorize.AuthorizeException;
 
 @Entity
 @Table(name = "cris_orgunit")
@@ -236,4 +238,6 @@ public class OrganizationUnit extends
     public String getTypeText() {
         return CrisConstants.getEntityTypeText(CrisConstants.OU_TYPE_ID);
     }
+
+
 }

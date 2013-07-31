@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-cris</artifactId>
-		<version>1.8.2</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -17,16 +17,13 @@
 			<groupId>org.dspace</groupId>
 			<artifactId>dspace-api</artifactId>						
 		</dependency>
-     <dependency>
-         <groupId>org.dspace</groupId>
-         <artifactId>dspace-stats</artifactId>         
-     </dependency>
-
+	
 		<dependency>
 		  <groupId>org.hibernate</groupId>
 		  <artifactId>hibernate-entitymanager</artifactId>		  
 		</dependency>
-		<dependency>
+					
+		<dependency>		
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>		
 		</dependency>
@@ -75,8 +72,7 @@
 	
 		<dependency>
 			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.4.GA</version>
+			<artifactId>javassist</artifactId>			
 		</dependency>
 	
 		<dependency>
@@ -86,8 +82,8 @@
 		</dependency>
 
 		<dependency>
-			<artifactId>spring-core</artifactId>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>			
 		</dependency>
 
 		<dependency>
@@ -119,7 +115,7 @@
 		<dependency>
 			<groupId>it.cilea</groupId>
 			<artifactId>commons-cilea-genericdao</artifactId>
-			<version>1.1</version>
+			<version>1.2</version>
 		</dependency>
 		
     	<dependency>
@@ -128,13 +124,12 @@
             <version>1.7.0</version>
         </dependency>
 
-	<dependency>
-		<groupId>org.dspace</groupId>
-		<artifactId>pubmed-retrieve</artifactId>
-		<version>0.1</version>
-		<type>jar</type>
-		<scope>compile</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.dspace</groupId>
+			<artifactId>pubmed-retrieve</artifactId>			
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -234,8 +229,9 @@
 					<dependency>
 						<groupId>postgresql</groupId>
 						<artifactId>postgresql</artifactId>
-						<version>9.0-801.jdbc3</version>
+						<version>9.1-901.jdbc4</version>
 					</dependency>
+									
 
 					<dependency>
 						<groupId>org.hibernate</groupId>
@@ -268,13 +264,13 @@
 					<dependency>
 						<groupId>it.cilea</groupId>
 						<artifactId>commons-cilea-genericdao</artifactId>
-						<version>1.1</version>
+						<version>1.2</version>
 					</dependency>
 					
 					<dependency>
 						<groupId>org.dspace</groupId>
 						<artifactId>dspace-cris-api</artifactId>
-						<version>1.8.2</version>
+						<version>3.3-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 			</plugin>

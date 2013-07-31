@@ -27,6 +27,7 @@ import org.dspace.app.cris.model.CrisConstants;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
+import org.dspace.app.util.DCInputsReaderException;
 import org.dspace.browse.BrowseEngine;
 import org.dspace.browse.BrowseException;
 import org.dspace.browse.BrowseIndex;
@@ -231,6 +232,10 @@ public class ScriptUpdateRPItemSearchIndex
             }
             context.commit();
             context.clearCache();
+        }
+        catch (DCInputsReaderException e)
+        {
+            log.error(e.getMessage());
         }
         finally
         {
