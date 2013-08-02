@@ -10,6 +10,7 @@
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-cris</artifactId>
 		<version>3.3-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<dependencies>
@@ -265,12 +266,6 @@
 						<groupId>it.cilea</groupId>
 						<artifactId>commons-cilea-genericdao</artifactId>
 						<version>1.2</version>
-					</dependency>
-					
-					<dependency>
-						<groupId>org.dspace</groupId>
-						<artifactId>dspace-cris-api</artifactId>
-						<version>3.3-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 			</plugin>
