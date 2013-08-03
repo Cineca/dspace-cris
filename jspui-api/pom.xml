@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-cris</artifactId>
-		<version>CRIS-3.2.1-SNAPSHOT</version>
+		<version>CRIS-3.2.0-beta</version>
 	</parent>
 
    <!--Force UTF-8 encoding during build on all platforms-->
@@ -115,12 +115,10 @@
 		<dependency>
 			<groupId>org.dspace</groupId>
 			<artifactId>pubmed-lookup</artifactId>
-			<version>3.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.dspace</groupId>
 			<artifactId>pubmed-lookup-web</artifactId>
-			<version>3.3-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
 
