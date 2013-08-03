@@ -27,6 +27,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.hibernate.version>3.6.10.Final</org.hibernate.version>
 		<org.jdyna.version>4.1</org.jdyna.version>
+        <root.basedir>${basedir}</root.basedir>
 	</properties>
     
 	<build>
@@ -101,19 +102,6 @@
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>    
-
-			<!-- we have customization and patched jspui classes so we directly depend 
-				on dspace-api -->
-			<dependency>
-				<groupId>org.dspace</groupId>
-				<artifactId>dspace-api</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.dspace</groupId>
-				<artifactId>dspace-jspui</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 
 		<dependency>
 			<groupId>org.jdyna</groupId>

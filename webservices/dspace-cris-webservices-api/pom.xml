@@ -11,6 +11,12 @@
 	<name>CRIS :: WS API</name>
 	<groupId>org.dspace</groupId>
 
+   <!--Force UTF-8 encoding during build on all platforms-->
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <root.basedir>${basedir}/../..</root.basedir>
+   </properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.dspace</groupId>

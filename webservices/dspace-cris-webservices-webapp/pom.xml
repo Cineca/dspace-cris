@@ -11,13 +11,18 @@
   <artifactId>dspace-cris-webservices-webapp</artifactId>
   
   <packaging>war</packaging>
-  <name>CRIS webservices-webapp Spring-WS Application</name>
-  <url>http://www.springframework.org/spring-ws</url>
+  <name>CRIS Webservices Webapp</name>
+  
+   <!--Force UTF-8 encoding during build on all platforms-->
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <root.basedir>${basedir}/../..</root.basedir>
+   </properties>
+   
   <dependencies>
      <dependency>
          <groupId>org.dspace</groupId>
          <artifactId>dspace-cris-webservices-api</artifactId>
-         <version>3.3-SNAPSHOT</version>         
     </dependency>
 	<dependency>
 		<groupId>org.springframework</groupId>
