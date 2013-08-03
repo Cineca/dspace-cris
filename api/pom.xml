@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 	<groupId>org.dspace</groupId>
@@ -9,7 +8,7 @@
 	<parent>
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-cris</artifactId>
-		<version>3.3-SNAPSHOT</version>
+		<version>CRIS-3.2.0-beta</version>
 		<relativePath>..</relativePath>
 	</parent>
    
@@ -165,8 +164,7 @@
 					<!-- with m2e 1.0 or newest you need to add process classes phase and 
 						to get in plugin at line 200 <groupId>org.eclipse.m2e</groupId> see http://stackoverflow.com/questions/7391201/maven-plugin-error-execution-not-covered-by-lifecycle-configuration?lq=1 -->
 					<!-- <execution> <id>create-tables-and-GEN-DDL</id> <goals> <goal>run</goal> 
-						</goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
-						inheritRefs="true"> <target name="create-tables-and-GEN-DDL" /> </ant> </tasks> 
+						</goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" inheritRefs="true"> <target name="create-tables-and-GEN-DDL" /> </ant> </tasks> 
 						</configuration> </execution> 
 
 
@@ -178,10 +176,9 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<property name="dspace.dir" value="E:/var/dspace"/>
-								<property name="tool.dir" value="E:/var/tooldspace"/>
-								<ant antfile="${basedir}/src/main/resources/build.xml"
-									inheritRefs="true">
+								<property name="dspace.dir" value="E:/var/dspace" />
+								<property name="tool.dir" value="E:/var/tooldspace" />
+								<ant antfile="${basedir}/src/main/resources/build.xml" inheritRefs="true">
 									<target name="generate-ddl" />
 								</ant>
 							</tasks>
@@ -197,8 +194,7 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<ant antfile="${basedir}/src/main/resources/build.xml"
-									inheritRefs="true">
+								<ant antfile="${basedir}/src/main/resources/build.xml" inheritRefs="true">
 									<target name="generate-drop-ddl" />
 								</ant>
 							</tasks>
@@ -214,12 +210,11 @@
 							</goals>
 							<configuration>
 								<tasks>
-									<property name="maven_compile_classpath" refid="maven.compile.classpath"/>
-									<property name="maven_runtime_classpath" refid="maven.runtime.classpath"/>
-									<property name="dspace.dir" value="E:/var/dspace"/>
-									<property name="tool.dir" value="E:/var/tooldspace"/>
-									<ant antfile="${basedir}/src/main/resources/build.xml"
-										inheritRefs="true">
+									<property name="maven_compile_classpath" refid="maven.compile.classpath" />
+									<property name="maven_runtime_classpath" refid="maven.runtime.classpath" />
+									<property name="dspace.dir" value="E:/var/dspace" />
+									<property name="tool.dir" value="E:/var/tooldspace" />
+									<ant antfile="${basedir}/src/main/resources/build.xml" inheritRefs="true">
 										<target name="generate-update-ddl" />
 									</ant>
 								</tasks>
@@ -228,8 +223,7 @@
 		--> 
 		<!-- 
 					  <execution> <id>refresh-database</id> <phase>process-classes</phase> 
-						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" 
-						inheritRefs="true"> <target name="refresh-database" /> </ant> </tasks> </configuration> 
+						<goals> <goal>run</goal> </goals> <configuration> <tasks> <ant antfile="${basedir}/src/main/resources/build.xml" inheritRefs="true"> <target name="refresh-database" /> </ant> </tasks> </configuration> 
 						</execution> -->
 				</executions>
 				<dependencies>
@@ -302,7 +296,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

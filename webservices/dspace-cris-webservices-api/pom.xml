@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>dspace-cris-webservices</artifactId>
 		<groupId>org.dspace</groupId>
-		<version>3.3-SNAPSHOT</version>
+		<version>CRIS-3.2.0-beta</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>dspace-cris-webservices-api</artifactId>
@@ -66,4 +65,4 @@
 
 
 	</dependencies>
-</project>
+</project>
