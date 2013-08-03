@@ -1,3 +1,12 @@
+<%--
+
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    https://github.com/CILEA/dspace-cris/wiki/License
+
+--%>
 <%--fmt:message key="view.${data.jspKey}.data.${statType}.${objectName}.total.description" /--%>
 <c:set var="pieType" scope="page">allMonths</c:set>						
 <%@include file="../modules/graph/monthsGraph.jsp"%>

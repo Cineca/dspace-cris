@@ -1,3 +1,12 @@
+<%--
+
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    https://github.com/CILEA/dspace-cris/wiki/License
+
+--%>
 <%@ taglib uri="statstags" prefix="stats" %>
 <c:set var="statType" >top</c:set>
 <%--h2 class="titlestats">${markerasnumber}) <span class="titlestats"><fmt:message key="view.${data.jspKey}.${statType}.${objectName}.page.title" /></span></h2--%>

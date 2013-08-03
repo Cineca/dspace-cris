@@ -1,4 +1,11 @@
 /*
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ *
+ * https://github.com/CILEA/dspace-cris/wiki/License
+ */
+/*
 * jQuery modalBox plugin v1.2.0 <http://code.google.com/p/jquery-modalbox-plugin/> 
 * @requires jQuery v1.3.2 or later 
 * is released under the MIT License <http://www.opensource.org/licenses/mit-license.php> 

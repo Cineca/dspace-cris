@@ -1,4 +1,11 @@
 /*
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
+ *
+ * https://github.com/CILEA/dspace-cris/wiki/License
+ */
+/*
  * canvg.js - Javascript SVG parser and renderer on Canvas
  * MIT Licensed 
  * Gabe Lerner (gabelerner@gmail.com)

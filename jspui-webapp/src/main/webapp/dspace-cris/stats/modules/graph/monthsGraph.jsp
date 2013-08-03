@@ -1,3 +1,12 @@
+<%--
+
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    https://github.com/CILEA/dspace-cris/wiki/License
+
+--%>
 		<c:set var="targetDiv" scope="page">lastYearsDiv_${statType}_${objectName}_${pieType}</c:set>
 		<c:set var="jsDataObjectName" scope="page">splineData_${statType}</c:set>
 	
