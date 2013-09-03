@@ -8,9 +8,9 @@
 	<name>DSpace CRIS</name>
 
    <scm>
-      <connection>scm:git:git@github.com:CILEA/dspace-cris.git</connection>
-      <developerConnection>scm:git:git@github.com:CILEA/dspace-cris.git</developerConnection>
-      <url>git@github.com:CILEA/dspace-cris.git</url>
+      <connection>scm:git:https://github.com/CILEA/dspace-cris.git</connection>
+      <developerConnection>scm:git:https://github.com/CILEA/dspace-cris.git</developerConnection>
+      <url>https://github.com/CILEA/dspace-cris.git</url>
       <tag>HEAD</tag>
    </scm>
    
@@ -31,8 +31,6 @@
 	<!--Force UTF-8 encoding during build on all platforms -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.hibernate.version>3.6.10.Final</org.hibernate.version>
-		<org.jdyna.version>4.1</org.jdyna.version>
         <root.basedir>${basedir}</root.basedir>
 	</properties>
     
