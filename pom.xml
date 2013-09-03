@@ -7,12 +7,12 @@
 	<artifactId>dspace-cris</artifactId>
 	<name>DSpace CRIS</name>
 
-   <scm>
-      <connection>scm:git:git@github.com:CILEA/dspace-cris.git</connection>
-      <developerConnection>scm:git:git@github.com:CILEA/dspace-cris.git</developerConnection>
-      <url>git@github.com:CILEA/dspace-cris.git</url>
-      <tag>HEAD</tag>
-   </scm>
+	<scm>
+		<connection>scm:git:https://github.com/CILEA/dspace-cris.git</connection>
+		<developerConnection>scm:git:https://github.com/CILEA/dspace-cris.git</developerConnection>
+		<url>https://github.com/CILEA/dspace-cris.git</url>
+		<tag>HEAD</tag>
+	</scm>
    
 	<parent>
 		<artifactId>dspace-parent</artifactId>
