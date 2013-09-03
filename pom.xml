@@ -30,9 +30,7 @@
 
 	<!--Force UTF-8 encoding during build on all platforms -->
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.hibernate.version>3.6.10.Final</org.hibernate.version>
-		<org.jdyna.version>4.1</org.jdyna.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>		
         <root.basedir>${basedir}</root.basedir>
 	</properties>
     
