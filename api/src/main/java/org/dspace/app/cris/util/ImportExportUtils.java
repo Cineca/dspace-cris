@@ -740,7 +740,7 @@ public class ImportExportUtils
                 + " row discarded)");
     }
 
-    private static <P extends Property<TP>, TP extends PropertiesDefinition> void importDynAXML(
+    private static <TP extends PropertiesDefinition> void importDynAXML(
             ApplicationService applicationService, List<TP> realFillTPS,
             Element node, AnagraficaObjectDTO dto,
             AnagraficaObjectDTO clonedto, boolean update)
@@ -1008,7 +1008,7 @@ public class ImportExportUtils
         return filexsd;
     }
 
-    private static <P extends Property<TP>, TP extends PropertiesDefinition> void workOnText(
+    private static <TP extends PropertiesDefinition> void workOnText(
             ApplicationService applicationService, Element node, TP rpPD,
             List<ValoreDTO> values, List<ValoreDTO> old)
             throws XPathExpressionException
@@ -1049,7 +1049,7 @@ public class ImportExportUtils
         }
     }
 
-    private static <P extends Property<TP>, TP extends PropertiesDefinition> void workOnLink(
+    private static <TP extends PropertiesDefinition> void workOnLink(
             ApplicationService applicationService, TP rpPD,
             List<ValoreDTO> values, List<ValoreDTO> old, Element nodeLink)
             throws XPathExpressionException
@@ -1104,7 +1104,7 @@ public class ImportExportUtils
         }
     }
 
-    private static <P extends Property<TP>, TP extends PropertiesDefinition> void workOnDate(
+    private static <TP extends PropertiesDefinition> void workOnDate(
             ApplicationService applicationService, Element node, TP rpPD,
             List<ValoreDTO> values, List<ValoreDTO> old, Node nodeDate)
             throws XPathExpressionException
@@ -1164,7 +1164,7 @@ public class ImportExportUtils
      * @param vis
      * @return
      */
-    private static <P extends Property<TP>, TP extends PropertiesDefinition> String checkOldVisibility(
+    private static <TP extends PropertiesDefinition> String checkOldVisibility(
             ApplicationService applicationService, TP rpPD,
             List<ValoreDTO> old, String nodetext, String vis)
     {
