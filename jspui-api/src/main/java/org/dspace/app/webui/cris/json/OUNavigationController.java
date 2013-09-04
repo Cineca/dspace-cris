@@ -19,6 +19,8 @@ import org.dspace.app.cris.model.jdyna.DecoratorOUTypeNested;
 import org.dspace.app.cris.model.jdyna.OUNestedObject;
 import org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.OUNestedProperty;
+import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.OUProperty;
 import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
 import org.dspace.app.cris.model.jdyna.TabOrganizationUnit;
 import org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions;

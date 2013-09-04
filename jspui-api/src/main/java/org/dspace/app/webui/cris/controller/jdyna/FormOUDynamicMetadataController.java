@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.cris.model.OrganizationUnit;
 import org.dspace.app.cris.model.jdyna.BoxOrganizationUnit;
-import org.dspace.app.cris.model.jdyna.DecoratorOUPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit;
 import org.dspace.app.cris.model.jdyna.OUAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.OUNestedObject;
@@ -31,6 +30,7 @@ import org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.OUNestedProperty;
 import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.OUProperty;
+import org.dspace.app.cris.model.jdyna.TabOrganizationUnit;
 import org.dspace.app.cris.model.jdyna.VisibilityTabConstant;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
@@ -188,7 +188,7 @@ public class FormOUDynamicMetadataController
             else
             {
                 EditTabOrganizationUnit fuzzyEditTab = (EditTabOrganizationUnit) ((ApplicationService) getApplicationService())
-                        .getEditTabByDisplayTab(
+                        .<BoxOrganizationUnit, TabOrganizationUnit, EditTabOrganizationUnit>getEditTabByDisplayTab(
                                 Integer.parseInt(paramFuzzyTabId),
                                 EditTabOrganizationUnit.class);
                 areaId = fuzzyEditTab.getId();

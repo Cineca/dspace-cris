@@ -73,7 +73,7 @@ public class CrisConstants {
         return CrisConstants.getEntityType(clazz.newInstance());
     }
 	
-	public static <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> String getAuthorityPrefix(T crisObject) {
+	public static <T extends ACrisObject> String getAuthorityPrefix(T crisObject) {
         return crisObject.getAuthorityPrefix();
     }
 

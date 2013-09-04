@@ -77,7 +77,7 @@ public class ResearcherPageUtils
     /**
      * Build the cris identifier starting from the db internal primary key
     */
-    public static <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> String getPersistentIdentifier(
+    public static <T extends ACrisObject> String getPersistentIdentifier(
             Integer crisID, Class<T> clazz)
     {
         T cris = null;
@@ -337,7 +337,7 @@ public class ResearcherPageUtils
         return applicationService.getNestedMaxPosition(nested);
     }
 
-    public static <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> T getCrisObject(
+    public static <T extends ACrisObject> T getCrisObject(
             Integer id, Class<T> clazz)
     {
         return applicationService.get(clazz, id);

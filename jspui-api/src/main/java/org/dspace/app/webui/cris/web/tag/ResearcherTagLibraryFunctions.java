@@ -688,7 +688,7 @@ public class ResearcherTagLibraryFunctions
 
             if (cont instanceof DecoratorRPPropertiesDefinition)
             {
-                DecoratorRPPropertiesDefinition decorator = (DecoratorRPPropertiesDefinition) cont;
+                DecoratorRPPropertiesDefinition decorator = (DecoratorRPPropertiesDefinition) cont;                
                 result += countDynamicPublicMetadata(
                         anagrafica.getDynamicField(), decorator.getShortName(),
                         decorator.getRendering(), decorator.getReal(),
@@ -763,14 +763,14 @@ public class ResearcherTagLibraryFunctions
         return result;
     }
 
-    public static <P extends Property<PD>, PD extends PropertiesDefinition, T extends AnagraficaSupport<P, PD>> int countDynamicPublicMetadata(
+    public static <TP extends PropertiesDefinition, T extends AnagraficaSupport<? extends Property<TP>, TP>> int countDynamicPublicMetadata(
             T anagrafica, String shortname, AWidget rendering,
-            PD rpPropertiesDefinition, boolean onlyComplexValue)
+            TP rpPropertiesDefinition, boolean onlyComplexValue)
     {
         int result = 0;
         if (!onlyComplexValue)
         {
-            for (P p : anagrafica.getAnagrafica4view().get(shortname))
+            for (Property<TP> p : anagrafica.getAnagrafica4view().get(shortname))
             {
                 if (p.getVisibility() == 1)
                 {
@@ -855,5 +855,6 @@ public class ResearcherTagLibraryFunctions
             throws UnsupportedEncodingException
     {
         return URLEncoder.encode(value, charset);
-    }
+    }   
+    
 }
