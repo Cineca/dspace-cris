@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
+import org.dspace.app.cris.model.jdyna.BoxOrganizationUnit;
 import org.dspace.app.cris.model.jdyna.DynamicAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.DynamicNestedObject;
 import org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition;
@@ -32,6 +33,9 @@ import org.dspace.app.cris.model.jdyna.DynamicObjectType;
 import org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DynamicProperty;
 import org.dspace.app.cris.model.jdyna.EditTabDynamicObject;
+import org.dspace.app.cris.model.jdyna.EditTabOrganizationUnit;
+import org.dspace.app.cris.model.jdyna.TabDynamicObject;
+import org.dspace.app.cris.model.jdyna.TabOrganizationUnit;
 import org.dspace.app.cris.model.jdyna.VisibilityTabConstant;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
@@ -76,7 +80,7 @@ public class FormDODynamicMetadataController
         // visibility)
         DynamicObjectType typo = getApplicationService().get(DynamicObjectType.class, object.getTipologiaId());
         List<EditTabDynamicObject> tabs = getApplicationService()
-                .getEditTabsByVisibilityAndType(EditTabDynamicObject.class, isAdmin, typo);
+                .<BoxDynamicObject, DynamicObjectType, DynamicPropertiesDefinition, TabDynamicObject, EditTabDynamicObject>getEditTabsByVisibilityAndType(EditTabDynamicObject.class, isAdmin, typo);
 
         // check if request tab from view is active (check on collection before)
         EditTabDynamicObject editT = getApplicationService().get(
@@ -182,7 +186,7 @@ public class FormDODynamicMetadataController
             if (paramFuzzyTabId == null)
             {
                 List<EditTabDynamicObject> tabs = getApplicationService()
-                        .getEditTabsByVisibilityAndType(EditTabDynamicObject.class,
+                        .<BoxDynamicObject, DynamicObjectType, DynamicPropertiesDefinition, TabDynamicObject, EditTabDynamicObject>getEditTabsByVisibilityAndType(EditTabDynamicObject.class,
                                 isAdmin, entity.getTypo());
                 if (tabs.isEmpty())
                 {
@@ -193,7 +197,7 @@ public class FormDODynamicMetadataController
             else
             {
                 EditTabDynamicObject fuzzyEditTab = (EditTabDynamicObject) ((ApplicationService) getApplicationService())
-                        .getEditTabByDisplayTab(
+                        .<BoxDynamicObject, TabDynamicObject, EditTabDynamicObject>getEditTabByDisplayTab(
                                 Integer.parseInt(paramFuzzyTabId),
                                 EditTabDynamicObject.class);
                 areaId = fuzzyEditTab.getId();

@@ -47,6 +47,30 @@ import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.VisibilityConstants;
 import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
+import org.dspace.app.cris.model.jdyna.DynamicNestedObject;
+import org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DynamicNestedProperty;
+import org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DynamicProperty;
+import org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject;
+import org.dspace.app.cris.model.jdyna.OUNestedObject;
+import org.dspace.app.cris.model.jdyna.OUNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.OUNestedProperty;
+import org.dspace.app.cris.model.jdyna.OUPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.OUProperty;
+import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
+import org.dspace.app.cris.model.jdyna.ProjectNestedObject;
+import org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.ProjectNestedProperty;
+import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.ProjectProperty;
+import org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject;
+import org.dspace.app.cris.model.jdyna.RPNestedObject;
+import org.dspace.app.cris.model.jdyna.RPNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.RPNestedProperty;
+import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.RPProperty;
+import org.dspace.app.cris.model.jdyna.RPTypeNestedObject;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
 import org.dspace.content.DCValue;
@@ -330,10 +354,10 @@ public class CrisSearchService extends SolrServiceImpl
 
     private void createCrisIndex(Context context)
     {
-        createCrisIndex(context, ResearcherPage.class);
-        createCrisIndex(context, Project.class);
-        createCrisIndex(context, OrganizationUnit.class);
-        createCrisIndex(context, ResearchObject.class);
+        this.<ResearcherPage, RPProperty, RPPropertiesDefinition, RPNestedProperty, RPNestedPropertiesDefinition, RPNestedObject, RPTypeNestedObject>createCrisIndex(context, ResearcherPage.class);
+        this.<Project, ProjectProperty, ProjectPropertiesDefinition, ProjectNestedProperty, ProjectNestedPropertiesDefinition, ProjectNestedObject, ProjectTypeNestedObject>createCrisIndex(context, Project.class);
+        this.<OrganizationUnit, OUProperty, OUPropertiesDefinition, OUNestedProperty, OUNestedPropertiesDefinition, OUNestedObject, OUTypeNestedObject>createCrisIndex(context, OrganizationUnit.class);
+        this.<ResearchObject, DynamicProperty, DynamicPropertiesDefinition, DynamicNestedProperty, DynamicNestedPropertiesDefinition, DynamicNestedObject, DynamicTypeNestedObject>createCrisIndex(context, ResearchObject.class);
     }
 
     private void updateCrisIndex(Context context, boolean force)
@@ -611,21 +635,21 @@ public class CrisSearchService extends SolrServiceImpl
 
         if (type > CrisConstants.CRIS_DYNAMIC_TYPE_ID_START)
         {
-            createCrisIndex(context, ResearchObject.class);
+            this.<ResearchObject, DynamicProperty, DynamicPropertiesDefinition, DynamicNestedProperty, DynamicNestedPropertiesDefinition, DynamicNestedObject, DynamicTypeNestedObject>createCrisIndex(context, ResearchObject.class);
         }
         else
         {
             if (CrisConstants.RP_TYPE_ID == type)
             {
-                createCrisIndex(context, ResearcherPage.class);
+                this.<ResearcherPage, RPProperty, RPPropertiesDefinition, RPNestedProperty, RPNestedPropertiesDefinition, RPNestedObject, RPTypeNestedObject>createCrisIndex(context, ResearcherPage.class);
             }
             else if (CrisConstants.PROJECT_TYPE_ID == type)
             {
-                createCrisIndex(context, Project.class);
+                this.<Project, ProjectProperty, ProjectPropertiesDefinition, ProjectNestedProperty, ProjectNestedPropertiesDefinition, ProjectNestedObject, ProjectTypeNestedObject>createCrisIndex(context, Project.class);
             }
             else if (CrisConstants.OU_TYPE_ID == type)
             {
-                createCrisIndex(context, OrganizationUnit.class);
+                this.<OrganizationUnit, OUProperty, OUPropertiesDefinition, OUNestedProperty, OUNestedPropertiesDefinition, OUNestedObject, OUTypeNestedObject>createCrisIndex(context, OrganizationUnit.class);
             }
             else
             {
