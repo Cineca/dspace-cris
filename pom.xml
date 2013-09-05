@@ -8,6 +8,13 @@
 	<artifactId>dspace-cris</artifactId>
 	<name>DSpace CRIS</name>
 
+	<scm>
+		<connection>scm:git:https://github.com/CILEA/dspace-cris.git</connection>
+		<developerConnection>scm:git:https://github.com/CILEA/dspace-cris.git</developerConnection>
+		<url>https://github.com/CILEA/dspace-cris.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
 	<parent>
 		<artifactId>dspace-parent</artifactId>
 		<groupId>org.dspace</groupId>
@@ -24,6 +31,7 @@
 	<!--Force UTF-8 encoding during build on all platforms -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<root.basedir>${basedir}</root.basedir>
 	</properties>
 
 	<build>
