@@ -6,13 +6,12 @@
 	<packaging>pom</packaging>
 	<groupId>org.dspace</groupId>
 	<artifactId>dspace-cris</artifactId>
-	<version>1.8.2</version>
 	<name>DSpace CRIS</name>
 
 	<parent>
 		<artifactId>dspace-parent</artifactId>
 		<groupId>org.dspace</groupId>
-		<version>1.8.3-SNAPSHOT</version>
+		<version>CRIS-1.8.4-SNAPSHOT</version>
 	</parent>
 
 	<modules>
@@ -100,7 +99,7 @@
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-stats</artifactId>
-				<version>1.8.3-SNAPSHOT</version>
+				<version>CRIS-1.8.4-SNAPSHOT</version>
 			</dependency>
 
 			<!-- we have customization and patched jspui classes so we directly depend 
@@ -108,12 +107,12 @@
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-api</artifactId>
-				<version>1.8.3-SNAPSHOT</version>
+				<version>CRIS-1.8.4-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.dspace</groupId>
 				<artifactId>dspace-jspui-api</artifactId>
-				<version>1.8.3-SNAPSHOT</version>
+				<version>CRIS-1.8.4-SNAPSHOT</version>
 			</dependency>
 
 		<dependency>

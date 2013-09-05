@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-cris</artifactId>
-		<version>1.8.2</version>
+		<version>CRIS-1.8.4-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -20,20 +20,19 @@
 		
 		<dependency>
 			<groupId>org.dspace</groupId>
-			<artifactId>dspace-cris-api</artifactId>			
+			<artifactId>dspace-cris-api</artifactId>
+						
 		</dependency>
 
 		<!-- we have customization and patched jspui classes so we directly depend 
 			on dspace-api -->
 		<dependency>
 			<groupId>org.dspace</groupId>
-			<artifactId>dspace-api</artifactId>
-			<version>1.8.3-SNAPSHOT</version>
+			<artifactId>dspace-api</artifactId>			
 		</dependency>
 		<dependency>
 			<groupId>org.dspace</groupId>
-			<artifactId>dspace-jspui-api</artifactId>
-			<version>1.8.3-SNAPSHOT</version>
+			<artifactId>dspace-jspui-api</artifactId>			
 		</dependency>
 
 		<dependency>
@@ -115,12 +114,12 @@
 		<dependency>
 		<groupId>org.dspace</groupId>
 		<artifactId>pubmed-lookup</artifactId>
-		<version>0.1</version>
+		<version>CRIS-1.8.4-SNAPSHOT</version>
 	</dependency>
 	<dependency>
 		<groupId>org.dspace</groupId>
 		<artifactId>pubmed-lookup-web</artifactId>
-		<version>0.1</version>
+		<version>CRIS-1.8.4-SNAPSHOT</version>
 		<type>war</type>
 	</dependency>
 

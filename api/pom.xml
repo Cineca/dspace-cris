@@ -9,17 +9,17 @@
 	<parent>
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-cris</artifactId>
-		<version>1.8.2</version>
+		<version>CRIS-1.8.4-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.dspace</groupId>
-			<artifactId>dspace-api</artifactId>						
+			<artifactId>dspace-api</artifactId>									
 		</dependency>
      <dependency>
          <groupId>org.dspace</groupId>
-         <artifactId>dspace-stats</artifactId>         
+         <artifactId>dspace-stats</artifactId>                  
      </dependency>
 
 		<dependency>
@@ -131,7 +131,7 @@
 	<dependency>
 		<groupId>org.dspace</groupId>
 		<artifactId>pubmed-retrieve</artifactId>
-		<version>0.1</version>
+		<version>CRIS-1.8.4-SNAPSHOT</version>
 		<type>jar</type>
 		<scope>compile</scope>
 	</dependency>
