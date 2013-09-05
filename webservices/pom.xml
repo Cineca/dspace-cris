@@ -8,7 +8,7 @@
     <parent>
 		<groupId>org.dspace</groupId>
 		<artifactId>dspace-cris</artifactId>
-		<version>1.8.3.0-CRIS</version>
+		<version>1.8.3.1-CRIS-SNAPSHOT</version>
    </parent>
        <properties>
                <!-- This is the path to the root [dspace-src] directory. -->
