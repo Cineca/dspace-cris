@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>dspace-cris-webservices</artifactId>
 		<groupId>org.dspace</groupId>
-		<version>1.8.3.0-CRIS-SNAPSHOT</version>
+		<version>1.8.3.0-CRIS</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>dspace-cris-webservices-api</artifactId>
@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>org.dspace</groupId>
 			<artifactId>dspace-cris-api</artifactId>
-			<version>1.8.3.0-CRIS-SNAPSHOT</version>			
+			<version>1.8.3.0-CRIS</version>			
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
