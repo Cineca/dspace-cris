@@ -1,3 +1,12 @@
+<%--
+
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    https://github.com/CILEA/dspace-cris/wiki/License
+
+--%>
 <%@ taglib uri="statstags" prefix="stats" %>
 <!-- Target div for drill down -->
 <!-- div id="drillDownDiv" style="width: 800px; height: 400px; margin: 1 auto;position:relative;top:0; left:0; font-size:50px; z-index:2;border-style:solid;border-width:5px;"></div-->

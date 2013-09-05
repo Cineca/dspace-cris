@@ -11,6 +11,10 @@
 	<name>CRIS :: WS API</name>
 	<groupId>org.dspace</groupId>
 
+        <properties>
+            <!-- This is the path to the root [dspace-src] directory. -->
+	            <root.basedir>${basedir}/../..</root.basedir>
+        </properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.dspace</groupId>

@@ -1,3 +1,12 @@
+<%--
+
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    https://github.com/CILEA/dspace-cris/wiki/License
+
+--%>
 <%--  http://www.beginningspatial.com/creating_proportional_symbol_maps_google_maps  --%>
 <c:set var="pieType" >location</c:set>
 <c:set var="targetDiv" scope="page" >div_${data.jspKey}_${statType}_${objectName}_${pieType}</c:set>

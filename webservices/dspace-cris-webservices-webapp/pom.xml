@@ -12,7 +12,12 @@
   <packaging>war</packaging>
   <name>CRIS webservices-webapp Spring-WS Application</name>
   <url>http://www.springframework.org/spring-ws</url>
-    
+ 
+     <properties>
+             <!-- This is the path to the root [dspace-src] directory. -->
+             <root.basedir>${basedir}/../..</root.basedir>
+     </properties>
+
   <dependencies>
      <dependency>
          <groupId>org.dspace</groupId>

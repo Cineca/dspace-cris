@@ -12,6 +12,11 @@
 		<version>1.8.3.0-CRIS-SNAPSHOT</version>
 	</parent>
 
+    	<properties>
+            <!-- This is the path to the root [dspace-src] directory. -->
+	    <root.basedir>${basedir}/..</root.basedir>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.dspace</groupId>

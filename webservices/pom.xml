@@ -10,9 +10,13 @@
 		<artifactId>dspace-cris</artifactId>
 		<version>1.8.3.0-CRIS-SNAPSHOT</version>
    </parent>
+       <properties>
+               <!-- This is the path to the root [dspace-src] directory. -->
+               <root.basedir>${basedir}/..</root.basedir>
+        </properties>
 	
   <modules>
     <module>dspace-cris-webservices-webapp</module>
     <module>dspace-cris-webservices-api</module>
   </modules>
-</project>
+</project>

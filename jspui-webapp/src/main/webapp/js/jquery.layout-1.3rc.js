@@ -1,22 +1,10 @@
-/**
- * @preserve jquery.layout 1.3.0 - Release Candidate 29.15
- * $Date: 2011-06-25 08:00:00 (Sat, 25 Jun 2011) $
- * $Rev: 302915 $
+/*
+ * The contents of this file are subject to the license and copyright
+ * detailed in the LICENSE and NOTICE files at the root of the source
+ * tree and available online at
  *
- * Copyright (c) 2010 
- *   Fabrizio Balliano (http://www.fabrizioballiano.net)
- *   Kevin Dalman (http://allpro.net)
- *
- * Dual licensed under the GPL (http://www.gnu.org/licenses/gpl.html)
- * and MIT (http://www.opensource.org/licenses/mit-license.php) licenses.
- *
- * Changelog: http://layout.jquery-dev.net/changelog.cfm#1.3.0.rc29.15
- *
- * Docs: http://layout.jquery-dev.net/documentation.html
- * Tips: http://layout.jquery-dev.net/tips.html
- * Help: http://groups.google.com/group/jquery-ui-layout
+ * https://github.com/CILEA/dspace-cris/wiki/License
  */
-
 // NOTE: For best readability, view with a fixed-width font and tabs equal to 4-chars
 
 ;(function ($) {

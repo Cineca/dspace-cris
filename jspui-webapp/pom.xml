@@ -15,7 +15,11 @@
         <version>1.8.3.0-CRIS-SNAPSHOT</version>
    </parent>
    
-	<build>
+   <properties>
+   	<root.basedir>${basedir}/..</root.basedir>
+   </properties>
+
+   <build>
 	  <finalName>dspace-cris-jspui-webapp</finalName>	
       <plugins>
          <plugin>

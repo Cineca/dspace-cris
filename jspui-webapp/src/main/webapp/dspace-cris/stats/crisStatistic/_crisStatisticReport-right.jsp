@@ -1,3 +1,12 @@
+<%--
+
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    https://github.com/CILEA/dspace-cris/wiki/License
+
+--%>
 <c:set var="link"><%=request.getContextPath() %>/cris/stats/${data.object.publicPath}.html?id=${data.object.uuid}</c:set>
 <c:set var="subscribeLink"><%=request.getContextPath() %>/cris/tools/stats/subscription/subscribe?uid=${data.object.uuid}&amp;type=${data.object.type}</c:set>
 <c:set var="rssLink"><%=request.getContextPath() %>/cris/stats/rss/</c:set>

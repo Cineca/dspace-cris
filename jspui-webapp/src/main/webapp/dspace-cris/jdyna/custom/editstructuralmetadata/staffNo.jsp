@@ -1,11 +1,12 @@
 <%--
-The contents of this file are subject to the license and copyright
- detailed in the LICENSE and NOTICE files at the root of the source
- tree and available online at
- 
- https://github.com/CILEA/dspace-cris/wiki/License
---%>
 
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    https://github.com/CILEA/dspace-cris/wiki/License
+
+--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
