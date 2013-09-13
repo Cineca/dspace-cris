@@ -1,0 +1,49 @@
+package org.dspace.app.webui.cris.controller.admin;
+
+import it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController;
+import it.cilea.osd.jdyna.model.AWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
+import org.dspace.app.cris.model.jdyna.DecoratorDynamicNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested;
+import org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject;
+import org.dspace.app.cris.model.jdyna.TabDynamicObject;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+
+public class FormDynamicAddToNestedDefinitionController<W extends AWidget> extends
+        FormAddToNestedDefinitionController<W, DynamicNestedPropertiesDefinition, DecoratorDynamicNestedPropertiesDefinition, DynamicTypeNestedObject, DecoratorDynamicTypeNested, BoxDynamicObject, TabDynamicObject>
+{
+
+    public FormDynamicAddToNestedDefinitionController(
+            Class<DynamicNestedPropertiesDefinition> targetModel,
+            Class<W> renderingModel, Class<BoxDynamicObject> boxModel,
+            Class<DecoratorDynamicTypeNested> typeModel)
+    {
+        super(targetModel, renderingModel, boxModel, typeModel);        
+    }
+    
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object command, BindException errors)
+            throws Exception
+    {
+        DecoratorDynamicNestedPropertiesDefinition object = (DecoratorDynamicNestedPropertiesDefinition)command;
+        String shortName = object.getShortName();
+        
+        String boxId = request.getParameter("boxId");
+                        
+        if(boxId!=null && !boxId.isEmpty()) {
+            BoxDynamicObject box = getApplicationService().get(BoxDynamicObject.class, Integer.parseInt(boxId));
+            if(!shortName.startsWith(box.getTypeDef().getShortName())) {
+                object.getReal().setShortName(box.getTypeDef().getShortName() + shortName);   
+            }            
+        }
+        return super.onSubmit(request, response, command, errors);
+    }
+
+}

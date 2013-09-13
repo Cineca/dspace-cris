@@ -64,7 +64,9 @@
 	<div style="padding: 0; margin: 0 10px;">			
 			<display:table name="${researchobjects}" cellspacing="0" cellpadding="0" 
 			requestURI="" id="objectList" htmlId="objectList"  class="displaytaglikemisctable" export="false">
-				<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id" property="id" url="/cris/administrator/${objectList.shortName}/index.htm" paramId="id" paramProperty="id" sortable="true" />							
+				<display:column headerClass="id" titleKey="jsp.layout.table.cris.admin-list.id"> 
+					<a href="<%=request.getContextPath()%>/cris/administrator/${objectList.shortName}/index.htm?id=${objectList.id}">${objectList.id}</a>
+				</display:column>									
 				<display:column headerClass="shortname" titleKey="jsp.layout.table.cris.admin-list.shortname" property="shortName" sortable="true" />										
 				<display:column headerClass="label" class="label" titleKey="jsp.layout.table.cris.admin-list.label" property="label" sortable="true"/>
 				<display:column headerClass="typodef" titleKey="jsp.layout.table.cris.admin-list.typodef" sortable="true">
