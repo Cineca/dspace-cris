@@ -148,7 +148,7 @@
 		<dependency>
 			<groupId>org.jdyna</groupId>
 			<artifactId>jdyna-webmvc-webapp</artifactId>
-			<version>4.0</version>
+			<version>${org.jdyna.version}</version>
 			<type>war</type>
 		</dependency>  
 

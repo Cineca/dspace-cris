@@ -19,8 +19,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
+import org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested;
 import org.dspace.app.cris.model.jdyna.DynamicObjectType;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
 
 public class FormExtendedNestedObjectDefinitionController<H extends IPropertyHolder<Containable>, PD extends PropertiesDefinition, NPD extends ANestedPropertiesDefinition, TNO extends ATypeNestedObject<NPD>, ATD extends ADecoratorTypeDefinition<TNO, NPD>>extends
         FormNestedObjectDefinitionController<H, PD, NPD, TNO, ATD>
@@ -34,6 +39,25 @@ public class FormExtendedNestedObjectDefinitionController<H extends IPropertyHol
         List<DynamicObjectType> researchobjects = getApplicationService().getList(DynamicObjectType.class);
         map.put("researchobjects", researchobjects);
         return map;
+    }
+    
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object command, BindException errors)
+            throws Exception
+    {
+        DecoratorDynamicTypeNested object = (DecoratorDynamicTypeNested)command;        
+        String shortName = object.getReal().getShortName();
+        
+        String boxId = request.getParameter("boxId");
+                        
+        if(boxId!=null && !boxId.isEmpty()) {
+            BoxDynamicObject box = getApplicationService().get(BoxDynamicObject.class, Integer.parseInt(boxId));
+            if(!shortName.startsWith(box.getTypeDef().getShortName())) {
+                object.getReal().setShortName(box.getTypeDef().getShortName() + shortName);   
+            }            
+        }  
+        return super.onSubmit(request, response, command, errors);
     }
     
 }

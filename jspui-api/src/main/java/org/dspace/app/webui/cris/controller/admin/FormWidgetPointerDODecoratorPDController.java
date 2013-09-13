@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
 import org.dspace.app.cris.model.jdyna.DecoratorDynamicPropertiesDefinition;
@@ -21,6 +22,8 @@ import org.dspace.app.cris.model.jdyna.DynamicObjectType;
 import org.dspace.app.cris.model.jdyna.DynamicPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.TabDynamicObject;
 import org.dspace.app.cris.model.jdyna.value.DOPointer;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
 
 public class FormWidgetPointerDODecoratorPDController extends
         FormWidgetPointerDecoratorPDController<DynamicPropertiesDefinition, DecoratorDynamicPropertiesDefinition, BoxDynamicObject, TabDynamicObject, DOPointer>
@@ -46,5 +49,24 @@ public class FormWidgetPointerDODecoratorPDController extends
         map.put("researchobjects", researchobjects);
         return map;
         
+    }
+    
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object command, BindException errors)
+            throws Exception
+    {
+        DynamicPropertiesDefinition object = (DynamicPropertiesDefinition)command;
+        String shortName = object.getShortName();
+        
+        String boxId = request.getParameter("boxId");
+                        
+        if(boxId!=null && !boxId.isEmpty()) {
+            BoxDynamicObject box = getApplicationService().get(BoxDynamicObject.class, Integer.parseInt(boxId));
+            if(!shortName.startsWith(box.getTypeDef().getShortName())) {
+                object.setShortName(box.getTypeDef().getShortName() + shortName);   
+            }            
+        }  
+        return super.onSubmit(request, response, command, errors);
     }
 }

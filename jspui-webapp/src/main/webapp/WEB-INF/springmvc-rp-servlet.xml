@@ -4523,7 +4523,7 @@
 	</bean>
  
 	<bean id="editDOTextDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicDecoratorPropertiesDefinition">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -4801,7 +4801,7 @@
 	</bean>
 	
 	<bean id="editDODateDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicDecoratorPropertiesDefinition">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -4837,7 +4837,7 @@
 	</bean>
 	
 	<bean id="editDOLinkDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicDecoratorPropertiesDefinition">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -4872,7 +4872,7 @@
 	</bean>
 	
 	<bean id="editDOFileDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormDecoratorPropertiesDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicDecoratorPropertiesDefinition">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5086,7 +5086,7 @@
 
 	
 	<bean id="addTextToDONestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddToNestedDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5121,7 +5121,7 @@
 	</bean>
 
 	<bean id="addDateToDONestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddToNestedDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5156,7 +5156,7 @@
 	</bean>
 	
 	<bean id="addLinkToDONestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddToNestedDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5191,7 +5191,7 @@
 	</bean>
 	
 	<bean id="addFileToDONestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddToNestedDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddToNestedDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5226,7 +5226,7 @@
 	</bean>
 
 	<bean id="addPointerRPToDONestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5267,7 +5267,7 @@
 
 	<bean id="addPointerProjectToDONestedDynamicFieldController"
 		parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5307,7 +5307,7 @@
 	</bean>
 	
 	<bean id="addPointerOUToDONestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5347,7 +5347,7 @@
 	</bean>
 	
 	<bean id="addPointerDOToDONestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicAddWidgetPointerToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
