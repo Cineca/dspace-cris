@@ -610,7 +610,7 @@ public class ApplicationService extends ExtendedTabService
                 relationType);
     }
 
-    public <T extends ACrisObject<P, TP, NP, NTP, ACNO, ATNO>, P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> T get(
+    public <T extends ACrisObject> T get(
             Class<T> model, Integer objectId, boolean forceDetach)
     {
         T rp = getFromCache(model, objectId);

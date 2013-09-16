@@ -9,9 +9,7 @@ package org.dspace.app.cris.model;
 
 import it.cilea.osd.common.core.TimeStampInfo;
 import it.cilea.osd.jdyna.model.AType;
-import it.cilea.osd.jdyna.model.TypeSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

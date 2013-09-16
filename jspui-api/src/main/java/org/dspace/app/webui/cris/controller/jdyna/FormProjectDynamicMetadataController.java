@@ -21,21 +21,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.dspace.app.cris.model.Investigator;
 import org.dspace.app.cris.model.Project;
-import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.jdyna.BoxProject;
-import org.dspace.app.cris.model.jdyna.DecoratorProjectPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.EditTabProject;
-import org.dspace.app.cris.model.jdyna.EditTabResearcherPage;
 import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.ProjectNestedObject;
 import org.dspace.app.cris.model.jdyna.ProjectNestedPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.ProjectNestedProperty;
 import org.dspace.app.cris.model.jdyna.ProjectPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.ProjectProperty;
-import org.dspace.app.cris.model.jdyna.RPAdditionalFieldStorage;
-import org.dspace.app.cris.model.jdyna.RPPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.TabProject;
 import org.dspace.app.cris.model.jdyna.VisibilityTabConstant;
 import org.dspace.app.cris.service.ApplicationService;
 import org.dspace.app.cris.util.ResearcherPageUtils;
@@ -193,7 +188,7 @@ public class FormProjectDynamicMetadataController
             else
             {
                 EditTabProject fuzzyEditTab = (EditTabProject) ((ApplicationService) getApplicationService())
-                        .getEditTabByDisplayTab(
+                        .<BoxProject, TabProject, EditTabProject>getEditTabByDisplayTab(
                                 Integer.parseInt(paramFuzzyTabId),
                                 EditTabProject.class);
                 areaId = fuzzyEditTab.getId();
