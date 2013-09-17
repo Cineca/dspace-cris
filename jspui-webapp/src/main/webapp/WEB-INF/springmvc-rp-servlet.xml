@@ -8,9 +8,6 @@
     https://github.com/CILEA/dspace-cris/wiki/License
 
 -->
-<!-- The contents of this file are subject to the license and copyright detailed 
-	in the LICENSE and NOTICE files at the root of the source tree and available 
-	online at https://github.com/CILEA/dspace-cris/wiki/License -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -1470,7 +1467,7 @@
 	</bean>
 	
 	<bean id="addPointerDOToRPNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormAddWidgetPointerDOToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -2620,7 +2617,7 @@
 	
 	<bean id="addPointerDOToProjectNestedDynamicFieldController"
 		parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormAddWidgetPointerDOToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -3832,7 +3829,7 @@
 	</bean>
 	
 	<bean id="addPointerDOToOUNestedDynamicFieldController" parent="baseFormController"
-		class="it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormAddWidgetPointerDOToNestedPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -4581,7 +4578,7 @@
 	</bean>
 
 	<bean id="editDONestedDynamicFieldController" parent="baseFormController"
-		class="org.dspace.app.webui.cris.controller.admin.FormExtendedNestedObjectDefinitionController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicExtendedNestedObjectDefinitionController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>		
@@ -4637,7 +4634,7 @@
 	</bean>
 
 	<bean id="editDOPointerRPDynamicFieldController" parent="baseFormController"
-		class="org.dspace.app.webui.cris.controller.admin.FormWidgetPointerDODecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicWidgetPointerDODecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -4678,7 +4675,7 @@
 	</bean>
 
 	<bean id="editDOPointerProjectDynamicFieldController" parent="baseFormController"
-		class="org.dspace.app.webui.cris.controller.admin.FormWidgetPointerDODecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicWidgetPointerDODecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -4719,7 +4716,7 @@
 	</bean>
 
 	<bean id="editDOPointerOUDynamicFieldController" parent="baseFormController"
-		class="org.dspace.app.webui.cris.controller.admin.FormWidgetPointerDODecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicWidgetPointerDODecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -4760,7 +4757,7 @@
 	</bean>
 	
 	<bean id="editDOPointerDODynamicFieldController" parent="baseFormController"
-		class="org.dspace.app.webui.cris.controller.admin.FormWidgetPointerDODecoratorPDController">
+		class="org.dspace.app.webui.cris.controller.admin.FormDynamicWidgetPointerDODecoratorPDController">
 		<property name="applicationService">
 			<ref bean="applicationService" />
 		</property>
@@ -5143,8 +5140,7 @@
 			<value>redirect:/cris/administrator/other/2ndlevel/editNestedDynamicField.htm</value>
 		</property>
 		<property name="commandClass">
-			<value>org.dspace.app.cris.model.jdyna.DecoratorOUNestedPropertiesDefinition
-			</value>
+			<value>org.dspace.app.cris.model.jdyna.DecoratorDynamicNestedPropertiesDefinition</value>
 		</property>
 		<property name="commandName">
 			<value>propertiesdefinition</value>
@@ -6125,7 +6121,7 @@
 		<constructor-arg index="0" ref="validatorService" />
 	</bean>
 	<bean id="doNestedDynamicFieldValidator"
-		class="it.cilea.osd.jdyna.validator.DecoratorTypeNestedPropertiesDefinitionValidator">
+		class="org.dspace.app.webui.cris.validator.DynamicDecoratorTypeNestedPropertiesDefinitionValidator">
 		<property name="clazz"
 			value="org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested" />
 		<constructor-arg index="0" ref="validatorService" />

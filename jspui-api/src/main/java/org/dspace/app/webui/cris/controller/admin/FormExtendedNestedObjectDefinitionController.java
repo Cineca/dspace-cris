@@ -41,23 +41,5 @@ public class FormExtendedNestedObjectDefinitionController<H extends IPropertyHol
         return map;
     }
     
-    @Override
-    protected ModelAndView onSubmit(HttpServletRequest request,
-            HttpServletResponse response, Object command, BindException errors)
-            throws Exception
-    {
-        DecoratorDynamicTypeNested object = (DecoratorDynamicTypeNested)command;        
-        String shortName = object.getReal().getShortName();
-        
-        String boxId = request.getParameter("boxId");
-                        
-        if(boxId!=null && !boxId.isEmpty()) {
-            BoxDynamicObject box = getApplicationService().get(BoxDynamicObject.class, Integer.parseInt(boxId));
-            if(!shortName.startsWith(box.getTypeDef().getShortName())) {
-                object.getReal().setShortName(box.getTypeDef().getShortName() + shortName);   
-            }            
-        }  
-        return super.onSubmit(request, response, command, errors);
-    }
     
 }
