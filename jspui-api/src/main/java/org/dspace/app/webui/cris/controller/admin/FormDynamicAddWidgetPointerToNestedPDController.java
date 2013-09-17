@@ -7,6 +7,9 @@
  */
 package org.dspace.app.webui.cris.controller.admin;
 
+import java.util.List;
+import java.util.Map;
+
 import it.cilea.osd.jdyna.controller.FormAddWidgetPointerToNestedPDController;
 import it.cilea.osd.jdyna.value.PointerValue;
 import it.cilea.osd.jdyna.widget.WidgetPointer;
@@ -18,6 +21,7 @@ import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
 import org.dspace.app.cris.model.jdyna.DecoratorDynamicNestedPropertiesDefinition;
 import org.dspace.app.cris.model.jdyna.DecoratorDynamicTypeNested;
 import org.dspace.app.cris.model.jdyna.DynamicNestedPropertiesDefinition;
+import org.dspace.app.cris.model.jdyna.DynamicObjectType;
 import org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject;
 import org.dspace.app.cris.model.jdyna.TabDynamicObject;
 import org.springframework.validation.BindException;
@@ -44,15 +48,26 @@ public class FormDynamicAddWidgetPointerToNestedPDController<VPO extends Pointer
         DecoratorDynamicNestedPropertiesDefinition object = (DecoratorDynamicNestedPropertiesDefinition)command;
         String shortName = object.getShortName();
         
-        String boxId = request.getParameter("boxId");
-                        
-        if(boxId!=null && !boxId.isEmpty()) {
-            BoxDynamicObject box = getApplicationService().get(BoxDynamicObject.class, Integer.parseInt(boxId));
-            if(!shortName.startsWith(box.getTypeDef().getShortName())) {
-                object.getReal().setShortName(box.getTypeDef().getShortName() + shortName);   
+        String renderingparent = request.getParameter("renderingparent");
+        
+        if(renderingparent!=null && !renderingparent.isEmpty()) {
+            DecoratorDynamicTypeNested rPd = getApplicationService().get(DecoratorDynamicTypeNested.class, Integer.parseInt(renderingparent));            
+            if(!shortName.startsWith(rPd.getShortName())) {
+                object.getReal().setShortName(rPd.getShortName() + shortName);   
             }            
         }
         return super.onSubmit(request, response, command, errors);
+    }
+    
+    @Override
+    protected Map referenceData(HttpServletRequest request) throws Exception
+    {
+        
+        Map map = super.referenceData(request);
+        List<DynamicObjectType> researchobjects = getApplicationService().getList(DynamicObjectType.class);
+        map.put("researchobjects", researchobjects);        
+        return map;
+        
     }
 
 }
