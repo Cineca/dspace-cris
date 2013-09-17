@@ -42,12 +42,12 @@ public class FormDynamicAddToNestedDefinitionController<W extends AWidget> exten
         DecoratorDynamicNestedPropertiesDefinition object = (DecoratorDynamicNestedPropertiesDefinition)command;
         String shortName = object.getShortName();
         
-        String boxId = request.getParameter("boxId");
+        String renderingparent = request.getParameter("renderingparent");
                         
-        if(boxId!=null && !boxId.isEmpty()) {
-            BoxDynamicObject box = getApplicationService().get(BoxDynamicObject.class, Integer.parseInt(boxId));
-            if(!shortName.startsWith(box.getTypeDef().getShortName())) {
-                object.getReal().setShortName(box.getTypeDef().getShortName() + shortName);   
+        if(renderingparent!=null && !renderingparent.isEmpty()) {
+            DecoratorDynamicTypeNested rPd = getApplicationService().get(DecoratorDynamicTypeNested.class, Integer.parseInt(renderingparent));            
+            if(!shortName.startsWith(rPd.getShortName())) {
+                object.getReal().setShortName(rPd.getShortName() + shortName);   
             }            
         }
         return super.onSubmit(request, response, command, errors);
