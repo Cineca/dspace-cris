@@ -729,6 +729,15 @@ public class CrisSearchService extends SolrServiceImpl
 
         commonsIndexerTimestamp(dso, doc, schema);
 
+        // Do any additional indexing, depends on the plugins
+        List<CrisServiceIndexPlugin> solrServiceIndexPlugins = new DSpace()
+                .getServiceManager().getServicesByType(
+                        CrisServiceIndexPlugin.class);
+        for (CrisServiceIndexPlugin solrServiceIndexPlugin : solrServiceIndexPlugins)
+        {
+            solrServiceIndexPlugin.additionalIndex(dso, doc);
+        }
+        
         log.debug("  Added Metadata");
 
         // write the index and close the inputstreamreaders

@@ -274,8 +274,8 @@ div.box div.collapsable  table tr td.highlightRowEvenCol {
 }
 
 #researcher .image {
-	width: 113px;
-	height: 132px;
+	width: 120px;
+	/* height: 132px; */
 	overflow: hidden
 }
 
@@ -1166,4 +1166,8 @@ div.subscription-current {
 	padding-left: 25px;
 	line-height: 250%;
 	background-color: #ebebeb;*/
+}
+
+#picture {
+	width: 120px; 
 }

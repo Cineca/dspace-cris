@@ -23,6 +23,10 @@ public abstract class ACrisNestedObject<P extends ANestedProperty<TP>, TP extend
 {
     public abstract int getType();
     
+    public String getTypeText() {
+    	return "nested";
+    }
+    
     public int getID() {
         return super.getId();
     }  

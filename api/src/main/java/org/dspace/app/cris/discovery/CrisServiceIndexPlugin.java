@@ -21,4 +21,7 @@ public interface CrisServiceIndexPlugin {
 	public <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void additionalIndex(
 			ACrisObject<P, TP, NP, NTP, ACNO, ATNO> crisObject,
 			SolrInputDocument sorlDoc);
+	
+	public <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void additionalIndex(
+            ACNO dso, SolrInputDocument sorlDoc);
 }

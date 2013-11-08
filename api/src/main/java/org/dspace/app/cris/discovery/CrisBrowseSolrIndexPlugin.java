@@ -271,4 +271,10 @@ public class CrisBrowseSolrIndexPlugin implements CrisServiceIndexPlugin
         }
 
     }
+
+	@Override
+	public <P extends Property<TP>, TP extends PropertiesDefinition, NP extends ANestedProperty<NTP>, NTP extends ANestedPropertiesDefinition, ACNO extends ACrisNestedObject<NP, NTP, P, TP>, ATNO extends ATypeNestedObject<NTP>> void additionalIndex(
+			ACNO dso, SolrInputDocument sorlDoc) {
+		// FIXME NOT SUPPORTED OPERATION
+	}
 }
