@@ -4,16 +4,15 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="refresh" content="0;url=https://cineca.github.io/dspace-cris/installation.html">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>DSpace CRIS::Installation</title>
+    <title>DSpace CRIS by Cineca::Installation</title>
   </head>
 
   <body>
@@ -21,208 +20,18 @@
       <div class="inner">
         <h1>DSpace CRIS</h1>
         <h2>Current Research Information System (CRIS) made easy with DSpace</h2>
-        <a href="https://github.com/CILEA/dspace-cris" class="button"><small>View project on</small>GitHub</a>
+        <a href="https://github.com/Cineca/dspace-cris" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
 
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
+          <h1>Project has been moved to a new home!</h1>
 
-          <h1>Installation instructions</h1>
-
-
-    <div class="markdown-body">
-      <p>DSpace CRIS is an addon for the DSpace platform. This page describes how install the addon on the top of a customized version of DSpace JSPUI, 1.8.2 or 3.2.0, that already includes the "core" changes needed to integrate DSpace CRIS.</p>
-
-<p>The source code of the customized pre-integrated version of DSpace 1.8.2 and DSpace 3.2.0 can be found in the CILEA GitHub Repository</p>
-
-<ul><li><b>current line of development for 3.x.x</b>: <a href="https://github.com/CILEA/DSpace/tree/dspace-3_x_x-cris">https://github.com/CILEA/DSpace/tree/dspace-3_x_x-cris</a></li>
-<li><b>current line of development for 1.8.x</b>: <a href="https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris">https://github.com/CILEA/DSpace/tree/dspace-1_8_x-cris</a></li>
-
-<li><b>tagged releases</b>: <ul>
-<li><u>dspace-cris-3.2.0-beta</u> : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-3.2.0-beta">https://github.com/CILEA/DSpace/tree/dspace-cris-3.2.0-beta</a></li>
-<li><u>dspace-cris-1.8.3.0-beta</u> : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.3.0-beta">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.3.0-beta</a></li>
-<li><u>dspace-cris-1.8.2.1-beta</u> : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.1-beta">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.1-beta</a></li>
-<li><u>dspace-cris-1.8.2.0-beta</u> : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-beta</a></li>
-<li><u>dspace-cris-1.8.2.0-alpha</u> : <a href="https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-alpha">https://github.com/CILEA/DSpace/tree/dspace-cris-1.8.2.0-alpha</a></li>
-</ul></li>
-</ul>
-
-<h2>Installation steps</h2>
-
-<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC18/Installation">https://wiki.duraspace.org/display/DSDOC18/Installation</a></p>
-
-<p>A complete, step by step, procedure that include also steps from the standard dspace installation is available at the following page: 
-<a href="installation-stepbystep.html">Go to step-by-step</a>
-
-<ol>
-
-<li>
-Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Solr 4.1.0 - Oracle JDK 6 or 7 or OpenJDK 7
-
-
-<li>
-Checkout the source of the pre-integrated DSpace 1.8.2 version (to build DSpace-CRIS on DSpace 3 please use "--branch dspace-cris-3.2.0-beta")
-
-<pre><code>
-$ git clone <a href="https://github.com/CILEA/DSpace.git">https://github.com/CILEA/DSpace.git</a> --branch dspace-cris-1.8.2.1-beta dspace-parent/
-
-usercris@servercris /e/crisinstallation
-
-$ cd dspace-parent/
-
-usercris@servercris /e/crisinstallation/dspace-parent
-
-$ git submodule sync
-
-usercris@servercris /e/crisinstallation/dspace-parent
-
-$ git submodule update --init dspace-cris/
-
-</code></pre>
-</li>
-<li>
-Initial Configuration: 
-
-<p>Edit <b>[dspace-source]/dspace/config/dspace.cfg</b>, in particular you'll need to set these properties:
+<p>After the merge of the three Italian Consortia: Caspur, CILEA and Cineca the dspace-cris project as been moved under the new organization Cineca.
+Please update your bookmark with the new project location (<a href="http://cineca.github.io/dspace-cris">http://cineca.github.io/dspace-cris</a>). 
 </p>
-
-<pre><code>
-dspace.dir - must be set to the dspace directory.
-
-dspace.url - complete URL of this server's DSpace home page.
-
-dspace.hostname - fully-qualified domain name of web server.
-
-dspace.name - "Proper" name of your server, e.g. "My Digital Library".
-
-db.password - the database password you entered in the previous step.
-
-mail.server - fully-qualified domain name of your outgoing mail server.
-
-mail.from.address - the "From:" address to put on email sent by DSpace.
-
-feedback.recipient - mailbox for feedback mail.
-
-mail.admin - mailbox for DSpace site administrator.
-
-alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
-
-registration.notify - mailbox for emails when new users register (optional) 
-</code></pre>
-
-
-<li>
-Installation Package: 
-
-<pre><code>
-usercris@servercris /e/crisinstallation
-
-$ cd dspace-parent/
-
-usercris@servercris /e/crisinstallation/dspace-parent
-
-$ mvn package
-
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO] ------------------------------------------------------------------------
-[INFO] DSpace Parent Project ................................. SUCCESS [10.408s]
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESSFUL
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 8 minutes 59 seconds
-[INFO] Finished at: Wed Jun 19 17:19:01 CEST 2013
-[INFO] Final Memory: 55M/161M
-[INFO] ------------------------------------------------------------------------
-</code></pre>
-</li>
-<li>
-Build DSpace and Initialize Database
-<pre><code>
-cd [dspace-source]/dspace/target/dspace-[version]-build
-
-ant fresh_install`
-</code></pre>
-</li>
-<li>
-
-Deploy the Web Applications
-
-<pre><code>
-cp -R [dspace]/webapps/dspace/jspui* [tomcat]/webapps/
-</code></pre>
-
-
-<pre><code>
-
-To Deploy Solr 4 detailed info see http://wiki.apache.org/solr/SolrTomcat <br/>
-Please, set solr home to refer [dspace]/solr folder.
-
-</code></pre>
-</li>
-
-</ol><h2>Post installation</h2>
-
-<p>Now the DSpace-CRIS module is setup and running but the configuration is empty, you can populate the database with a basic configuration running the base-configuration-crismodule.sql:
-
-<pre><code>[dspace]/etc/postgres/base-configuration-crismodule.sql</code></pre>
-
-<p>or you can use the aministrative UI of the CRIS module to setup your configuration.</p>
-
-<p>The base-configuration-crismodule.sql file create for you a base metadata configuration for Researcher profile, Organization Unit and Project entity.
-You can alter this configuration from the administration section of the CRIS module. </p>
-
-<p>Login with your administrator account and go to "Administer-&gt;CRIS Module". </p>
-    </div>
-  
-    
-        </section>
-
-<aside id="sidebar">
-          <a href="index.html" class="button">
-          <small>back to the</small>
-            Home page
-          </a>
-          <a href="features.html" class="button">
-            Features
-            <small>list</small>
-          </a>
-          <a href="roadmap.html" class="button">
-            <small>Detailed</small>
-            Roadmap
-          </a>
-          <a href="installation.html" class="button pushed">
-            Installation
-            <small>instructions</small>
-          </a>
-          <a href="installation-stepbystep.html" class="button">
-            Step-by-Step
-            <small>instructions s-b-s</small>
-          </a>
-		  <a href="screenshot.html" class="button">
-            Screens<small>hot!</small>
-          </a>
-          <p class="repo-owner"><a href="https://github.com/CILEA/dspace-cris"></a> is maintained by <a href="https://github.com/CILEA">CILEA</a>.</p>
-
-          <p>This page was generated by <a href="http://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
-
-            <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-36601047-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
 
   </body>
 </html>
