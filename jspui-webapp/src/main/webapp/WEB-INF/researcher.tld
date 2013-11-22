@@ -29,6 +29,13 @@
 	<function-signature>List getResearcherNestedObjectByShortname(java.lang.Integer,java.lang.String)</function-signature>
 </function>
 
+ <function>
+	<description>Get nested objects by shortname and type</description>
+	<name>getCrisNestedObjectByShortname</name>
+	<function-class>org.dspace.app.webui.cris.web.tag.ResearcherTagLibraryFunctions</function-class>
+	<function-signature>List getCrisNestedObjectByShortname(java.lang.Integer,java.lang.String,java.lang.Class)</function-signature>
+</function>
+
 <function>
 	<description>Get nested objects</description>
 	<name>getResearcherNestedObject</name>
