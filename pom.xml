@@ -8,9 +8,9 @@
 	<name>DSpace CRIS</name>
 
 	<scm>
-		<connection>scm:git:https://github.com/CILEA/dspace-cris.git</connection>
-		<developerConnection>scm:git:https://github.com/CILEA/dspace-cris.git</developerConnection>
-		<url>https://github.com/CILEA/dspace-cris.git</url>
+		<connection>scm:git:https://github.com/Cineca/dspace-cris.git</connection>
+		<developerConnection>scm:git:https://github.com/Cineca/dspace-cris.git</developerConnection>
+		<url>https://github.com/Cineca/dspace-cris.git</url>
 		<tag>HEAD</tag>
 	</scm>
    
@@ -49,31 +49,45 @@
 	<distributionManagement>
     	<repository>
         	<id>repo</id>
-        	<name>CILEA Maven Repository</name>
-        	<url>https://github.com/CILEA/mvn-repo/raw/master/releases</url>
+        	<name>Cineca Maven Repository</name>
+        	<url>https://github.com/Cineca/mvn-repo/raw/master/releases</url>
     	</repository>
     	<snapshotRepository>
         	<id>snapshot-repo</id>
-        	<name>CILEA Maven Repository</name>
-        	<url>https://github.com/CILEA/mvn-repo/raw/master/snapshots</url>
+        	<name>Cineca Maven Repository</name>
+        	<url>https://github.com/Cineca/mvn-repo/raw/master/snapshots</url>
     	</snapshotRepository>
     	<site>
             <id>website</id>
-            <url>http://cilea.github.io/dspace-cris/index.html</url>
+            <url>http://cineca.github.io/dspace-cris/index.html</url>
         </site>        
 	</distributionManagement>
 	
 	<repositories>		
 		<repository>
-			<id>cilea-repo</id>
-			<name>CILEA Maven Repository</name>
-			<url>https://github.com/CILEA/mvn-repo/raw/master/releases</url>
+			<id>cineca-repo</id>
+			<name>Cineca Maven Repository</name>
+			<url>https://github.com/Cineca/mvn-repo/raw/master/releases</url>
 			<releases>
 				<enabled>true</enabled>
 				<checksumPolicy>never</checksumPolicy>
 			</releases>
 			<snapshots>
 				<enabled>false</enabled>
+				<checksumPolicy>never</checksumPolicy>
+			</snapshots>
+		</repository>
+		
+		<repository>
+			<id>cineca-repo-snapshot</id>
+			<name>Cineca Maven Repository</name>
+			<url>https://github.com/Cineca/mvn-repo/raw/master/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+				<checksumPolicy>never</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
 				<checksumPolicy>never</checksumPolicy>
 			</snapshots>
 		</repository>
