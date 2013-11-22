@@ -46,6 +46,7 @@ import org.dspace.core.I18nUtil;
 import org.dspace.core.LogManager;
 import org.dspace.discovery.SearchServiceException;
 import org.dspace.eperson.EPerson;
+import org.dspace.statistics.SolrLogger;
 import org.dspace.utils.DSpace;
 
 /**
@@ -162,7 +163,7 @@ public class ScriptStatSubscribe
         Locale supportedLocale = I18nUtil.getEPersonLocale(eperson);
         
         String tmpfile = ConfigurationManager.getProperty(
-                StatsConfig.CFG_MODULE, "subscribe-stat.tmpdir")
+                SolrLogger.CFG_STAT_MODULE, "subscribe-stat.tmpdir")
                 + File.separator
                 + "stat-"
                 + sfreq

@@ -193,7 +193,7 @@ public class ResearcherPageDetailsController
         mvc.getModel()
                 .put("showStatsOnlyAdmin",
                         ConfigurationManager
-                                .getBooleanProperty(StatsConfig.CFG_MODULE,"authorization.admin"));
+                                .getBooleanProperty(StatsConfig.CFG_STAT_MODULE,"authorization.admin"));
         
         
         // Fire usage event.
