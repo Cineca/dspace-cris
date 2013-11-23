@@ -29,6 +29,7 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.dspace.discovery.SolrServiceImpl;
 import org.dspace.discovery.SolrServiceIndexPlugin;
 
 public class ResourceTypeSolrIndexer implements CrisServiceIndexPlugin,
@@ -56,9 +57,10 @@ public class ResourceTypeSolrIndexer implements CrisServiceIndexPlugin,
 			}
 
 			if (acvalue == null || PLACEHOLDER.equals(acvalue)) {
+			    String separatorFacets = ConfigurationManager.getProperty("discovery", "solr.facets.split.char");
 				String label = ((ACrisObjectWithTypeSupport<P, TP, NP, NTP, ACNO, ATNO>) crisObject)
 						.getTypo().getLabel();
-				acvalue = label.toLowerCase() + "|||" + label;
+				acvalue = label.toLowerCase() + separatorFacets!=null?separatorFacets:SolrServiceImpl.FILTER_SEPARATOR + label;
 			}
 			fvalue = acvalue;
 		} else {
