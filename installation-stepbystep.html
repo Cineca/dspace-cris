@@ -44,8 +44,8 @@ DSpace-CRIS Installation Overview (current line of development for 3.x.x)
 -- git (distributed version control system) - download the git console client for your operative system from http://git-scm.com/
 -- Apache Maven 2.2.x or 3.0.x or later (Java build tool) -- suggest the 3.0.4 -- download Maven from http://maven.apache.org/
 -- Apache Ant(TM) version 1.7.x or later (Java build tool) -- suggest the 1.8.4 -- download Ant from http://ant.apache.org/
--- Relational database PostgreSQL version 9.0 -- suggest the 9.0.3 -- download pgsql from http://www.postgresql.org/
--- Servlet engine Apache Tomcat version 6 -- suggest the 6.0.35 -- download tomcat from http://tomcat.apache.org/
+-- Relational database PostgreSQL version 9.x -- suggest the 9.3.1 -- download pgsql from http://www.postgresql.org/
+-- Servlet engine Apache Tomcat version 6 or version 7 -- suggest the 6.0.35 or 7.0.42 -- download tomcat from http://tomcat.apache.org/
 -- Solr search engine version 4.1.0 -- download from http://archive.apache.org/dist/lucene/solr/4.1.0/solr-4.1.0.zip
 
 0) Create the DSpace user. This needs to be the same user that Tomcat will run as. e.g. as root run:
@@ -179,26 +179,22 @@ Total time: 49 seconds
     You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
     
     cp -R [dspace]/webapps/jspui [tomcat]/webapps/ (This will copy only the jspui web application to Tomcat)
-    or
     cp -R [dspace]/webapps/* [tomcat]/webapps* (This will copy all the web applications to Tomcat).
     
     Recall that embedded DSpace Solr not working with DSpace-CRIS, when copy webapps wipe out this and install a fresh copy of Solr 4.1.0 
     
     Deploy Solr 4, download 4.1.0 version and copy war distribution to [tomcat]/webapps, deploy war and configure to recognize your solr home directory. To configure your solr/home you can follow this steps:
-    1) Manually define the solr home in web.xml
-    -start the tomcat service to deploy war
-    -stop the service and edit solr webapp descriptor aka web.xml (located under [tomcat]/webapps/[yoursolrwebapps]/WebContent/WEB-INF/web.xml
-    -hardcode solr home [dspace]/solr as JNDI property (uncomment and modify the env-entry)
-    -start the tomcat service to deploy war
-	or 2) modify in [tomcat]/conf/context.xml to define a context environment parameter and all the context parameters to override the webapps parameters, for example:
-	&lt;Parameter name="dspace.dir" value="[dspace.dir]" override="false"/&gt;
-	&lt;Parameter name="dspace-config" value="[dspace-config]" override="false"/&gt;
+    1) Manually define the solr home in web.xml (hardcode solr home [dspace]/solr as JNDI property (find it, uncomment and modify the env-entry))
+    or
+	2) modify in [tomcat]/conf/context.xml to define a context environment parameter and the others context parameters to override the webapps parameters, for example:
 	&lt;Parameter name="log4j.configuration" value="[dspace-config]/log4j-solr.properties" override="false"/&gt;
 	&lt;Parameter name="LocalhostRestrictionFilter.localhost" value="false" override="false"/&gt;
 	&lt;Environment name="solr/home" value="[dspace.dir]/solr" type="java.lang.String" override="false"/&gt;
 	Recall, change the [xyz] placeholder with your real path.
 	
-NOTE: if Tomcat 7 is your choice then startup tomcat with -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true 
+NOTE: if Tomcat 7 is your choice then you have to change the startup tomcat script to add a system properties that modify the default Tomcat behaviour. So startup tomcat with the follow parameter:
+
+-Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true  
 
 8) Administrator Account: Create an initial administrator account:
 [dspace]/bin/dspace create-administrator
