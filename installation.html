@@ -51,7 +51,7 @@
 
 <h2>Installation steps</h2>
 
-<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC18/Installation">https://wiki.duraspace.org/display/DSDOC18/Installation</a></p>
+<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC3x/Installation">DSpace 3.x Installation Documentation</a></p>
 
 <p>A complete, step by step, procedure that include also steps from the standard dspace installation is available at the following page: 
 <a href="installation-stepbystep.html">Go to step-by-step</a>
@@ -63,10 +63,10 @@ Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Solr 4.1.0 
 
 
 <li>
-Checkout the source of the pre-integrated DSpace 1.8.2 version (to build DSpace-CRIS on DSpace 3 please use "--branch dspace-cris-3.2.0-beta")
+Checkout the source of the current line of development for 3.x.x (to build DSpace-CRIS on a particular tag please use "--branch dspace-cris-3.2.0-beta" or "--branch dspace-cris-1.8.2.1-beta")
 
 <pre><code>
-$ git clone <a href="https://github.com/Cineca/DSpace.git">https://github.com/Cineca/DSpace.git</a> --branch dspace-cris-1.8.2.1-beta dspace-parent/
+$ git clone <a href="https://github.com/Cineca/DSpace.git">https://github.com/Cineca/DSpace.git</a> --branch dspace-3_x_x-cris dspace-parent/
 
 usercris@servercris /e/crisinstallation
 
@@ -169,7 +169,7 @@ Please, set solr home to refer [dspace]/solr folder.
 
 <p>Now the DSpace-CRIS module is setup and running but the configuration is empty, you can populate the database with a basic configuration running the base-configuration-crismodule.sql:
 
-<pre><code>[dspace]/etc/postgres/base-configuration-crismodule.sql</code></pre>
+<pre><code>psql -h localhost -d [db.dspace.name] -U dspace -f [dspace]/etc/postgres/base-configuration-crismodule.sql</code></pre>
 
 <p>or you can use the aministrative UI of the CRIS module to setup your configuration.</p>
 

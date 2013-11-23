@@ -37,7 +37,7 @@
 <pre><code>
 
 
-DSpace-CRIS Installation Overview 
+DSpace-CRIS Installation Overview (current line of development for 3.x.x)
 
 - Prerequisite software (see also https://wiki.duraspace.org/display/DSDOC18/Installation#Installation-PrerequisiteSoftware)
 -- Oracle JDK 6 or 7 or OpenJDK 7
@@ -50,7 +50,7 @@ DSpace-CRIS Installation Overview
 
 0) Create the DSpace user. This needs to be the same user that Tomcat will run as. e.g. as root run:
 	 
-	 useradd -m dspace
+useradd -m dspace
 	
 1) get sources from github repository -- Cineca organization -- https://github.com/Cineca
 
@@ -61,42 +61,44 @@ usercris@servercris /e
 $ cd crisinstallation/
 
 usercris@servercris /e/crisinstallation
-$ git clone https://github.com/Cineca/DSpace.git --branch dspace-cris-1_8_2_1-beta dspace-parent/
+$ git clone https://github.com/Cineca/DSpace.git --branch dspace-3_x_x-cris dspace-parent/
 Cloning into 'dspace-parent'...
 
 usercris@servercris /e/crisinstallation
 $ cd dspace-parent/
 
-usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-3_x_x-cris)
 $ git submodule sync
 
-usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-3_x_x-cris)
 $ git submodule update --init dspace-cris/
 Submodule 'dspace-cris' (https://github.com/Cineca/dspace-cris.git) registered for path 'dspace-cris'
 Cloning into 'dspace-cris'...
 
-usercris@servercris /e/crisinstallation/dspace-parent (dspace-1_8_x-cris)
+usercris@servercris /e/crisinstallation/dspace-parent (dspace-3_x_x-cris)
 $ cd ..
 
 
 2) Database Setup 
 
-    PostgreSQL:
+PostgreSQL:
 
-    A PostgreSQL JDBC driver is configured as part of the default DSpace build. You no longer need to copy any PostgreSQL jars to get PostgreSQL installed.
-    Create a dspace database user. This is entirely separate from the dspace operating-system user created above.
-    createuser -U postgres -d -A -P dspace
-    You will be prompted for the password of the PostgreSQL superuser (postgres). Then you'll be prompted (twice) for a password for the new dspace user.
-    Create a dspace database, owned by the dspace PostgreSQL user (you are still logged in at 'root'):
-    createdb -U dspace -E UNICODE dspace
-    You will be prompted for the password of the DSpace database user. (This isn't the same as the dspace user's UNIX password.)
-
-
+A PostgreSQL JDBC driver is configured as part of the default DSpace build. You no longer need to copy any PostgreSQL jars to get PostgreSQL installed.
+Create a dspace database user. This is entirely separate from the dspace operating-system user created above.
+    
+createuser -U postgres -d -A -P dspace
+    
+You will be prompted for the password of the PostgreSQL superuser (postgres). Then you'll be prompted (twice) for a password for the new dspace user.
+Create a dspace database, owned by the dspace PostgreSQL user (you are still logged in at 'root'):
+    
+createdb -U dspace -E UNICODE dspace
+    
+You will be prompted for the password of the DSpace database user. (This isn't the same as the dspace user's UNIX password.)
 
 
 3) Initial Configuration: 
 		
-		Edit [dspace-source]/dspace/config/dspace.cfg, in particular you'll need to set these properties:
+Edit [dspace-source]/dspace/config/dspace.cfg, in particular you'll need to set these properties:
 
     dspace.dir - must be set to the [dspace] (installation) directory.
     dspace.url - complete URL of this server's DSpace home page.
@@ -175,16 +177,28 @@ Total time: 49 seconds
  
 
     You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
+    
+    cp -R [dspace]/webapps/jspui [tomcat]/webapps/ (This will copy only the jspui web application to Tomcat)
+    or
     cp -R [dspace]/webapps/* [tomcat]/webapps* (This will copy all the web applications to Tomcat).
     
+    Recall that embedded DSpace Solr not working with DSpace-CRIS, when copy webapps wipe out this and install a fresh copy of Solr 4.1.0 
+    
     Deploy Solr 4, download 4.1.0 version and copy war distribution to [tomcat]/webapps, deploy war and configure to recognize your solr home directory. To configure your solr/home you can follow this steps:
+    1) Manually define the solr home in web.xml
     -start the tomcat service to deploy war
-    -stop the service and edit solr webapp descriptor aka web.xml (located under [tomcat]/webapps/yoursolrwebapps/WebContent/WEB-INF/web.xml
+    -stop the service and edit solr webapp descriptor aka web.xml (located under [tomcat]/webapps/[yoursolrwebapps]/WebContent/WEB-INF/web.xml
     -hardcode solr home [dspace]/solr as JNDI property (uncomment and modify the env-entry)
     -start the tomcat service to deploy war
-
-
-    
+	or 2) modify in [tomcat]/conf/context.xml to define a context environment parameter and all the context parameters to override the webapps parameters, for example:
+	&lt;Parameter name="dspace.dir" value="[dspace.dir]" override="false"/&gt;
+	&lt;Parameter name="dspace-config" value="[dspace-config]" override="false"/&gt;
+	&lt;Parameter name="log4j.configuration" value="[dspace-config]/log4j-solr.properties" override="false"/&gt;
+	&lt;Parameter name="LocalhostRestrictionFilter.localhost" value="false" override="false"/&gt;
+	&lt;Environment name="solr/home" value="[dspace.dir]/solr" type="java.lang.String" override="false"/&gt;
+	Recall, change the [xyz] placeholder with your real path.
+	
+NOTE: if Tomcat 7 is your choice then startup tomcat with -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true 
 
 8) Administrator Account: Create an initial administrator account:
 [dspace]/bin/dspace create-administrator
@@ -202,7 +216,7 @@ You should see the DSpace home page. Congratulations! DSpace is live! And your j
 
 Now Dspace-CRIS data configuration is empty, you can populate database with the default configuration running the base-configuration-crismodule.sql:
 
-[dspace]/etc/postgres/base-configuration-crismodule.sql
+psql -h localhost -d dspace -U dspace -f [dspace]/etc/postgres/base-configuration-crismodule.sql
 
 This sql file create for you a base metadata configuration for Researcher profile, Organization Unit and Project entity.
 You can build or add a custom metadata dynamically enjoying the administration section CRIS module. 
