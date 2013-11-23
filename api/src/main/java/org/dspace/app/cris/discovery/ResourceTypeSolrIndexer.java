@@ -60,7 +60,7 @@ public class ResourceTypeSolrIndexer implements CrisServiceIndexPlugin,
 			    String separatorFacets = ConfigurationManager.getProperty("discovery", "solr.facets.split.char");
 				String label = ((ACrisObjectWithTypeSupport<P, TP, NP, NTP, ACNO, ATNO>) crisObject)
 						.getTypo().getLabel();
-				acvalue = label.toLowerCase() + separatorFacets!=null?separatorFacets:SolrServiceImpl.FILTER_SEPARATOR + label;
+				acvalue = label.toLowerCase() + (separatorFacets!=null?separatorFacets:SolrServiceImpl.FILTER_SEPARATOR) + label;
 			}
 			fvalue = acvalue;
 		} else {
