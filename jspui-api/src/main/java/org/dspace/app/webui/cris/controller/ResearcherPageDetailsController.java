@@ -44,6 +44,7 @@ import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Context;
 import org.dspace.core.LogManager;
 import org.dspace.eperson.EPerson;
+import org.dspace.statistics.SolrLogger;
 import org.dspace.usage.UsageEvent;
 import org.dspace.utils.DSpace;
 import org.springframework.web.servlet.ModelAndView;
@@ -193,7 +194,7 @@ public class ResearcherPageDetailsController
         mvc.getModel()
                 .put("showStatsOnlyAdmin",
                         ConfigurationManager
-                                .getBooleanProperty(StatsConfig.CFG_MODULE,"authorization.admin"));
+                                .getBooleanProperty(SolrLogger.CFG_STAT_MODULE,"authorization.admin"));
         
         
         // Fire usage event.

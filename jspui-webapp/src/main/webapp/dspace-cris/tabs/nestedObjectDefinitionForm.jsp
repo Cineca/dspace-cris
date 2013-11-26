@@ -342,7 +342,9 @@
 												&nbsp;
 											</div>
 											<dyna:text visibility="false" propertyPath="real.mask[${i.count - 1}].rendering.indexName"
-													labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.indexname" helpKey="help.jdyna.message.rendering.pointer.indexname"/>						
+													labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.indexname" helpKey="help.jdyna.message.rendering.pointer.indexname"/>
+											<dyna:text propertyPath="real.mask[${i.count - 1}].rendering.urlPath"  visibility="false"
+													labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.path" helpKey="help.jdyna.message.rendering.pointer.path"/>						
 											</fieldset>											
 										</c:if>
 								<dyna:text propertyPath="real.mask[${i.count - 1}].priority"  helpKey="help.jdyna.message.priority"

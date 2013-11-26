@@ -46,6 +46,7 @@ import org.dspace.app.cris.model.Project;
 import org.dspace.app.cris.model.ResearchObject;
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.RestrictedField;
+import org.dspace.app.cris.model.jdyna.ACrisNestedObject;
 import org.dspace.app.cris.model.jdyna.BoxDynamicObject;
 import org.dspace.app.cris.model.jdyna.BoxOrganizationUnit;
 import org.dspace.app.cris.model.jdyna.BoxProject;
@@ -856,5 +857,11 @@ public class ResearcherTagLibraryFunctions
     {
         return URLEncoder.encode(value, charset);
     }   
-    
+
+    public static <A extends ACrisNestedObject> List<A> getCrisNestedObjectByShortname(
+            Integer id, String typoNested, Class<A> nestedClass)
+    {
+        return applicationService.getNestedObjectsByParentIDAndShortname(id,
+                typoNested, nestedClass);
+    }
 }

@@ -11,9 +11,11 @@ import it.cilea.osd.common.core.TimeStampInfo;
 import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ANestedProperty;
 import it.cilea.osd.jdyna.model.ATypeNestedObject;
+import it.cilea.osd.jdyna.model.AValue;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
+import java.beans.PropertyEditor;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -193,7 +195,10 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
                     }
                     else
                     {
-                        values.add(val);
+                    	PropertyEditor propertyEditor = prop.getTypo().getRendering()
+                                .getPropertyEditor(null);
+                        propertyEditor.setValue(val);
+                        values.add(propertyEditor.getAsText());
                     }
                 }
             }

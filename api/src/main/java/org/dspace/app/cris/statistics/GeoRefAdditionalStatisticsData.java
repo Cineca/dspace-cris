@@ -20,6 +20,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.dspace.app.cris.statistics.util.StatsConfig;
 import org.dspace.content.DSpaceObject;
 import org.dspace.core.ConfigurationManager;
+import org.dspace.statistics.SolrLogger;
 import org.dspace.statistics.StatisticsMetadataGenerator;
 import org.dspace.utils.DSpace;
 
@@ -85,7 +86,7 @@ public class GeoRefAdditionalStatisticsData implements
         String ip = (String) doc1.getFieldValue("ip");
         // Save the location information if valid, save the event without
         // location information if not valid
-        if (ConfigurationManager.getBooleanProperty(StatsConfig.CFG_MODULE,
+        if (ConfigurationManager.getBooleanProperty(SolrLogger.CFG_USAGE_MODULE,
                 "test-randomize-localhost", false))
         {
             ip = "";
@@ -156,7 +157,7 @@ public class GeoRefAdditionalStatisticsData implements
             LookupService service = null;
             // Get the db file for the location
             String dbfile = ConfigurationManager.getProperty(
-                    StatsConfig.CFG_MODULE, "dbfile");
+                    SolrLogger.CFG_USAGE_MODULE, "dbfile");
             if (dbfile != null)
             {
                 try

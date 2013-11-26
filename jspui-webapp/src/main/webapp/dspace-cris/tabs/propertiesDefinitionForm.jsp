@@ -304,7 +304,12 @@
 							&nbsp;
 						</div>
 						<dyna:text visibility="false" propertyPath="real.rendering.indexName"
-								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.indexname" helpKey="help.jdyna.message.rendering.pointer.indexname"/>						
+								labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.indexname" helpKey="help.jdyna.message.rendering.pointer.indexname"/>
+						<div class="dynaClear">
+						&nbsp;
+						</div>								
+						<dyna:text propertyPath="real.rendering.urlPath"  visibility="false"
+							labelKey="jsp.layout.hku.label.propertiesdefinition.rendering.pointer.path" helpKey="help.jdyna.message.rendering.pointer.path"/>						
 						</fieldset>											
 					</c:when>
 					<c:otherwise>
