@@ -98,20 +98,41 @@ You will be prompted for the password of the DSpace database user. (This isn't t
 
 3) Initial Configuration: 
 		
-Edit [dspace-source]/dspace/config/dspace.cfg, in particular you'll need to set these properties:
+Edit [dspace-source]/build.properties.  This properties file contains the basic settings necessary to actually build/install DSpace for the first time (see build.properties Configuration for more detail).  In particular you'll need to set these properties, examples or defaults are provided in the file:
 
-    dspace.dir - must be set to the [dspace] (installation) directory.
-    dspace.url - complete URL of this server's DSpace home page.
+    dspace.install.dir - must be set to the [dspace] (installation) directory  (On Windows be sure to use forward slashes for the directory path!  For example: "C:/dspace" is a valid path for Windows.)
     dspace.hostname - fully-qualified domain name of web server.
+    dspace.baseUrl - complete URL of this server's DSpace home page but without any context eg. /xmlui, /oai, etc.
     dspace.name - "Proper" name of your server, e.g. "My Digital Library".
-    db.password - the database password you entered in the previous step.
+    solr.server - complete URL of the Solr server. DSpace makes use of Solr http://lucene.apache.org/solr/ for indexing purposes.  
+    default.language 
+    db.name - postgres or oracle
+    db.driver
+    db.url
+    db.username - the database password used in the previous step
+    db.password - the database password used in the previous step.
     mail.server - fully-qualified domain name of your outgoing mail server.
     mail.from.address - the "From:" address to put on email sent by DSpace.
-    feedback.recipient - mailbox for feedback mail.
+    mail.feedback.recipient - mailbox for feedback mail.
     mail.admin - mailbox for DSpace site administrator.
-    alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
-    registration.notify - mailbox for emails when new users register (optional) 
-
+    mail.alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
+    mail.registration.notify- mailbox for emails when new users register (optional) 
+    
+INFO:    
+	The "build.properties" file is provided as a convenient method of setting only those configurations necessary to install/upgrade DSpace. 
+	Any settings changed in this file, will be automatically copied over to the full "dspace.cfg" file (which is held in [dspace-source]/dspace/config/dspace.cfg).  
+	Refer to the General Configuration (https://wiki.duraspace.org/display/DSDOC3x/Configuration#Configuration-GeneralConfiguration) section for a fuller explanation. 
+	It is also worth noting that you may choose to copy/rename the "build.properties" under a different name for different environments (e.g. "development.properties", "test.properties", and "production.properties").  
+	You can choose which properties file you want to build DSpace with by passing a "-Denv" (environment) flag to the "mvn package" command (e.g. "mvn package -Denv=test" would build using "test.properties).  
+	See General Configuration (https://wiki.duraspace.org/display/DSDOC3x/Configuration#Configuration-GeneralConfiguration) section for more details.
+WARNING: 
+	Do not remove or comment out settings in build.properties
+	When you edit the "build.properties" file (or a custom *.properties file), take care not to remove or comment out any settings.  
+	Doing so, may cause your final "dspace.cfg" file to be misconfigured with regards to that particular setting.  
+	Instead, if you wish to remove/disable a particular setting, just clear out its value.  For example, if you don't want to be notified of new user registrations,
+	ensure the "mail.registration.notify" setting has no value 
+	e.g.	
+	mail.registration.notify=	
 
 4) DSpace Directory: 
 
