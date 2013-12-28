@@ -626,4 +626,9 @@ public class ResearcherPage extends
         }
         return result;
     }
+
+	@Override
+	public boolean isDiscoverable() {
+		return true;
+	}
 }

@@ -106,7 +106,7 @@ public class NativeNestedListenerSolrIndexer implements NativePostUpdateEventLis
                     .getProperty("alert.recipient");
 
             if (recipient != null) {
-                Email email = ConfigurationManager
+                Email email = Email
                         .getEmail(I18nUtil.getEmailFilename(
                                 Locale.getDefault(), "internal_error"));
                 email.addRecipient(recipient);

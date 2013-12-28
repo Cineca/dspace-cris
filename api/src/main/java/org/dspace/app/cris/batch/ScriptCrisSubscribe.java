@@ -333,7 +333,7 @@ public class ScriptCrisSubscribe
             else
             {
 
-                Email email = ConfigurationManager.getEmail(I18nUtil
+                Email email = Email.getEmail(I18nUtil
                         .getEmailFilename(supportedLocale, "subscription"));
                 email.addRecipient(eperson.getEmail());
                 email.addArgument(emailText.toString());

@@ -118,7 +118,7 @@ public class FormSendMailController extends BaseFormController
         MailDTO dto = (MailDTO) command;
 
         // send mail
-        Email email = ConfigurationManager.getEmail(ConfigurationManager
+        Email email = Email.getEmail(ConfigurationManager
                 .getProperty("dspace.dir")
                 + File.separatorChar
                 + "config"

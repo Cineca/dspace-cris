@@ -264,4 +264,9 @@ public class ResearchObject extends ACrisObjectWithTypeSupport<DynamicProperty, 
         this.id = id;
     }
 
+	@Override
+	public boolean isDiscoverable() {
+		return true;
+	}
+
 }

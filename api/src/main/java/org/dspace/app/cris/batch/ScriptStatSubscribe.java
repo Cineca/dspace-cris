@@ -445,7 +445,7 @@ public class ScriptStatSubscribe
         }
         else
         {
-            Email email = ConfigurationManager.getEmail(I18nUtil
+            Email email = Email.getEmail(I18nUtil
                     .getEmailFilename(supportedLocale, "statsubscription-"
                             + sfreq));
             email.addRecipient(eperson.getEmail());

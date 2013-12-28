@@ -127,7 +127,6 @@ public class RPStatisticsClient
         else if (line.hasOption('m'))
         {
             indexer.markRobotsByIP();
-            indexer.markRobotsByUserAgent();
         }
         else if (line.hasOption('f'))
         {
@@ -140,7 +139,7 @@ public class RPStatisticsClient
         else if (line.hasOption('b'))
         {
             if (line.getOptionValue('b') != null)
-                indexer.markRobotByUserAgent(line.getOptionValue('b'), true);
+                indexer.markRobotByUserAgent(line.getOptionValue('b'));
         }
         else
         {

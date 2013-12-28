@@ -252,4 +252,9 @@ public class Project extends ACrisObject<ProjectProperty, ProjectPropertiesDefin
     public String getTypeText() {
         return CrisConstants.getEntityTypeText(CrisConstants.PROJECT_TYPE_ID);
     }
+
+	@Override
+	public boolean isDiscoverable() {
+		return true;
+	}
 }

@@ -239,5 +239,8 @@ public class OrganizationUnit extends
         return CrisConstants.getEntityTypeText(CrisConstants.OU_TYPE_ID);
     }
 
-
+	@Override
+	public boolean isDiscoverable() {
+		return true;
+	}
 }
