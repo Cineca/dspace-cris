@@ -35,7 +35,6 @@
 }
 </style>
 	
-	<script type="text/javascript" src="<%= request.getContextPath() %>/static/js/jquery/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.showPassword.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/additional-methods.min.js"></script>
