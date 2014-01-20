@@ -1536,52 +1536,57 @@
         <property name="maxIdleTime" value="100" />
 		
 	</bean>
+	
+	<!--
+			event listenter for indexing with Hibernate Seach and naming RP change
+		-->
+<!-- 	<bean id="eventIntegrator" class="org.dspace.app.cris.util.CustomIntegrator"> -->
+		
+<!-- 		<property name="eventListeners"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="save-update">					 -->
+<!-- 					<ref local="UUIDListener" />											 -->
+<!-- 				</entry> -->
+<!-- 				<entry key="pre-insert">		 -->
+<!-- 					<list>		 -->
+<!-- 						<ref local="RPListener" />	 -->
+<!-- 						<ref local="CRISIDListener" /> -->
+<!-- 					</list> -->
+<!-- 				</entry>				 -->
+<!-- 				<entry key="pre-update">					 -->
+<!-- 					<ref local="RPListener" />											 -->
+<!-- 				</entry>				 -->
+<!-- 				<entry key="post-load"> -->
+<!-- 					<list> -->
+<!-- 					<ref local="RPListener" /> -->
+<!-- 						<ref local="rpResourcePolicyListener" />																	 -->
+<!-- 					</list> -->
+<!-- 				</entry> -->
+<!-- 				<entry key="post-insert"> -->
+<!-- 					<list> -->
+<!-- 						<ref local="rpResourcePolicyListener" />											 -->
+<!-- 					</list> -->
+<!-- 				</entry> -->
+<!-- 				<entry key="post-update">	 -->
+<!-- 					<list> -->
+<!-- 						<ref local="rpResourcePolicyListener" />						 -->
+<!-- 					</list>				 -->
+<!-- 				</entry>				 -->
+<!-- 				<entry key="post-delete"> -->
+<!-- 					<list> -->
+<!-- 						<ref local="rpResourcePolicyListener" />						 -->
+<!-- 					</list> -->
+<!-- 				</entry>				 -->
+<!-- 			</map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:hibernate/hibernate-cris.cfg.xml" />
 		<property name="hibernateProperties" ref="hibernateProperties" />
-		<!--
-			event listenter for indexing with Hibernate Seach and naming RP change
-		-->
-		<property name="eventListeners">
-			<map>
-				<entry key="save-update">					
-					<ref local="UUIDListener" />											
-				</entry>
-				<entry key="pre-insert">		
-					<list>		
-						<ref local="RPListener" />	
-						<ref local="CRISIDListener" />
-					</list>
-				</entry>				
-				<entry key="pre-update">					
-					<ref local="RPListener" />											
-				</entry>				
-				<entry key="post-load">
-					<list>
-					<ref local="RPListener" />
-						<ref local="rpResourcePolicyListener" />																	
-					</list>
-				</entry>
-				<entry key="post-insert">
-					<list>
-						<ref local="rpResourcePolicyListener" />											
-					</list>
-				</entry>
-				<entry key="post-update">	
-					<list>
-						<ref local="rpResourcePolicyListener" />						
-					</list>				
-				</entry>				
-				<entry key="post-delete">
-					<list>
-						<ref local="rpResourcePolicyListener" />						
-					</list>
-				</entry>				
-			</map>
-		</property>
+		
 	</bean>
 
 	<bean id="crisIndexerListener" class="org.dspace.app.cris.discovery.NativeCrisListenerSolrIndexer">
@@ -1610,8 +1615,8 @@
 		<property name="indexer" ref="org.dspace.discovery.IndexingService" />
 	</bean>
 	
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+<!-- 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"> -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	

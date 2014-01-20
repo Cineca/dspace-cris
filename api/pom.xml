@@ -241,7 +241,7 @@
 					<dependency>
 						<groupId>org.hibernate</groupId>
 						<artifactId>hibernate-entitymanager</artifactId>
-						<version>3.6.10.Final</version>
+						<version>4.1.8.Final</version>
 					</dependency>
 					<dependency>
 						<groupId>log4j</groupId>

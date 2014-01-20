@@ -15,12 +15,12 @@ import java.util.TreeSet;
 
 import org.dspace.app.cris.model.ResearcherPage;
 import org.dspace.app.cris.model.RestrictedField;
-import org.hibernate.event.PostLoadEvent;
-import org.hibernate.event.PostLoadEventListener;
-import org.hibernate.event.PreInsertEvent;
-import org.hibernate.event.PreInsertEventListener;
-import org.hibernate.event.PreUpdateEvent;
-import org.hibernate.event.PreUpdateEventListener;
+import org.hibernate.event.spi.PostLoadEvent;
+import org.hibernate.event.spi.PostLoadEventListener;
+import org.hibernate.event.spi.PreInsertEvent;
+import org.hibernate.event.spi.PreInsertEventListener;
+import org.hibernate.event.spi.PreUpdateEvent;
+import org.hibernate.event.spi.PreUpdateEventListener;
 
 /**
  * This listner is used to keep track of changes in the RP name fields, all the

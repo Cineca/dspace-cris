@@ -12,8 +12,8 @@ import javax.persistence.Transient;
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.ACrisObject;
 import org.dspace.app.cris.util.ResearcherPageUtils;
-import org.hibernate.event.PreInsertEvent;
-import org.hibernate.event.PreInsertEventListener;
+import org.hibernate.event.spi.PreInsertEvent;
+import org.hibernate.event.spi.PreInsertEventListener;
 
 public class CrisIDListener implements PreInsertEventListener 
 {
