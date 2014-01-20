@@ -12,8 +12,8 @@ import java.util.UUID;
 
 import org.dspace.app.cris.model.UUIDSupport;
 import org.hibernate.HibernateException;
-import org.hibernate.event.SaveOrUpdateEvent;
-import org.hibernate.event.def.DefaultSaveOrUpdateEventListener;
+import org.hibernate.event.internal.DefaultSaveOrUpdateEventListener;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 
 public class UUIDListener extends DefaultSaveOrUpdateEventListener
 {
