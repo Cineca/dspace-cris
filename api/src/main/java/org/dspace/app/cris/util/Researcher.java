@@ -21,7 +21,7 @@ import org.dspace.app.cris.service.RelationPreferenceService;
 import org.dspace.app.cris.statistics.service.StatSubscribeService;
 import org.dspace.utils.DSpace;
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 public class Researcher
 {
@@ -88,7 +88,7 @@ public class Researcher
     
     public SessionFactory getSessionFactory()
     {
-        return (SessionFactory) dspace.getServiceManager().getServiceByName("&sessionFactory", AnnotationSessionFactoryBean.class).getObject();
+        return (SessionFactory) dspace.getServiceManager().getServiceByName("&sessionFactory", LocalSessionFactoryBean.class).getObject();
     }
     
     public RelationPreferenceService getRelationPreferenceService() {
