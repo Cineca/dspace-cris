@@ -32,7 +32,7 @@
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 
 		<property name="hibernate.bytecode.use_reflection_optimizer">true</property>
-		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.generate_statistics">false</property>
 
 
