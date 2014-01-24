@@ -10,6 +10,7 @@ package org.dspace.app.cris.model.jdyna;
 import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.AWidget;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -46,7 +47,10 @@ public class RPTypeNestedObject extends ATypeNestedObject<RPNestedPropertiesDefi
     @Override
     public List<RPNestedPropertiesDefinition> getMask()
     {
-        return mask;
+        if(this.mask == null) {
+            this.mask = new LinkedList<RPNestedPropertiesDefinition>();
+        }
+        return this.mask;
     }
 
     public void setMask(List<RPNestedPropertiesDefinition> mask) {
