@@ -45,6 +45,8 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     /** Cris internal unique identifier, must be null */
     @Column(nullable = true, unique = true)
     private String sourceID;
+    @Column(nullable = true)
+    private String sourceRef;
 
     /** Cris public unique identifier, must be null */
     @Column(nullable = true, unique = true)
@@ -325,4 +327,15 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         // TODO Auto-generated method stub
         
     }
+    
+    public String getSourceRef()
+    {
+        return sourceRef;
+    }
+
+    public void setSourceRef(String sourceRef)
+    {
+        this.sourceRef = sourceRef;
+    }
+
 }
