@@ -22,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.dspace.app.cris.model.jdyna.DynamicAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.DynamicNestedObject;
@@ -34,7 +35,7 @@ import org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject;
 
 
 @Entity
-@Table(name = "cris_do")
+@Table(name = "cris_do", uniqueConstraints = @UniqueConstraint(columnNames={"sourceID","sourceRef"}))
 @NamedQueries({
         @NamedQuery(name = "ResearchObject.findAll", query = "from ResearchObject order by id"),
         @NamedQuery(name = "ResearchObject.count", query = "select count(*) from ResearchObject"),
@@ -43,11 +44,11 @@ import org.dspace.app.cris.model.jdyna.DynamicTypeNestedObject;
         @NamedQuery(name = "ResearchObject.paginate.id.desc", query = "from ResearchObject order by id desc"),
         @NamedQuery(name = "ResearchObject.paginate.status.asc", query = "from ResearchObject order by status asc"),
         @NamedQuery(name = "ResearchObject.paginate.status.desc", query = "from ResearchObject order by status desc"),
-        @NamedQuery(name = "ResearchObject.paginate.sourceID.asc", query = "from ResearchObject order by sourceID asc"),
-        @NamedQuery(name = "ResearchObject.paginate.sourceID.desc", query = "from ResearchObject order by sourceID desc"),
+        @NamedQuery(name = "ResearchObject.paginate.sourceID.asc", query = "from ResearchObject order by sourceReference.sourceID asc"),
+        @NamedQuery(name = "ResearchObject.paginate.sourceID.desc", query = "from ResearchObject order by sourceReference.sourceID desc"),
         @NamedQuery(name = "ResearchObject.paginate.uuid.asc", query = "from ResearchObject order by uuid asc"),
         @NamedQuery(name = "ResearchObject.paginate.uuid.desc", query = "from ResearchObject order by uuid desc"),
-        @NamedQuery(name = "ResearchObject.uniqueBySourceID", query = "from ResearchObject where sourceID = ?"),
+        @NamedQuery(name = "ResearchObject.uniqueBySourceID", query = "from ResearchObject where sourceReference.sourceID = ?"),
         @NamedQuery(name = "ResearchObject.uniqueUUID", query = "from ResearchObject where uuid = ?"),
         @NamedQuery(name = "ResearchObject.uniqueByCrisID", query = "from ResearchObject where crisID = ?"),
         @NamedQuery(name = "ResearchObject.paginateByType.id.asc", query = "from ResearchObject where (typo = :par0) order by id asc"),
