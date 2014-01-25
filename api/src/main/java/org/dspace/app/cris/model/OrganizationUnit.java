@@ -23,6 +23,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.dspace.app.cris.model.jdyna.OUAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.OUNestedObject;
@@ -34,7 +35,7 @@ import org.dspace.app.cris.model.jdyna.OUTypeNestedObject;
 import org.dspace.authorize.AuthorizeException;
 
 @Entity
-@Table(name = "cris_orgunit")
+@Table(name = "cris_orgunit", uniqueConstraints = @UniqueConstraint(columnNames={"sourceID","sourceRef"}))
 @NamedQueries({
         @NamedQuery(name = "OrganizationUnit.findAll", query = "from OrganizationUnit order by id"),
         @NamedQuery(name = "OrganizationUnit.count", query = "select count(*) from OrganizationUnit"),
@@ -42,12 +43,12 @@ import org.dspace.authorize.AuthorizeException;
         @NamedQuery(name = "OrganizationUnit.paginate.id.desc", query = "from OrganizationUnit order by id desc"),
         @NamedQuery(name = "OrganizationUnit.paginate.status.asc", query = "from OrganizationUnit order by status asc"),
         @NamedQuery(name = "OrganizationUnit.paginate.status.desc", query = "from OrganizationUnit order by status desc"),
-        @NamedQuery(name = "OrganizationUnit.paginate.sourceID.asc", query = "from OrganizationUnit order by sourceID asc"),
-        @NamedQuery(name = "OrganizationUnit.paginate.sourceID.desc", query = "from OrganizationUnit order by sourceID desc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.sourceID.asc", query = "from OrganizationUnit order by sourceReference.sourceID asc"),
+        @NamedQuery(name = "OrganizationUnit.paginate.sourceID.desc", query = "from OrganizationUnit order by sourceReference.sourceID desc"),
         @NamedQuery(name = "OrganizationUnit.paginate.uuid.asc", query = "from OrganizationUnit order by uuid asc"),
         @NamedQuery(name = "OrganizationUnit.paginate.uuid.desc", query = "from OrganizationUnit order by uuid desc"),
         @NamedQuery(name = "OrganizationUnit.uniqueUUID", query = "from OrganizationUnit where uuid = ?"),
-        @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceID = ?"),
+        @NamedQuery(name = "OrganizationUnit.uniqueBySourceID", query = "from OrganizationUnit where sourceReference.sourceID = ?"),
         @NamedQuery(name = "OrganizationUnit.uniqueByCrisID", query = "from OrganizationUnit where crisID = ?")  
 })
 public class OrganizationUnit extends

@@ -28,6 +28,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.log4j.Logger;
 import org.dspace.app.cris.model.export.ExportConstants;
@@ -54,15 +55,15 @@ import org.dspace.eperson.EPerson;
  * 
  */
 @Entity
-@Table(name = "cris_rpage")
+@Table(name = "cris_rpage", uniqueConstraints = @UniqueConstraint(columnNames={"sourceID","sourceRef"}))
 @NamedQueries({
         @NamedQuery(name = "ResearcherPage.findAll", query = "from ResearcherPage order by id"),
         @NamedQuery(name = "ResearcherPage.paginate.id.asc", query = "from ResearcherPage order by id asc"),
         @NamedQuery(name = "ResearcherPage.paginate.id.desc", query = "from ResearcherPage order by id desc"),
         @NamedQuery(name = "ResearcherPage.paginate.status.asc", query = "from ResearcherPage order by status asc"),
         @NamedQuery(name = "ResearcherPage.paginate.status.desc", query = "from ResearcherPage order by status desc"),
-        @NamedQuery(name = "ResearcherPage.paginate.sourceID.asc", query = "from ResearcherPage order by sourceID asc"),
-        @NamedQuery(name = "ResearcherPage.paginate.sourceID.desc", query = "from ResearcherPage order by sourceID desc"),
+        @NamedQuery(name = "ResearcherPage.paginate.sourceID.asc", query = "from ResearcherPage order by sourceReference.sourceID asc"),
+        @NamedQuery(name = "ResearcherPage.paginate.sourceID.desc", query = "from ResearcherPage order by sourceReference.sourceID desc"),
         @NamedQuery(name = "ResearcherPage.paginate.uuid.asc", query = "from ResearcherPage order by uuid asc"),
         @NamedQuery(name = "ResearcherPage.paginate.uuid.desc", query = "from ResearcherPage order by uuid desc"),
         @NamedQuery(name = "ResearcherPage.count", query = "select count(*) from ResearcherPage"),
@@ -73,16 +74,16 @@ import org.dspace.eperson.EPerson;
         @NamedQuery(name = "ResearcherPage.countAllResearcherByName", query = "select count(*) from ResearcherPage rp join rp.dynamicField.anagrafica vv where ((vv.typo.shortName = 'variants' or vv.typo.shortName = 'preferredName' or vv.typo.shortName = 'fullName' or vv.typo.shortName = 'translatedName') and vv.value = :par0)"),
         @NamedQuery(name = "ResearcherPage.countAllResearcherByNameExceptResearcher", query = "select count(*) from ResearcherPage rp join rp.dynamicField.anagrafica vv where ((vv.typo.shortName = 'variants' or vv.typo.shortName = 'preferredName' or vv.typo.shortName = 'fullName' or vv.typo.shortName = 'translatedName') and vv.value = :par0) and rp.id != :par1 "),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByNamesTimestampLastModified", query = "from ResearcherPage where namesModifiedTimeStamp.timestamp >= ?"),
-        @NamedQuery(name = "ResearcherPage.uniqueBySourceID", query = "from ResearcherPage rp where rp.sourceID = ?"),
+        @NamedQuery(name = "ResearcherPage.uniqueBySourceID", query = "from ResearcherPage rp where rp.sourceReference.sourceID = ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInDateRange", query = "from ResearcherPage rp where rp.timeStampInfo.timestampCreated.timestamp between :par0 and :par1"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByCreationDateBefore", query = "from ResearcherPage rp where rp.timeStampInfo.timestampCreated.timestamp <= ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherByCreationDateAfter", query = "from ResearcherPage rp where rp.timeStampInfo.timestampCreated.timestamp >= ?"),
         @NamedQuery(name = "ResearcherPage.findAllNextResearcherByIDStart", query = "from ResearcherPage rp where rp.id >= ?"),
         @NamedQuery(name = "ResearcherPage.findAllPrevResearcherByIDEnd", query = "from ResearcherPage rp where rp.id <= ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherInIDRange", query = "from ResearcherPage rp where rp.id between :par0 and :par1"),
-        @NamedQuery(name = "ResearcherPage.findAllNextResearcherBysourceIDStart", query = "from ResearcherPage rp where rp.sourceID >= ?"),
-        @NamedQuery(name = "ResearcherPage.findAllPrevResearcherBysourceIDEnd", query = "from ResearcherPage rp where rp.sourceID <= ?"),
-        @NamedQuery(name = "ResearcherPage.findAllResearcherInsourceIDRange", query = "from ResearcherPage rp where rp.sourceID between :par0 and :par1"),
+        @NamedQuery(name = "ResearcherPage.findAllNextResearcherBysourceIDStart", query = "from ResearcherPage rp where rp.sourceReference.sourceID >= ?"),
+        @NamedQuery(name = "ResearcherPage.findAllPrevResearcherBysourceIDEnd", query = "from ResearcherPage rp where rp.sourceReference.sourceID <= ?"),
+        @NamedQuery(name = "ResearcherPage.findAllResearcherInsourceIDRange", query = "from ResearcherPage rp where rp.sourceReference.sourceID between :par0 and :par1"),
         @NamedQuery(name = "ResearcherPage.uniqueLastModifiedTimeStamp", query = "select timeStampInfo.timestampLastModified.timestamp from ResearcherPage rp where rp.id = ?"),
         @NamedQuery(name = "ResearcherPage.findAnagraficaByRPID", query = "select dynamicField.anagrafica from ResearcherPage rp where rp.id = ?"),
         @NamedQuery(name = "ResearcherPage.findAllResearcherPageID", query = "select id from ResearcherPage order by id"),
