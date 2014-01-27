@@ -60,6 +60,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
     public ACrisObject()
     {
         this.status = false;
+        this.sourceReference = new SourceReference();
     }
 
     public Boolean getStatus()

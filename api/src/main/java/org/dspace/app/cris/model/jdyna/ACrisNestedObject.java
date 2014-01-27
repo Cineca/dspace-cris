@@ -39,6 +39,9 @@ public abstract class ACrisNestedObject<P extends ANestedProperty<TP>, TP extend
 
     public SourceReference getSourceReference()
     {
+        if(this.sourceReference==null) {
+            this.sourceReference = new SourceReference();
+        }
         return sourceReference;
     }
 
