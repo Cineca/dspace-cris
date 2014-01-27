@@ -1534,7 +1534,10 @@
         <property name="minPoolSize" value="20" />
         <property name="maxPoolSize" value="100" />
         <property name="maxIdleTime" value="100" />
-		
+		<property name="maxStatements" value="50" />
+  		<property name="idleConnectionTestPeriod" value="3000" />
+  		<property name="loginTimeout" value="300" />
+  
 	</bean>
 	
 	<!--
