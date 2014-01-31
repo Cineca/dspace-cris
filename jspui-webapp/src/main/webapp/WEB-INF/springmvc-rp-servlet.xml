@@ -6328,7 +6328,7 @@
 	<bean id="solrConfig" class="org.dspace.app.cris.statistics.util.StatsConfig"/>
 		
     <bean id="openSessionInViewInterceptor"  
-        class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">  
+        class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">  
         <property name="sessionFactory" ref="sessionFactory" />   
     </bean>  
 </beans>

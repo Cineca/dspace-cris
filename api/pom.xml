@@ -32,11 +32,7 @@
 		<dependency>		
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>		
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>		
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>				

@@ -22,12 +22,12 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.apache.tools.ant.types.FileSet;
 import org.hibernate.HibernateException;
+import org.hibernate.annotations.common.util.ReflectHelper;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.NamingStrategy;
+import org.hibernate.internal.util.collections.ArrayHelper;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
-import org.hibernate.util.ArrayHelper;
-import org.hibernate.util.ReflectHelper;
 
 public class UpdateSchemaTool extends MatchingTask {
 
