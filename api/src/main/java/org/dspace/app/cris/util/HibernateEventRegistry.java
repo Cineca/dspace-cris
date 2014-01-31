@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class HibernateEventRegistry {
 
-	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Autowired
 	private Map<String, List<Object>> eventListeners;
 
 	public void init() {
