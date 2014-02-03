@@ -8,9 +8,9 @@
     https://github.com/CILEA/dspace-cris/wiki/License
 
 -->
-<web-app id="WebApp_9" version="2.5" xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app id="WebApp_9" version="3.0" xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
 	<!-- - The is the servlet deployment descriptor for Tomcat 4.0 for the DSpace 
 		- Web user interface - - 'dspace.dir' will be replaced with the directory 
