@@ -11,7 +11,6 @@ import it.cilea.osd.common.core.TimeStampInfo;
 import it.cilea.osd.jdyna.model.ANestedPropertiesDefinition;
 import it.cilea.osd.jdyna.model.ANestedProperty;
 import it.cilea.osd.jdyna.model.ATypeNestedObject;
-import it.cilea.osd.jdyna.model.AValue;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
@@ -22,7 +21,10 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang.StringUtils;
 import org.dspace.app.cris.model.export.ExportConstants;
@@ -42,9 +44,9 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         BrowsableDSpaceObject,
         IExportableDynamicObject<TP, P, ACrisObject<P, TP, NP, NTP, ACNO, ATNO>>
 {
-    /** Cris internal unique identifier, must be null */
-    @Column(nullable = true, unique = true)
-    private String sourceID;
+
+    @Embedded    
+    private SourceReference sourceReference;
 
     /** Cris public unique identifier, must be null */
     @Column(nullable = true, unique = true)
@@ -57,7 +59,7 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
 
     public ACrisObject()
     {
-        this.status = false;
+        this.status = false;        
     }
 
     public Boolean getStatus()
@@ -80,14 +82,24 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         return uuid;
     }
 
+    /**
+     * Wrapper method
+     * 
+     * @param sourceID
+     */
     public void setSourceID(String sourceID)
     {
-        this.sourceID = sourceID;
+        getSourceReference().setSourceID(sourceID);
     }
 
+    /**
+     * Wrappre method 
+     * 
+     * @return
+     */
     public String getSourceID()
     {
-        return sourceID;
+        return getSourceReference().getSourceID();
     }
 
     public abstract String getPublicPath();
@@ -325,4 +337,28 @@ public abstract class ACrisObject<P extends Property<TP>, TP extends PropertiesD
         // TODO Auto-generated method stub
         
     }
+    
+    public String getSourceRef()
+    {
+        return getSourceReference().getSourceRef();
+    }
+
+    public void setSourceRef(String sourceRef)
+    {
+        getSourceReference().setSourceRef(sourceRef);
+    }
+
+    public SourceReference getSourceReference()
+    {
+        if(this.sourceReference==null) {
+            this.sourceReference = new SourceReference();
+        }
+        return sourceReference;
+    }
+
+    public void setSourceReference(SourceReference sourceReference)
+    {
+        this.sourceReference = sourceReference;
+    }
+
 }

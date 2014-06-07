@@ -1534,17 +1534,17 @@
         <property name="minPoolSize" value="20" />
         <property name="maxPoolSize" value="100" />
         <property name="maxIdleTime" value="100" />
-		
+		<property name="maxStatements" value="50" />
+  		<property name="idleConnectionTestPeriod" value="3000" />
+  		<property name="loginTimeout" value="300" />
+  
 	</bean>
-
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:hibernate/hibernate-cris.cfg.xml" />
-		<property name="hibernateProperties" ref="hibernateProperties" />
-		<!--
+	
+	<!--
 			event listenter for indexing with Hibernate Seach and naming RP change
 		-->
+	<bean id="eventIntegrator" class="org.dspace.app.cris.util.HibernateEventRegistry" init-method="init">
+		<property name="sessionFactory" ref="sessionFactory" />
 		<property name="eventListeners">
 			<map>
 				<entry key="save-update">					
@@ -1584,6 +1584,14 @@
 		</property>
 	</bean>
 
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:hibernate/hibernate-cris.cfg.xml" />
+		<property name="hibernateProperties" ref="hibernateProperties" />
+		
+	</bean>
+
 	<bean id="crisIndexerListener" class="org.dspace.app.cris.discovery.NativeCrisListenerSolrIndexer">
 		<property name="crisSearchService" ref="org.dspace.discovery.IndexingService" />
 	</bean>
@@ -1610,8 +1618,7 @@
 		<property name="indexer" ref="org.dspace.discovery.IndexingService" />
 	</bean>
 	
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	

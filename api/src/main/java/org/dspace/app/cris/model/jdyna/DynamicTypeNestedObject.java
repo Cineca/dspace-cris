@@ -10,6 +10,7 @@ package org.dspace.app.cris.model.jdyna;
 import it.cilea.osd.jdyna.model.ATypeNestedObject;
 import it.cilea.osd.jdyna.model.AWidget;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -46,6 +47,9 @@ public class DynamicTypeNestedObject extends ATypeNestedObject<DynamicNestedProp
     @Override
     public List<DynamicNestedPropertiesDefinition> getMask()
     {
+        if(this.mask == null) {
+            this.mask = new LinkedList<DynamicNestedPropertiesDefinition>();
+        }
         return mask;
     }
 

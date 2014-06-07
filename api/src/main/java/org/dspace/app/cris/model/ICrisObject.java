@@ -21,4 +21,5 @@ public interface ICrisObject<P extends Property<TP>, TP extends PropertiesDefini
     public int getType();    
     public int getID();     
     public String getPublicPath();
+    public SourceReference getSourceReference();
 }

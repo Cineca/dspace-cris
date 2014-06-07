@@ -13,14 +13,20 @@ import it.cilea.osd.jdyna.model.ANestedProperty;
 import it.cilea.osd.jdyna.model.PropertiesDefinition;
 import it.cilea.osd.jdyna.model.Property;
 
+import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 
 import org.dspace.app.cris.model.ICrisObject;
+import org.dspace.app.cris.model.SourceReference;
 
 @MappedSuperclass
 public abstract class ACrisNestedObject<P extends ANestedProperty<TP>, TP extends ANestedPropertiesDefinition, PP extends Property<PTP>, PTP extends PropertiesDefinition>
         extends ANestedObjectWithTypeSupport<P, TP, PP, PTP> implements ICrisObject<P, TP>
 {
+    
+    @Embedded    
+    private SourceReference sourceReference;
+    
     public abstract int getType();
     
     public String getTypeText() {
@@ -29,6 +35,19 @@ public abstract class ACrisNestedObject<P extends ANestedProperty<TP>, TP extend
     
     public int getID() {
         return super.getId();
+    }
+
+    public SourceReference getSourceReference()
+    {
+        if(this.sourceReference==null) {
+            this.sourceReference = new SourceReference();
+        }
+        return sourceReference;
+    }
+
+    public void setSourceReference(SourceReference sourceReference)
+    {
+        this.sourceReference = sourceReference;
     }  
 
 }

@@ -21,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.dspace.app.cris.model.jdyna.ProjectAdditionalFieldStorage;
 import org.dspace.app.cris.model.jdyna.ProjectNestedObject;
@@ -31,7 +32,7 @@ import org.dspace.app.cris.model.jdyna.ProjectProperty;
 import org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject;
 
 @Entity
-@Table(name = "cris_project")
+@Table(name = "cris_project", uniqueConstraints = @UniqueConstraint(columnNames={"sourceID","sourceRef"}))
 @NamedQueries({
         @NamedQuery(name = "Project.findAll", query = "from Project order by id"),
         @NamedQuery(name = "Project.count", query = "select count(*) from Project"),
@@ -39,11 +40,11 @@ import org.dspace.app.cris.model.jdyna.ProjectTypeNestedObject;
         @NamedQuery(name = "Project.paginate.id.desc", query = "from Project order by id desc"),
         @NamedQuery(name = "Project.paginate.status.asc", query = "from Project order by status asc"),
         @NamedQuery(name = "Project.paginate.status.desc", query = "from Project order by status desc"),
-        @NamedQuery(name = "Project.paginate.sourceID.asc", query = "from Project order by sourceID asc"),
-        @NamedQuery(name = "Project.paginate.sourceID.desc", query = "from Project order by sourceID desc"),
+        @NamedQuery(name = "Project.paginate.sourceID.asc", query = "from Project order by sourceReference.sourceID asc"),
+        @NamedQuery(name = "Project.paginate.sourceID.desc", query = "from Project order by sourceReference.sourceID desc"),
         @NamedQuery(name = "Project.paginate.uuid.asc", query = "from Project order by uuid asc"),
         @NamedQuery(name = "Project.paginate.uuid.desc", query = "from Project order by uuid desc"),
-        @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceID = ?"),
+        @NamedQuery(name = "Project.uniqueBySourceID", query = "from Project where sourceReference.sourceID = ?"),
         @NamedQuery(name = "Project.uniqueUUID", query = "from Project where uuid = ?"),
         @NamedQuery(name = "Project.uniqueByCrisID", query = "from Project where crisID = ?")        
   })

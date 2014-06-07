@@ -26,27 +26,27 @@ public class ApplicationDao extends it.cilea.osd.common.dao.impl.ApplicationDao
 
     public void clearSession()
     {
-        getSession().clear();
+        getSessionFactory().getCurrentSession().clear();
     }
 
     public void ignoreCacheMode()
     {
-        getSession().setCacheMode(CacheMode.IGNORE);
+        getSessionFactory().getCurrentSession().setCacheMode(CacheMode.IGNORE);
     }
 
     public void flushSession()
     {
-        getSession().flush();
+        getSessionFactory().getCurrentSession().flush();
     }
 
     public void evict(Identifiable identifiable)
     {
-        getSession().evict(identifiable);
+        getSessionFactory().getCurrentSession().evict(identifiable);
     }
 
     public <T extends Object> List<T> getCL(String token, String classe)
     {
-        Query query = getSession().getNamedQuery(classe + ".findByDescription");
+        Query query = getSessionFactory().getCurrentSession().getNamedQuery(classe + ".findByDescription");
         query.setParameter(0, "%" + token + "%");
         return query.list();
     }
@@ -54,7 +54,7 @@ public class ApplicationDao extends it.cilea.osd.common.dao.impl.ApplicationDao
 
     public <C extends ACrisObject> C uniqueByUUID(String uuid)
     {
-        Query query = getSession().createQuery(
+        Query query = getSessionFactory().getCurrentSession().createQuery(
                 "from org.dspace.app.cris.model.ACrisObject where uuid = ?");
         query.setParameter(0, uuid);
         return (C) query.uniqueResult();

@@ -13,7 +13,7 @@
 	online at https://github.com/CILEA/dspace-cris/wiki/License -->
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
 
@@ -28,7 +28,7 @@
 
 		<property name="hibernate.cache.use_second_level_cache">true</property>
 		<property name="hibernate.cache.use_query_cache">true</property>
-		<property name="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</property>
+		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 
 		<property name="hibernate.bytecode.use_reflection_optimizer">true</property>
 		<property name="hibernate.show_sql">false</property>
@@ -37,13 +37,7 @@
 
 		<!-- alternative to C3P0 -->
 		<property name="hibernate.connection.pool_size">30</property>
-
 		<property name="hibernate.search.autoregister_listeners">false</property>
-
-		<!-- configuration pool via c3p0 -->
-		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
-		<property name="hibernate.c3p0.max_statements">0</property>
-		<property name="hibernate.c3p0.timeout">100</property> <!-- seconds -->
 
 		<mapping class="it.cilea.osd.common.core.TimeStampInfo" />
 		<mapping class="it.cilea.osd.common.core.SingleTimeStampInfo" />
@@ -56,6 +50,7 @@
 		<mapping class="org.dspace.app.cris.model.RestrictedFieldLocalOrRemoteFile" />
 		<mapping class="org.dspace.app.cris.model.CrisSubscription" />
 		<mapping class="org.dspace.app.cris.model.RelationPreference" />
+		<mapping class="org.dspace.app.cris.model.SourceReference" />
 
 		<!-- Dynamic field -->
 
