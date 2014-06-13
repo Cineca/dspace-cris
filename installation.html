@@ -8,7 +8,13 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
+    <script src="javascripts/jquery-1.8.3.min.js" type="text/javascript"></script> 
+    <script> 
+    jQuery(function(){
+    	jQuery("#sidebar").load("sidebar.html");
+    	jQuery("#installation").addClass("pushed"); 
+    });
+    </script> 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -21,7 +27,7 @@
       <div class="inner">
         <h1>DSpace CRIS</h1>
         <h2>Current Research Information System (CRIS) made easy with DSpace</h2>
-        <a href="https://github.com/Cineca/dspace-cris" class="button"><small>View project on</small>GitHub</a>
+        <a href="https://github.com/Cineca/DSpace" class="button"><small>View project on</small>GitHub</a>
       </div>
     </header>
 
@@ -33,14 +39,17 @@
 
 
     <div class="markdown-body">
-      <p>DSpace CRIS is an addon for the DSpace platform. This page describes how install the addon on the top of a customized version of DSpace JSPUI, 1.8.2 or 3.2.0, that already includes the "core" changes needed to integrate DSpace CRIS.</p>
+      <p>DSpace CRIS is an addon for the DSpace platform. This page describes how install DSpace CRIS based on DSpace 4.1.</p>
 
 <p>The source code of the customized pre-integrated version of DSpace 1.8.2 and DSpace 3.2.0 can be found in the Cineca GitHub Repository</p>
 
-<ul><li><b>current line of development for 3.x.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-3_x_x-cris">https://github.com/Cineca/DSpace/tree/dspace-3_x_x-cris</a></li>
+<ul>
+<li><b>current line of development for 4.x.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-4_x_x-cris">https://github.com/Cineca/DSpace/tree/dspace-4_x_x-cris</a></li>
+<li><b>current line of development for 3.x.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-3_x_x-cris">https://github.com/Cineca/DSpace/tree/dspace-3_x_x-cris</a></li>
 <li><b>current line of development for 1.8.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-1_8_x-cris">https://github.com/Cineca/DSpace/tree/dspace-1_8_x-cris</a></li>
 
 <li><b>tagged releases</b>: <ul>
+<li><u>dspace-cris-4.1.0</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.0">https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.0</a></li>
 <li><u>dspace-cris-3.2.0-beta</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-3.2.0-beta">https://github.com/Cineca/DSpace/tree/dspace-cris-3.2.0-beta</a></li>
 <li><u>dspace-cris-1.8.3.0-beta</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.3.0-beta">https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.3.0-beta</a></li>
 <li><u>dspace-cris-1.8.2.1-beta</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.1-beta">https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.1-beta</a></li>
@@ -51,7 +60,7 @@
 
 <h2>Installation steps</h2>
 
-<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC3x/Installation">DSpace 3.x Installation Documentation</a></p>
+<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC4x/DSpace+4.x+Documentation">DSpace 4.x Installation Documentation</a></p>
 
 <p>A complete, step by step, procedure that include also steps from the standard dspace installation is available at the following page: 
 <a href="installation-stepbystep.html">Go to step-by-step</a>
@@ -59,26 +68,18 @@
 <ol>
 
 <li>
-Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Solr 4.1.0 - Oracle JDK 6 or 7 or OpenJDK 7
+Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Oracle JDK 6 or 7 or OpenJDK 7
 
 
 <li>
-Checkout the source of the current line of development for 3.x.x (to build DSpace-CRIS on a particular tag please use "--branch dspace-cris-3.2.0-beta" or "--branch dspace-cris-1.8.2.1-beta")
+Checkout the source of the current line of development for 4.x.x (to build DSpace-CRIS on a particular tag please use "--branch dspace-cris-4.1.0")
 
 <pre><code>
-$ git clone <a href="https://github.com/Cineca/DSpace.git">https://github.com/Cineca/DSpace.git</a> --branch dspace-3_x_x-cris dspace-parent/
+$ git clone <a href="https://github.com/Cineca/DSpace.git">https://github.com/Cineca/DSpace.git</a> --branch dspace-4_x_x-cris dspace-parent/
 
 usercris@servercris /e/crisinstallation
 
 $ cd dspace-parent/
-
-usercris@servercris /e/crisinstallation/dspace-parent
-
-$ git submodule sync
-
-usercris@servercris /e/crisinstallation/dspace-parent
-
-$ git submodule update --init dspace-cris/
 
 </code></pre>
 </li>
@@ -193,34 +194,7 @@ You can alter this configuration from the administration section of the CRIS mod
     
         </section>
 
-<aside id="sidebar">
-          <a href="index.html" class="button">
-          <small>back to the</small>
-            Home page
-          </a>
-          <a href="features.html" class="button">
-            Features
-            <small>list</small>
-          </a>
-          <a href="roadmap.html" class="button">
-            <small>Detailed</small>
-            Roadmap
-          </a>
-          <a href="installation.html" class="button pushed">
-            Installation
-            <small>instructions</small>
-          </a>
-          <a href="installation-stepbystep.html" class="button">
-            Step-by-Step
-            <small>instructions s-b-s</small>
-          </a>
-		  <a href="screenshot.html" class="button">
-            Screens<small>hot!</small>
-          </a>
-          <p class="repo-owner"><a href="https://github.com/Cineca/dspace-cris"></a> is maintained by <a href="https://github.com/Cineca">Cineca</a>.</p>
-
-          <p>This page was generated by <a href="http://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
+<div id="sidebar"></div>
       </div>
     </div>
 
