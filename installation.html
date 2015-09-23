@@ -170,13 +170,24 @@ Deploy the Web Applications
 
 <pre><code>
 cp -R [dspace]/webapps/dspace/jspui* [tomcat]/webapps/
+cp -R [dspace]/webapps/dspace/solr* [tomcat]/webapps/
 </code></pre>
 
 
 <pre><code>
 
-To Deploy Solr 4 detailed info see http://wiki.apache.org/solr/SolrTomcat <br/>
-Please, set solr home to refer [dspace]/solr folder.
+With DSpace-CRIS 4 the solr search engine war used is the solr war embedded in DSpace 4.
+
+The only things to check is the solr home variable. To configure your solr/home you can follow this steps:    
+    1) Manually define the solr home in web.xml (hardcode solr home [dspace]/solr as JNDI property (find it, uncomment and modify the env-entry))
+    or
+	2) modify in [tomcat]/conf/context.xml to define a context environment parameter and the others context parameters to override the webapps parameters, for example:
+	&lt;Parameter name="log4j.configuration" value="[dspace-config]/log4j-solr.properties" override="false"/&gt;
+	&lt;Parameter name="LocalhostRestrictionFilter.localhost" value="false" override="false"/&gt;
+	&lt;Environment name="solr/home" value="[dspace.dir]/solr" type="java.lang.String" override="false"/&gt;
+	Recall, change the [xyz] placeholder with your real path.
+	
+For any other detailed information please see http://wiki.apache.org/solr/SolrTomcat <br/>
 
 </code></pre>
 </li>

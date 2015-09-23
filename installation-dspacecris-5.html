@@ -44,42 +44,33 @@
 <p>The source code of the customized pre-integrated version of DSpace 1.8.2 and DSpace 3.2.0 can be found in the Cineca GitHub Repository</p>
 
 <ul>
-<li><b>current line of development for 4.x.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-4_x_x-cris">https://github.com/Cineca/DSpace/tree/dspace-4_x_x-cris</a></li>
-<li><b>current line of development for 3.x.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-3_x_x-cris">https://github.com/Cineca/DSpace/tree/dspace-3_x_x-cris</a></li>
-<li><b>current line of development for 1.8.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-1_8_x-cris">https://github.com/Cineca/DSpace/tree/dspace-1_8_x-cris</a></li>
+<li><b>current line of development for 5.x.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-5_x_x-cris">https://github.com/Cineca/DSpace/tree/dspace-5_x_x-cris</a></li>
+
 
 <li><b>tagged releases</b>: <ul>
-<li><u>dspace-cris-4.3.0</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.3.0">https://github.com/Cineca/DSpace/tree/dspace-cris-4.3.0</a></li>
-<li><u>dspace-cris-4.2.0</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.2.0">https://github.com/Cineca/DSpace/tree/dspace-cris-4.2.0</a></li>
-<li><u>dspace-cris-4.1.2</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.2">https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.2</a></li>
-<li><u>dspace-cris-4.1.1</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.1">https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.1</a></li>
-<li><u>dspace-cris-4.1.0</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.0">https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.0</a></li>
-<li><u>dspace-cris-3.2.0-beta</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-3.2.0-beta">https://github.com/Cineca/DSpace/tree/dspace-cris-3.2.0-beta</a></li>
-<li><u>dspace-cris-1.8.3.0-beta</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.3.0-beta">https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.3.0-beta</a></li>
-<li><u>dspace-cris-1.8.2.1-beta</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.1-beta">https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.1-beta</a></li>
-<li><u>dspace-cris-1.8.2.0-beta</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.0-beta">https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.0-beta</a></li>
-<li><u>dspace-cris-1.8.2.0-alpha</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.0-alpha">https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.0-alpha</a></li>
+<li><u>dspace-cris-5.2.1</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.1">https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.1</a></li>
+<li><u>dspace-cris-5.2.0</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.0">https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.0</a></li>
 </ul></li>
 </ul>
 
 <h2>Installation steps</h2>
 
-<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC4x/DSpace+4.x+Documentation">DSpace 4.x Installation Documentation</a></p>
+<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC5x/DSpace+5.x+Documentation">DSpace 5.x Installation Documentation</a></p>
 
 <p>A complete, step by step, procedure that include also steps from the standard dspace installation is available at the following page: 
-<a href="installation-stepbystep.html">Go to step-by-step</a>
+<a href="installation-stepbystep-dspacecris-5.html">Go to step-by-step</a>
 
 <ol>
 
 <li>
-Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Oracle JDK 6 or 7 or OpenJDK 7
+Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Oracle JDK 7 or OpenJDK 7
 
 
 <li>
-Checkout the source of the current line of development for 4.x.x (to build DSpace-CRIS on a particular tag please use "--branch dspace-cris-4.1.0")
+Checkout the source of the current line of development for 5.x.x (to build DSpace-CRIS on a particular tag please use "--branch dspace-cris-5.2.1")
 
 <pre><code>
-$ git clone <a href="https://github.com/Cineca/DSpace.git">https://github.com/Cineca/DSpace.git</a> --branch dspace-4_x_x-cris dspace-parent/
+$ git clone <a href="https://github.com/Cineca/DSpace.git">https://github.com/Cineca/DSpace.git</a> --branch dspace-5_x_x-cris dspace-parent/
 
 usercris@servercris /e/crisinstallation
 
@@ -113,7 +104,9 @@ Initial Configuration: Edit [dspace-source]/build.properties.  This properties f
     mail.admin - mailbox for DSpace site administrator.
     mail.alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
     mail.registration.notify- mailbox for emails when new users register (optional)
-    
+
+INFO:
+    ORCID integration, see the last part of build.properties and fill the properties with your need        
     
 INFO:    
 	The "build.properties" file is provided as a convenient method of setting only those configurations necessary to install/upgrade DSpace. 
@@ -160,9 +153,9 @@ $ mvn package
 </code></pre>
 </li>
 <li>
-Build DSpace and Initialize Database
+Build DSpace
 <pre><code>
-cd [dspace-source]/dspace/target/dspace-[version]-build
+cd [dspace-source]/dspace/target/dspace-installer
 
 ant fresh_install`
 </code></pre>
