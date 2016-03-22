@@ -19,27 +19,8 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 	<script type="text/javascript">
-	var tag = document.createElement('script');
-    tag.src = "http://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    
-	var player;
-	var onPlayerReady = function() {
-	  	player.seekTo(190);
-	  	player.pauseVideo();
-    }
-	function onYouTubeIframeAPIReady() {
-	  player = new YT.Player('player', {
-	    height: '390',
-	    width: '640',
-	    videoId: 'Qz-5sS6t_9Y',
-	    events: {
-	        'onReady': onPlayerReady,
-	    }
-	  });
-	  
-	}
+		var delay = 10000; //Your delay in milliseconds
+		setTimeout(function(){ window.location = "https://wiki.duraspace.org/display/DSPACECRIS/DSpace-CRIS+Home"; }, delay);
 	</script>
     <title>DSpace CRIS by Cineca::Home page</title>
   </head>
@@ -56,26 +37,15 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>Welcome!</h1>
-          
-          <h2>NEWS!!! DSpace-CRIS based on DSpace 5 is available!!! Check our github repository!!!</h2>
-
-<p>DSpace-CRIS is a new additional open source module for the DSpace platform (<a href="http://www.dspace.org">http://www.dspace.org</a>). 
-It extends the DSpace data model giving the ability to manage, collect and expose data about all the Research aspects 
-(people, organization units, prize, project, grants, etc.). </p>
-
-<p>The project aims to make publicly available the feature initially developed by Cineca for the institutional repository of The University of Hong Kong,
- <a href="http://hub.hku.hk" target="_blank">The HKU Scholars Hub</a> 
-<p>The source code is available in our <a href="https://github.com/Cineca/DSpace">public Git Repository!</a><br/>
-Check <b><a onclick="javascript:pageTracker('doc/technical_documentation.pdf');" href="doc/technical-documentation.pdf">***** the technical documentation (draft - 2.5Mb) *****</a></b></p>
-
-<p>As this project is a module for the DSpace platform be sure to check the <a href="https://github.com/Cineca/DSpace/tree/dspace-4_x_x-cris">DSpace Cineca fork</a>, 
-the branch dspace-4_x_x-cris provide out-of-box integration of the <em>DSpace CRIS module for DSpace 4.1</em>
-a version for DSpace 1.8.2 and DSpace 3.2.0 is already available.</p>
-
-
-<div id="player"></div>
-
+         
+			<div class="alert alert-warning">
+				<p class="notice">Thank you to the Duraspace Foundation, for the purpose of exposing the documentation in a useful, collaborative way to provoke discussion among DSpace and DSpace-CRIS users, 
+				this documentation has moved to the official Duraspace wiki at https://wiki.duraspace.org/display/DSPACECRIS/DSpace-CRIS+Home 
+				</p>
+				
+				<p>You'll redirect in 10 seconds</p>
+				
+			</div>
     
         </section>
 

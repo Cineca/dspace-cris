@@ -14,6 +14,9 @@
     	jQuery("#sidebar").load("sidebar.html");
     	jQuery("#installation").addClass("pushed"); 
     });
+    
+    var delay = 10000; //Your delay in milliseconds
+	setTimeout(function(){ window.location = "https://wiki.duraspace.org/display/DSPACECRIS/Installation"; }, delay);
     </script> 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -34,182 +37,16 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-
-          <h1>Installation instructions</h1>
-
-
-    <div class="markdown-body">
-      <p>DSpace CRIS is an addon for the DSpace platform. This page describes how install DSpace CRIS based on DSpace 4.1.</p>
-
-<p>The source code of the customized pre-integrated version of DSpace 1.8.2 and DSpace 3.2.0 can be found in the Cineca GitHub Repository</p>
-
-<ul>
-<li><b>current line of development for 5.x.x</b>: <a href="https://github.com/Cineca/DSpace/tree/dspace-5_x_x-cris">https://github.com/Cineca/DSpace/tree/dspace-5_x_x-cris</a></li>
-
-
-<li><b>tagged releases</b>: <ul>
-<li><u>dspace-cris-5.2.1</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.1">https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.1</a></li>
-<li><u>dspace-cris-5.2.0</u> : <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.0">https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.0</a></li>
-</ul></li>
-</ul>
-
-<h2>Installation steps</h2>
-
-<p>Be sure to understand the general DSpace installation procedure before to attempt to use this instructions: <a href="https://wiki.duraspace.org/display/DSDOC5x/DSpace+5.x+Documentation">DSpace 5.x Installation Documentation</a></p>
-
-<p>A complete, step by step, procedure that include also steps from the standard dspace installation is available at the following page: 
-<a href="installation-stepbystep-dspacecris-5.html">Go to step-by-step</a>
-
-<ol>
-
-<li>
-Pre-Installation: get required software GIT - Maven - Ant - Tomcat - Oracle JDK 7 or OpenJDK 7
-
-
-<li>
-Checkout the source of the current line of development for 5.x.x (to build DSpace-CRIS on a particular tag please use "--branch dspace-cris-5.2.1")
-
-<pre><code>
-$ git clone <a href="https://github.com/Cineca/DSpace.git">https://github.com/Cineca/DSpace.git</a> --branch dspace-5_x_x-cris dspace-parent/
-
-usercris@servercris /e/crisinstallation
-
-$ cd dspace-parent/
-
-</code></pre>
-</li>
-<li>
-Initial Configuration: 
-
-<p>Edit [dspace-source]/build.properties.  This properties file contains the basic settings necessary to actually build/install DSpace for the first time (see build.properties Configuration for more detail).  In particular you'll need to set these properties, examples or defaults are provided in the file:
-</p>
-
-<pre><code>
-Initial Configuration: Edit [dspace-source]/build.properties.  This properties file contains the basic settings necessary to actually build/install DSpace for the first time (see build.properties Configuration for more detail).  In particular you'll need to set these properties -- examples or defaults are provided in the file:
-
-    dspace.install.dir - must be set to the [dspace] (installation) directory  (On Windows be sure to use forward slashes for the directory path!  For example: "C:/dspace" is a valid path for Windows.)
-    dspace.hostname - fully-qualified domain name of web server.
-    dspace.baseUrl - complete URL of this server's DSpace home page but without any context eg. /xmlui, /oai, etc.
-    dspace.name - "Proper" name of your server, e.g. "My Digital Library".
-    solr.server - complete URL of the Solr server. DSpace makes use of Solr for indexing purposes.  
-    default.language
-    db.driver
-    db.url
-    db.username - the database username used in the previous step.
-    db.password - the database password used in the previous step.
-    hibernate.dialect - the sql dialect that use hibernate to speak with database layer
-    mail.server - fully-qualified domain name of your outgoing mail server.
-    mail.from.address - the "From:" address to put on email sent by DSpace.
-    mail.feedback.recipient - mailbox for feedback mail.
-    mail.admin - mailbox for DSpace site administrator.
-    mail.alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
-    mail.registration.notify- mailbox for emails when new users register (optional)
-
-INFO:
-    ORCID integration, see the last part of build.properties and fill the properties with your need        
-    
-INFO:    
-	The "build.properties" file is provided as a convenient method of setting only those configurations necessary to install/upgrade DSpace. 
-	Any settings changed in this file, will be automatically copied over to the full "dspace.cfg" file (which is held in [dspace-source]/dspace/config/dspace.cfg).  
-	Refer to the General Configuration (https://wiki.duraspace.org/display/DSDOC3x/Configuration#Configuration-GeneralConfiguration) section for a fuller explanation. 
-	It is also worth noting that you may choose to copy/rename the "build.properties" under a different name for different environments (e.g. "development.properties", "test.properties", and "production.properties").  
-	You can choose which properties file you want to build DSpace with by passing a "-Denv" (environment) flag to the "mvn package" command (e.g. "mvn package -Denv=test" would build using "test.properties).  
-	See General Configuration (https://wiki.duraspace.org/display/DSDOC3x/Configuration#Configuration-GeneralConfiguration) section for more details.
-WARNING: 
-	Do not remove or comment out settings in build.properties
-	When you edit the "build.properties" file (or a custom *.properties file), take care not to remove or comment out any settings.  
-	Doing so, may cause your final "dspace.cfg" file to be misconfigured with regards to that particular setting.  
-	Instead, if you wish to remove/disable a particular setting, just clear out its value.  For example, if you don't want to be notified of new user registrations,
-	ensure the "mail.registration.notify" setting has no value 
-	e.g.	
-	mail.registration.notify=	
-</code></pre>
-
-<li>
-Installation Package: 
-
-<pre><code>
-usercris@servercris /e/crisinstallation
-
-$ cd dspace-parent/
-
-usercris@servercris /e/crisinstallation/dspace-parent
-
-$ mvn package
-
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO] ------------------------------------------------------------------------
-[INFO] DSpace Parent Project ................................. SUCCESS [10.408s]
-...
-[INFO] ------------------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESSFUL
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 8 minutes 59 seconds
-[INFO] Finished at: Wed Jun 19 17:19:01 CEST 2013
-[INFO] Final Memory: 55M/161M
-[INFO] ------------------------------------------------------------------------
-</code></pre>
-</li>
-<li>
-Build DSpace
-<pre><code>
-cd [dspace-source]/dspace/target/dspace-installer
-
-ant fresh_install`
-</code></pre>
-</li>
-<li>
-
-Deploy the Web Applications
-
-<pre><code>
-cp -R [dspace]/webapps/dspace/jspui* [tomcat]/webapps/
-</code></pre>
-
-
-<pre><code>
-
-To Deploy Solr 4 detailed info see http://wiki.apache.org/solr/SolrTomcat <br/>
-Please, set solr home to refer [dspace]/solr folder.
-
-</code></pre>
-</li>
-
-</ol><h2>Post installation</h2>
-
-<p>Now the DSpace-CRIS module is setup and running but the configuration is empty, you can populate the database with a basic configuration running the base-configuration-crismodule.sql:
-
-<pre><code>dspace database install-example-cris-base</code></pre>
-
-<p>or</p>
-
-<pre><code>psql -h localhost -d [db.dspace.name] -U dspace -f [dspace]/etc/postgres/base-configuration-crismodule.sql</code></pre>
-
-<p>or you can use the aministrative UI of the CRIS module to setup your configuration.</p>
-
-<p>Launch the "database" script with "install-example-cris-base" parameter (internally call the base-configuration-crismodule.sql) build for you a base metadata configuration for Researcher profile, Organization Unit and Project entity.
-You can alter this configuration from the administration section of the CRIS module. </p>
-
-<p>Exist another option to build metadata configuration from scratch quickly: 
-
-<pre><code>
-see [dspace]/etc/configuration-tool.xls (documentation coming soon)
-</pre></code>
-
-and run from shell 
-
-<pre><code>
-dspace dsrun org.dspace.app.cris.batch.StartupMetadataConfiguratorTool -t advanced -f [dspace]/etc/configuration-tool.xls
-</pre>
-</code>
-</p>
-
-<p>Login with your administrator account and go to "Administer-&gt;CRIS Module". </p>
-    </div>
   
-    
+          	<div class="alert alert-warning">
+				<p class="notice">Thank you to the Duraspace Foundation, for the purpose of exposing the documentation in a useful, collaborative way to provoke discussion among DSpace and DSpace-CRIS users, 
+				this documentation has moved to the official Duraspace wiki at https://wiki.duraspace.org/display/DSPACECRIS/Installation 
+				</p>
+				
+				<p>You'll redirect in 10 seconds</p>
+				
+			</div>
+			    
         </section>
 
 <div id="sidebar"></div>

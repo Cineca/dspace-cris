@@ -33,6 +33,9 @@
     	jQuery("#sidebar").load("sidebar.html");
     	jQuery("#screenshot").addClass("pushed");
     });
+    
+   	var delay = 10000; //Your delay in milliseconds
+	setTimeout(function(){ window.location = "https://wiki.duraspace.org/display/DSPACECRIS/Project+Documentation"; }, delay);
     </script> 
 <script src="javascripts/nivo-slider/jquery.nivo.slider.pack.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
@@ -54,105 +57,14 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>Screenshot</h1>
-
-<p>The screenshot below show some of the main features of the DSpace CRIS module with the sample configuration and basic layout.</p>
-<p>For a more exahustive tour of the DSpace CRIS capability please take a look to the institutional repository of The 
-University of Hong Kong,  <a href="http://hub.hku.hk" target="_blank">The HKU Scholars Hub</a>.</p>
-<p>
-<a href="#rp">Researcher profile</a> | <a href="#search">Faceted Search & Browse</a> | <a href="#adminui">Administration UI</a> 
-</p>
-<h2>Researcher profile<a id="rp">&nbsp;</a></h2>
-<div class="slider-wrapper theme-default">
-    <div class="nivoSlider screens">
-    <a target="_blank" href="screens/profile_researcher.jpg" width="100%" title="Researcher profile (anonymous user)">
-    <img src="screens/profile_researcher.jpg" width="100%" title="Researcher profile (anonymous user)"/>
-    </a>
-    <a target="_blank" href="screens/profile_researcher_loggedin.jpg" width="100%" title="Researcher profile (owner user logged in)">
-    <img src="screens/profile_researcher_loggedin.jpg" width="100%" title="Researcher profile (owner user logged in)"/>
-    </a>
-    <a target="_blank" href="screens/profile_edit_researcher.jpg" width="100%" title="Edit of a researcher profile">
-    <img src="screens/profile_edit_researcher.jpg" width="100%" title="Edit of a researcher profile"/>
-    </a>
-     </div>
-</div>
-
-<h2>Faceted Search & Browse<a id="search">&nbsp;</a></h2>
-<div class="slider-wrapper theme-default">
-    <div class="nivoSlider screens">
-    <a target="_blank" href="screens/general_search.jpg" width="100%" title="Search across all the entities)">
-    <img src="screens/general_search.jpg" width="100%" title="Search across all the entities)"/>
-    </a>
-    
-    <a target="_blank" href="screens/general_search_filters.jpg" width="100%" title="Filters in the wide site scope">
-    <img src="screens/general_search_filters.jpg" width="100%" title="Filters in the wide site scope"/>
-    </a>
-
-    <a target="_blank" href="screens/general_profilesearch_filters.jpg" width="100%" title="Filters for researcher profile search">
-    <img src="screens/general_profilesearch_filters.jpg" width="100%" title="Filters for researcher profile search"/>
-    </a>
-    
-    <a target="_blank" href="screens/browse_by_researcher.jpg" width="100%" title="Browse by researcher">
-    <img src="screens/browse_by_researcher.jpg" width="100%" title="Browse by researcher"/>
-    </a>
-
-    <a target="_blank" href="screens/browse_by_department.jpg" width="100%" title="Browse by department">
-    <img src="screens/browse_by_department.jpg" width="100%" title="Browse by department"/>
-    </a>
-    
-     </div>
-</div>
-
-<h2>Administrative UI<a id="adminui">&nbsp;</a></h2>
-<div class="slider-wrapper theme-default">
-    <div class="nivoSlider screens">
-    <a target="_blank" href="screens/menu_admin.jpg" width="100%" title="CRIS Module administration">
-    <img src="screens/menu_admin.jpg" width="100%" title="CRIS Module administration"/>
-    </a>
-
-    <a target="_blank" href="screens/menu_admin_rp.jpg" width="100%" title="Researcher Profiles administration">
-    <img src="screens/menu_admin_rp.jpg" width="100%" title="Researcher Profiles administration"/>
-    </a>
-
-    <a target="_blank" href="screens/menu_admin_tab_list.jpg" width="100%" title="Tab configuration">
-    <img src="screens/menu_admin_tab_list.jpg" width="100%" title="Tab configuration"/>
-    </a>
-
-    <a target="_blank" href="screens/menu_admin_tab_boxes.jpg" width="100%" title="Box configuration">
-    <img src="screens/menu_admin_tab_boxes.jpg" width="100%" title="Box configuration"/>
-    </a>
-    
-    <a target="_blank" href="screens/menu_admin_propertydefinition.jpg" width="100%" title="Property definition">
-    <img src="screens/menu_admin_propertydefinition.jpg" width="100%" title="Property definition"/>
-    </a>
-    
-     </div>
-</div>
-
-
+			<div class="alert alert-warning">
+				<p class="notice">Thank you to the Duraspace Foundation, for the purpose of exposing the documentation in a useful, collaborative way to provoke discussion among DSpace and DSpace-CRIS users, 
+				this documentation has moved to the official Duraspace wiki at https://wiki.duraspace.org/display/DSPACECRIS/Project+RoadMap 
+				</p>
+				
+				<p>You'll redirect in 10 seconds</p>
+			</div>      
         </section>
-<script type="text/javascript">
-$(window).load(function() {
-	$('.screens')
-    .nivoSlider({
-        effect: 'random', // Specify sets like: 'fold,fade,sliceDown'
-        slices: 15, // For slice animations
-        boxCols: 8, // For box animations
-        boxRows: 4, // For box animations
-        animSpeed: 500, // Slide transition speed
-        pauseTime: 5000, // How long each slide will show
-        startSlide: 0, // Set starting Slide (0 index)
-        directionNav: true, // Next & Prev navigation
-        controlNav: true, // 1,2,3... navigation
-        controlNavThumbs: false, // Use thumbnails for Control Nav
-        pauseOnHover: true, // Stop animation while hovering
-        manualAdvance: false, // Force manual transitions
-        prevText: 'Prev', // Prev directionNav text
-        nextText: 'Next', // Next directionNav text
-        randomStart: true // Start on a random slide
-    });
-});
-</script>
 <div id="sidebar"></div>
       </div>
     </div>

@@ -14,6 +14,9 @@
     	jQuery("#sidebar").load("sidebar.html");
     	jQuery("#stepbystep").addClass("pushed"); 
     });
+    
+    var delay = 10000; //Your delay in milliseconds
+	setTimeout(function(){ window.location = "https://wiki.duraspace.org/display/DSPACECRIS/Installation"; }, delay);
     </script> 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -34,217 +37,15 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-
-          <h1>Installation Steb-by-Step</h1>
-
-
-    <div class="markdown-body">
-
-<pre><code>
-
-
-DSpace-CRIS Installation Overview (current line of development for 4.x.x)
-
-- Prerequisite software (see also https://wiki.duraspace.org/display/DSDOC4x/Installing+DSpace#InstallingDSpace-PrerequisiteSoftware)
--- Oracle JDK 6 or 7 or OpenJDK 7
--- git (distributed version control system) - download the git console client for your operative system from http://git-scm.com/
--- Apache Maven 2.2.x or 3.0.x or later (Java build tool) -- suggest the 3.0.4 -- download Maven from http://maven.apache.org/
--- Apache Ant(TM) version 1.7.x or later (Java build tool) -- suggest the 1.8.4 -- download Ant from http://ant.apache.org/
--- Relational database PostgreSQL version 9.x -- suggest the 9.3.1 -- download pgsql from http://www.postgresql.org/
--- Servlet engine Apache Tomcat version 6 or version 7 -- suggest the 6.0.35 or 7.0.42 -- download tomcat from http://tomcat.apache.org/
-
-********** Note that you can install DSpace-CRIS also on Oracle **************
-
-0) Create the DSpace user (not necessary). This needs to be the same user that Tomcat will run as. e.g. as root run:
-	 
-useradd -m usercris
-	
-1) get sources from github repository -- Cineca organization -- https://github.com/Cineca
-
-usercris@servercris /e
-$ mkdir crisinstallation
-
-usercris@servercris /e
-$ cd crisinstallation/
-
-usercris@servercris /e/crisinstallation
-$ git clone https://github.com/Cineca/DSpace.git --branch dspace-4_x_x-cris dspace-parent/
-Cloning into 'dspace-parent'...
-
-usercris@servercris /e/crisinstallation
-$ cd dspace-parent/
-
-usercris@servercris /e/crisinstallation/dspace-parent (dspace-4_x_x-cris)
-$ cd ..
-
-
-2) Database Setup 
-
-PostgreSQL:
-
-A PostgreSQL JDBC driver is configured as part of the default DSpace build. You no longer need to copy any PostgreSQL jars to get PostgreSQL installed.
-Create a dspace database user. This is entirely separate from the dspace operating-system user created above.
-    
-createuser -U postgres -d -A -P dspace
-    
-You will be prompted for the password of the PostgreSQL superuser (postgres). Then you'll be prompted (twice) for a password for the new dspace user.
-Create a dspace database, owned by the dspace PostgreSQL user (you are still logged in at 'root'):
-    
-createdb -U dspace -E UNICODE dspace
-    
-You will be prompted for the password of the DSpace database user. (This isn't the same as the dspace user's UNIX password.)
-
-
-3) Initial Configuration: 
-		
-Edit [dspace-source]/build.properties.  This properties file contains the basic settings necessary to actually build/install DSpace for the first time (see build.properties Configuration for more detail).  In particular you'll need to set these properties, examples or defaults are provided in the file:
-
-    dspace.install.dir - must be set to the [dspace] (installation) directory  (On Windows be sure to use forward slashes for the directory path!  For example: "C:/dspace" is a valid path for Windows.)
-    dspace.hostname - fully-qualified domain name of web server.
-    dspace.baseUrl - complete URL of this server's DSpace home page but without any context eg. /xmlui, /oai, etc.
-    dspace.name - "Proper" name of your server, e.g. "My Digital Library".
-    solr.server - complete URL of the Solr server. DSpace makes use of Solr http://lucene.apache.org/solr/ for indexing purposes.  
-    default.language 
-    db.name - postgres or oracle
-    db.driver
-    db.url
-    db.username - the database password used in the previous step
-    db.password - the database password used in the previous step.
-    mail.server - fully-qualified domain name of your outgoing mail server.
-    mail.from.address - the "From:" address to put on email sent by DSpace.
-    mail.feedback.recipient - mailbox for feedback mail.
-    mail.admin - mailbox for DSpace site administrator.
-    mail.alert.recipient - mailbox for server errors/alerts (not essential but very useful!)
-    mail.registration.notify- mailbox for emails when new users register (optional) 
-    
-INFO:    
-	The "build.properties" file is provided as a convenient method of setting only those configurations necessary to install/upgrade DSpace. 
-	Any settings changed in this file, will be automatically copied over to the full "dspace.cfg" file (which is held in [dspace-source]/dspace/config/dspace.cfg).  
-	Refer to the General Configuration (https://wiki.duraspace.org/display/DSDOC3x/Configuration#Configuration-GeneralConfiguration) section for a fuller explanation. 
-	It is also worth noting that you may choose to copy/rename the "build.properties" under a different name for different environments (e.g. "development.properties", "test.properties", and "production.properties").  
-	You can choose which properties file you want to build DSpace with by passing a "-Denv" (environment) flag to the "mvn package" command (e.g. "mvn package -Denv=test" would build using "test.properties).  
-	See General Configuration (https://wiki.duraspace.org/display/DSDOC3x/Configuration#Configuration-GeneralConfiguration) section for more details.
-WARNING: 
-	Do not remove or comment out settings in build.properties
-	When you edit the "build.properties" file (or a custom *.properties file), take care not to remove or comment out any settings.  
-	Doing so, may cause your final "dspace.cfg" file to be misconfigured with regards to that particular setting.  
-	Instead, if you wish to remove/disable a particular setting, just clear out its value.  For example, if you don't want to be notified of new user registrations,
-	ensure the "mail.registration.notify" setting has no value 
-	e.g.	
-	mail.registration.notify=	
-
-4) DSpace Directory: 
-
-Create the directory for the DSpace installation (i.e. [dspace]). As root (or a user with appropriate permissions), run:
-
-mkdir [dspace]
-chown dspace [dspace]
-
-5) Installation Package: 
-
-usercris@servercris /e/crisinstallation
-$ cd dspace-parent/
-
-usercris@servercris /e/crisinstallation/dspace-parent
-$ mvn package
-
-
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO] ------------------------------------------------------------------------
-[INFO] DSpace Parent Project ................................. SUCCESS [10.408s]
-[INFO] DSpace Kernel :: API and Implementation ............... SUCCESS [1:01.623s]
-[INFO] DSpace Solr Statistics Logging Client Library ......... SUCCESS [4.127s]
-[INFO] Article Metrics :: Modules ............................ SUCCESS [0.007s]
-[INFO] Article Metrics :: PubMed ............................. SUCCESS [0.009s]
-[INFO] Article Metrics :: PubMed :: Retrieve API ............. SUCCESS [10.846s]
-[INFO] DSpace JSP-UI ......................................... SUCCESS [0.007s]
-[INFO] DSpace JSP-UI :: API and Implementation ............... SUCCESS [14.494s]
-[INFO] Article Metrics :: PubMed :: Lookup API ............... SUCCESS [1.616s]
-[INFO] Article Metrics :: PubMed :: Lookup JSP Web ........... SUCCESS [3.366s]
-[INFO] DSpace CRIS ........................................... SUCCESS [0.007s]
-[INFO] DSpace CRIS :: Web Application Resources .............. SUCCESS [10.324s]
-[INFO] DSpace JSP-UI :: Web Application Resources ............ SUCCESS [36.206s]
-[INFO] DSpace CRIS :: API .................................... SUCCESS [28.156s]
-[INFO] DSpace CRIS :: JSPUI API .............................. SUCCESS [17.557s]
-[INFO] DSpace CRIS :: API .................................... SUCCESS [0.011s]
-[INFO] CRIS :: WS API ........................................ SUCCESS [9.352s]
-[INFO] CRIS webservices-webapp Spring-WS Application ......... SUCCESS [43.629s]
-[INFO] DSpace Addon Modules .................................. SUCCESS [0.008s]
-[INFO] DSpace JSP-UI :: Web Application ...................... SUCCESS [2:53.549s]
-[INFO] DSpace Assembly and Configuration ..................... SUCCESS [1:52.530s]
-[INFO] ------------------------------------------------------------------------
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESSFUL
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 8 minutes 59 seconds
-[INFO] Finished at: Wed Jun 19 17:19:01 CEST 2013
-[INFO] Final Memory: 55M/161M
-[INFO] ------------------------------------------------------------------------
-
-
-6) Build DSpace and Initialize Database: As the dspace UNIX user, initialize the DSpace database and install DSpace to [dspace]_:
-
-cd [dspace-source]/dspace/target/dspace-[version]-build
-ant fresh_install
-
------------------------
-BUILD SUCCESSFUL
-Total time: 49 seconds
------------------------
-
-7) Deploy Web Applications (suggestion: before launch tomcat or deploy war rename webapps to jspui and solr):
- 
-
-    You copy only (or all) of the DSpace Web application(s) you wish to use from the [dspace]/webapps directory to the appropriate directory in your Tomcat installation. For example:
-    
-    cp -R [dspace]/webapps/jspui [tomcat]/webapps/ (This will copy only the jspui web application to Tomcat)
-    cp -R [dspace]/webapps/solr [tomcat]/webapps/ (This will copy only the solr web application to Tomcat)
-    cp -R [dspace]/webapps/* [tomcat]/webapps* (This will copy all the web applications to Tomcat).
-    
-    INFORMATION:
-    With DSpace-CRIS 4 the solr search engine war used is the solr war embedded in DSpace 4.  
-    The only things to check is the solr home variable. To configure your solr/home you can follow this steps:    
-    1) Manually define the solr home in web.xml (hardcode solr home [dspace]/solr as JNDI property (find it, uncomment and modify the env-entry))
-    or
-	2) modify in [tomcat]/conf/context.xml to define a context environment parameter and the others context parameters to override the webapps parameters, for example:
-	&lt;Parameter name="log4j.configuration" value="[dspace-config]/log4j-solr.properties" override="false"/&gt;
-	&lt;Parameter name="LocalhostRestrictionFilter.localhost" value="false" override="false"/&gt;
-	&lt;Environment name="solr/home" value="[dspace.dir]/solr" type="java.lang.String" override="false"/&gt;
-	Recall, change the [xyz] placeholder with your real path.
-	
-NOTE: if Tomcat 7 is your choice then you have to change the startup tomcat script to add a system properties that modify the default Tomcat behaviour. So startup tomcat with the follow parameter:
-
--Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true  
-
-8) Administrator Account: Create an initial administrator account:
-[dspace]/bin/dspace create-administrator
-
------------------------------
-Administrator account created
------------------------------
-
-
-9) Initial Startup! Now the moment of truth! Start up (or restart) Tomcat. Visit the base URL(s) of your server.  
-
-Base URL of DSpace Web Applications: JSP User Interface - (e.g.) http://localhost:8080/jspui        
-
-You should see the DSpace home page. Congratulations! DSpace is live! And your journey to the world of DSpace-CRIS is just started! 
-
-Now Dspace-CRIS data configuration is empty, you can populate database with the default configuration running the base-configuration-crismodule.sql:
-
-psql -h localhost -d dspace -U dspace -f [dspace]/etc/postgres/base-configuration-crismodule.sql
-
-This sql file create for you a base metadata configuration for Researcher profile, Organization Unit and Project entity.
-You can build or add a custom metadata dynamically enjoying the administration section CRIS module. 
-
-Login with your administrator account and go to "Administer->CRIS Module". Here there is the "Research Information System Administration" section. 
-Here you can create Researcher Profile, Projects, Organization Unit, create layout artifact like Tabs, Box and configure the metadata definitions for all entities (e.g. assing a "Personal site page" metadata to the entity Researcher Profile).
-
-</code></pre>
-</div>
-  
-    
+         
+          	<div class="alert alert-warning">
+				<p class="notice">Thank you to the Duraspace Foundation, for the purpose of exposing the documentation in a useful, collaborative way to provoke discussion among DSpace and DSpace-CRIS users, 
+				this documentation has moved to the official Duraspace wiki at https://wiki.duraspace.org/display/DSPACECRIS/Installation 
+				</p>
+				
+				<p>You'll redirect in 10 seconds</p>
+				
+			</div>         
         </section>
 <div id="sidebar"></div>
       </div>

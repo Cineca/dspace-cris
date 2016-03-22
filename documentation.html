@@ -14,6 +14,9 @@
     	jQuery("#sidebar").load("sidebar.html");
     	jQuery("#documentation").addClass("pushed");
     });
+    
+	var delay = 10000; //Your delay in milliseconds
+	setTimeout(function(){ window.location = "https://wiki.duraspace.org/display/DSPACECRIS/Project+Documentation"; }, delay);
     </script> 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -34,54 +37,17 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>Project Documentation</h1>
+ 
+          	<div class="alert alert-warning">
+				<p class="notice">Thank you to the Duraspace Foundation, for the purpose of exposing the documentation in a useful, collaborative way to provoke discussion among DSpace and DSpace-CRIS users, 
+				this documentation has moved to the official Duraspace wiki at https://wiki.duraspace.org/display/DSPACECRIS/Project+Documentation 
+				</p>
+				
+				<p>You'll redirect in 10 seconds</p>
+				
+			</div>
 
-    <div class="markdown-body">
-    <h2>Technical Documentation</h2>
-<h3>Current (4.1.2)</h3>
-
-<ul>
-<li><a onclick="javascript:pageTracker('doc/technical_documentation.pdf');" href="doc/technical-documentation.pdf">***** the technical documentation (draft - 2.5Mb) *****</a></li>
-</ul>
-
-
-<h3>1.8.2/3.2.0</h3>
-
-
-<ul><li><a onclick="javascript:pageTracker('doc/technical-documentation_3_x_x.pdf');" href="doc/technical-documentation_3_x_x.pdf"> Technical Documentation for DSpace-CRIS based on DSpace 1.8.2/3.2.0</a></li></ul>
-
-</div>
-
-
-<h2>References</h2>
-<p>euroCRIS DSpace-CRIS presentation at #CRIS2014 conference
-<br/>
-<a href="http://dspacecris.eurocris.org/handle/11366/192" target="_blank">D. Palmer, A. Bollini, S. Mornati, M. Mennielli. DSpace-CRIS@HKU: Achieving visibility with a CERIF compliant Open Source System in "Managing Data-Intensive Science: the Role of Research Information Systems in Realising the Digital Agenda": Proceedings of the 12th International Conference on Current Research Information Systems (2014)</a>
-
-</p>
-<iframe src="http://www.slideshare.net/slideshow/embed_code/34583094" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/pcastrom1/eurocris-d-space-crispresentation" title="euroCRIS DSpace-CRIS presentation at #CRIS2014 conference" target="_blank">euroCRIS DSpace-CRIS presentation at #CRIS2014 conference</a> </strong> from <strong><a href="http://www.slideshare.net/pcastrom1" target="_blank">Pablo de Castro</a></strong> </div>
-
-<p>euroCRIS membership meeting Porto 2013</p>
-<iframe src="http://www.slideshare.net/slideshow/embed_code/28777157" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/AndreaBollini2/dspacecris-an-open-source-solution-meeting-eurocris-2013-porto" title="DSpace-CRIS: an open source solution - Cineca euroCRIS membership meeting Porto 2013" target="_blank">DSpace-CRIS: an open source solution - Cineca euroCRIS membership meeting Porto 2013</a> </strong> from <strong><a href="http://www.slideshare.net/AndreaBollini2" target="_blank">Andrea Bollini</a></strong> </div>
-
-<p>Open Repository 2012 Presentation:</p>
-
-<ul>
-<li>abstract: <a href="http://hub.hku.hk/handle/10722/152525">Presentation: Beyond bibliographic metadata, augmenting the HKU IR</a>
-</li>
-<li>slides: <a href="http://hub.hku.hk/bitstream/10722/152525/2/Augmenting.pdf">Augmenting.pdf</a>
-</li>
-</ul>
-<p>Open Repository 2012 Poster:</p>
-
-<ul>
-<li>PDF: <a href="doc/dspace-cris-poster.pdf">Poster: Moving DSpace to a fully featured CRIS System</a>
-</li>
-</ul>
-
-
-
-</section>
+		</section>
 <div id="sidebar"></div>
       </div>
     </div>

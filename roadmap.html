@@ -14,6 +14,9 @@
     jQuery(function(){
     	jQuery("#sidebar").load("sidebar.html"); 
     });
+
+   	var delay = 10000; //Your delay in milliseconds
+	setTimeout(function(){ window.location = "https://wiki.duraspace.org/display/DSPACECRIS/Project+RoadMap"; }, delay);
     </script> 
 
    
@@ -37,142 +40,14 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>Project RoadMap <span style="font-size: small;">(updated on May. 28th, 2015)</span></h1>
-
-    <div class="markdown-body">
-<p>Version number of the DSpace-CRIS module will refers to the DSpace version against which it is build. Support of all DSpace version accepted by the Community.
-The first open source release of DSpace-CRIS was based on DSpace 1.8.2. Current release is DSpace-CRIS based on DSpace 5.2, DSpace-CRIS on DSpace 4.3 and DSpace 3.2 are also available.
-Below is a detailed release plan that covers all the features that will be contributed back from <a href="http://hub.hku.hk">The HKU Scholars HUB project</a></p>
-
-
-<h2>2015</h2>
-<h3>Future plan (deadline TBD)</h3>
-<ul>
-<li>Configurable Export of CRIS entities in CERIF XML 1.6</li>
-<li>Import CRIS entities from CERIF 1.6 XML</li>
-<li>CERIF compliance test / REST API</li></ul>
-
-<h3>5.2 (released on May 25th, 2015 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-5.2.0">click here to browse the code on github</a>)</h3>
-<ul>
-<li>ORCID integration (authentication)</li>
-<li>Ability to claim profiles (submission lookup on ORCID)</li>
-<li>Global search with Text Highlighting</li>
-</ul>
-
-<h3>4.3 (released on Apr 15th, 2015 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.3.0">click here to browse the code on github</a>)</h3>
-<ul>
-<li>many layout improvement</li>
-<li>Global Search funded by University of Hong Kong</li>
-<li>ORCiD integration (authentication, submission lookup and import into cris)</li>
-</ul>
-
-
-
-<h3>4.2 (released on Mar 11th, 2015 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.2.0">click here to browse the code on github</a>)</h3>
-<ul>
-<li>bug fixing of the 4.1.2 release and update to DSpace 4.2 release</li>
-</ul>
-
-
-
-<h2>2014</h2>
-<h3>4.1.2 (released on Jul 12th, 2014 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.2">click here to browse the code on github</a>)</h3>
-<ul>
-<li>bug fixing of the 4.1.1 release</li>
-</ul>
-
-<h3>4.1.1 (released on Jun 28th, 2014 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.1">click here to browse the code on github</a>)</h3>
-<ul>
-<li>bug fixing of the 4.1.0 release</li>
-</ul>
-
-<h3>4.1.0 (released on Jun 13rd, 2014 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-4.1.0">click here to browse the code on github</a>)</h3>
-<ul>
-<li>upgrade to DSpace 4.1 and to the bootstrap layout also for the DSpace-CRIS pages </li>
-<li>full support for Oracle (tested on 11.g R2 and 12.c), other than PostgreSQL 9.x </li>
-<li>Extensive testing on Oracle</li>
-<li>Easier installation process</li>
-</ul>
-
-
-<h2>2013</h2>
-
-<h3>1.8.3-beta (released on Sep 6th, 2013 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.3.0-beta">click here to browse the code on github</a>)</h3>
-<ul><li>bug fixing of the 1.8.2.1-beta release</li>
-<li>upgrade to dspace 1.8.3 (security fix)</li>
-</ul>
-
-
-<h3>3.2.0-beta (first draft on Jul 31, 2013 - released on Aug 3rd, 2013 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-3.2.0-beta">click here to browse the code on github</a>)</h3>
-<ul><li>porting to DSpace 3.2</li>
-</ul>
-
-<h3>1.8.2.1-beta (released on July 24th, 2013 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.1-beta">click here to browse the code on github</a>)</h3>
-<ul><li>bug fixing of the 1.8.2.0-beta release</li>
-<li>Data Model: ability to define new object types via UI to manage 2nd level CRIS entities: prize, equipment, laboratory shared and linked to one or more 1st or 2nd level CRIS entities</li>
-</ul>
-
-<h3>1.8.2.0-beta (released on June 24th, 2013 - <a href="https://github.com/Cineca/DSpace/tree/dspace-cris-1.8.2.0-beta">click here to browse the code on github</a>)</h3>
-
-<ul>
-<li>Usage Statistics
-
-<ol>
-<li>CRIS entity detail page visit</li>
-<li>Global &amp; Top related CERIF Entity views &amp; downloads referencing the CRIS entity (projects for researchers, researchers for OrgUnits, etc.)</li>
-<li>Global &amp; Top item views &amp; downloads referencing the CRIS entity</li>
-<li>email and RSS alerts</li>
-</ol></li>
-
-<li>PubMed Article level metrics
-
-<ol>
-<li>cited-by count in the item page</li>
-<li>number of pubmed articles for researcher</li>
-<li>total citations in pubmed for researcher (only items in local DSpace database will be counted)</li>
-</ol></li>
-
-<li>Integration with DSpace
-<ol>
-<li>ability to hide publications (or any other related entity: projects, etc.) in the researcher profile </li>
-<li>make a list of selected publications (or any other related entity: projects, etc.)</li>
-<li>claim/disclaim (link/unlink) previously DSpace entered publication items, to a researcher profile</li>
-</ol></li>
-
-<li>SOAP WebServices for READ-ONLY access to CRIS information</li>
-</li><li>Network visualization and analysis</li>
-</ul>
-
-
-<h3>1.8.2.0-alpha1 (unreleased, <a href="https://github.com/Cineca/DSpace/commit/df0ebc4ad11ed5daaf9b8af509139d926db87c8c">available on github</a> since Febrary 4th, 2013 )</h3>
-
-<ul><li>bug fixing of the alpha release</li></ul>
-
-<h2>2012</h2>
-
-<h3>1.8.2.0-alpha (released on November 26th, 2012)</h3>
-
-<ul>
-<li>Management of the 1st level CRIS entities: Researcher Profiles, Projects, Organization Units
-
-<ol>
-<li>Administrative UI for data model definition using the <a href="https://github.com/Cineca/JDynA/wiki">JDynA framework</a>
-</li>
-<li>Detail page for any entity organized in Tab and Box themed with JQuery UI</li>
-<li>Faceted Search using the DSpace Discovery 3.0 configuration</li>
-<li>Customizable Browse indexes using a backport of the SOLR Browse DSpace 3.0 contribution</li>
-</ol>
-</li>
-<li>Basic integration of DSpace-CRIS entities with publications (DSpace Item):
-
-<ol>
-<li>CRIS entities as authority for Item metadata</li>
-<li>list of referencing DSpace Items in the detail page of the CRIS entities</li>
-</ul>
-</li></ol>
-
-    </div>
-      
+          		<div class="alert alert-warning">
+				<p class="notice">Thank you to the Duraspace Foundation, for the purpose of exposing the documentation in a useful, collaborative way to provoke discussion among DSpace and DSpace-CRIS users, 
+				this documentation has moved to the official Duraspace wiki at https://wiki.duraspace.org/display/DSPACECRIS/Project+RoadMap 
+				</p>
+				
+				<p>You'll redirect in 10 seconds</p>
+				
+			</div>      
         </section>
 
 

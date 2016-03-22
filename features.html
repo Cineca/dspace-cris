@@ -14,6 +14,10 @@
     	jQuery("#sidebar").load("sidebar.html");
     	jQuery("#feature").addClass("pushed");
     });
+    
+	var delay = 10000; //Your delay in milliseconds
+	setTimeout(function(){ window.location = "https://wiki.duraspace.org/display/DSPACECRIS/Features"; }, delay);
+    
     </script> 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -34,63 +38,16 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>DSpace-CRIS Features<span style="font-size: small;"></span></h1>
-
-    <div class="markdown-body">
-    <p>Check <b><a onclick="javascript:pageTracker('doc/technical_documentation.pdf');" href="doc/technical-documentation.pdf">***** the technical documentation (draft - 2.5Mb) *****</a></b></p>
-<h3>Management of CRIS entities</h3>
-
-<ul>
-<li>Dedicated administrative UI for data model definition of 1st level CRIS entities: people, orgunits, project, using the <a href="https://github.com/Cineca/JDynA/wiki">JDynA framework</a>
-</li>
-<li>Ability to define new object types via UI to manage 2nd level CRIS entities: prize, equipment, laboratory shared and linked to one or more 1st or 2nd level CRIS entities</li>
-<li>Detail page for any entity organized in Tab and Box themed with JQuery UI</li>
-<li>Faceted Search using the DSpace Discovery 3.0 configuration</li>
-<li>Customizable Browse indexes as for DSpace items</li>
-<li>Network visualization and analysis</li>
-</ul>
-<h3>Integration of DSpace-CRIS entities with publications (DSpace Item)</h3>
-
-<ul>
-<li>CRIS entities as authority for Item metadata</li>
-<li>List of referencing DSpace Items in the detail page of the CRIS entities</li>
-<li>Ability to hide publications (or any other related entity: projects, etc.) in the researcher profile </li>
-<li>Make a list of selected publications (or any other related entity: projects, etc.)</li>
-<li>Claim/disclaim (link/unlink) previously DSpace entered publication items, to a researcher profile</li>
-</ul>
-
-<h3>Usage Statistics</h3>
-
-<ul>
-<li>CRIS entity detail page visit</li>
-<li>Global &amp; Top related CERIF Entity views &amp; downloads referencing the CRIS entity (projects for researchers, researchers for OrgUnits, etc.)</li>
-<li>Global &amp; Top item views &amp; downloads referencing the CRIS entity</li>
-<li>email and RSS alerts</li>
-</ul>
-
-<h3>Article level metrics</h3>
-
-<ul>PubMed
-<li>Cited-by count in the item page</li>
-<li>Number of pubmed articles for researcher</li>
-<li>Total citations in pubmed for researcher (only items in local DSpace database will be counted)</li>
-</ul>
-
-<h3>Interoperability</h3>
-
-<ul>
-<li>SOAP WebServices for READ-ONLY access to CRIS information</li>
-<li>Export CRIS entities in CERIF XML 1.6 (coming soon - see the <a href="roadmap.html">RoadMap</a>)</li>
-<li>Import CRIS entities from CERIF 1.6 XML (coming soon - see the <a href="roadmap.html">RoadMap</a>)</li>
-<li>CERIF compliance test / REST API (coming soon - see the <a href="roadmap.html">RoadMap</a>)</li>
-</ul>
-
-<h3>NEW features in DSpace-CRIS 5!!! (documentation... coming soon)</h3>
-<ul>
-<li>ORCID integration</li>
-<li>Ability to claim profiles</li>
-<li>Global search with Text Highlighting</li>
-</ul>
+		
+			<div class="alert alert-warning">
+				<p class="notice">Thank you to the Duraspace Foundation, for the purpose of exposing the documentation in a useful, collaborative way to provoke discussion among DSpace and DSpace-CRIS users, 
+				this documentation has moved to the official Duraspace wiki at https://wiki.duraspace.org/display/DSPACECRIS/Features 
+				</p>
+				
+				<p>You'll redirect in 10 seconds</p>
+				
+			</div>
+			
 </section>
 
 <div id="sidebar"></div>
